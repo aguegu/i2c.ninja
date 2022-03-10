@@ -120,7 +120,6 @@ ${t}
  letter-spacing: 0;
  white-space: nowrap;
  opacity: 1;
- position: absolute;
  width: 100%;
  height: 100%;
  `,[F("svg",`
