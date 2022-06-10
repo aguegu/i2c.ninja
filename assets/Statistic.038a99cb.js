@@ -1,4 +1,4 @@
-import{E as p,y as r,H as c,h as C,u as _,i as f,k as z,M as S,m as i,O as u}from"./index.0658b5a7.js";const T=s=>{const{textColor2:e,textColor3:o,fontSize:n,fontWeight:l}=s;return{labelFontSize:n,labelFontWeight:l,valueFontWeight:l,labelTextColor:o,valuePrefixTextColor:e,valueSuffixTextColor:e,valueTextColor:e}},$={name:"Statistic",common:p,self:T};var w=$,F=r("statistic",[c("label",`
+import{O as p,D as r,G as c,h as C,u as _,j as f,l as z,a1 as S,q as i,a2 as u}from"./index.35f855e2.js";const T=s=>{const{textColor2:e,textColor3:o,fontSize:n,fontWeight:l}=s;return{labelFontSize:n,labelFontWeight:l,valueFontWeight:l,labelTextColor:o,valuePrefixTextColor:e,valueSuffixTextColor:e,valueTextColor:e}},$={name:"Statistic",common:p,self:T};var w=$,F=r("statistic",[c("label",`
  font-weight: var(--n-label-font-weight);
  transition: .3s color var(--n-bezier);
  font-size: var(--n-label-font-size);
