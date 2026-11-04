@@ -6,4 +6,5 @@ export const IMU_STEPS = [
   { slug: 'fusion', title: 'Combining the two', blurb: 'The complementary filter, then Mahony\'s: steady and quick at once.', component: () => import('./ImuFusion.vue') },
   { slug: 'attitude', title: '3D attitude', blurb: 'The board\'s orientation in space, and quaternions without the fear.', component: () => import('./ImuAttitude.vue') },
   { slug: 'calibration', title: 'Calibration', blurb: 'Why the chip in hand needs it, and the values a flight controller keeps.', component: () => import('./ImuCalibration.vue') },
+  { slug: 'faq', title: 'Questions', blurb: 'How real drones calibrate, how fast they read, heading, vibration, position, filters.', component: () => import('./ImuFaq.vue') },
 ];

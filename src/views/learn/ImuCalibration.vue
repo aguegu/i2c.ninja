@@ -258,7 +258,7 @@ const td = 'px-2 py-1';
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu/attitude" class="text-emerald-700 underline dark:text-emerald-400">← Step 5: 3D attitude</RouterLink>
-      <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">All steps</RouterLink>
+      <RouterLink to="/learn/imu/faq" class="text-emerald-700 underline dark:text-emerald-400">Step 7: questions →</RouterLink>
     </nav>
   </main>
 </template>

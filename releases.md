@@ -1,5 +1,13 @@
 # Releases
 
+## 1.0.13
+
+- Learn the IMU, step 7, `faq`, "Questions" (no board needed, each a fold-out):
+  how commercial drones calibrate, how fast a drone reads its IMU, why not
+  I2C, the gyro's drift, heading, vibration, position from the
+  accelerometer (the drift worked out), Mahony / Madgwick / Kalman, IMU /
+  AHRS / INS; each linked to the step that shows it.
+
 ## 1.0.12
 
 - Learn the IMU, step 6, `calibration`: why the chip in hand needs it and the
