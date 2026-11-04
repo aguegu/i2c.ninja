@@ -1,5 +1,20 @@
 # Releases
 
+## 1.0.7
+
+- Learn the IMU (`/learn/imu`): a path from the chip's bytes to the loop
+  that holds a quadcopter level, six steps, one idea each, live from the
+  MPU-6050 or MPU-6500 in hand. Step 1, `raw-numbers`, "Raw numbers to
+  physics": the one I2C read (write 0x3B, read 14 bytes), the pairs into
+  signed counts (high byte first, two's complement), the counts into g,
+  deg/s and degrees C by the scale (a live table of every stage), an
+  accelerometer chart, and things to try with the board. Tried on r8845.
+- `src/lib/useImu.js` and `ImuControls.vue`: the IMU's connection, driver
+  by WHO_AM_I, scales and read loop, shared by the motion page and the
+  lessons; the loop reads the 14 bytes itself and converts them with the
+  driver's sensitivities, so a lesson can show each stage.
+- The nav: Learn. Home and the motion page link to it.
+
 ## 1.0.6
 
 - The motion page takes the MPU-6050 or the MPU-6500: after the scan it
