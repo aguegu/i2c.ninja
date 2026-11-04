@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* light or dark as the device is: Tailwind's dark: follows
+   prefers-color-scheme; the native controls follow color-scheme */
+:root {
+  color-scheme: light dark;
+}

@@ -1,5 +1,15 @@
 # Releases
 
+## 1.0.1
+
+- Tailwind CSS 4.3.4 (`@tailwindcss/vite`), no component library: native
+  controls (select, checkbox, range, button, dialog) are the most phone
+  friendly, and the page stays small (the placeholder: 25 KB JS, 3 KB CSS
+  gzip). Light or dark as the device is (`dark:` and `color-scheme`).
+- Weighed first on the same small page: Vant 40 + 34 KB, Quasar 75 + 35 KB,
+  Vuetify 119 + 44 KB (JS + CSS gzip); PrimeVue 5 dropped, its PrimeUI
+  License (from 5.0.0, 2026-07) needs a key and badges the page without one.
+
 ## 1.0.0
 
 - Started over: one public repo for the source and the site, published by a
