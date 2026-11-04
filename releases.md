@@ -1,5 +1,21 @@
 # Releases
 
+## 1.0.5
+
+- `/mpu6050`, the first device page: atiic's MPU-6050 on the CH341 at
+  400 kHz. Connect scans and picks 0x68 or 0x69, `init()` with the scales
+  chosen (changed while running: set up again, the charts kept), then a
+  reading each sample period (62.5 Hz: faster only repeats the last
+  sample). The accelerometer (g) and gyro (deg/s) charted over the last
+  10 s, the latest values in each legend, temperature and readings/s.
+  Stop, an unplugged dongle or leaving the page puts the chip to sleep and
+  closes the dongle. Tried on r8845 in Chromium.
+- `LiveChart`: a canvas line chart of our own; x y z in the dataviz
+  reference palette's slots 1-3 (blue, orange, aqua), light and dark steps;
+  a symmetric range never under a floor (1.2 g, 10 deg/s), 1-2-5 ticks.
+- `src/lib/dongle.js`: opening the dongle and explaining its failures,
+  shared by the setup check and the device pages. Home: a Devices card.
+
 ## 1.0.4
 
 - `/about`: `src/assets/ABOUT.md` (as iap.meshmass.com's: the author, what

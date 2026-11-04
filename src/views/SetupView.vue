@@ -1,16 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import SetupCheck from '../components/SetupCheck.vue';
-
-// the platform the page opened on, picked by default
-function detect() {
-  const p = (navigator.userAgentData?.platform || navigator.userAgent).toLowerCase();
-  if (p.includes('android')) return 'android';
-  if (p.includes('cros') || p.includes('chrome os')) return 'chromeos';
-  if (p.includes('win')) return 'windows';
-  if (p.includes('mac')) return 'macos';
-  return 'linux';
-}
+import { detectPlatform } from '../lib/dongle.js';
 
 // tried: whether these steps have run on our bench; the others are what the
 // platforms document, waiting for a bench to try them
@@ -21,7 +12,7 @@ const PLATFORMS = [
   { id: 'android', label: 'Android', tried: false },
   { id: 'chromeos', label: 'ChromeOS', tried: false },
 ];
-const platform = ref(detect());
+const platform = ref(detectPlatform());
 
 const UDEV_RULE = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512", TAG+="uaccess"';
 const UDEV_COMMANDS = `echo '${UDEV_RULE}' | sudo tee /etc/udev/rules.d/70-ch341.rules

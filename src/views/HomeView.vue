@@ -16,13 +16,14 @@ const hasWebUsb = 'usb' in navigator;
 
     <div class="grid gap-4 md:grid-cols-2">
       <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-        <h2 class="mb-2 text-lg font-semibold">Coming back</h2>
-        <p class="leading-relaxed">
+        <h2 class="mb-2 text-lg font-semibold">Devices</h2>
+        <p class="mb-3 leading-relaxed">
           i2c.ninja is being rebuilt on atiic 1.0, with WCH's CH341 as the
           bridge in place of the old Atiic serial and Bluetooth modules. Device
           pages return one at a time, each once its driver has run on a real
-          device, the MPU-6050 first.
+          device.
         </p>
+        <RouterLink to="/mpu6050" class="inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">MPU-6050 <span class="text-sm opacity-75">gyro + accelerometer</span></RouterLink>
       </section>
 
       <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
