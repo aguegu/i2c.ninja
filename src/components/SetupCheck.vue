@@ -11,6 +11,8 @@ const props = defineProps({ platform: { type: String, required: true } });
 const hasWebUsb = 'usb' in navigator;
 const busy = ref(false);
 const result = ref(null); // { ok, title, detail, error? }
+const OK_BOX = 'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-100';
+const FAIL_BOX = 'border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100';
 const hex = (a) => `0x${a.toString(16).padStart(2, '0')}`;
 
 const PERMISSION_HINT = {
@@ -74,43 +76,17 @@ async function check() {
 
 <template>
   <div class="flex flex-col gap-3">
-    <p
-      v-if="!hasWebUsb"
-      class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200"
-    >
+    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another
       Chromium.
     </p>
-    <button
-      v-else
-      class="self-start rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50"
-      :disabled="busy"
-      @click="check"
-    >
+    <button v-else class="self-start rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="busy" @click="check">
       {{ busy ? 'Checking…' : 'Connect and scan' }}
     </button>
-    <div
-      v-if="result"
-      class="rounded-lg border p-3"
-      :class="result.ok
-        ? 'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-100'
-        : 'border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100'"
-    >
-      <p class="font-semibold">
-        {{ result.title }}
-      </p>
-      <p
-        v-if="result.detail"
-        class="mt-1"
-      >
-        {{ result.detail }}
-      </p>
-      <p
-        v-if="result.error"
-        class="mt-2 font-mono text-xs opacity-75"
-      >
-        {{ result.error }}
-      </p>
+    <div v-if="result" class="rounded-lg border p-3" :class="result.ok ? OK_BOX : FAIL_BOX">
+      <p class="font-semibold">{{ result.title }}</p>
+      <p v-if="result.detail" class="mt-1">{{ result.detail }}</p>
+      <p v-if="result.error" class="mt-2 font-mono text-xs opacity-75">{{ result.error }}</p>
     </div>
   </div>
 </template>

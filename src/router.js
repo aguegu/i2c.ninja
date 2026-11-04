@@ -6,6 +6,7 @@ export default createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/setup', component: () => import('./views/SetupView.vue') },
+    { path: '/about', component: () => import('./views/AboutView.vue') },
   ],
   scrollBehavior: () => ({ top: 0 }),
 });

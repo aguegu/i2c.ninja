@@ -30,15 +30,15 @@ const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
 sudo rmmod spi_ch341`;
 
+const TAB_ON = 'border-emerald-600 bg-emerald-600 text-white';
+const TAB_OFF = 'border-slate-300 dark:border-slate-600';
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mono text-sm dark:bg-slate-900';
 </script>
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <h1 class="mt-2 text-2xl font-bold">
-      Setup
-    </h1>
+    <h1 class="mt-2 text-2xl font-bold">Setup</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       What a CH341 dongle needs before this site can use it: a browser with
       WebUSB, the dongle's jumpers, once per computer a permission, then a
@@ -46,9 +46,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </p>
 
     <section :class="card">
-      <h2 class="mb-2 text-lg font-semibold">
-        1. A browser with WebUSB
-      </h2>
+      <h2 class="mb-2 text-lg font-semibold">1. A browser with WebUSB</h2>
       <p class="max-w-3xl leading-relaxed">
         Chrome, Edge, Opera, Brave or another Chromium, on a computer or on
         Android. Firefox and Safari have no WebUSB.
@@ -56,9 +54,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </section>
 
     <section :class="card">
-      <h2 class="mb-2 text-lg font-semibold">
-        2. The dongle
-      </h2>
+      <h2 class="mb-2 text-lg font-semibold">2. The dongle</h2>
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
         <p class="leading-relaxed lg:w-2/5">
           A CH341T "2-in-1" dongle (USB to I2C / TTL). Set its jumpers with it
@@ -66,48 +62,23 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <b>green on 3V3</b> (VCC and the bus at 3.3V). Then four wires to the
           device: SDA, SCL, GND, VCC.
         </p>
-        <img
-          src="/setup.svg"
-          alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board"
-          class="w-full rounded-lg bg-white lg:w-3/5"
-        >
+        <img src="/setup.svg" alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board" class="w-full rounded-lg bg-white lg:w-3/5">
       </div>
     </section>
 
     <section :class="card">
-      <h2 class="mb-3 text-lg font-semibold">
-        3. Once per computer: let the browser open it
-      </h2>
-      <div
-        class="mb-4 flex flex-wrap gap-2"
-        role="tablist"
-      >
-        <button
-          v-for="p in PLATFORMS"
-          :key="p.id"
-          role="tab"
-          :aria-selected="platform === p.id"
-          class="rounded-full border px-3 py-1 text-sm"
-          :class="platform === p.id
-            ? 'border-emerald-600 bg-emerald-600 text-white'
-            : 'border-slate-300 dark:border-slate-600'"
-          @click="platform = p.id"
-        >
+      <h2 class="mb-3 text-lg font-semibold">3. Once per computer: let the browser open it</h2>
+      <div class="mb-4 flex flex-wrap gap-2" role="tablist">
+        <button v-for="p in PLATFORMS" :key="p.id" role="tab" :aria-selected="platform === p.id" class="rounded-full border px-3 py-1 text-sm" :class="platform === p.id ? TAB_ON : TAB_OFF" @click="platform = p.id">
           {{ p.label }}
         </button>
       </div>
 
-      <p
-        v-if="!PLATFORMS.find((p) => p.id === platform).tried"
-        class="mb-3 text-sm text-slate-500 dark:text-slate-400"
-      >
+      <p v-if="!PLATFORMS.find((p) => p.id === platform).tried" class="mb-3 text-sm text-slate-500 dark:text-slate-400">
         Not tried on our bench yet: these are the platform's documented steps.
       </p>
 
-      <div
-        v-if="platform === 'linux'"
-        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
-      >
+      <div v-if="platform === 'linux'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           The browser runs as you, and USB devices belong to root. A udev rule
           gives the dongle to whoever is logged in at the computer:
@@ -143,17 +114,11 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         </p>
       </div>
 
-      <div
-        v-else-if="platform === 'windows'"
-        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
-      >
+      <div v-else-if="platform === 'windows'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           Windows lets a browser open only devices on its WinUSB driver, and
           the CH341 doesn't ask for it by itself. Bind it with
-          <a
-            href="https://zadig.akeo.ie"
-            class="text-emerald-600 underline"
-          >Zadig</a>:
+          <a href="https://zadig.akeo.ie" class="text-emerald-600 underline">Zadig</a>:
         </p>
         <ol class="list-decimal pl-6">
           <li>Plug the dongle in and start Zadig.</li>
@@ -167,10 +132,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         </p>
       </div>
 
-      <div
-        v-else-if="platform === 'macos'"
-        class="max-w-3xl leading-relaxed"
-      >
+      <div v-else-if="platform === 'macos'" class="max-w-3xl leading-relaxed">
         <p>
           Nothing to do: macOS lets the browser open the dongle. If WCH's own
           CH341 driver is installed and holds the dongle, the check below says
@@ -178,33 +140,21 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         </p>
       </div>
 
-      <div
-        v-else-if="platform === 'android'"
-        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
-      >
+      <div v-else-if="platform === 'android'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           Chrome on the phone, the dongle on a USB OTG adapter or cable. Chrome
           asks once whether this site may use it.
         </p>
-        <p>
-          Some phones keep OTG off until it's switched on in their settings.
-        </p>
+        <p>Some phones keep OTG off until it's switched on in their settings.</p>
       </div>
 
-      <div
-        v-else
-        class="max-w-3xl leading-relaxed"
-      >
-        <p>
-          Nothing to do: Chrome asks once whether this site may use the dongle.
-        </p>
+      <div v-else class="max-w-3xl leading-relaxed">
+        <p>Nothing to do: Chrome asks once whether this site may use the dongle.</p>
       </div>
     </section>
 
     <section :class="card">
-      <h2 class="mb-3 text-lg font-semibold">
-        4. Check
-      </h2>
+      <h2 class="mb-3 text-lg font-semibold">4. Check</h2>
       <p class="mb-3 max-w-3xl leading-relaxed">
         Pick the dongle in the browser's list: the site opens it and asks
         which I2C addresses answer.

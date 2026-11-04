@@ -1,5 +1,16 @@
 # Releases
 
+## 1.0.4
+
+- `/about`: `src/assets/ABOUT.md` (as iap.meshmass.com's: the author, what
+  i2c.ninja is and is built with, no backend, the legal disclaimer for USB
+  and I2C hardware and the setup's system changes) and these releases, by
+  marked; the version beside the title.
+- ESLint as iap.meshmass.com's SPA, as it is (`flat/strongly-recommended`,
+  `vue/max-attributes-per-line` and
+  `vue/singleline-html-element-content-newline` off): the templates back to
+  one line a tag.
+
 ## 1.0.3
 
 - Wider on desktop: the page and the header's contents at 1024 px (was
