@@ -1,5 +1,13 @@
 # Releases
 
+## 1.0.6
+
+- The motion page takes the MPU-6050 or the MPU-6500: after the scan it
+  reads WHO_AM_I and picks atiic's driver (`Mpu6050` or `Mpu6500`); the
+  title says which; any other chip is refused with what it read. `/mpu6500`
+  opens the same page. Tried on r8845 with an MPU-6500 in Chromium.
+- atiic 1.0.6 (GitHub tag), with the MPU-6500.
+
 ## 1.0.5
 
 - `/mpu6050`, the first device page: atiic's MPU-6050 on the CH341 at

@@ -6,7 +6,7 @@ export default createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/setup', component: () => import('./views/SetupView.vue') },
-    { path: '/mpu6050', component: () => import('./views/Mpu6050View.vue') },
+    { path: '/mpu6050', alias: '/mpu6500', component: () => import('./views/Mpu6050View.vue') },
     { path: '/about', component: () => import('./views/AboutView.vue') },
   ],
   scrollBehavior: () => ({ top: 0 }),

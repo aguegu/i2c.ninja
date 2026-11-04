@@ -23,7 +23,7 @@ const hasWebUsb = 'usb' in navigator;
           pages return one at a time, each once its driver has run on a real
           device.
         </p>
-        <RouterLink to="/mpu6050" class="inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">MPU-6050 <span class="text-sm opacity-75">gyro + accelerometer</span></RouterLink>
+        <RouterLink to="/mpu6050" class="inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">MPU-6050 / MPU-6500 <span class="text-sm opacity-75">gyro + accelerometer</span></RouterLink>
       </section>
 
       <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">

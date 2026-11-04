@@ -1,14 +1,16 @@
 <script setup>
-// The MPU-6050 live: atiic's driver on the CH341 dongle, its accelerometer
-// and gyro charted. Read once a sample period: the chip refreshes its data
+// The MPU-6050 or MPU-6500 live (WHO_AM_I picks atiic's driver) on the
+// CH341 dongle, the accelerometer and gyro charted. Read once a sample period: the chip refreshes its data
 // registers at its sample rate (62.5 Hz with atiic's settings), so reading
 // faster only repeats the last sample.
 import { ref, onBeforeUnmount } from 'vue';
-import { Mpu6050 } from 'atiic';
+import { Mpu6050, Mpu6500 } from 'atiic';
 import LiveChart from '../components/LiveChart.vue';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from '../lib/dongle.js';
 
-const SCL_HZ = 400000; // the MPU-6050's fast mode, its rated top
+const SCL_HZ = 400000; // fast mode, both chips' rated top on I2C
+const DRIVERS = [Mpu6050, Mpu6500];
+const REG_WHO_AM_I = 0x75;
 const SAMPLE_MS = 16; // atiic's sample rate, 62.5 Hz
 const WINDOW_MS = 10000; // the charts' span
 const ACCEL_FLOOR_G = 1.2; // the charts' least half-range: 1 g at rest stays in view
@@ -19,6 +21,7 @@ const platform = detectPlatform();
 const state = ref('idle'); // idle, connecting, running
 const failure = ref(null); // { title, detail, error }
 const address = ref(Mpu6050.addresses[0]);
+const chipName = ref(null); // the chip found, by its WHO_AM_I
 const found = ref([]);
 const gyroscopeScale = ref('500');
 const accelerometerScale = ref('4');
@@ -100,18 +103,29 @@ async function connect() {
   try {
     found.value = (await bus.scan()).filter((a) => Mpu6050.addresses.includes(a));
     if (!found.value.length) {
-      failure.value = { title: 'No MPU-6050 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the dongle\'s green jumper on 3V3).', error: '' };
+      failure.value = { title: 'No MPU-6050 or MPU-6500 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the dongle\'s green jumper on 3V3).', error: '' };
       await disconnect();
       return;
     }
     if (!found.value.includes(address.value)) address.value = found.value[0];
-    mpu = new Mpu6050(bus, address.value);
+    mpu = await attach(address.value);
     await start();
     state.value = 'running';
   } catch (e) {
-    failure.value = { title: 'The MPU-6050 didn\'t start', detail: '', error: `${e.name}: ${e.message}` };
+    failure.value = { title: `The ${chipName.value ?? 'chip'} didn't start`, detail: '', error: `${e.name}: ${e.message}` };
     await disconnect();
   }
+}
+
+// the driver for the chip at addr, by its WHO_AM_I
+async function attach(addr) {
+  const [who] = await bus.writeRead(addr, [REG_WHO_AM_I], 1);
+  const Driver = DRIVERS.find((D) => D.chip.whoAmI === who);
+  if (!Driver) {
+    throw new Error(`${hex(addr)} reads WHO_AM_I ${hex(who)}: ${DRIVERS.map((D) => `an ${D.chip.name} reads ${hex(D.chip.whoAmI)}`).join(', ')}`);
+  }
+  chipName.value = Driver.chip.name;
+  return new Driver(bus, addr);
 }
 
 async function disconnect() {
@@ -136,10 +150,10 @@ async function disconnect() {
 async function reconfigure() {
   if (state.value !== 'running') return;
   try {
-    if (mpu.address !== address.value) mpu = new Mpu6050(bus, address.value);
+    if (mpu.address !== address.value) mpu = await attach(address.value);
     await start();
   } catch (e) {
-    failure.value = { title: 'The MPU-6050 didn\'t take the new settings', detail: '', error: `${e.name}: ${e.message}` };
+    failure.value = { title: `The ${chipName.value ?? 'chip'} didn't take the new settings`, detail: '', error: `${e.name}: ${e.message}` };
     await disconnect();
   }
 }
@@ -164,9 +178,9 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <h1 class="text-2xl font-bold">MPU-6050</h1>
+      <h1 class="text-2xl font-bold">{{ chipName ?? 'MPU-6050 / MPU-6500' }}</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
-        A 3-axis gyro and accelerometer (the GY-521 board), live over the CH341 dongle at 400 kHz.
+        A 3-axis gyro and accelerometer, live over the CH341 dongle at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
         First time here? <RouterLink to="/setup" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
