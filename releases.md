@@ -1,5 +1,16 @@
 # Releases
 
+## 1.0.8
+
+- Learn the IMU, step 2, `tilt`, "Tilt from gravity": the board held like a
+  plane (its x arrow the nose, face up); roll = atan2(ay, az), right side
+  down +; pitch = atan2(ax, √(ay² + az²)), nose up +, with the live numbers
+  in. An attitude indicator (`AttitudeIndicator.vue`: the horizon moves, the
+  aircraft stays; its pitch ladder to ±90°), roll and pitch charted, |a| telling when a push makes the
+  angles wrong. To try: tilting, yaw that gravity can't see, a shake, nose
+  straight up where roll means nothing. Tried on r8845.
+- Steps 1 and 2 link to each other.
+
 ## 1.0.7
 
 - Learn the IMU (`/learn/imu`): a path from the chip's bytes to the loop

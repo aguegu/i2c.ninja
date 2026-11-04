@@ -141,7 +141,7 @@ const td = 'px-2 py-1';
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">All steps</RouterLink>
-      <span class="text-slate-500 dark:text-slate-400">Next: tilt from gravity (to come)</span>
+      <RouterLink to="/learn/imu/tilt" class="text-emerald-700 underline dark:text-emerald-400">Step 2: tilt from gravity →</RouterLink>
     </nav>
   </main>
 </template>
