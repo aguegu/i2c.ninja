@@ -1,10 +1,12 @@
 <script setup>
-// The gyro's three axes as rings round a ball, seen from above and to the
-// side: a marker on each ring turns about that ring's axis as the board
-// does (its phase, the rate added up), and one arrow, the angular velocity:
-// pointing along the axis the board spins about (right-hand rule), as long
-// as it spins fast. Axes as the board's: x the nose, y left, z up.
+// The gyro's three axes as rings round a ball, seen as lib/view.js does
+// (behind the board and to its right): a marker on each ring turns about
+// that ring's axis as the board does (its phase, the rate added up), and
+// one arrow, the angular velocity: pointing along the axis the board spins
+// about (right-hand rule), as long as it spins fast. Axes as the board's:
+// x the nose, y left, z up.
 import { computed } from 'vue';
+import { project as view } from '../lib/view.js';
 
 const props = defineProps({
   rates: { type: Array, default: () => [0, 0, 0] }, // deg/s about x, y, z
@@ -15,29 +17,11 @@ const props = defineProps({
 const R = 80; // the rings' radius
 const RING_POINTS = 72;
 const ARROW_MAX = 1.15; // the arrow's longest, in ring radii
-// the view: a camera behind the board and to its right, 25 degrees up,
-// looking at it (azimuth -140 degrees from the nose, about z): where each
-// axis' unit lands on the screen (y down). A true rotation, so right-handed
-const VIEW_AZ = -140 * (Math.PI / 180);
-const VIEW_EL = 25 * (Math.PI / 180);
-function viewAxes() {
-  const d = [Math.cos(VIEW_EL) * Math.cos(VIEW_AZ), Math.cos(VIEW_EL) * Math.sin(VIEW_AZ), Math.sin(VIEW_EL)];
-  const f = d.map((v) => -v); // looking toward the origin
-  const rl = Math.hypot(f[1], f[0]);
-  const right = [f[1] / rl, -f[0] / rl, 0]; // f x up
-  const up = [right[1] * f[2] - right[2] * f[1], right[2] * f[0] - right[0] * f[2], right[0] * f[1] - right[1] * f[0]];
-  const onScreen = (v) => [v[0] * right[0] + v[1] * right[1] + v[2] * right[2], -(v[0] * up[0] + v[1] * up[1] + v[2] * up[2])];
-  return { x: onScreen([1, 0, 0]), y: onScreen([0, 1, 0]), z: onScreen([0, 0, 1]) };
-}
-const AXIS = viewAxes();
 const COLOR = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)'];
 const NAMES = ['x', 'y', 'z'];
 const DEG = Math.PI / 180;
 
-const project = ([x, y, z]) => [
-  R * (x * AXIS.x[0] + y * AXIS.y[0] + z * AXIS.z[0]),
-  R * (x * AXIS.x[1] + y * AXIS.y[1] + z * AXIS.z[1]),
-];
+const project = (v) => view(v, R).slice(0, 2);
 // a point on the ring about axis k, at angle a (radians), turning by the
 // right-hand rule: about x from y to z, about y from z to x, about z from x to y
 function onRing(k, a) {

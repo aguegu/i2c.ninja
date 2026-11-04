@@ -10,8 +10,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">Learn the IMU</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         An MPU-6050 or MPU-6500 in your hand, its readings live, one idea a step: from the bytes the chip sends to the
-        loop that keeps a quadcopter level. These chips sat in many a low-cost flight controller; the maths here is the
-        same.
+        board's orientation in 3D. These chips sat in many a low-cost flight controller; the maths here is the same.
       </p>
     </div>
     <ol class="flex flex-col gap-3">

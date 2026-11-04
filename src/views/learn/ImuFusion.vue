@@ -184,7 +184,7 @@ const slider = 'w-56 accent-emerald-600';
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu/gyro-angle" class="text-emerald-700 underline dark:text-emerald-400">← Step 3: angle from the gyro</RouterLink>
-      <span class="text-slate-500 dark:text-slate-400">Next: 3D attitude (to come)</span>
+      <RouterLink to="/learn/imu/attitude" class="text-emerald-700 underline dark:text-emerald-400">Step 5: 3D attitude →</RouterLink>
     </nav>
   </main>
 </template>

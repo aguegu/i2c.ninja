@@ -1,5 +1,16 @@
 # Releases
 
+## 1.0.11
+
+- Learn the IMU, step 5, `attitude`, "3D attitude", the last step: the board
+  in 3D turned by Mahony's quaternion (`Board3D.vue`), the one turn's axis
+  through it, q's four numbers and the same as one turn of θ about an axis,
+  roll · pitch · yaw beside; Euler's one-turn theorem, q = [cos θ/2,
+  axis sin θ/2], 360° giving −q, gimbal lock. Tried on r8845.
+- The PID step dropped: Learn the IMU ends at the attitude (five steps).
+- `src/lib/quaternion.js` (rotate, axis-angle) with host tests (10 in all);
+  `src/lib/view.js`, the camera the gyro ball and the 3D board share.
+
 ## 1.0.10
 
 - Learn the IMU, step 4, `fusion`, "Combining the two": the complementary
