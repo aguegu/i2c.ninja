@@ -1,7 +1,7 @@
 {
   "name": "i2c.ninja",
   "private": true,
-  "version": "1.0.9",
+  "version": "1.0.10",
   "type": "module",
   "description": "I2C devices live in the browser: a CH341 over WebUSB, atiic's drivers, charts",
   "license": "MIT",
@@ -9,7 +9,8 @@
     "dev": "vite",
     "build": "vite build && cp dist/index.html dist/404.html",
     "preview": "vite preview",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test \"test/*.test.js\""
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

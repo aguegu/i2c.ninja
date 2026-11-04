@@ -1,5 +1,17 @@
 # Releases
 
+## 1.0.10
+
+- Learn the IMU, step 4, `fusion`, "Combining the two": the complementary
+  filter (τ on a slider, α shown; roll and pitch, each charted combined,
+  gravity's, the gyro's alone) and Mahony's filter (the attitude indicator
+  and yaw, kp and ki on sliders, the offset its integral learns, live).
+  Tried on r8845.
+- `src/lib/fusion.js`: `Complementary` and `Mahony`, in step 2's frame and
+  signs; host tests (`npm test`, Node's runner, 7: signs each way, a biased
+  gyro held still, the offset learned on x and y, not z). The Pages
+  workflow runs them before it deploys.
+
 ## 1.0.9
 
 - Learn the IMU, step 3, `gyro-angle`, "Angle from the gyro": rate x the

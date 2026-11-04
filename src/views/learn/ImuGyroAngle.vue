@@ -220,7 +220,7 @@ const formula = 'rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-sla
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu/tilt" class="text-emerald-700 underline dark:text-emerald-400">← Step 2: tilt from gravity</RouterLink>
-      <span class="text-slate-500 dark:text-slate-400">Next: combining the two (to come)</span>
+      <RouterLink to="/learn/imu/fusion" class="text-emerald-700 underline dark:text-emerald-400">Step 4: combining the two →</RouterLink>
     </nav>
   </main>
 </template>
