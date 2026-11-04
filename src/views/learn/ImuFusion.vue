@@ -129,7 +129,7 @@ const slider = 'w-56 accent-emerald-600';
       <h2 class="mb-2 text-lg font-semibold">Try this</h2>
       <ol :class="['list-decimal pl-6', prose]">
         <li class="mb-2"><b>Tilt it and shake it.</b> Gravity's line jumps, the combined one hardly moves.</li>
-        <li class="mb-2"><b>Leave it still for half a minute.</b> The gyro-alone line walks away (no offset is taken off here); the combined one stays, a little off level: the offset times τ.</li>
+        <li class="mb-2"><b>Leave it still for half a minute</b> (calibration unticked). The gyro-alone line walks away (no offset is taken off here); the combined one stays, a little off level: the offset times τ.</li>
         <li class="mb-2"><b>Slide τ down to 0.05 s and shake again.</b> The combined line follows gravity, jumps and all. <b>Up to 5 s</b>: steady through a shake, but slow to correct and further off at rest.</li>
         <li><b>Turn it flat on the table.</b> Nothing to combine for yaw: gravity can't see it, so there's no yaw line here.</li>
       </ol>

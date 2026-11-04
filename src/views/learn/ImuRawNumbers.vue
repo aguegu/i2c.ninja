@@ -19,7 +19,7 @@ const SERIES = [
 // the 14 bytes from ACCEL_XOUT_H (0x3B) on, two per value, high byte first
 const VALUES = ['ACCEL_X', 'ACCEL_Y', 'ACCEL_Z', 'TEMP', 'GYRO_X', 'GYRO_Y', 'GYRO_Z'];
 
-const imu = reactive(useImu({ windowMs: WINDOW_MS }));
+const imu = reactive(useImu({ windowMs: WINDOW_MS, calibrated: false })); // raw: this step is about the raw readings
 
 const hex2 = (b) => b.toString(16).padStart(2, '0').toUpperCase();
 const rows = computed(() => {

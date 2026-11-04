@@ -34,6 +34,12 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
         <option v-for="s in SCALES.accelerometer" :key="s" :value="s">{{ s }} g</option>
       </select>
     </label>
+    <span v-if="!imu.calibrated" class="text-sm text-slate-500 dark:text-slate-400">raw readings: no calibration here</span>
+    <label v-else-if="imu.calibration && (!imu.chipName || imu.calibration.chip === imu.chipName)" class="flex items-center gap-2 text-sm" :title="`saved ${imu.calibration.savedAt} for the ${imu.calibration.chip}`">
+      <input type="checkbox" class="size-4 accent-emerald-600" :checked="imu.calibrationOn" @change="imu.setCalibrationOn($event.target.checked)">
+      calibrated ({{ imu.calibration.chip }})
+    </label>
+    <span v-else-if="imu.state === 'running'" class="text-sm text-slate-500 dark:text-slate-400">not calibrated · <RouterLink to="/learn/imu/calibration" class="underline">calibrate</RouterLink></span>
     <span v-if="imu.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
       {{ imu.chipName }} · {{ imu.latest ? `${imu.latest.temperature.toFixed(1)} °C · ` : '' }}{{ imu.rate.toFixed(0) }} readings/s
     </span>

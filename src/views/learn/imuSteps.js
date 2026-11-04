@@ -5,4 +5,5 @@ export const IMU_STEPS = [
   { slug: 'gyro-angle', title: 'Angle from the gyro', blurb: 'Adding up rotation into an angle, yaw too, and why it drifts.', component: () => import('./ImuGyroAngle.vue') },
   { slug: 'fusion', title: 'Combining the two', blurb: 'The complementary filter, then Mahony\'s: steady and quick at once.', component: () => import('./ImuFusion.vue') },
   { slug: 'attitude', title: '3D attitude', blurb: 'The board\'s orientation in space, and quaternions without the fear.', component: () => import('./ImuAttitude.vue') },
+  { slug: 'calibration', title: 'Calibration', blurb: 'Why the chip in hand needs it, and the values a flight controller keeps.', component: () => import('./ImuCalibration.vue') },
 ];

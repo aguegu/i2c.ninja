@@ -10,6 +10,7 @@
 import { ref, onBeforeUnmount } from 'vue';
 import { Mpu6050, Mpu6500 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
+import { loadCalibration, applyCalibration } from './calibrationStore.js';
 
 export const DRIVERS = [Mpu6050, Mpu6500];
 export const SCALES = { gyroscope: Mpu6050.gyroscopeScales, accelerometer: Mpu6050.accelerometerScales };
@@ -23,13 +24,20 @@ const RATE_EVERY_MS = 1000;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function useImu({ windowMs = 10000 } = {}) {
+// calibrated: take step 6's saved calibration off each reading (when it was
+// saved for the chip connected and the switch is on); false for the pages
+// about raw readings
+export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const platform = detectPlatform();
   const state = ref('idle'); // idle, connecting, running
   const failure = ref(null); // { title, detail, error }
   const address = ref(ADDRESSES[0]);
   const chipName = ref(null); // the chip found, by its WHO_AM_I
   const chip = ref(null); // its facts (atiic's Driver.chip): tempLsb, tempOffset, ...
+  const calibration = ref(calibrated ? loadCalibration() : null); // step 6's, if saved this session
+  const calibrationOn = ref(true); // the switch in the controls
+  // the saved calibration is for the chip connected, and applied
+  const calibrationApplies = () => !!(calibration.value && calibrationOn.value && calibration.value.chip === chipName.value);
   const found = ref([]);
   const gyroscopeScale = ref('500');
   const accelerometerScale = ref('4');
@@ -56,8 +64,9 @@ export function useImu({ windowMs = 10000 } = {}) {
     const now = performance.now();
     const v = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     const counts = Array.from({ length: DATA_BYTES / 2 }, (_, i) => v.getInt16(2 * i)); // big-endian
-    const accel = counts.slice(0, 3).map((c) => c / mpu.accelerometerSensitivity);
-    const gyro = counts.slice(4, 7).map((c) => c / mpu.gyroscopeSensitivity);
+    let accel = counts.slice(0, 3).map((c) => c / mpu.accelerometerSensitivity);
+    let gyro = counts.slice(4, 7).map((c) => c / mpu.gyroscopeSensitivity);
+    if (calibrationApplies()) ({ accel, gyro } = applyCalibration(calibration.value, accel, gyro));
     buf.t.push(now);
     accel.forEach((a, k) => buf.accel[k].push(a));
     gyro.forEach((g, k) => buf.gyro[k].push(g));
@@ -191,7 +200,15 @@ export function useImu({ windowMs = 10000 } = {}) {
     disconnect();
   });
 
+  const setCalibrationOn = (on) => { calibrationOn.value = on; };
+
+  // step 6 saved or forgot one: read it again (the other pages' controls show it)
+  function reloadCalibration() {
+    if (calibrated) calibration.value = loadCalibration();
+  }
+
   return {
+    calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration,
     state, failure, address, chipName, chip, found, gyroscopeScale, accelerometerScale, latest, rate,
     accelSource: () => ({ t: buf.t, ys: buf.accel }),
     gyroSource: () => ({ t: buf.t, ys: buf.gyro }),

@@ -1,5 +1,23 @@
 # Releases
 
+## 1.0.12
+
+- Learn the IMU, step 6, `calibration`: why the chip in hand needs it and the
+  values a flight controller keeps. The gyro's offset with the temperature
+  (measure, warm the chip, measure again); the accelerometer's offset and
+  scale per axis from six positions, guided one at a time (the pose shown
+  in 3D, the face told live, recorded by itself after a second still),
+  each axis on a number line (errors drawn 10x), |a| across the six raw
+  against corrected; the values as a block. Tried on r8845.
+- The calibration kept for the tab (`sessionStorage`, per chip type): Save
+  and Forget on step 6; `useImu` takes it off every reading for the chip it
+  was saved for, in steps 2-5 and on the motion page; the controls say
+  "calibrated" with a switch, or "not calibrated · calibrate". Steps 1 and 6
+  stay raw. Steps 3 and 4's drift exercises say to untick it first.
+- `src/lib/calibration.js` (the six-position fit) and
+  `src/lib/calibrationStore.js`, with host tests (15 in all);
+  `AxisCalLine.vue`.
+
 ## 1.0.11
 
 - Learn the IMU, step 5, `attitude`, "3D attitude", the last step: the board

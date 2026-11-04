@@ -112,7 +112,7 @@ const QN = ['w', 'x', 'y', 'z'];
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu/fusion" class="text-emerald-700 underline dark:text-emerald-400">← Step 4: combining the two</RouterLink>
-      <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">All steps</RouterLink>
+      <RouterLink to="/learn/imu/calibration" class="text-emerald-700 underline dark:text-emerald-400">Step 6: calibration →</RouterLink>
     </nav>
   </main>
 </template>
