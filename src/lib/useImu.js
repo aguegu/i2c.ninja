@@ -47,6 +47,10 @@ export function useImu({ windowMs = 10000 } = {}) {
 
   // the charts' buffers: plain arrays, read each frame, not reactive
   const buf = { t: [], accel: [[], [], []], gyro: [[], [], []] };
+  // called on each reading as it comes, (t ms, accel g, gyro deg/s): for a
+  // page that works per reading (integrating, filtering), not per frame
+  const listeners = new Set();
+  const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
   function push(bytes) {
     const now = performance.now();
@@ -63,6 +67,7 @@ export function useImu({ windowMs = 10000 } = {}) {
       buf.t.splice(0, old);
       for (const y of [...buf.accel, ...buf.gyro]) y.splice(0, old);
     }
+    for (const fn of listeners) fn(now, accel, gyro);
     latest.value = {
       bytes, counts, accel, gyro, temperature: mpu.temperature(counts[3]),
       accelLsb: mpu.accelerometerSensitivity, gyroLsb: mpu.gyroscopeSensitivity,
@@ -190,6 +195,6 @@ export function useImu({ windowMs = 10000 } = {}) {
     state, failure, address, chipName, chip, found, gyroscopeScale, accelerometerScale, latest, rate,
     accelSource: () => ({ t: buf.t, ys: buf.accel }),
     gyroSource: () => ({ t: buf.t, ys: buf.gyro }),
-    connect, disconnect, configure,
+    connect, disconnect, configure, onReading,
   };
 }

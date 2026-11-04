@@ -1,5 +1,23 @@
 # Releases
 
+## 1.0.9
+
+- Learn the IMU, step 3, `gyro-angle`, "Angle from the gyro": rate x the
+  time between readings, added up each reading (roll += gx, pitch -= gy,
+  yaw -= gz in step 2's frame): the angles, yaw too; roll and pitch charted
+  against gravity's, yaw alone. The offset: left in (full drift), measured
+  over 2 s of stillness and taken off, forgotten again; the drift live in
+  degrees a minute. To try: the drift, a quarter turn and back, a shake, a
+  fast turn past ±250 deg/s.
+- `GyroBall.vue`: what the gyro sees. The board's x, y, z as rings, seen
+  from behind and to its right (a true camera view, right-handed); a dot on
+  each ring turning about its axis as the board does (it creeps at rest:
+  the offset), and the angular velocity as one arrow along the spin axis.
+  Tried on r8845.
+- `useImu` calls `onReading` listeners on each reading; `lib/tilt.js` (step
+  2's angles, shared); `lib/series.js` (a page's own chart buffers). The
+  indicator's ±90° marks without numbers (they sat under the rim).
+
 ## 1.0.8
 
 - Learn the IMU, step 2, `tilt`, "Tilt from gravity": the board held like a

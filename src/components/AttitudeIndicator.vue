@@ -13,7 +13,7 @@ const SIZE = 200;
 const R = SIZE / 2;
 const PX_PER_DEG = 1; // the pitch ladder's scale: the face's 96 px radius shows +/-90 degrees and a little
 const LADDER = [-90, -80, -70, -60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50, 60, 70, 80, 90];
-const LABELLED = 30; // a long, numbered mark every 30 degrees
+const LABELLED = 30; // a long, numbered mark every 30 degrees (90's number would sit under the rim)
 const SKY = '#4a90d9';
 const GROUND = '#9b6b3d';
 
@@ -33,7 +33,7 @@ const rollMark = computed(() => `rotate(${-props.roll})`);
         <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
         <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
           <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
-          <text v-if="!(d % LABELLED)" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+          <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
         </g>
       </g>
       <!-- the roll pointer on the rim turns with the horizon -->

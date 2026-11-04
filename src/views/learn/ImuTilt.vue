@@ -7,10 +7,10 @@ import LiveChart from '../../components/LiveChart.vue';
 import ImuControls from '../../components/ImuControls.vue';
 import AttitudeIndicator from '../../components/AttitudeIndicator.vue';
 import { useImu } from '../../lib/useImu.js';
+import { rollOf as roll, pitchOf as pitch } from '../../lib/tilt.js';
 
 const WINDOW_MS = 10000;
 const ANGLE_FLOOR_DEG = 45;
-const DEG = 180 / Math.PI;
 const REST_G = 0.1; // |a| within 1 g +/- this: near enough at rest to trust the tilt
 const SERIES = [
   { label: 'roll', color: '--series-1' },
@@ -18,11 +18,6 @@ const SERIES = [
 ];
 
 const imu = reactive(useImu({ windowMs: WINDOW_MS }));
-
-// the board's x arrow ahead (the nose), face up: roll right side down +,
-// pitch nose up +
-const roll = (ax, ay, az) => Math.atan2(ay, az) * DEG;
-const pitch = (ax, ay, az) => Math.atan2(ax, Math.hypot(ay, az)) * DEG;
 
 const now = computed(() => {
   const a = imu.latest?.accel;
@@ -105,7 +100,7 @@ const formula = 'rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-sla
 
     <nav class="flex justify-between text-sm">
       <RouterLink to="/learn/imu/raw-numbers" class="text-emerald-700 underline dark:text-emerald-400">← Step 1: raw numbers</RouterLink>
-      <span class="text-slate-500 dark:text-slate-400">Next: angle from the gyro (to come)</span>
+      <RouterLink to="/learn/imu/gyro-angle" class="text-emerald-700 underline dark:text-emerald-400">Step 3: angle from the gyro →</RouterLink>
     </nav>
   </main>
 </template>
