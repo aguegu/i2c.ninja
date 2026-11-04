@@ -1,5 +1,23 @@
 # Releases
 
+## 1.0.2
+
+- `/setup`: the setup guide for the site's users (vue-router; `404.html` a
+  copy of `index.html`, so a route opens directly on GitHub Pages). A
+  Chromium browser, the dongle's jumpers (atiic's drawing), once per
+  computer the permission per platform, then "Connect and scan": the CH341
+  over WebUSB (atiic's `Ch341`), the addresses that answer, and each way it
+  fails explained.
+- Linux, tried on r8845 (Manjaro, kernel 7.2.9, Chromium): a udev rule with
+  `TAG+="uaccess"` (`70-ch341.rules`, before `73-seat-late.rules`) gives the
+  dongle to whoever is at the computer, no group needed; and Chrome doesn't
+  detach a kernel driver, so the kernel's `spi-ch341` (it binds 1a86:5512)
+  has to let go: released after each plug (`unbind`), or blocked for good
+  (`blacklist spi_ch341`, at the cost of the kernel's SPI on a CH341). Found
+  0x68.
+- Windows (Zadig, WinUSB), macOS, Android, ChromeOS: the documented steps,
+  marked not tried on our bench yet.
+
 ## 1.0.1
 
 - Tailwind CSS 4.3.4 (`@tailwindcss/vite`), no component library: native

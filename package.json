@@ -1,13 +1,13 @@
 {
   "name": "i2c.ninja",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "I2C devices live in the browser: a CH341 over WebUSB, atiic's drivers, charts",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "lint": "eslint"
   },
@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "atiic": "github:aguegu/atiic#1.0.5",
-    "vue": "3.5.44"
+    "vue": "3.5.44",
+    "vue-router": "5.4.0"
   },
   "overrides": {
     "minimatch": "11.0.4"
