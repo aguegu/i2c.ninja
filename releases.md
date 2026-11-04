@@ -1,5 +1,13 @@
 # Releases
 
+## 1.0.3
+
+- Wider on desktop: the page and the header's contents at 1024 px (was
+  672). The home page's two cards side by side from tablet width; on
+  /setup the dongle's text beside its drawing, text held to a readable
+  width, commands wrapping in their boxes instead of running out of them
+  (phones too). One column on phones as before.
+
 ## 1.0.2
 
 - `/setup`: the setup guide for the site's users (vue-router; `404.html` a

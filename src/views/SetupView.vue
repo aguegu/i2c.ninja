@@ -31,11 +31,11 @@ const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch
 sudo rmmod spi_ch341`;
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
-const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark:bg-slate-900';
+const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mono text-sm dark:bg-slate-900';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-2xl flex-col gap-4 p-4">
+  <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <h1 class="mt-2 text-2xl font-bold">
       Setup
     </h1>
@@ -49,7 +49,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
       <h2 class="mb-2 text-lg font-semibold">
         1. A browser with WebUSB
       </h2>
-      <p class="leading-relaxed">
+      <p class="max-w-3xl leading-relaxed">
         Chrome, Edge, Opera, Brave or another Chromium, on a computer or on
         Android. Firefox and Safari have no WebUSB.
       </p>
@@ -59,17 +59,19 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
       <h2 class="mb-2 text-lg font-semibold">
         2. The dongle
       </h2>
-      <p class="mb-3 leading-relaxed">
-        A CH341T "2-in-1" dongle (USB to I2C / TTL). Set its jumpers with it
-        unplugged: <b>yellow on I2C</b> (on TTL it's a serial port instead),
-        <b>green on 3V3</b> (VCC and the bus at 3.3V). Then four wires to the
-        device: SDA, SCL, GND, VCC.
-      </p>
-      <img
-        src="/setup.svg"
-        alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board"
-        class="w-full rounded-lg bg-white"
-      >
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+        <p class="leading-relaxed lg:w-2/5">
+          A CH341T "2-in-1" dongle (USB to I2C / TTL). Set its jumpers with it
+          unplugged: <b>yellow on I2C</b> (on TTL it's a serial port instead),
+          <b>green on 3V3</b> (VCC and the bus at 3.3V). Then four wires to the
+          device: SDA, SCL, GND, VCC.
+        </p>
+        <img
+          src="/setup.svg"
+          alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board"
+          class="w-full rounded-lg bg-white lg:w-3/5"
+        >
+      </div>
     </section>
 
     <section :class="card">
@@ -104,7 +106,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
 
       <div
         v-if="platform === 'linux'"
-        class="flex flex-col gap-3 leading-relaxed"
+        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
       >
         <p>
           The browser runs as you, and USB devices belong to root. A udev rule
@@ -143,7 +145,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
 
       <div
         v-else-if="platform === 'windows'"
-        class="flex flex-col gap-3 leading-relaxed"
+        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
       >
         <p>
           Windows lets a browser open only devices on its WinUSB driver, and
@@ -167,7 +169,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
 
       <div
         v-else-if="platform === 'macos'"
-        class="leading-relaxed"
+        class="max-w-3xl leading-relaxed"
       >
         <p>
           Nothing to do: macOS lets the browser open the dongle. If WCH's own
@@ -178,7 +180,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
 
       <div
         v-else-if="platform === 'android'"
-        class="flex flex-col gap-3 leading-relaxed"
+        class="flex max-w-3xl flex-col gap-3 leading-relaxed"
       >
         <p>
           Chrome on the phone, the dongle on a USB OTG adapter or cable. Chrome
@@ -191,7 +193,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
 
       <div
         v-else
-        class="leading-relaxed"
+        class="max-w-3xl leading-relaxed"
       >
         <p>
           Nothing to do: Chrome asks once whether this site may use the dongle.
@@ -203,7 +205,7 @@ const code = 'overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark
       <h2 class="mb-3 text-lg font-semibold">
         4. Check
       </h2>
-      <p class="mb-3 leading-relaxed">
+      <p class="mb-3 max-w-3xl leading-relaxed">
         Pick the dongle in the browser's list: the site opens it and asks
         which I2C addresses answer.
       </p>
