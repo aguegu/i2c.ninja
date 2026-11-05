@@ -1,7 +1,7 @@
 {
   "name": "i2c.ninja",
   "private": true,
-  "version": "1.0.13",
+  "version": "1.0.14",
   "type": "module",
   "description": "I2C devices live in the browser: a CH341 over WebUSB, atiic's drivers, charts",
   "license": "MIT",

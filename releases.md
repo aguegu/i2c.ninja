@@ -1,5 +1,10 @@
 # Releases
 
+## 1.0.14
+
+- Setup: Android marked tried (the user's phone, Chrome, the dongle on an
+  OTG adapter: it works).
+
 ## 1.0.13
 
 - Learn the IMU, step 7, `faq`, "Questions" (no board needed, each a fold-out):

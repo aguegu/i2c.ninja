@@ -9,7 +9,7 @@ const PLATFORMS = [
   { id: 'linux', label: 'Linux', tried: true }, // r8845: Manjaro 7.2.9, Chromium, 2026-11-04
   { id: 'windows', label: 'Windows', tried: false },
   { id: 'macos', label: 'macOS', tried: false },
-  { id: 'android', label: 'Android', tried: false },
+  { id: 'android', label: 'Android', tried: true }, // the user's phone, Chrome over an OTG adapter, 2026-11-05
   { id: 'chromeos', label: 'ChromeOS', tried: false },
 ];
 const platform = ref(detectPlatform());
