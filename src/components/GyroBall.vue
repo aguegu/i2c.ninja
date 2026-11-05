@@ -3,8 +3,9 @@
 // (behind the board and to its right): a marker on each ring turns about
 // that ring's axis as the board does (its phase, the rate added up), and
 // one arrow, the angular velocity: pointing along the axis the board spins
-// about (right-hand rule), as long as it spins fast. Axes as the board's:
-// x the nose, y left, z up.
+// about (right-hand rule), as long as it spins fast. On each ring a spin
+// arrow from its marker, along the ring the way the board turns about that
+// axis now, longer the faster. Axes as the board's: x the nose, y left, z up.
 import { computed } from 'vue';
 import { project as view } from '../lib/view.js';
 
@@ -20,6 +21,9 @@ const ARROW_MAX = 1.15; // the arrow's longest, in ring radii
 const COLOR = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)'];
 const NAMES = ['x', 'y', 'z'];
 const DEG = Math.PI / 180;
+const SPIN_MAX_DEG = 120; // a spin arrow's longest sweep, at fullRate
+const SPIN_MIN_DEG = 8; // shorter than this: not drawn (the axis nearly still)
+const SPIN_STEPS = 24;
 
 const project = (v) => view(v, R).slice(0, 2);
 // a point on the ring about axis k, at angle a (radians), turning by the
@@ -37,6 +41,19 @@ const axes = NAMES.map((n, k) => {
 });
 
 const markers = computed(() => props.phases.map((p, k) => onRing(k, p * DEG)));
+// each ring's spin arrow: along the ring from the marker, the rate's way
+const spins = computed(() => props.rates.map((rate, k) => {
+  const sweep = Math.sign(rate) * Math.min(1, Math.abs(rate) / props.fullRate) * SPIN_MAX_DEG;
+  if (Math.abs(sweep) < SPIN_MIN_DEG) return null;
+  const from = props.phases[k] * DEG;
+  const pts = Array.from({ length: SPIN_STEPS + 1 }, (_, i) => onRing(k, from + (sweep * DEG * i) / SPIN_STEPS));
+  const [a, b] = [pts[SPIN_STEPS - 1], pts[SPIN_STEPS]];
+  const d = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+  const u = [(b[0] - a[0]) / d, (b[1] - a[1]) / d];
+  const back = [b[0] - 9 * u[0], b[1] - 9 * u[1]];
+  const head = `${b[0]},${b[1]} ${back[0] - 5 * u[1]},${back[1] + 5 * u[0]} ${back[0] + 5 * u[1]},${back[1] - 5 * u[0]}`;
+  return { line: pts.map((p) => p.map((v) => v.toFixed(1)).join(',')).join(' '), head };
+}));
 const arrow = computed(() => {
   const [gx, gy, gz] = props.rates;
   const m = Math.hypot(gx, gy, gz);
@@ -62,6 +79,12 @@ const arrow = computed(() => {
       <line x1="0" y1="0" :x2="a.end[0]" :y2="a.end[1]" stroke="var(--chart-text)" stroke-width="1" stroke-dasharray="2 3" />
       <text :x="a.label[0]" :y="a.label[1]" fill="var(--chart-text)" font-size="12" text-anchor="middle" dominant-baseline="middle">{{ a.n }}</text>
     </g>
+    <template v-for="(sp, k) in spins" :key="`spin${k}`">
+      <g v-if="sp">
+        <polyline :points="sp.line" fill="none" :stroke="COLOR[k]" stroke-width="4" stroke-linecap="round" />
+        <polygon :points="sp.head" :fill="COLOR[k]" />
+      </g>
+    </template>
     <circle v-for="(m, k) in markers" :key="k" :cx="m[0]" :cy="m[1]" r="6" :fill="COLOR[k]" stroke="white" stroke-width="2" />
     <g v-if="arrow">
       <line x1="0" y1="0" :x2="arrow.tip[0]" :y2="arrow.tip[1]" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" />
