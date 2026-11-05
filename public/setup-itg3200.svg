@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="860" height="400" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
-  <title>A CH341T dongle in I2C mode at 3.3V wired to an ITG-3200 breakout: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VCC; INT and CLK free</title>
+  <title>A CH341T dongle in I2C mode at 3.3V wired to a blue ITG-3200 module: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VDD; INT and CLK free</title>
   <defs>
     <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#e9ecef"/>
@@ -18,7 +18,7 @@
   </defs>
 
   <rect class="bg" width="860" height="400" fill="#ffffff"/>
-  <text x="430" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + ITG-3200 breakout</text>
+  <text x="430" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + ITG-3200 module</text>
 
   <!-- USB-A plug -->
   <text x="70" y="160" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
@@ -76,23 +76,22 @@
   </g>
 
 
-  <!-- the ITG-3200 breakout (red: pins VCC VIO GND INT CLK SDA SCL down one edge, two mounting holes on the other, an AD0 jumper), turned half a turn so its pins face the dongle: its X arrow now points right, Y up, Z out of the board -->
-  <rect x="612" y="96" width="190" height="200" rx="8" fill="#d32f2f" stroke="#8e1c1c" stroke-width="2"/>
-  <circle cx="776" cy="122" r="13" fill="#fff" stroke="#e0e0e0" stroke-width="3"/>
-  <circle cx="776" cy="270" r="13" fill="#fff" stroke="#e0e0e0" stroke-width="3"/>
+  <!-- the ITG-3200 module (blue: pins VDD VIO GND INT CLK SDA SCL along one edge, an AD0 jumper, no mounting holes), turned a quarter anticlockwise so its pins face the dongle: its X arrow now points right, Y up, Z out of the board -->
+  <rect x="612" y="104" width="172" height="190" rx="6" fill="#1f4fa8" stroke="#163f70" stroke-width="2"/>
   <g fill="#e0e0e0" stroke="#9e9e9e"><circle cx="624" cy="126" r="7"/><circle cx="624" cy="150" r="7"/><circle cx="624" cy="174" r="7"/><circle cx="624" cy="198" r="7"/><circle cx="624" cy="222" r="7"/><circle cx="624" cy="246" r="7"/><circle cx="624" cy="270" r="7"/></g>
   <g fill="url(#pin)"><rect x="593" y="124" width="34" height="4"/><rect x="593" y="148" width="34" height="4"/><rect x="593" y="172" width="34" height="4"/><rect x="593" y="196" width="34" height="4"/><rect x="593" y="220" width="34" height="4"/><rect x="593" y="244" width="34" height="4"/><rect x="593" y="268" width="34" height="4"/></g>
-  <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace"><text x="638" y="130">SCL</text><text x="638" y="154">SDA</text><text x="638" y="178">CLK</text><text x="638" y="202">INT</text><text x="638" y="226">GND</text><text x="638" y="250">VIO</text><text x="638" y="274">VCC</text></g>
-  <!-- the chip, the AD0 jumper, and its axes as printed (turned with the board) -->
-  <rect x="690" y="160" width="40" height="40" rx="2" fill="#2b2b2b" stroke="#111" transform="rotate(45 710 180)"/>
-  <rect x="684" y="110" width="34" height="18" rx="2" fill="none" stroke="#fff" stroke-width="1.5"/><text x="701" y="140" text-anchor="middle" font-size="9" fill="#fff" font-family="Menlo, Consolas, monospace">AD0</text>
+  <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace"><text x="638" y="130">SCL</text><text x="638" y="154">SDA</text><text x="638" y="178">CLK</text><text x="638" y="202">INT</text><text x="638" y="226">GND</text><text x="638" y="250">VIO</text><text x="638" y="274">VDD</text></g>
+  <!-- the chip, the AD0 jumper, the module's name, and its axes as printed (turned with it) -->
+  <rect x="694" y="160" width="40" height="40" rx="3" fill="#2b2b2b" stroke="#111"/>
+  <rect x="700" y="124" width="34" height="18" rx="2" fill="none" stroke="#fff" stroke-width="1.5"/><text x="717" y="118" text-anchor="middle" font-size="9" fill="#fff" font-family="Menlo, Consolas, monospace">AD0</text>
+  <text x="772" y="200" text-anchor="middle" font-size="9" fill="#fff" font-family="Menlo, Consolas, monospace" transform="rotate(90 772 200)">ITG-3200 Module</text>
   <g stroke="#fff" stroke-width="2" fill="#fff" font-size="12" font-family="Helvetica, Arial, sans-serif">
-    <line x1="716" y1="252" x2="750" y2="252"/><path d="M744 246 L754 252 L744 258 z"/><text x="758" y="256" stroke="none">X</text>
-    <line x1="716" y1="252" x2="716" y2="230"/><path d="M710 236 L716 226 L722 236 z"/><text x="703" y="236" stroke="none" text-anchor="end">Y</text>
-    <circle cx="716" cy="252" r="6" fill="none"/><circle cx="716" cy="252" r="2"/><text x="709" y="272" stroke="none" text-anchor="end">Z</text>
+    <line x1="704" y1="236" x2="738" y2="236"/><path d="M732 230 L742 236 L732 242 z"/><text x="746" y="240" stroke="none">X</text>
+    <line x1="704" y1="236" x2="704" y2="214"/><path d="M698 220 L704 210 L710 220 z"/><text x="692" y="220" stroke="none" text-anchor="end">Y</text>
+    <circle cx="704" cy="236" r="6" fill="none"/><circle cx="704" cy="236" r="2"/><text x="697" y="252" stroke="none" text-anchor="end">Z</text>
   </g>
-  <text x="707" y="316" text-anchor="middle" font-size="12" fill="#555">ITG-3200 breakout (axes as printed on it)</text>
-  <!-- wires, dupont ends on both pins: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA -->
+  <text x="698" y="316" text-anchor="middle" font-size="12" fill="#555">ITG-3200 module (axes as printed on it)</text>
+  <!-- wires, dupont ends on both pins: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA -->
   <g stroke-linecap="round" fill="none">
     <path d="M495 270 C 545 270, 525 270, 575 270" stroke="#8e1c1c" stroke-width="7"/><path d="M495 270 C 545 270, 525 270, 575 270" stroke="#d32f2f" stroke-width="5"/>
     <path d="M495 246 C 545 246, 525 222, 575 222" stroke="#000" stroke-width="7"/><path d="M495 246 C 545 246, 525 222, 575 222" stroke="#3a3a3a" stroke-width="5"/>
@@ -102,10 +101,10 @@
   <use href="#dupont" x="475" y="270"/><use href="#dupont" x="475" y="246"/><use href="#dupont" x="475" y="222"/><use href="#dupont" x="475" y="198"/>
   <use href="#dupont" x="575" y="270"/><use href="#dupont" x="575" y="222"/><use href="#dupont" x="575" y="126"/><use href="#dupont" x="575" y="150"/>
   <path d="M606 246 C 586 248, 586 256, 597 264" fill="none" stroke="#e65100" stroke-width="4" stroke-linecap="round"/>
-  <text x="588" y="296" text-anchor="middle" font-size="10" fill="#e65100">VIO to VCC</text>
+  <text x="588" y="296" text-anchor="middle" font-size="10" fill="#e65100">VIO to VDD</text>
   <!-- notes -->
   <g font-size="12" fill="#333">
-    <text x="20" y="352">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: VCC (3.3 V) to VCC, GND to GND, SCL to SCL, SDA to SDA;</text>
-    <text x="20" y="372">and VIO (its I/O voltage) to VCC, unless the board ties them already. INT and CLK stay free; AD0 as shipped (0x68 on r8845).</text>
+    <text x="20" y="352">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: VCC (3.3 V) to VDD, GND to GND, SCL to SCL, SDA to SDA;</text>
+    <text x="20" y="372">and VIO (its I/O voltage) to VDD, unless the board ties them already. INT and CLK stay free; AD0 as shipped (0x68 on r8845).</text>
   </g>
 </svg>

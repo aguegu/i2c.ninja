@@ -38,9 +38,9 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-itg3200.svg" alt="A CH341T dongle wired to an ITG-3200 breakout whose pins run SCL, SDA, CLK, INT, GND, VIO, VCC: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VCC; INT and CLK free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-itg3200.svg" alt="A CH341T dongle wired to a blue ITG-3200 module whose pins run SCL, SDA, CLK, INT, GND, VIO, VDD: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VDD; INT and CLK free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VCC unless the board's jumper already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below.
+        Four wires: VCC to VDD, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VDD unless the board already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below.
       </figcaption>
     </figure>
 
