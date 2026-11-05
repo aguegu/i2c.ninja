@@ -15,6 +15,7 @@ export default createRouter({
     { path: '/vl53l1x', component: () => import('./views/Vl53l1xView.vue') },
     { path: '/mlx90614', component: () => import('./views/Mlx90614View.vue') },
     { path: '/adxl345', component: () => import('./views/Adxl345View.vue') },
+    { path: '/hmc5883l', component: () => import('./views/Hmc5883lView.vue') },
     { path: '/learn/imu', component: () => import('./views/learn/ImuIndexView.vue') },
     ...IMU_STEPS.filter((s) => s.component).map((s) => ({ path: `/learn/imu/${s.slug}`, component: s.component })),
     { path: '/about', component: () => import('./views/AboutView.vue') },

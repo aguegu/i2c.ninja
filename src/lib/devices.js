@@ -66,6 +66,14 @@ export const DEVICES = [
     measures: 'Acceleration on three axes, so gravity and tilt at rest; a self test that pushes its own mass.',
     bus: 'I2C 0x53',
   },
+  {
+    to: '/hmc5883l',
+    name: 'HMC5883L',
+    maker: 'Honeywell',
+    kind: 'magnetometer',
+    measures: 'Earth\'s magnetic field on three axes, so a compass; calibrated against the board\'s own field.',
+    bus: 'I2C 0x1E',
+  },
 ];
 
 // the other cards: learning paths and the bench
