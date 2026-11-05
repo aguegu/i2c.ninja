@@ -39,8 +39,6 @@
   <text x="570" y="160" text-anchor="middle" font-size="11" fill="#fff">mass</text>
   <line x1="510" y1="200" x2="630" y2="200" stroke="#2563eb" stroke-width="3" marker-start="url(#d)" marker-end="url(#d)"/>
   <text x="570" y="216" text-anchor="middle" font-size="10" fill="#1d4ed8">driven back and forth</text>
-  <path d="M 702 66 A 18 18 0 1 1 702 54" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#w)"/>
-  <text x="666" y="64" text-anchor="end" font-size="12" font-weight="bold" fill="#059669">the turn, Ω</text>
   <line x1="570" y1="132" x2="570" y2="112" stroke="#e11d48" stroke-width="3" marker-end="url(#c)"/>
   <text x="562" y="126" text-anchor="end" font-size="11" font-weight="bold" fill="#e11d48">Coriolis</text>
   <text x="570" y="252" text-anchor="middle" font-size="10" fill="#1d4ed8">(this instant: moving right)</text>
