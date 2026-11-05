@@ -82,7 +82,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="mb-2">
         <b>Time of flight.</b> It sends out pulses of light and times how long they take to bounce back. Light goes about 300 mm a nanosecond, so the times are tiny:
         <span class="font-mono">{{ roundTripNs !== null ? `${r.distance} mm there and back is ${roundTripNs.toFixed(2)} ns` : 'a metre there and back is under 7 ns' }}</span>.
-        No stopwatch is that fast: it counts single photons coming back on an array of detectors, over many pulses, and works the distance out from when they arrive.
+        No stopwatch is that fast for one pulse: it gathers the echoes of many pulses over a reading and works the distance out from when they arrive.
       </p>
       <p class="mb-2">
         <b>A reading takes about 100 ms</b>, its timing budget: longer gathers more photons, so reaches farther and is steadier. In its long distance mode (the one used here) it reaches up to 4 m in the dark; bright light and dark, matt targets cut that down. Short mode gives up range (1.3 m) for better immunity to ambient light.
