@@ -24,7 +24,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
       <div class="mx-auto flex h-14 max-w-5xl items-center gap-5 px-4">
         <div class="flex items-center gap-2">
           <RouterLink to="/" class="text-lg font-bold">i2c.ninja</RouterLink>
-          <RouterLink to="/about" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}`">{{ version }}</RouterLink>
+          <RouterLink to="/about#releases" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}: the releases`">{{ version }}</RouterLink>
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
           <NavMenu label="Devices" :links="DEVICE_LINKS" wide />
