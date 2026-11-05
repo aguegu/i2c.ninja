@@ -12,11 +12,10 @@ const fmt = (v) => (v === undefined || v === null ? '—' : v.toFixed(2));
 
 const mlx = reactive(useMlx90614({ windowMs: WINDOW_MS }));
 const r = computed(() => mlx.latest);
-const series = computed(() => [
+const series = [
   { label: 'object', color: '--series-2' },
   { label: 'ambient (itself)', color: '--series-1' },
-  ...(mlx.dual ? [{ label: 'zone 2', color: '--series-3' }] : []),
-]);
+];
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 </script>
 
@@ -45,7 +44,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         {{ mlx.state === 'connecting' ? 'Connecting…' : 'Connect' }}
       </button>
       <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="mlx.disconnect">Stop</button>
-      <span v-if="mlx.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x5A · SMBus 100 kHz · {{ mlx.dual ? 'dual zone' : 'single zone' }}</span>
+      <span v-if="mlx.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x5A · SMBus 100 kHz</span>
     </section>
     <div v-if="mlx.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ mlx.failure.title }}</p>
@@ -53,7 +52,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p v-if="mlx.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ mlx.failure.error }}</p>
     </div>
 
-    <div class="grid gap-4" :class="mlx.dual ? 'grid-cols-3' : 'grid-cols-2'">
+    <div class="grid grid-cols-2 gap-4">
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">What it's pointed at</p>
         <p class="font-mono text-4xl tabular-nums">{{ fmt(r?.object) }} <span class="text-lg">°C</span></p>
@@ -62,15 +61,10 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <p class="text-sm text-slate-500 dark:text-slate-400">Itself (ambient)</p>
         <p class="font-mono text-4xl tabular-nums">{{ fmt(r?.ambient) }} <span class="text-lg">°C</span></p>
       </section>
-      <section v-if="mlx.dual" :class="card">
-        <p class="text-sm text-slate-500 dark:text-slate-400">Zone 2</p>
-        <p class="font-mono text-2xl tabular-nums">{{ fmt(r?.object2) }} <span class="text-base">°C</span></p>
-        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">a dual-zone part's second view, aimed off to one side</p>
-      </section>
     </div>
 
     <section :class="card">
-      <LiveChart title="Temperature" unit="°C" :series="series" :values="r ? [r.object, r.ambient, r.object2] : []" :source="mlx.source" :window-ms="WINDOW_MS" :floor="SPAN_C" :digits="2" fit />
+      <LiveChart title="Temperature" unit="°C" :series="series" :values="r ? [r.object, r.ambient] : []" :source="mlx.source" :window-ms="WINDOW_MS" :floor="SPAN_C" :digits="2" fit />
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Point it at your hand, a cup of hot tea, a cold drink, a window: the object line moves at once, its own barely.</p>
     </section>
 
@@ -80,9 +74,9 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <b>Everything warm glows,</b> in infrared, invisible to us: the warmer, the brighter. The sensor is a thermopile, a stack of tiny junctions that warm up a little in that glow; their voltage says how much infrared comes in. Its chip compares that with its own temperature (the second reading) and works out the object's.
       </p>
       <p class="mb-2">
-        <b>It sees an area, not a point.</b> The reading is the average over everything in its field of view, which widens with distance: close up a hand fills it, across the room the wall does. The tube shades it from light coming in at an angle.
-        <span v-if="mlx.dual">A dual-zone part has two such views, aimed about 25° apart (its datasheet's type xBA: two 70° zones); point it so both see the same thing, and they should agree.</span>
+        <b>It sees an area, not a point.</b> The reading is the average over everything in its field of view, a cone that widens with distance: close up a cup fills it and it reads the cup; far away the cup is a small part of it and it reads mostly the room. The tube shades it from light coming in at an angle.
       </p>
+      <img src="/mlx90614-view.svg" alt="Close up, a hot cup fills the sensor's cone-shaped field of view and it reads the cup; far away the cup is a small part of the cone and it reads mostly the room" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
       <p class="mb-2">
         <b>Shiny things read wrong.</b> It's calibrated for an emissivity of 1, a surface that glows like a perfect black body: skin, water, paint, most matt things come close. A shiny metal glows little and mirrors the room instead: point it at a spoon or foil, and it reads the room. The emissivity it assumes can be set from 0.1 to 1.0.
       </p>

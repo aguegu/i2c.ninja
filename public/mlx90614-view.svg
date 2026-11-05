@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400" font-family="Helvetica, Arial, sans-serif">
+  <title>What the MLX90614 reads: the average temperature of everything in its cone-shaped field of view; close up a hot cup fills the view and it reads the cup, far away the cup is a small part of the view and it reads mostly the room</title>
+  <defs>
+    <marker id="ir" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#e65100"/></marker>
+    <g id="can">
+      <rect x="-20" y="0" width="40" height="22" rx="3" fill="#b0a17a" stroke="#6d6046"/>
+      <rect x="-24" y="18" width="48" height="6" rx="2" fill="#9c8d66" stroke="#6d6046"/>
+      <rect x="-7" y="-3" width="14" height="5" rx="1" fill="#5d4037"/>
+      <line x1="-10" y1="24" x2="-10" y2="44" stroke="#9e9e9e" stroke-width="2"/>
+      <line x1="0" y1="24" x2="0" y2="44" stroke="#9e9e9e" stroke-width="2"/>
+      <line x1="10" y1="24" x2="10" y2="44" stroke="#9e9e9e" stroke-width="2"/>
+    </g>
+    <g id="cone">
+      <path d="M0 -2 L-115 -166 A200 200 0 0 1 115 -166 Z" fill="#1565c0" fill-opacity="0.12" stroke="#1565c0" stroke-width="2" stroke-dasharray="6 4"/>
+      <text x="0" y="-208" text-anchor="middle" font-size="12" fill="#1565c0">its field of view</text>
+    </g>
+  </defs>
+  <rect width="720" height="400" fill="#fff"/>
+  <line x1="360" y1="20" x2="360" y2="380" stroke="#e0e0e0" stroke-width="2"/>
+
+  <!-- left: close -->
+  <text x="180" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#212121">Close up</text>
+  <use href="#cone" x="180" y="320"/>
+  <path d="M120 196 h120 l-10 70 h-100 z" fill="#ffffff" stroke="#424242" stroke-width="2.5"/>
+  <path d="M240 208 q30 0 26 22 q-4 20 -32 20" fill="none" stroke="#424242" stroke-width="2.5"/>
+  <path d="M150 188 q-8 -14 0 -26 q8 -12 0 -24" fill="none" stroke="#9e9e9e" stroke-width="2"/>
+  <path d="M180 188 q-8 -14 0 -26 q8 -12 0 -24" fill="none" stroke="#9e9e9e" stroke-width="2"/>
+  <path d="M210 188 q-8 -14 0 -26 q8 -12 0 -24" fill="none" stroke="#9e9e9e" stroke-width="2"/>
+  <path d="M180 270 l0 36" stroke="#e65100" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#ir)"/>
+  <text x="212" y="290" font-size="11" fill="#e65100">infrared</text>
+  <use href="#can" x="180" y="320"/>
+  <text x="180" y="382" text-anchor="middle" font-size="12" fill="#424242">the cup fills its view:</text>
+  <text x="180" y="397" text-anchor="middle" font-size="12" fill="#424242">it reads the cup</text>
+
+  <!-- right: far -->
+  <text x="540" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#212121">Far away</text>
+  <use href="#cone" x="540" y="320"/>
+  <path d="M528 150 h24 l-2 16 h-20 z" fill="#ffffff" stroke="#424242" stroke-width="1.5"/>
+  <path d="M552 153 q6 0 5 5 q-1 4 -6 4" fill="none" stroke="#424242" stroke-width="1.5"/>
+  <path d="M536 146 q-3 -5 0 -9 q3 -4 0 -8" fill="none" stroke="#9e9e9e" stroke-width="1.5"/>
+  <path d="M544 146 q-3 -5 0 -9 q3 -4 0 -8" fill="none" stroke="#9e9e9e" stroke-width="1.5"/>
+  <text x="540" y="230" text-anchor="middle" font-size="12" fill="#616161">the room</text>
+  <use href="#can" x="540" y="320"/>
+  <text x="540" y="382" text-anchor="middle" font-size="12" fill="#424242">the cup is a small part of its view:</text>
+  <text x="540" y="397" text-anchor="middle" font-size="12" fill="#424242">it reads mostly the room</text>
+</svg>

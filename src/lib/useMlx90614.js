@@ -1,7 +1,7 @@
 // An MLX90614 on the CH341 dongle, for a page: found by its config word's
 // PEC at 0x5A (SMBus: 100 kHz at most), read by atiic's driver every
-// READ_MS: the object's temperature (zone 1), its own (ambient), and on a
-// dual-zone part (its config's bit 6) zone 2; the last windowMs kept.
+// READ_MS: the object's temperature and its own (ambient); the last
+// windowMs kept.
 import { ref, onBeforeUnmount } from 'vue';
 import { Mlx90614 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
@@ -10,7 +10,6 @@ import { makeSeries } from './series.js';
 const SCL_HZ = 100000; // its SMBus top: faster upsets the bus
 const ADDRESS = 0x5a;
 const READ_MS = 250; // its refresh: ~100-140 ms with the factory filters (datasheet Table 11)
-const CONFIG_DUAL = 0x40; // Config Register 1 bit 6: "dual IR sensor" (Table 9)
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,9 +17,8 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
   const platform = detectPlatform();
   const state = ref('idle');
   const failure = ref(null);
-  const dual = ref(false);
-  const latest = ref(null); // { object, ambient, object2 } C
-  const series = makeSeries(3, windowMs);
+  const latest = ref(null); // { object, ambient } C
+  const series = makeSeries(2, windowMs);
 
   let bus = null;
   let mlx = null;
@@ -31,9 +29,8 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
       while (gen === generation) {
         const t0 = performance.now();
         const { ambient, object } = await mlx.measure();
-        const object2 = dual.value ? await mlx.object(2) : null;
-        series.push(t0, [object, ambient, object2 ?? ambient]);
-        latest.value = { object, ambient, object2 };
+        series.push(t0, [object, ambient]);
+        latest.value = { object, ambient };
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));
       }
     } catch (e) {
@@ -61,7 +58,6 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
       }
       mlx = new Mlx90614(bus, ADDRESS);
       await mlx.init();
-      dual.value = Boolean(mlx.config & CONFIG_DUAL);
       series.clear();
       generation++;
       loop(generation);
@@ -97,5 +93,5 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, dual, latest, source: series.source, connect, disconnect };
+  return { state, failure, latest, source: series.source, connect, disconnect };
 }
