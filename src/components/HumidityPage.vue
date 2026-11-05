@@ -39,7 +39,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img :src="drawing" :alt="drawingAlt" class="w-full rounded-lg bg-white dark:bg-transparent lg:w-3/5">
+      <img :src="drawing" :alt="drawingAlt" class="mx-auto w-full rounded-lg bg-white dark:bg-transparent lg:w-3/5">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }}</figcaption>
     </figure>
 
