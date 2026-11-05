@@ -5,7 +5,9 @@
 // one arrow, the angular velocity: pointing along the axis the board spins
 // about (right-hand rule), as long as it spins fast. On each ring a spin
 // arrow from its marker, along the ring the way the board turns about that
-// axis now, longer the faster. Axes as the board's: x the nose, y left, z up.
+// axis now, longer the faster. And on each ring, fixed where it comes
+// nearest the eye, an arrow for its positive way (the right-hand rule).
+// Axes as the board's: x the nose, y left, z up.
 import { computed } from 'vue';
 import { project as view } from '../lib/view.js';
 
@@ -24,6 +26,7 @@ const DEG = Math.PI / 180;
 const SPIN_MAX_DEG = 120; // a spin arrow's longest sweep, at fullRate
 const SPIN_MIN_DEG = 8; // shorter than this: not drawn (the axis nearly still)
 const SPIN_STEPS = 24;
+const POSITIVE_HALF_DEG = 18; // the positive arrows' half sweep
 
 const project = (v) => view(v, R).slice(0, 2);
 // a point on the ring about axis k, at angle a (radians), turning by the
@@ -32,6 +35,30 @@ function onRing(k, a) {
   const c = Math.cos(a), s = Math.sin(a);
   return project(k === 0 ? [0, c, s] : k === 1 ? [s, 0, c] : [c, s, 0]);
 }
+
+// each ring's positive arrow: a short arc where the ring is nearest the eye,
+// pointing the way positive turns move its marker
+function ringPoint3(k, a) {
+  const c = Math.cos(a), s = Math.sin(a);
+  return k === 0 ? [0, c, s] : k === 1 ? [s, 0, c] : [c, s, 0];
+}
+const positives = Array.from({ length: 3 }, (_, k) => {
+  let best = 0, depth = -Infinity;
+  for (let i = 0; i < RING_POINTS; i++) {
+    const a = (2 * Math.PI * i) / RING_POINTS;
+    const d = view(ringPoint3(k, a), R)[2];
+    if (d > depth) { depth = d; best = a; }
+  }
+  const pts = Array.from({ length: 13 }, (_, i) => onRing(k, best + ((i / 12) * 2 - 1) * POSITIVE_HALF_DEG * DEG));
+  const [a, b] = [pts[11], pts[12]];
+  const d = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+  const u = [(b[0] - a[0]) / d, (b[1] - a[1]) / d];
+  const back = [b[0] - 7 * u[0], b[1] - 7 * u[1]];
+  return {
+    line: pts.map((p) => p.map((v) => v.toFixed(1)).join(',')).join(' '),
+    head: `${b[0].toFixed(1)},${b[1].toFixed(1)} ${(back[0] - 4 * u[1]).toFixed(1)},${(back[1] + 4 * u[0]).toFixed(1)} ${(back[0] + 4 * u[1]).toFixed(1)},${(back[1] - 4 * u[0]).toFixed(1)}`,
+  };
+});
 
 const rings = Array.from({ length: 3 }, (_, k) => Array.from({ length: RING_POINTS + 1 }, (_, i) => onRing(k, (2 * Math.PI * i) / RING_POINTS).map((v) => v.toFixed(1)).join(',')).join(' '));
 const axes = NAMES.map((n, k) => {
@@ -74,6 +101,8 @@ const arrow = computed(() => {
     <circle r="80" fill="none" stroke="var(--chart-grid)" stroke-dasharray="3 4" />
     <g v-for="(n, k) in NAMES" :key="n">
       <polyline :points="rings[k]" fill="none" :stroke="COLOR[k]" stroke-width="2" opacity="0.55" />
+      <polyline :points="positives[k].line" fill="none" :stroke="COLOR[k]" stroke-width="2.5" stroke-linecap="round" />
+      <polygon :points="positives[k].head" :fill="COLOR[k]" />
     </g>
     <g v-for="a in axes" :key="a.n">
       <line x1="0" y1="0" :x2="a.end[0]" :y2="a.end[1]" stroke="var(--chart-text)" stroke-width="1" stroke-dasharray="2 3" />
