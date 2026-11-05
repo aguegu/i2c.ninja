@@ -3,6 +3,7 @@
 // they give at rest, and its self test against the datasheet's limits
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { rollOf, pitchOf } from '../lib/tilt.js';
@@ -37,6 +38,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         New to these numbers? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>.
       </p>
     </div>
+
+    <figure :class="card">
+      <SvgDrawing src="/setup-adxl345.svg" alt="A CH341T dongle wired to an ADXL345 breakout whose pins run VIN, 3V3, GND, CS, INT1, INT2, SDO, SDA, SCL: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; the other five free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Four wires: VCC to VIN, GND, SCL and SDA. Leave CS, SDO and the INT pins free: the board answers on I2C at 0x53 (SDO to 3V3 would move it to 0x1D). The axes printed on the board are the ones charted below.
+      </figcaption>
+    </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
