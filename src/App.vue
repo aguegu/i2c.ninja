@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import { useTheme } from './lib/theme.js';
-import { DEVICE_LINKS, LEARN_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
+import { DEVICE_LINKS, GUIDE_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
 
 const { dark, toggle } = useTheme();
@@ -28,7 +28,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
           <NavMenu label="Devices" :links="DEVICE_LINKS" wide />
-          <NavMenu label="Learn" :links="LEARN_LINKS" />
+          <NavMenu label="Learn" :links="GUIDE_LINKS" />
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
         </nav>
         <a :href="ATIIC" class="hidden rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 sm:block dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" title="atiic on GitHub: the drivers" aria-label="atiic on GitHub">
@@ -51,7 +51,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Devices</p>
         <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Learn</p>
-        <RouterLink v-for="l in LEARN_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
+        <RouterLink v-for="l in GUIDE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
         <RouterLink to="/get-started" :class="mobileLink">Set up the dongle</RouterLink>
         <a :href="DISCUSSIONS" :class="mobileLink">Discussions <span class="text-xs text-slate-400">questions, ideas, what you built</span></a>

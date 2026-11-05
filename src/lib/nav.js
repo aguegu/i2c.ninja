@@ -1,18 +1,15 @@
 // The site's links, grouped, for the header's menus and the footer's site
-// map: from the device cards and the Learn steps, so a new page shows up in
-// both by itself
-import { DEVICES } from './devices.js';
-import { IMU_STEPS } from '../views/learn/imuSteps.js';
+// map: from the device cards and the guides, so a new page shows up in both
+// by itself
+import { DEVICES, GUIDES } from './devices.js';
 
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';
 export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
 
 export const DEVICE_LINKS = DEVICES.filter((d) => d.to !== '/learn/imu').map((d) => ({ to: d.to, label: d.name, note: d.kind }));
-export const LEARN_LINKS = [
-  { to: '/learn/imu', label: 'Learn the IMU', note: 'all the steps' },
-  ...IMU_STEPS.filter((s) => s.component).map((s, i) => ({ to: `/learn/imu/${s.slug}`, label: `${i + 1}. ${s.title}` })),
-];
+// the guides, each by its index page (its chapters are linked from there)
+export const GUIDE_LINKS = GUIDES.map((g) => ({ to: g.to, label: g.name, note: g.kind }));
 export const START_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/get-started', label: 'Set up the dongle' },
