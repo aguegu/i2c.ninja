@@ -7,7 +7,7 @@ i2c.ninja shows I2C devices live in the browser: a CH341 USB-to-I2C dongle reach
 
 There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it.
 
-Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), MIT.
+Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license: free for noncommercial use, schools and universities included; for commercial use, ask on GitHub. atiic stays MIT.
 
 Legal disclaimer
 ---

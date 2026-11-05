@@ -22,4 +22,17 @@ npm run build   # dist/
 Every push to `main` builds and publishes the site
 (`.github/workflows/pages.yml`).
 
-Releases: [releases.md](releases.md). License: MIT ([LICENSE](LICENSE)).
+Releases: [releases.md](releases.md).
+
+## License
+
+[PolyForm Noncommercial 1.0.0](LICENSE): free for any noncommercial use:
+personal study, hobby projects, research, and use by schools, universities
+and other educational institutions, charities and public bodies, with the
+copyright notice kept. Commercial use (selling it, building it into a
+product or a paid service) needs a commercial license: ask by opening an
+issue on [GitHub](https://github.com/aguegu/i2c.ninja/issues).
+
+Releases up to 1.0.22 were published under the MIT license, and stay so for
+copies taken from them. [atiic](https://github.com/aguegu/atiic), the
+drivers the site runs on, stays MIT.

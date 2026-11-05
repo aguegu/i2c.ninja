@@ -1,5 +1,12 @@
 # Releases
 
+## 1.0.23
+
+- License: PolyForm Noncommercial 1.0.0 (was MIT): free for noncommercial
+  use, educational institutions included; commercial use by a separate
+  license, asked for on GitHub. Releases up to 1.0.22 stay MIT for copies
+  taken from them. README and About say so; atiic stays MIT.
+
 ## 1.0.14
 
 - Setup: Android marked tried (the user's phone, Chrome, the dongle on an
