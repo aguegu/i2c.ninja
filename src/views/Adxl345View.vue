@@ -5,8 +5,6 @@ import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
-import BubbleLevel from '../components/BubbleLevel.vue';
-import GgScatter from '../components/GgScatter.vue';
 import GravityViews from '../components/GravityViews.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { rollOf, pitchOf } from '../lib/tilt.js';
@@ -21,7 +19,6 @@ const SERIES = [
   { label: 'z', color: '--series-3' },
 ];
 const AXES = ['x', 'y', 'z'];
-const TRAIL_MS = 3000; // the g-g diagram's trail
 
 const adxl = reactive(useAdxl345({ windowMs: WINDOW_MS }));
 const a = computed(() => adxl.latest);
@@ -84,19 +81,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <AttitudeIndicator :roll="roll" :pitch="pitch" />
         <p class="mt-2 font-mono text-sm tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
         <p class="text-xs text-slate-500 dark:text-slate-400">from gravity, held still</p>
-      </section>
-    </div>
-
-    <div class="grid gap-4 md:grid-cols-2">
-      <section :class="card">
-        <h2 class="mb-2 font-semibold">Bubble level</h2>
-        <BubbleLevel :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" class="flex flex-col items-center" />
-        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Seen from above, the axes as printed on the board. Tilt it and the bubble drifts to the high side: the axis raised reads a little of gravity. The rim is 30° off level; inside the solid ring, within 2°, it's level.</p>
-      </section>
-      <section :class="card">
-        <h2 class="mb-2 font-semibold">g-g diagram</h2>
-        <GgScatter :source="adxl.source" :trail-ms="TRAIL_MS" />
-        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">x against y, the last {{ TRAIL_MS / 1000 }} s fading: the plot race data loggers use. Lying flat it sits at the centre; slide it across the desk, swing it round or shake it and the trail draws the push. Tilted, the dot moves off the centre by gravity's share, as the bubble does.</p>
       </section>
     </div>
 
