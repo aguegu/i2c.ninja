@@ -1,5 +1,16 @@
 # Releases
 
+## 1.0.24
+
+- The ADXL345 page: x, y, z and |a| live, the attitude dial (roll and
+  pitch from gravity), what the chip feels three ways (its reading's arrow
+  from above, its right side and its nose), the board in the room with
+  gravity held still (pitch, roll; yaw out of an accelerometer's reach), the
+  chart, its self test against the datasheet's limits, how it measures (a
+  mass on springs, the differential capacitor), its wiring (the Adafruit
+  breakout). atiic 1.3.23.
+- The attitude dial goes full screen.
+
 ## 1.0.23
 
 - License: PolyForm Noncommercial 1.0.0 (was MIT): free for noncommercial
