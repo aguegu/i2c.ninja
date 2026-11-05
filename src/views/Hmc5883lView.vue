@@ -6,6 +6,8 @@ import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import CompassRose from '../components/CompassRose.vue';
+import VectorViews from '../components/VectorViews.vue';
+import AttitudeViews from '../components/AttitudeViews.vue';
 import { hasWebUsb } from '../lib/dongle.js';
 import { DEG } from '../lib/tilt.js';
 import { useHmc5883l } from '../lib/useHmc5883l.js';
@@ -18,6 +20,8 @@ const SERIES = [
   { label: 'z', color: '--series-3' },
 ];
 const AXES = ['x', 'y', 'z'];
+const FIELD_COLOR = '#7c3aed'; // the field's arrows: not gravity's red
+const SCALE_UT = 50; // the views' reference circle: about Earth's field
 
 const mag = reactive(useHmc5883l({ windowMs: WINDOW_MS }));
 const b = computed(() => mag.latest);
@@ -107,6 +111,22 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section :class="card">
+      <h2 class="mb-2 font-semibold">What the chip feels, three ways</h2>
+      <VectorViews :x="b?.x ?? 0" :y="b?.y ?? 0" :z="b?.z ?? 0" unit="µT" :scale="SCALE_UT" :digits="1" :color="FIELD_COLOR" />
+      <p class="mt-3 leading-relaxed">
+        The field as an arrow, seen from three sides, the board (its outline) still, in its own axes as printed{{ mag.calibrated ? '' : ' (calibrate first: the board\'s own field shifts it)' }}. Lying level it points north and down into the ground: from above you see only its level part, pointing north; from the side, how steeply it dips. Turn the board and the arrow swings the other way on the screen, still pointing the same way in the room.
+      </p>
+    </section>
+
+    <section :class="card">
+      <h2 class="mb-2 font-semibold">The board against the field: the field held still</h2>
+      <AttitudeViews :x="b?.x ?? 0" :y="b?.y ?? 0" :z="b?.z ?? -1" field="magnetic" />
+      <p class="mt-3 leading-relaxed">
+        As on the ADXL345's page with gravity, but the field line held still instead, drawn down the page, and the board turned against it. The side views show how the board's nose and side tilt against the field; along the field line, a turn about it can't be seen, just as an accelerometer can't see a turn about the vertical. The field line isn't vertical (it dips into the ground at an angle) and the two together, gravity and the field, are what fix every turn: that's a tilt-compensated compass.
+      </p>
     </section>
 
     <section :class="card">
