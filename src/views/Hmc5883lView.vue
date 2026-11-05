@@ -4,6 +4,7 @@
 // self test
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import CompassRose from '../components/CompassRose.vue';
 import { hasWebUsb } from '../lib/dongle.js';
 import { DEG } from '../lib/tilt.js';
@@ -41,6 +42,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         First time here? <RouterLink to="/setup" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
+
+    <figure :class="card">
+      <SvgDrawing src="/setup-hmc5883l.svg" alt="A CH341T dongle wired to an HMC5883L breakout whose pins run RDY, SCL, SDA, 3vo, GND, VIN: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; RDY and 3vo free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Four wires: VCC to VIN, GND, SCL and SDA; RDY and 3vo stay free. The axes printed on it are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields.
+      </figcaption>
+    </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
