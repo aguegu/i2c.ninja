@@ -28,6 +28,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </p>
     </div>
 
+    <figure :class="card">
+      <img src="/setup-sht20.svg" alt="A CH341T dongle wired to a small green SHT20 module: SDA to sda and SCL to scl, crossing, GND to gnd, VCC (3.3 V) to vcc" class="w-full rounded-lg bg-white lg:w-3/5">
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The small green SHT20 board: its header runs scl, sda, gnd, vcc, so the SDA and SCL wires cross. Keep it away from warm parts.
+      </figcaption>
+    </figure>
+
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
