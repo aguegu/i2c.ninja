@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380" font-family="Helvetica, Arial, sans-serif">
+  <title>Time of flight: the sensor sends a pulse of light to a target and times its echo; the distance is the speed of light times that time, halved</title>
+  <defs>
+    <marker id="go" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#c62828"/></marker>
+    <marker id="back" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2e7d32"/></marker>
+    <marker id="dim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#555"/></marker>
+  </defs>
+  <rect width="640" height="380" fill="#fff"/>
+
+  <!-- the sensor, side on: its emitter and its detector -->
+  <rect x="30" y="60" width="18" height="110" rx="3" fill="#8e1f6e"/>
+  <rect x="48" y="78" width="26" height="74" rx="3" fill="#1b1b1b"/>
+  <circle cx="61" cy="96" r="6" fill="#c62828"/>
+  <circle cx="61" cy="134" r="6" fill="#455a64" stroke="#2e7d32" stroke-width="2"/>
+  <text x="84" y="70" font-size="11" fill="#c62828">light source</text>
+  <text x="84" y="168" font-size="11" fill="#2e7d32">detector</text>
+
+  <!-- the target: a wall -->
+  <defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#9e9e9e" stroke-width="3"/></pattern></defs>
+  <rect x="528" y="40" width="40" height="160" fill="#e0e0e0"/>
+  <rect x="528" y="40" width="40" height="160" fill="url(#hatch)"/>
+  <line x1="528" y1="40" x2="528" y2="200" stroke="#616161" stroke-width="3"/>
+  <text x="548" y="218" text-anchor="middle" font-size="11" fill="#555">a wall, a hand</text>
+
+  <!-- the pulse out, the echo back -->
+  <path d="M70 96 H 524" stroke="#c62828" stroke-width="3" stroke-dasharray="14 8" fill="none" marker-end="url(#go)"/>
+  <path d="M524 134 H 72" stroke="#2e7d32" stroke-width="3" stroke-dasharray="14 8" fill="none" marker-end="url(#back)"/>
+  <text x="300" y="88" text-anchor="middle" font-size="12" fill="#c62828">a pulse of invisible light goes out</text>
+  <text x="300" y="152" text-anchor="middle" font-size="12" fill="#2e7d32">some of it bounces back</text>
+  <path d="M74 186 H 526" stroke="#555" stroke-width="1.5" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <text x="300" y="180" text-anchor="middle" font-size="13" fill="#333" font-style="italic">d</text>
+
+  <!-- the timing: the pulse sent, the echo back, Δt apart -->
+  <text x="30" y="246" font-size="12" fill="#333">sent</text>
+  <text x="30" y="290" font-size="12" fill="#333">back</text>
+  <text x="440" y="276" font-size="11" fill="#2e7d32">weaker: most light scatters away</text>
+  <path d="M90 250 H 130 V 230 H 150 V 250 H 600" stroke="#c62828" stroke-width="2.5" fill="none"/>
+  <path d="M90 294 H 410 V 280 H 430 V 294 H 600" stroke="#2e7d32" stroke-width="2.5" fill="none"/>
+  <line x1="130" y1="220" x2="130" y2="312" stroke="#999" stroke-dasharray="3 3"/>
+  <line x1="410" y1="220" x2="410" y2="312" stroke="#999" stroke-dasharray="3 3"/>
+  <path d="M132 312 H 408" stroke="#555" stroke-width="1.5" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  <text x="270" y="306" text-anchor="middle" font-size="13" fill="#333">Δt</text>
+  <text x="600" y="320" text-anchor="end" font-size="11" fill="#666">time, in nanoseconds</text>
+
+  <text x="320" y="346" text-anchor="middle" font-size="15" fill="#222">d = c × Δt / 2</text>
+  <text x="320" y="368" text-anchor="middle" font-size="12" fill="#555">light (c) goes 300 mm a nanosecond, there and back: 1 m away, Δt = 6.67 ns</text>
+</svg>

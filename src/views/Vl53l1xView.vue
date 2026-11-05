@@ -78,6 +78,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
+      <img src="/time-of-flight.svg" alt="Time of flight: the sensor sends a pulse of light to a wall and its detector catches the weaker echo a time Δt later; the distance d is the speed of light times Δt, halved; 1 m away the echo comes back after 6.67 ns" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
       <p class="mb-2">
         <b>Time of flight.</b> It sends out pulses of light and times how long they take to bounce back. Light goes about 300 mm a nanosecond, so the times are tiny:
         <span class="font-mono">{{ roundTripNs !== null ? `${r.distance} mm there and back is ${roundTripNs.toFixed(2)} ns` : 'a metre there and back is under 7 ns' }}</span>.
