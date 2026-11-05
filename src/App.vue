@@ -7,6 +7,7 @@ import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import { useTheme } from './lib/theme.js';
+import { updateReady, applyUpdate } from './lib/pwa.js';
 import { DEVICE_LINKS, GUIDE_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
 
@@ -62,5 +63,10 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
       <RouterView />
     </div>
     <SiteFooter />
+    <!-- a new release downloaded: reload when it suits (lib/pwa.js) -->
+    <div v-if="updateReady" class="fixed right-4 bottom-4 z-30 flex items-center gap-3 rounded-xl bg-slate-800 px-4 py-3 text-sm text-white shadow-lg" role="status">
+      A new version of i2c.ninja is ready.
+      <button type="button" class="rounded-lg bg-emerald-600 px-3 py-1.5 font-medium hover:bg-emerald-700" @click="applyUpdate">Reload</button>
+    </div>
   </div>
 </template>

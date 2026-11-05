@@ -1,5 +1,18 @@
 # Releases
 
+## 1.1.0
+
+- A PWA: installable as an app (desktop, Android), and offline once visited.
+  A service worker (Workbox, scripts/sw.mjs, after prerender) precaches
+  every file, each page's own HTML included (98 files, 828 KiB); a new
+  release waits for a "Reload" prompt rather than cutting a lesson off.
+  The manifest completed (description, scope, theme colours, a maskable
+  icon, categories education). Tried on r8845: installable, and with the
+  network off /adxl345 and /learn/imu/tilt load from the cache.
+- Workbox's glob given 14.0.3: the minimatch override (11.0.4) had left its
+  glob 11 matching nothing; 14 fixes its own advisory too.
+- About and README: install it, use it offline.
+
 ## 1.0.28
 
 - About's title: "About | i2c.ninja" (was "About i2c.ninja | i2c.ninja").

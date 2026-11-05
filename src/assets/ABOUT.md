@@ -9,6 +9,8 @@ It's made for teaching and tinkering: **STEM lessons** where the physics happens
 
 Questions, ideas, a sensor you'd like to see here, or what you built with it: the [Discussions](https://github.com/aguegu/i2c.ninja/discussions) on GitHub are the forum. Bugs go to the [issues](https://github.com/aguegu/i2c.ninja/issues).
 
+Install it as an app (the install button in Chrome's or Edge's address bar, or "Add to Home screen" on Android) and, once visited, it works offline: a classroom needs the dongle on USB, not the internet.
+
 There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it.
 
 Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license: free for noncommercial use, schools and universities included; for commercial use, write to [support@meshmass.com](mailto:support@meshmass.com). atiic stays MIT.

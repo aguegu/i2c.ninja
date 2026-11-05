@@ -42,8 +42,12 @@ Questions, ideas, a sensor you'd like to see, or what you built:
 npm install
 npm run dev     # http://localhost:5173
 npm run lint
-npm run build   # dist/
+npm run build   # dist/: vite, then scripts/prerender.mjs (a page's own
+                #   HTML a route), then scripts/sw.mjs (the service worker)
 ```
+
+It's a PWA: installable, and once visited it works offline (Workbox
+precaches every file; a new release waits for the page's Reload).
 
 Every push to `main` builds and publishes the site
 (`.github/workflows/pages.yml`).
