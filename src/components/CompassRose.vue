@@ -12,7 +12,7 @@ const props = defineProps({
 });
 
 const R = 100;
-const LABEL_ROOM = 18; // above the rose: the nose's x
+const LABEL_ROOM = 24; // above the rose: the nose's x
 const RING = 86;
 const CARDINALS = [['N', 0], ['E', 90], ['S', 180], ['W', 270]];
 const NAMES = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -37,7 +37,7 @@ const { full, toggle } = useFullscreen(box);
       <circle r="5" fill="#334155" />
       <!-- the board's nose: fixed, at the top -->
       <path :d="`M 0 ${-RING - 9} L -7 ${-RING + 3} L 7 ${-RING + 3} Z`" fill="#f59e0b" stroke="#b45309" />
-      <text x="0" :y="-RING - 13" text-anchor="middle" font-size="14" font-weight="bold" fill="#d97706">x</text>
+      <text x="0" :y="-RING - 15" text-anchor="middle" font-size="14" font-weight="bold" fill="#d97706">x</text>
     </svg>
     <p :class="full ? 'font-mono text-3xl tabular-nums' : 'mt-1 font-mono text-lg tabular-nums'">{{ heading === null ? '—' : `${heading.toFixed(0)}° ${name}` }}</p>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
