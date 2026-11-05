@@ -30,7 +30,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img src="/setup-mlx90614.svg" alt="A CH341T dongle wired to a blue MLX90614 module with a black tube over its sensor: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA, all crossing" class="w-full rounded-lg bg-white lg:w-3/5">
+      <img src="/setup-mlx90614.svg" alt="A CH341T dongle wired to a blue MLX90614 module with a black tube over its sensor: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA, all crossing" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The blue board with the sensor under a black tube: its VIN, GND, SCL, SDA run opposite the dongle's, so the four wires cross. Point the tube at what to measure.
       </figcaption>
@@ -76,7 +76,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="mb-2">
         <b>It sees an area, not a point.</b> The reading is the average over everything in its field of view, a cone that widens with distance: close up a cup fills it and it reads the cup; far away the cup is a small part of it and it reads mostly the room. The tube shades it from light coming in at an angle.
       </p>
-      <img src="/mlx90614-view.svg" alt="Close up, a hot cup fills the sensor's cone-shaped field of view and it reads the cup; far away the cup is a small part of the cone and it reads mostly the room" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
+      <img src="/mlx90614-view.svg" alt="Close up, a hot cup fills the sensor's cone-shaped field of view and it reads the cup; far away the cup is a small part of the cone and it reads mostly the room" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white dark:bg-transparent">
       <p class="mb-2">
         <b>Shiny things read wrong.</b> It's calibrated for an emissivity of 1, a surface that glows like a perfect black body: skin, water, paint, most matt things come close. A shiny metal glows little and mirrors the room instead: point it at a spoon or foil, and it reads the room. The emissivity it assumes can be set from 0.1 to 1.0.
       </p>

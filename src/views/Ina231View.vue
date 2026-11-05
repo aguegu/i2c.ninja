@@ -61,7 +61,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     </div>
 
     <figure :class="card">
-      <img src="/setup-ina231.svg" alt="A CH341T dongle wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="w-full rounded-lg bg-white">
+      <img src="/setup-ina231.svg" alt="A CH341T dongle wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="w-full rounded-lg bg-white dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The common blue INA231 board. Four wires to the dongle as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd.
       </figcaption>

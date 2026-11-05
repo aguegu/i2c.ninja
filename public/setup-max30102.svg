@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="860" height="400" font-family="Helvetica, Arial, sans-serif">
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.5 } }</style>
   <title>A CH341T dongle in I2C mode at 3.3V wired to a MAX30102 module: GND, SCL, SDA, and VCC to VIN</title>
   <defs>
     <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
@@ -16,7 +17,7 @@
     </g>
   </defs>
 
-  <rect width="860" height="400" fill="#ffffff"/>
+  <rect class="bg" width="860" height="400" fill="#ffffff"/>
   <text x="430" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + MAX30102 module</text>
 
   <!-- USB-A plug -->

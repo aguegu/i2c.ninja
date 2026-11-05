@@ -28,7 +28,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img src="/setup-max30102.svg" alt="A CH341T dongle wired to a black MAX30102 module: GND to GND, SCL to SCL, SDA to SDA, VCC (3.3 V) to VIN; INT, IRD, RD free" class="w-full rounded-lg bg-white lg:w-3/5">
+      <img src="/setup-max30102.svg" alt="A CH341T dongle wired to a black MAX30102 module: GND to GND, SCL to SCL, SDA to SDA, VCC (3.3 V) to VIN; INT, IRD, RD free" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The common black MAX30102 board: four wires from its row of GND, SCL, SDA, VIN (3.3 or 5 V: the board makes the chip's 1.8 V and the LEDs' 3.3 V itself); INT, IRD, RD (the LEDs' own) and the other GND stay free.
       </figcaption>
@@ -78,12 +78,12 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it sees</h2>
-      <img src="/ppg-sensing.svg" alt="A fingertip over the sensor: the red and infrared LEDs shine into the skin, light scatters through tissue and blood, and what isn't absorbed comes back to the photodiode" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
+      <img src="/ppg-sensing.svg" alt="A fingertip over the sensor: the red and infrared LEDs shine into the skin, light scatters through tissue and blood, and what isn't absorbed comes back to the photodiode" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white dark:bg-transparent">
       <p class="mb-2">
         <b>Light through a fingertip.</b> The LEDs, red at 660 nm and infrared at 880 nm (its datasheet), pulse 100 times a second; the photodiode counts the light that scatters back (18 bits, up to 262,143). Bare, it sees little (a few thousand counts); a fingertip sends most of it back: the second chart jumps.
         Most of that is steady: skin, bone, the blood that stays. On top of it rides a small ripple: each heartbeat pushes a little more blood into the fingertip, which absorbs a little more light.
       </p>
-      <img src="/ppg-beat.svg" alt="An artery widening as each beat passes, and below it in time the heartbeat signal: a fast rise as the beat arrives, a small notch as the heart's valve closes, a slow fall to the next beat" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
+      <img src="/ppg-beat.svg" alt="An artery widening as each beat passes, and below it in time the heartbeat signal: a fast rise as the beat arrives, a small notch as the heart's valve closes, a slow fall to the next beat" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white dark:bg-transparent">
       <p class="mb-2">
         <b>The heartbeat</b> is that ripple alone: the slow level taken off (a moving average over 1.5 s) and turned upside down, so more blood is a peak up: each beat a fast rise, often a small notch as the heart's valve closes, then a slow fall. The rate is the spacing of the last few peaks. Breathe slowly and the level drifts with your breath too.
       </p>

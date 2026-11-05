@@ -32,7 +32,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img src="/setup-vl53l1x.svg" alt="A CH341T dongle wired to a purple VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; GPIO1 and XSHUT free" class="w-full rounded-lg bg-white lg:w-3/5">
+      <img src="/setup-vl53l1x.svg" alt="A CH341T dongle wired to a purple VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; GPIO1 and XSHUT free" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The common purple board ("VL53L0/1XV2"): four wires from its VIN, GND, SCL, SDA; GPIO1 and XSHUT stay free. Its window faces away from the pins.
       </figcaption>
@@ -78,7 +78,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
-      <img src="/time-of-flight.svg" alt="Time of flight: the sensor sends a pulse of light to a wall and its detector catches the weaker echo a time Δt later; the distance d is the speed of light times Δt, halved; 1 m away the echo comes back after 6.67 ns" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
+      <img src="/time-of-flight.svg" alt="Time of flight: the sensor sends a pulse of light to a wall and its detector catches the weaker echo a time Δt later; the distance d is the speed of light times Δt, halved; 1 m away the echo comes back after 6.67 ns" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white dark:bg-transparent">
       <p class="mb-2">
         <b>Time of flight.</b> It sends out pulses of light and times how long they take to bounce back. Light goes about 300 mm a nanosecond, so the times are tiny:
         <span class="font-mono">{{ roundTripNs !== null ? `${r.distance} mm there and back is ${roundTripNs.toFixed(2)} ns` : 'a metre there and back is under 7 ns' }}</span>.
