@@ -16,8 +16,8 @@ This site talks, from your browser, to USB devices you choose: a CH341 dongle an
 
 The site, its device pages and the drivers behind them are experimental. They are provided **as is**, without warranty of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, correctness, or safety. They are intended for hobby, educational, and prototyping use only and are **not** suitable for life-critical, medical, or otherwise safety-critical applications.
 
-You are solely responsible for how you use the site and the hardware connected to it. Neither the author nor Fuzhou Sourcekit electronics Ltd accept liability for any damage, injury, loss, or regulatory infraction arising from its use.
+You are solely responsible for how you use the site and the hardware connected to it. Neither the author nor [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc) accept liability for any damage, injury, loss, or regulatory infraction arising from its use.
 
 **USE AT YOUR OWN RISK.**
 
-&copy; Fuzhou Sourcekit electronics Ltd
+&copy; [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc)
