@@ -24,6 +24,7 @@ const hasWebUsb = 'usb' in navigator;
           device.
         </p>
         <RouterLink to="/mpu6050" class="inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">MPU-6050 / MPU-6500 <span class="text-sm opacity-75">gyro + accelerometer</span></RouterLink>
+        <RouterLink to="/ina231" class="ml-2 inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">INA231 <span class="text-sm opacity-75">current + power</span></RouterLink>
         <RouterLink to="/learn/imu" class="ml-2 inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">Learn the IMU <span class="text-sm opacity-75">step by step</span></RouterLink>
       </section>
 
