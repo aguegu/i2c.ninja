@@ -2,7 +2,8 @@
 // A live line chart: the last windowMs of up to three series, redrawn each
 // frame from source() (the caller's buffers, not reactive: { t: [ms], ys:
 // [[...], ...] }). The y range is symmetric around 0, never below floor, so
-// the noise at rest isn't blown up; ticks at 1-2-5 steps.
+// the noise at rest isn't blown up; ticks at 1-2-5 steps. A button takes it
+// full screen (the Fullscreen API, where the browser has it; Esc leaves).
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
@@ -21,7 +22,18 @@ const props = defineProps({
 });
 
 const canvas = ref(null);
+const figure = ref(null);
+const full = ref(false);
+const canFull = typeof document !== 'undefined' && document.fullscreenEnabled;
 let frame = 0;
+
+function toggleFull() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else figure.value?.requestFullscreen();
+}
+function onFullChange() {
+  full.value = document.fullscreenElement === figure.value;
+}
 
 const LINE_PX = 2;
 const LABEL_PX = 11;
@@ -109,21 +121,33 @@ function draw() {
   });
 }
 
-onMounted(() => { frame = requestAnimationFrame(draw); });
-onBeforeUnmount(() => cancelAnimationFrame(frame));
+onMounted(() => {
+  frame = requestAnimationFrame(draw);
+  document.addEventListener('fullscreenchange', onFullChange);
+});
+onBeforeUnmount(() => {
+  cancelAnimationFrame(frame);
+  document.removeEventListener('fullscreenchange', onFullChange);
+});
 
 const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(props.digits)}`);
 </script>
 
 <template>
-  <figure class="flex flex-col gap-2">
+  <figure ref="figure" class="flex flex-col gap-2" :class="full && 'h-full bg-white p-6 dark:bg-slate-800'">
     <figcaption class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
       <span class="font-semibold">{{ title }} <span class="font-normal text-slate-500 dark:text-slate-400">{{ unit }}</span></span>
       <span v-for="(s, k) in series" :key="s.label" class="flex items-center gap-1.5 font-mono text-sm tabular-nums">
         <span class="inline-block h-0.5 w-4 rounded" :style="{ background: `var(${s.color})` }" />
         {{ s.label }} {{ fmt(values[k]) }}
       </span>
+      <button v-if="canFull" type="button" class="ml-auto self-center rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" :title="full ? 'Exit full screen (Esc)' : 'Full screen'" :aria-label="full ? 'Exit full screen' : 'Full screen'" @click="toggleFull">
+        <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path v-if="!full" d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4" />
+          <path v-else d="M7 3v4H3M17 7h-4V3M13 17v-4h4M3 13h4v4" />
+        </svg>
+      </button>
     </figcaption>
-    <canvas ref="canvas" class="h-48 w-full" role="img" :aria-label="`${title}, ${unit}: the last ${windowMs / 1000} s of ${series.map((s) => s.label).join(', ')}`" />
+    <canvas ref="canvas" class="w-full" :class="full ? 'min-h-0 flex-1' : 'h-48'" role="img" :aria-label="`${title}, ${unit}: the last ${windowMs / 1000} s of ${series.map((s) => s.label).join(', ')}`" />
   </figure>
 </template>
