@@ -1,13 +1,13 @@
 <script setup>
 // The footer: the site map (every page, from lib/nav.js) and the license.
 // Kept short as the devices grow: they fill rows across the full width
-// first; Learn, Get started and Elsewhere share the row under them.
-import { DEVICE_LINKS, LEARN_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
+// first; Learn (its index; the steps are linked from there), Get started
+// and Elsewhere share the row under them.
+import { DEVICE_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
 const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
-const steps = LEARN_LINKS.slice(1).map((l) => ({ ...l, label: l.label.replace(/^\d+\.\s*/, '') }));
 </script>
 
 <template>
@@ -19,11 +19,11 @@ const steps = LEARN_LINKS.slice(1).map((l) => ({ ...l, label: l.label.replace(/^
           <li v-for="l in DEVICE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
         </ul>
       </div>
-      <div class="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-[2fr_1fr_1fr]">
-        <div class="col-span-2 md:col-span-1">
-          <p :class="head"><RouterLink to="/learn/imu" class="hover:text-emerald-600">Learn the IMU</RouterLink></p>
-          <ul class="grid grid-cols-2 gap-x-4 sm:grid-cols-3">
-            <li v-for="l in steps" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
+      <div class="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3">
+        <div>
+          <p :class="head">Learn</p>
+          <ul>
+            <li><RouterLink to="/learn/imu" :class="link">Learn the IMU</RouterLink></li>
           </ul>
         </div>
         <div>
