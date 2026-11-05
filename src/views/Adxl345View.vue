@@ -7,6 +7,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import BubbleLevel from '../components/BubbleLevel.vue';
 import GgScatter from '../components/GgScatter.vue';
+import GravityBoard from '../components/GravityBoard.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { rollOf, pitchOf } from '../lib/tilt.js';
 import { useAdxl345 } from '../lib/useAdxl345.js';
@@ -98,6 +99,18 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">x against y, the last {{ TRAIL_MS / 1000 }} s fading: the plot race data loggers use. Lying flat it sits at the centre; slide it across the desk, swing it round or shake it and the trail draws the push. Tilted, the dot moves off the centre by gravity's share, as the bubble does.</p>
       </section>
     </div>
+
+    <section :class="card">
+      <h2 class="mb-2 font-semibold">What the chip feels, in 3D</h2>
+      <div class="grid items-center gap-4 md:grid-cols-[1fr_1fr]">
+        <GravityBoard :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
+        <div class="leading-relaxed">
+          <p class="mb-2">The board stays still on screen; the arrow is the reading, in the board's own axes (its nose is x, as printed).</p>
+          <p class="mb-2">At rest it points up, away from the floor, 1 g long: not gravity's pull but the springs holding the mass up against it. Tilt the real board and the arrow leans the other way on the screen, still pointing at the ceiling.</p>
+          <p>Shake it and the arrow swings and stretches; drop it onto a cushion and, for that moment, it shrinks toward nothing. Longer than 1.6 g it's drawn dashed, cut short.</p>
+        </div>
+      </div>
+    </section>
 
     <section :class="card">
       <LiveChart title="Acceleration" unit="g" :series="SERIES" :values="a ? [a.x, a.y, a.z] : []" :source="adxl.source" :window-ms="WINDOW_MS" :floor="FLOOR_G" :digits="3" />
