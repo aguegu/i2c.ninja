@@ -39,6 +39,7 @@ const FACES = [
   { name: 'right', fill: SIDE, pts: [corner(1, -1, 1), corner(1, -1, -1), corner(-1, -1, -1), corner(-1, -1, 1)] },
 ];
 const ON_TOP = H * 1.05;
+const TOP_SEEN = 0.05; // the top face's normal toward the eye by more than this: it shows
 const NOSE_ARROW = [[-0.55, 0, ON_TOP], [0.55, 0, ON_TOP], [0.35, 0.18, ON_TOP], [0.55, 0, ON_TOP], [0.35, -0.18, ON_TOP]];
 
 // each view: screen x, y (down) and depth (toward the eye) of a room vector
@@ -77,7 +78,8 @@ const views = computed(() => VIEWS.map((w) => {
     const room = f.pts.map(toRoom);
     return { ...f, points: pts2(room.map(w.project)), depth: room.reduce((s, v) => s + w.depth(v), 0) / room.length };
   }).sort((a, b) => a.depth - b.depth);
-  const nose = pts2(NOSE_ARROW.map(toRoom).map(w.project));
+  // the nose arrow on the top face, drawn only while that face looks toward the eye
+  const nose = w.depth(toRoom([0, 0, 1])) > TOP_SEEN ? pts2(NOSE_ARROW.map(toRoom).map(w.project)) : null;
   const value = w.angle === 'pitch' ? pitch.value : w.angle === 'roll' ? roll.value : null;
   return { ...w, faces, nose, value };
 }));
@@ -102,7 +104,7 @@ const { full, toggle } = useFullscreen(box);
             <line x1="0" :y1="-R + 6" x2="0" :y2="R - 6" stroke="var(--chart-grid)" stroke-dasharray="4 4" />
           </template>
           <polygon v-for="f in w.faces" :key="f.name" :points="f.points" :fill="f.fill" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
-          <polyline :points="w.nose" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <polyline v-if="w.nose" :points="w.nose" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
           <g v-if="w.gravity === 'down'" :transform="`translate(${R - 22} ${-R + 10})`" stroke="#e11d48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
             <line x1="0" y1="0" x2="0" :y2="G_PX" /><polyline :points="head" />
           </g>
