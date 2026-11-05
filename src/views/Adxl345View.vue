@@ -116,7 +116,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="mt-2 leading-relaxed">
         The chip can push its own mass: an electrostatic force moves it as an acceleration would. Its datasheet's test averages ten readings, turns the force on, lets it settle, averages ten more, and compares the change with its limits (here for a 3.3 V supply; the force grows with the supply squared).
       </p>
-      <SvgDrawing src="/adxl345-self-test.svg" alt="The self test: off, the finger centred between C1 and C2, ten readings averaged; on, an electrostatic force pulls the mass toward C1, ten more averaged, the change checked against the datasheet's limits" class="mx-auto mt-3 w-full max-w-2xl" />
       <table v-if="adxl.selfTest" class="mt-3 w-full max-w-xl text-left font-mono text-sm tabular-nums">
         <thead class="text-slate-500 dark:text-slate-400">
           <tr><th class="py-1 font-normal">axis</th><th class="font-normal">change</th><th class="font-normal">in g</th><th class="font-normal">datasheet's limits</th></tr>
