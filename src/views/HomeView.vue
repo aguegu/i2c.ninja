@@ -1,12 +1,16 @@
 <script setup>
+// the home page: what this is, a card a device, the guides, the bench
+import { DEVICES, GUIDES } from '../lib/devices.js';
+
 const hasWebUsb = 'usb' in navigator;
+const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
+  <main class="mx-auto flex max-w-5xl flex-col gap-6 p-4">
     <p class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">
       I2C devices live in the browser: a CH341 USB-to-I2C dongle over WebUSB,
-      the device drivers from atiic, their readings charted.
+      the device drivers from atiic, their readings charted and explained.
     </p>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
@@ -14,30 +18,42 @@ const hasWebUsb = 'usb' in navigator;
       another Chromium (Chrome on Android too, with an OTG cable).
     </p>
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-        <h2 class="mb-2 text-lg font-semibold">Devices</h2>
-        <p class="mb-3 leading-relaxed">
-          i2c.ninja is being rebuilt on atiic 1.0, with WCH's CH341 as the
-          bridge in place of the old Atiic serial and Bluetooth modules. Device
-          pages return one at a time, each once its driver has run on a real
-          device.
-        </p>
-        <RouterLink to="/mpu6050" class="inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">MPU-6050 / MPU-6500 <span class="text-sm opacity-75">gyro + accelerometer</span></RouterLink>
-        <RouterLink to="/ina231" class="ml-2 inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">INA231 <span class="text-sm opacity-75">current + power</span></RouterLink>
-        <RouterLink to="/learn/imu" class="ml-2 inline-block rounded-lg border border-emerald-600 px-4 py-2 text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-slate-700">Learn the IMU <span class="text-sm opacity-75">step by step</span></RouterLink>
-      </section>
-
-      <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-        <h2 class="mb-2 text-lg font-semibold">The bench</h2>
-        <p class="mb-3 leading-relaxed">
-          A CH341T dongle with its jumpers on I2C and 3V3, four wires to the
-          device, a Chromium browser that may open it.
-        </p>
-        <RouterLink to="/setup" class="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800">
-          Set it up
+    <section>
+      <h2 class="mb-3 text-lg font-semibold">Devices</h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <RouterLink v-for="d in DEVICES" :key="d.to" :to="d.to" :class="card">
+          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
+          <span class="mt-1 text-lg font-semibold">{{ d.name }}</span>
+          <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.maker }}</span>
+          <span class="mt-2 flex-1 leading-relaxed">{{ d.measures }}</span>
+          <span class="mt-3 font-mono text-xs text-slate-500 dark:text-slate-400">{{ d.bus }}</span>
         </RouterLink>
-      </section>
-    </div>
+      </div>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        More return one at a time, each once its driver and its page have run on a real device.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-lg font-semibold">Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <RouterLink v-for="g in GUIDES" :key="g.to" :to="g.to" :class="card">
+          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ g.kind }}</span>
+          <span class="mt-1 text-lg font-semibold">{{ g.name }}</span>
+          <span class="mt-2 flex-1 leading-relaxed">{{ g.measures }}</span>
+        </RouterLink>
+      </div>
+    </section>
+
+    <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
+      <h2 class="mb-2 text-lg font-semibold">The bench</h2>
+      <p class="mb-3 leading-relaxed">
+        A CH341 dongle with its jumpers on I2C and 3V3, four wires to the
+        device, a Chromium browser that may open it.
+      </p>
+      <RouterLink to="/setup" class="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800">
+        Set it up
+      </RouterLink>
+    </section>
   </main>
 </template>
