@@ -1,5 +1,18 @@
 # Releases
 
+## 1.0.25
+
+- The HMC5883L page: x, y, z and |B| live, the field's dip, a compass rose
+  (held level; the board's x, y, z marked in the charts' colours), a
+  hard-iron calibration (turned round, each axis's middle taken off), what
+  the chip feels three ways and the board against the field line held still
+  (the ADXL345's views with the field for gravity), the chart, its self
+  test both ways, how it measures (one axis's bridge, set and reset, the
+  field's dip drawn), its wiring (the Adafruit breakout). Checked on the
+  bench: x to north reads north, to the east 90.
+- VectorViews (was GravityViews) and AttitudeViews take a unit, a scale, a
+  colour and a magnetic mode.
+
 ## 1.0.24
 
 - The ADXL345 page: x, y, z and |a| live, the attitude dial (roll and
