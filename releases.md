@@ -1,5 +1,23 @@
 # Releases
 
+## 1.0.27
+
+- SEO: every page has its own title, description, canonical address and
+  link-preview tags (lib/pages.js), set as you browse and written into its
+  own HTML at build (scripts/prerender.mjs), so each address answers 200,
+  not GitHub Pages' 404; sitemap.xml, robots.txt, the home page's JSON-LD;
+  a link-preview card (og-card.png, 1200x630).
+- The header: the version (opening the releases), Devices and Learn menus,
+  Get started, a GitHub link to atiic; one menu on a phone. The footer: a
+  site map. A Not found page.
+- Setup is Get started, at /get-started (/setup forwards).
+- Home: a headline, a carousel of the pages' drawings, what it's for (STEM
+  lessons, digital experiments, an electronics smoke test).
+- About: About and Releases as tabs; what it's for; the Discussions as the
+  forum; commercial opportunities (vendors' links, marked; kits; licenses)
+  by email; Fuzhou Sourcekit Electronics Ltd linked to sourcekit.cc.
+- README: the devices, the Discussions; commercial licenses by email.
+
 ## 1.0.26
 
 - The ITG-3200 page: x, y, z rates and its temperature live, Zero (its
