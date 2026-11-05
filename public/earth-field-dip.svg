@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" width="780" height="360" font-family="Helvetica, Arial, sans-serif">
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
+  <title>Earth's field dips: level only at the magnetic equator, steeper toward the poles, pointing north and down in the northern hemisphere; where you stand it splits into a level part, the one a compass uses, and a vertical part</title>
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#7c3aed"/></marker>
+    <marker id="fl" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a78bfa"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
+    <pattern id="ground" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#a1887f" stroke-width="3"/></pattern>
+  </defs>
+  <rect class="bg" width="780" height="360" fill="#fff"/>
+  <path d="M278.2,228.3 L280.5,227.8 L282.7,227.3 L285.0,226.7 L287.2,226.0 L289.4,225.3 L291.5,224.4 L293.6,223.4 L295.6,222.4 L297.6,221.3 L299.5,220.1 L301.3,218.9 L303.1,217.6 L304.8,216.2 L306.4,214.7 L308.0,213.2 L309.4,211.6 L310.8,209.9 L312.1,208.2 L313.3,206.5 L314.4,204.7 L315.4,202.8 L316.3,201.0 L317.1,199.0 L317.8,197.1 L318.4,195.1 L318.9,193.1 L319.3,191.1 L319.5,189.1 L319.7,187.0 L319.8,185.0 L319.7,183.0 L319.5,180.9 L319.3,178.9 L318.9,176.9 L318.4,174.9 L317.8,172.9 L317.1,171.0 L316.3,169.0 L315.4,167.2 L314.4,165.3 L313.3,163.5 L312.1,161.8 L310.8,160.1 L309.4,158.4 L308.0,156.8 L306.4,155.3 L304.8,153.8 L303.1,152.4 L301.3,151.1 L299.5,149.9 L297.6,148.7 L295.6,147.6 L293.6,146.6 L291.5,145.6 L289.4,144.7 L287.2,144.0 L285.0,143.3 L282.7,142.7 L280.5,142.2 L278.2,141.7" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="319.8" y1="189.0" x2="319.8" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M131.8,228.3 L129.5,227.8 L127.3,227.3 L125.0,226.7 L122.8,226.0 L120.6,225.3 L118.5,224.4 L116.4,223.4 L114.4,222.4 L112.4,221.3 L110.5,220.1 L108.7,218.9 L106.9,217.6 L105.2,216.2 L103.6,214.7 L102.0,213.2 L100.6,211.6 L99.2,209.9 L97.9,208.2 L96.7,206.5 L95.6,204.7 L94.6,202.8 L93.7,201.0 L92.9,199.0 L92.2,197.1 L91.6,195.1 L91.1,193.1 L90.7,191.1 L90.5,189.1 L90.3,187.0 L90.2,185.0 L90.3,183.0 L90.5,180.9 L90.7,178.9 L91.1,176.9 L91.6,174.9 L92.2,172.9 L92.9,171.0 L93.7,169.0 L94.6,167.2 L95.6,165.3 L96.7,163.5 L97.9,161.8 L99.2,160.1 L100.6,158.4 L102.0,156.8 L103.6,155.3 L105.2,153.8 L106.9,152.4 L108.7,151.1 L110.5,149.9 L112.4,148.7 L114.4,147.6 L116.4,146.6 L118.5,145.6 L120.6,144.7 L122.8,144.0 L125.0,143.3 L127.3,142.7 L129.5,142.2 L131.8,141.7" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="90.2" y1="189.0" x2="90.2" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M269.3,240.6 L273.3,241.3 L277.3,241.8 L281.4,242.1 L285.4,242.3 L289.5,242.2 L293.6,241.9 L297.6,241.4 L301.6,240.8 L305.6,239.9 L309.5,238.8 L313.3,237.6 L317.0,236.1 L320.6,234.5 L324.0,232.6 L327.4,230.6 L330.5,228.4 L333.6,226.1 L336.4,223.6 L339.1,220.9 L341.5,218.1 L343.8,215.2 L345.8,212.1 L347.7,209.0 L349.3,205.7 L350.6,202.4 L351.7,199.0 L352.6,195.6 L353.2,192.1 L353.6,188.5 L353.8,185.0 L353.6,181.5 L353.2,177.9 L352.6,174.4 L351.7,171.0 L350.6,167.6 L349.3,164.3 L347.7,161.0 L345.8,157.9 L343.8,154.8 L341.5,151.9 L339.1,149.1 L336.4,146.4 L333.6,143.9 L330.5,141.6 L327.4,139.4 L324.0,137.4 L320.6,135.5 L317.0,133.9 L313.3,132.4 L309.5,131.2 L305.6,130.1 L301.6,129.2 L297.6,128.6 L293.6,128.1 L289.5,127.8 L285.4,127.7 L281.4,127.9 L277.3,128.2 L273.3,128.7 L269.3,129.4" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="353.8" y1="189.0" x2="353.8" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M140.7,240.6 L136.7,241.3 L132.7,241.8 L128.6,242.1 L124.6,242.3 L120.5,242.2 L116.4,241.9 L112.4,241.4 L108.4,240.8 L104.4,239.9 L100.5,238.8 L96.7,237.6 L93.0,236.1 L89.4,234.5 L86.0,232.6 L82.6,230.6 L79.5,228.4 L76.4,226.1 L73.6,223.6 L70.9,220.9 L68.5,218.1 L66.2,215.2 L64.2,212.1 L62.3,209.0 L60.7,205.7 L59.4,202.4 L58.3,199.0 L57.4,195.6 L56.8,192.1 L56.4,188.5 L56.2,185.0 L56.4,181.5 L56.8,177.9 L57.4,174.4 L58.3,171.0 L59.4,167.6 L60.7,164.3 L62.3,161.0 L64.2,157.9 L66.2,154.8 L68.5,151.9 L70.9,149.1 L73.6,146.4 L76.4,143.9 L79.5,141.6 L82.6,139.4 L86.0,137.4 L89.4,135.5 L93.0,133.9 L96.7,132.4 L100.5,131.2 L104.4,130.1 L108.4,129.2 L112.4,128.6 L116.4,128.1 L120.5,127.8 L124.6,127.7 L128.6,127.9 L132.7,128.2 L136.7,128.7 L140.7,129.4" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="56.2" y1="189.0" x2="56.2" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M262.3,247.8 L267.6,249.9 L273.1,251.8 L278.7,253.4 L284.4,254.7 L290.3,255.7 L296.2,256.5 L302.1,256.9 L308.1,257.0 L314.1,256.7 L320.0,256.1 L325.9,255.2 L331.7,254.0 L337.4,252.4 L342.9,250.4 L348.2,248.2 L353.4,245.6 L358.3,242.7 L362.9,239.5 L367.3,236.0 L371.4,232.3 L375.2,228.3 L378.6,224.1 L381.7,219.7 L384.4,215.1 L386.7,210.3 L388.6,205.4 L390.1,200.4 L391.1,195.3 L391.8,190.2 L392.0,185.0 L391.8,179.8 L391.1,174.7 L390.1,169.6 L388.6,164.6 L386.7,159.7 L384.4,154.9 L381.7,150.3 L378.6,145.9 L375.2,141.7 L371.4,137.7 L367.3,134.0 L362.9,130.5 L358.3,127.3 L353.4,124.4 L348.2,121.8 L342.9,119.6 L337.4,117.6 L331.7,116.0 L325.9,114.8 L320.0,113.9 L314.1,113.3 L308.1,113.0 L302.1,113.1 L296.2,113.5 L290.3,114.3 L284.4,115.3 L278.7,116.6 L273.1,118.2 L267.6,120.1 L262.3,122.2" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="392.0" y1="189.0" x2="392.0" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M147.7,247.8 L142.4,249.9 L136.9,251.8 L131.3,253.4 L125.6,254.7 L119.7,255.7 L113.8,256.5 L107.9,256.9 L101.9,257.0 L95.9,256.7 L90.0,256.1 L84.1,255.2 L78.3,254.0 L72.6,252.4 L67.1,250.4 L61.8,248.2 L56.6,245.6 L51.7,242.7 L47.1,239.5 L42.7,236.0 L38.6,232.3 L34.8,228.3 L31.4,224.1 L28.3,219.7 L25.6,215.1 L23.3,210.3 L21.4,205.4 L19.9,200.4 L18.9,195.3 L18.2,190.2 L18.0,185.0 L18.2,179.8 L18.9,174.7 L19.9,169.6 L21.4,164.6 L23.3,159.7 L25.6,154.9 L28.3,150.3 L31.4,145.9 L34.8,141.7 L38.6,137.7 L42.7,134.0 L47.1,130.5 L51.7,127.3 L56.6,124.4 L61.8,121.8 L67.1,119.6 L72.6,117.6 L78.3,116.0 L84.1,114.8 L90.0,113.9 L95.9,113.3 L101.9,113.0 L107.9,113.1 L113.8,113.5 L119.7,114.3 L125.6,115.3 L131.3,116.6 L136.9,118.2 L142.4,120.1 L147.7,122.2" fill="none" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="18.0" y1="189.0" x2="18.0" y2="181.0" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#fl)"/>
+  <circle cx="205" cy="185" r="85" fill="#dbeafe" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="114" y1="185" x2="296" y2="185" stroke="#1e3a8a" stroke-dasharray="4 3"/>
+  <text x="205" y="136" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">N</text>
+  <text x="205" y="246" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">S</text>
+  <text x="205" y="179" text-anchor="middle" font-size="10" fill="#1e3a8a">magnetic equator</text>
+  <line x1="290.0" y1="200.0" x2="290.0" y2="170.0" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <text x="330.0" y="189.0" font-size="11" fill="#424242">dip 0°</text>
+  <line x1="293.3" y1="145.3" x2="263.9" y2="139.7" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <text x="305.1" y="133.5" font-size="11" fill="#424242">dip 49°</text>
+  <line x1="258.3" y1="101.0" x2="236.7" y2="121.8" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <text x="270.5" y="98.9" font-size="11" fill="#424242">dip 74°</text>
+  <line x1="205.0" y1="85.0" x2="205.0" y2="115.0" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <text x="191.0" y="92.0" text-anchor="end" font-size="11" fill="#424242">dip 90°</text>
+  <line x1="263.9" y1="230.3" x2="293.3" y2="224.7" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <line x1="236.7" y1="248.2" x2="258.3" y2="269.0" stroke="#7c3aed" stroke-width="3" marker-end="url(#f)"/>
+  <text x="205" y="346" text-anchor="middle" font-size="11" fill="#616161">a simple dipole; the real field is lumpier</text>
+  <line x1="420" y1="40" x2="420" y2="330" stroke="#e0e0e0" stroke-width="2"/>
+  <text x="600" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#212121">Where you stand (northern hemisphere)</text>
+  <rect x="450" y="190" width="310" height="30" fill="url(#ground)"/><line x1="450" y1="190" x2="760" y2="190" stroke="#6d4c41" stroke-width="2"/>
+  <line x1="690" y1="174" x2="740" y2="174" stroke="#475569" stroke-width="2" marker-end="url(#g)"/><text x="715" y="168" text-anchor="middle" font-size="11" fill="#475569">north</text>
+  <rect x="500" y="182" width="70" height="8" rx="1" fill="#1f5fa8"/>
+  <line x1="535" y1="182" x2="535" y2="138" stroke="var(--series-3, #1baf7a)" stroke-width="2" marker-end="url(#g)"/><text x="542" y="146" font-size="11" fill="#1baf7a">z</text>
+  <text x="535" y="236" text-anchor="middle" font-size="10" fill="#616161">the board, level</text>
+  <line x1="540" y1="78" x2="623.6" y2="78" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="623.6" y1="78" x2="623.6" y2="177.6" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="540" y1="78" x2="623.6" y2="177.6" stroke="#7c3aed" stroke-width="4" marker-end="url(#f)"/>
+  <text x="574" y="126" font-size="13" font-weight="bold" fill="#7c3aed">B</text>
+  <path d="M 576 78 A 36 36 0 0 1 563.1 105.6" fill="none" stroke="#424242" stroke-width="1.5"/>
+  <text x="582" y="96" font-size="12" fill="#424242">dip</text>
+  <text x="581.8" y="70" text-anchor="middle" font-size="11" fill="#424242">level part, B·cos(dip): the compass uses it</text>
+  <text x="631.6" y="131.8" font-size="11" fill="#424242">vertical part:</text><text x="631.6" y="145.8" font-size="11" fill="#424242">B·sin(dip), on z</text>
+  <text x="605" y="346" text-anchor="middle" font-size="11" fill="#616161">drawn at 50°: level at the equator, upright at the poles</text>
+</svg>
