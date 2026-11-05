@@ -64,15 +64,15 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <div class="grid gap-4 md:grid-cols-[1fr_auto]">
       <section :class="card">
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div class="grid grid-cols-3 gap-4">
           <div v-for="k in AXES" :key="k">
             <p class="text-sm text-slate-500 dark:text-slate-400">about {{ k }}</p>
             <p class="font-mono text-3xl tabular-nums">{{ fmt(g?.[k]) }} <span class="text-base">°/s</span></p>
           </div>
-          <div>
-            <p class="text-sm text-slate-500 dark:text-slate-400">itself</p>
-            <p class="font-mono text-3xl tabular-nums">{{ fmt(gyro.temperature) }} <span class="text-base">°C</span></p>
-          </div>
+        </div>
+        <div class="mt-3">
+          <p class="text-sm text-slate-500 dark:text-slate-400">itself</p>
+          <p class="font-mono text-3xl tabular-nums">{{ fmt(gyro.temperature) }} <span class="text-base">°C</span></p>
         </div>
         <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Held still a gyro should read 0 on every axis, but each has a small offset of its own, its zero-rate bias, which drifts with temperature. Hold it still and press Zero: two seconds' average is taken off from then on.
