@@ -5,6 +5,8 @@
 // the noise at rest isn't blown up; ticks at 1-2-5 steps. A button takes it
 // full screen (the Fullscreen API, where the browser has it; Esc leaves).
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import FullscreenButton from './FullscreenButton.vue';
+import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -23,17 +25,8 @@ const props = defineProps({
 
 const canvas = ref(null);
 const figure = ref(null);
-const full = ref(false);
-const canFull = typeof document !== 'undefined' && document.fullscreenEnabled;
+const { full, toggle: toggleFull } = useFullscreen(figure);
 let frame = 0;
-
-function toggleFull() {
-  if (document.fullscreenElement) document.exitFullscreen();
-  else figure.value?.requestFullscreen();
-}
-function onFullChange() {
-  full.value = document.fullscreenElement === figure.value;
-}
 
 const LINE_PX = 2;
 const LABEL_PX = 11;
@@ -121,14 +114,8 @@ function draw() {
   });
 }
 
-onMounted(() => {
-  frame = requestAnimationFrame(draw);
-  document.addEventListener('fullscreenchange', onFullChange);
-});
-onBeforeUnmount(() => {
-  cancelAnimationFrame(frame);
-  document.removeEventListener('fullscreenchange', onFullChange);
-});
+onMounted(() => { frame = requestAnimationFrame(draw); });
+onBeforeUnmount(() => cancelAnimationFrame(frame));
 
 const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(props.digits)}`);
 </script>
@@ -141,12 +128,7 @@ const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(p
         <span class="inline-block h-0.5 w-4 rounded" :style="{ background: `var(${s.color})` }" />
         {{ s.label }} {{ fmt(values[k]) }}
       </span>
-      <button v-if="canFull" type="button" class="ml-auto self-center rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" :title="full ? 'Exit full screen (Esc)' : 'Full screen'" :aria-label="full ? 'Exit full screen' : 'Full screen'" @click="toggleFull">
-        <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path v-if="!full" d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4" />
-          <path v-else d="M7 3v4H3M17 7h-4V3M13 17v-4h4M3 13h4v4" />
-        </svg>
-      </button>
+      <FullscreenButton v-if="canFullscreen" :full="full" class="ml-auto self-center" @toggle="toggleFull" />
     </figcaption>
     <canvas ref="canvas" class="w-full" :class="full ? 'min-h-0 flex-1' : 'h-48'" role="img" :aria-label="`${title}, ${unit}: the last ${windowMs / 1000} s of ${series.map((s) => s.label).join(', ')}`" />
   </figure>

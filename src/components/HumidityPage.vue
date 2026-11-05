@@ -2,6 +2,7 @@
 // A humidity sensor's page: its drawing, connect, temperature, relative
 // humidity and the dew point as tiles and charts, what the numbers mean;
 // the sensor's own intro (slot intro) and how it measures (slot measures)
+import SvgDrawing from './SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
@@ -39,7 +40,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img :src="drawing" :alt="drawingAlt" class="mx-auto w-full rounded-lg bg-white dark:bg-transparent lg:w-3/5">
+      <SvgDrawing :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }}</figcaption>
     </figure>
 
