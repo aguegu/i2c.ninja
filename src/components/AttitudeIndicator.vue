@@ -1,8 +1,11 @@
 <script setup>
 // An attitude indicator, as on an aircraft's panel: the horizon behind a
 // fixed aircraft symbol. Nose up moves the horizon down (more sky); right
-// side down turns the horizon the other way (its right end rises).
-import { computed } from 'vue';
+// side down turns the horizon the other way (its right end rises). A
+// button takes it full screen, its roll and pitch written under it there.
+import { ref, computed } from 'vue';
+import FullscreenButton from './FullscreenButton.vue';
+import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
   roll: { type: Number, default: 0 }, // degrees, right side down +
@@ -19,29 +22,35 @@ const GROUND = '#9b6b3d';
 
 const horizon = computed(() => `rotate(${-props.roll}) translate(0 ${props.pitch * PX_PER_DEG})`);
 const rollMark = computed(() => `rotate(${-props.roll})`);
+const box = ref(null);
+const { full, toggle } = useFullscreen(box);
 </script>
 
 <template>
-  <svg :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" class="h-52 w-52" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees`">
-    <defs>
-      <clipPath id="ai-face"><circle r="96" /></clipPath>
-    </defs>
-    <g clip-path="url(#ai-face)">
-      <g :transform="horizon">
-        <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
-        <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
-        <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
-        <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
-          <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
-          <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+  <div ref="box" class="relative" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
+    <svg :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees`">
+      <defs>
+        <clipPath id="ai-face"><circle r="96" /></clipPath>
+      </defs>
+      <g clip-path="url(#ai-face)">
+        <g :transform="horizon">
+          <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
+          <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
+          <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
+          <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
+            <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
+            <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+          </g>
         </g>
+        <!-- the roll pointer on the rim turns with the horizon -->
+        <g :transform="rollMark"><path d="M 0 -94 L -6 -82 L 6 -82 Z" fill="white" /></g>
       </g>
-      <!-- the roll pointer on the rim turns with the horizon -->
-      <g :transform="rollMark"><path d="M 0 -94 L -6 -82 L 6 -82 Z" fill="white" /></g>
-    </g>
-    <circle r="96" fill="none" stroke="#334155" stroke-width="4" />
-    <!-- the aircraft: fixed -->
-    <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-    <circle r="3" fill="#f59e0b" />
-  </svg>
+      <circle r="96" fill="none" stroke="#334155" stroke-width="4" />
+      <!-- the aircraft: fixed -->
+      <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <circle r="3" fill="#f59e0b" />
+    </svg>
+    <p v-if="full" class="font-mono text-2xl tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
+    <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
+  </div>
 </template>
