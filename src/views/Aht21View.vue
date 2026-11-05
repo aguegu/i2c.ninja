@@ -8,7 +8,7 @@ import HumidityPage from '../components/HumidityPage.vue';
   <HumidityPage
     :driver="Aht21" drawing="/setup-aht21.svg" :response-s="8"
     drawing-alt="A CH341T dongle wired SDA, SCL, GND and VCC (3.3 V) to an AHT21B module"
-    drawing-caption="The AHT21B module: four wires as for any I2C device. Keep it away from warm parts."
+    drawing-caption="Aosong's own small green AHT21B module (its datasheet's Figure 1): pads 1 VDD, 2 SDA, 3 GND, 4 SCL, so three wires cross. Keep it away from warm parts."
   >
     <template #intro>
       Aosong's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over the CH341 dongle; beside an SHT20, two makers' answers to the same air.
