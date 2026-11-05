@@ -7,6 +7,8 @@ i2c.ninja shows I2C devices live in the browser: a CH341 USB-to-I2C dongle reach
 
 It's made for teaching and tinkering: **STEM lessons** where the physics happens on the desk, **digital experiments** with real data from real sensors, and a quick **smoke test** for a module before it goes into a project. Schools, universities and other educational institutions may use it freely (see the license below).
 
+Questions, ideas, a sensor you'd like to see here, or what you built with it: the [Discussions](https://github.com/aguegu/i2c.ninja/discussions) on GitHub are the forum. Bugs go to the [issues](https://github.com/aguegu/i2c.ninja/issues).
+
 There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it.
 
 Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license: free for noncommercial use, schools and universities included; for commercial use, ask on GitHub. atiic stays MIT.

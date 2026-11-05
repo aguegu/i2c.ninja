@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import { useTheme } from './lib/theme.js';
-import { DEVICE_LINKS, LEARN_LINKS, ATIIC } from './lib/nav.js';
+import { DEVICE_LINKS, LEARN_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
 
 const { dark, toggle } = useTheme();
@@ -54,6 +54,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         <RouterLink v-for="l in LEARN_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
         <RouterLink to="/get-started" :class="mobileLink">Set up the dongle</RouterLink>
+        <a :href="DISCUSSIONS" :class="mobileLink">Discussions <span class="text-xs text-slate-400">questions, ideas, what you built</span></a>
         <a :href="ATIIC" :class="mobileLink">atiic on GitHub <span class="text-xs text-slate-400">the drivers</span></a>
       </nav>
     </header>

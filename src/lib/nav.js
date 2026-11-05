@@ -6,6 +6,7 @@ import { IMU_STEPS } from '../views/learn/imuSteps.js';
 
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';
+export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
 
 export const DEVICE_LINKS = DEVICES.filter((d) => d.to !== '/learn/imu').map((d) => ({ to: d.to, label: d.name, note: d.kind }));
 export const LEARN_LINKS = [
@@ -18,6 +19,7 @@ export const START_LINKS = [
   { to: '/about', label: 'About' },
 ];
 export const ELSEWHERE_LINKS = [
+  { href: DISCUSSIONS, label: 'Discussions', note: 'questions, ideas, what you built' },
   { href: ATIIC, label: 'atiic', note: 'the drivers' },
   { href: REPO, label: 'i2c.ninja on GitHub', note: 'the source' },
 ];
