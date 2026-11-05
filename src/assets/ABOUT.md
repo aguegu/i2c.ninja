@@ -3,7 +3,7 @@ Author: Weihong Guan [Github](https://github.com/aguegu/) [X(Twitter)](https://x
 About i2c.ninja
 ---
 
-i2c.ninja shows I2C devices live in the browser: a CH341 USB-to-I2C dongle reached over [WebUSB](https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API), the device drivers from [atiic](https://github.com/aguegu/atiic), each tested on a real device before its page goes up. It needs a Chromium browser ([WebUSB support](https://caniuse.com/webusb)); the [setup](/setup) says what the dongle and your computer need.
+i2c.ninja shows I2C devices live in the browser: a CH341 USB-to-I2C dongle reached over [WebUSB](https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API), the device drivers from [atiic](https://github.com/aguegu/atiic), each tested on a real device before its page goes up. It needs a Chromium browser ([WebUSB support](https://caniuse.com/webusb)); the [setup](/get-started) says what the dongle and your computer need.
 
 There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it.
 

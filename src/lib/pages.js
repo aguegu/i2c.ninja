@@ -31,8 +31,8 @@ export const PAGES = [
     description: `Plug an I2C sensor into a CH341 USB dongle and watch it ${HOW} IMUs, a compass, a gyro, distance, pulse, humidity, power: live charts and how each one measures.`,
   },
   {
-    path: '/setup',
-    title: 'Set up the CH341 USB to I2C dongle',
+    path: '/get-started',
+    title: 'Get started: set up the CH341 USB to I2C dongle',
     description: 'The CH341 dongle in I2C mode: the jumpers, the browser (Chrome, Edge, Firefox) and what Linux, Windows, macOS and Android need for WebUSB.',
   },
   ...DEVICES.filter((d) => d.to !== '/learn/imu').map((d) => ({

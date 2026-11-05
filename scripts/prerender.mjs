@@ -50,6 +50,11 @@ function write(file, html) {
 const fileOf = (path) => (path === '/' ? 'index.html' : `${path.slice(1)}.html`);
 for (const page of PAGES) write(fileOf(page.path), render(page));
 for (const [alias, path] of Object.entries(ALIASES)) write(fileOf(alias), render(PAGES.find((p) => p.path === path)));
+// old addresses: a page that forwards (and names the new one canonical)
+const MOVED = { '/setup': '/get-started' };
+for (const [from, to] of Object.entries(MOVED)) {
+  write(fileOf(from), `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Moved | ${SITE}</title><link rel="canonical" href="${ORIGIN}${to}"><meta http-equiv="refresh" content="0; url=${to}"><meta name="robots" content="noindex"></head><body><a href="${to}">${ORIGIN}${to}</a></body></html>\n`);
+}
 write('404.html', render({ path: '/', title: 'Not found', description: 'No page here.' }, { robots: 'noindex' })
   .replace(/<title>[^<]*<\/title>/, `<title>Not found | ${SITE}</title>`)
   .replace(/\s*<link rel="canonical" href="[^"]*">/, '')
@@ -62,4 +67,4 @@ ${PAGES.map((p) => `  <url><loc>${ORIGIN}${p.path}</loc><lastmod>${today}</lastm
 </urlset>
 `);
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-console.log(`prerender: ${PAGES.length} pages, ${Object.keys(ALIASES).length} aliases, 404.html, sitemap.xml, robots.txt`);
+console.log(`prerender: ${PAGES.length} pages, ${Object.keys(ALIASES).length} aliases, ${Object.keys(MOVED).length} moved, 404.html, sitemap.xml, robots.txt`);

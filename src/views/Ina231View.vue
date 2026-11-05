@@ -57,7 +57,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <h1 class="text-2xl font-bold">INA231</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over the CH341 dongle.
-        First time here? <RouterLink to="/setup" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
+        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 

@@ -7,7 +7,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomeView },
-    { path: '/setup', component: () => import('./views/SetupView.vue') },
+    { path: '/get-started', component: () => import('./views/SetupView.vue') },
+    { path: '/setup', redirect: '/get-started' }, // its address before 1.0.27
     { path: '/mpu6050', alias: '/mpu6500', component: () => import('./views/Mpu6050View.vue') },
     { path: '/ina231', component: () => import('./views/Ina231View.vue') },
     { path: '/sht20', component: () => import('./views/Sht20View.vue') },

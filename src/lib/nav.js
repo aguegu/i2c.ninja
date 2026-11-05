@@ -14,7 +14,7 @@ export const LEARN_LINKS = [
 ];
 export const START_LINKS = [
   { to: '/', label: 'Home' },
-  { to: '/setup', label: 'Set up the dongle' },
+  { to: '/get-started', label: 'Set up the dongle' },
   { to: '/about', label: 'About' },
 ];
 export const ELSEWHERE_LINKS = [

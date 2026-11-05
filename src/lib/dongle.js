@@ -45,8 +45,8 @@ export async function openDongle(sclHz) {
 }
 
 const PERMISSION_HINT = {
-  linux: 'Linux keeps USB devices to root unless a udev rule gives the dongle to you (Setup, step 3); then unplug and plug the dongle back in.',
-  windows: 'Windows lets the browser open only devices on the WinUSB driver: bind the dongle to WinUSB with Zadig (Setup, step 3), then unplug and plug it back in.',
+  linux: 'Linux keeps USB devices to root unless a udev rule gives the dongle to you (Get started, step 3); then unplug and plug the dongle back in.',
+  windows: 'Windows lets the browser open only devices on the WinUSB driver: bind the dongle to WinUSB with Zadig (Get started, step 3), then unplug and plug it back in.',
 };
 
 // { title, detail } for a DongleError (or anything thrown talking to it)
@@ -71,7 +71,7 @@ export function explain(e, platform) {
     return {
       title: 'The dongle is busy',
       detail: platform === 'linux'
-        ? 'Most likely the kernel\'s spi-ch341 driver holds it: release it (Setup, step 3, after each plug), or block the driver. Otherwise another tab or program has it open.'
+        ? 'Most likely the kernel\'s spi-ch341 driver holds it: release it (Get started, step 3, after each plug), or block the driver. Otherwise another tab or program has it open.'
         : 'Another tab or program has it open: close it, or unplug and plug the dongle back in.',
     };
   }

@@ -51,7 +51,7 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
         A CH341 dongle with its jumpers on I2C and 3V3, four wires to the
         device, a Chromium browser that may open it.
       </p>
-      <RouterLink to="/setup" class="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800">
+      <RouterLink to="/get-started" class="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800">
         Set it up
       </RouterLink>
     </section>

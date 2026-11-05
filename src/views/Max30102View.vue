@@ -24,7 +24,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">MAX30102</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         A pulse oximeter and heart-rate sensor, the kind in a smartwatch or a fingertip clip: a red and an infrared LED shine into the skin, a photodiode reads the light that comes back, and each heartbeat shows in it. Live over the CH341 dongle.
-        First time here? <RouterLink to="/setup" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
+        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 

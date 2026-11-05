@@ -30,7 +30,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <h1 class="mt-2 text-2xl font-bold">Setup</h1>
+    <h1 class="mt-2 text-2xl font-bold">Get started</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       What a CH341 dongle needs before this site can use it: a browser with
       WebUSB, the dongle's jumpers, once per computer a permission, then a
