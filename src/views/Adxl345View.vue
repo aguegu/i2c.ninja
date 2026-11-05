@@ -7,7 +7,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import BubbleLevel from '../components/BubbleLevel.vue';
 import GgScatter from '../components/GgScatter.vue';
-import GravityBoard from '../components/GravityBoard.vue';
+import GravityViews from '../components/GravityViews.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { rollOf, pitchOf } from '../lib/tilt.js';
 import { useAdxl345 } from '../lib/useAdxl345.js';
@@ -101,15 +101,11 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <section :class="card">
-      <h2 class="mb-2 font-semibold">What the chip feels, in 3D</h2>
-      <div class="grid items-center gap-4 md:grid-cols-[1fr_1fr]">
-        <GravityBoard :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
-        <div class="leading-relaxed">
-          <p class="mb-2">The board stays still on screen; the arrow is the reading, in the board's own axes (its nose is x, as printed).</p>
-          <p class="mb-2">At rest it points up, away from the floor, 1 g long: not gravity's pull but the springs holding the mass up against it. Tilt the real board and the arrow leans the other way on the screen, still pointing at the ceiling.</p>
-          <p>Shake it and the arrow swings and stretches; drop it onto a cushion and, for that moment, it shrinks toward nothing. Longer than 1.6 g it's drawn dashed, cut short.</p>
-        </div>
-      </div>
+      <h2 class="mb-2 font-semibold">What the chip feels, three ways</h2>
+      <GravityViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
+      <p class="mt-3 leading-relaxed">
+        The reading as an arrow, seen from three sides like an engineering drawing; the board (its outline) stays still, in its own axes as printed. At rest the arrow is 1 g long, pointing up, away from the floor: not gravity's pull but the springs holding the mass up against it. Lying flat it stands straight up in the two side views and is a dot from above; tilt the real board and it leans in the views that see the tilt, still pointing at the ceiling. Shake it and it swings and stretches (dashed past 1.55 g); drop it onto a cushion and it shrinks toward the centre.
+      </p>
     </section>
 
     <section :class="card">
