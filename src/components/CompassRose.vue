@@ -2,7 +2,7 @@
 // A compass rose as a phone shows one: the board's nose fixed at the top,
 // the rose turned so its N points at magnetic north; the board's x (the
 // nose) and y (its left) marked on the rim, z (out of the board, toward
-// you: seen from above) at their corner. heading: degrees
+// you: seen from above) at the bottom right. heading: degrees
 // clockwise from magnetic north to the nose (null: none yet). A button
 // takes it full screen, the heading written large there.
 import { ref, computed } from 'vue';
@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const R = 100;
-const LABEL_ROOM = 36; // above the rose for the nose's x, left of it for y
+const LABEL_ROOM = 36; // round the rose for the axis marks: x above, y left, z bottom right
 const RING = 86;
 const MARK = RING + 16; // the axis marks' inner end: just outside the rim
 const ARROW = 12; // their length
@@ -31,7 +31,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex flex-col items-center" :class="full && 'h-full! w-full! justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <svg :viewBox="`${-R - LABEL_ROOM} ${-R - LABEL_ROOM} ${2 * R + LABEL_ROOM} ${2 * R + LABEL_ROOM}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
+    <svg :viewBox="`${-R - LABEL_ROOM} ${-R - LABEL_ROOM} ${2 * (R + LABEL_ROOM)} ${2 * (R + LABEL_ROOM)}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
       <circle :r="RING + 10" fill="#f8fafc" stroke="#334155" stroke-width="4" />
       <g :transform="turn">
         <line v-for="d in TICKS" :key="d" x1="0" :y1="-RING" x2="0" :y2="d % 30 ? -RING + 6 : -RING + 11" :transform="`rotate(${d})`" stroke="#475569" :stroke-width="d % 30 ? 1 : 2" />
@@ -46,12 +46,12 @@ const { full, toggle } = useFullscreen(box);
       <!-- the board's y: fixed, left of the rose -->
       <path :d="`M ${-MARK - ARROW} 0 L ${-MARK} -7 L ${-MARK} 7 Z`" fill="#f59e0b" stroke="#b45309" />
       <text :x="-MARK - LABEL" y="5" text-anchor="end" font-size="14" font-weight="bold" fill="#d97706">y</text>
-      <!-- the board's z: out of it, toward you (seen from above, face up): level with x, in line with y -->
-      <g :transform="`translate(${-MARK - ARROW / 2} ${-MARK - ARROW / 2})`">
+      <!-- the board's z: out of it, toward you (seen from above, face up): at the bottom right, as far out as x and y -->
+      <g :transform="`translate(${MARK + ARROW / 2} ${MARK + ARROW / 2})`">
         <circle r="7" fill="#f59e0b" stroke="#b45309" />
         <circle r="2.2" fill="#b45309" />
       </g>
-      <text :x="-MARK - LABEL" :y="-MARK - LABEL" text-anchor="end" font-size="14" font-weight="bold" fill="#d97706">z</text>
+      <text :x="MARK + LABEL" :y="MARK + LABEL + 10" font-size="14" font-weight="bold" fill="#d97706">z</text>
     </svg>
     <p :class="full ? 'font-mono text-3xl tabular-nums' : 'mt-1 font-mono text-lg tabular-nums'">{{ heading === null ? '—' : `${heading.toFixed(0)}° ${name}` }}</p>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
