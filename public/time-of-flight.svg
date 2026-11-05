@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="640" height="380" font-family="Helvetica, Arial, sans-serif">
-  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.5 } }</style>
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>Time of flight: the sensor sends a pulse of light to a target and times its echo; the distance is the speed of light times that time, halved</title>
   <defs>
     <marker id="go" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#c62828"/></marker>

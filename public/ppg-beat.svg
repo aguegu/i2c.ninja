@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 330" width="640" height="330" font-family="Helvetica, Arial, sans-serif">
-  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.5 } }</style>
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>An artery widens as each heartbeat pushes blood through it; below, in time with it, the light the sensor reads falls (drawn flipped, as a peak): the rise of the beat, a small notch, the slow fall to the next</title>
   <rect class="bg" width="640" height="330" fill="#fff"/>
   <text x="50" y="26" font-size="13" font-weight="bold" fill="#333">an artery, as beats pass</text>

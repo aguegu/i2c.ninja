@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 450" width="860" height="450" font-family="Helvetica, Arial, sans-serif">
-  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.5 } }</style>
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>A CH341T dongle in I2C mode at 3.3V wired to a VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA</title>
   <defs>
     <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
