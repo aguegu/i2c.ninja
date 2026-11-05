@@ -3,15 +3,31 @@
 import { DEVICES, GUIDES } from '../lib/devices.js';
 
 const hasWebUsb = 'usb' in navigator;
+// what it's for
+const USES = [
+  { title: 'STEM lessons', text: 'See the physics happen: gravity on a spring-held mass, the Coriolis push in a gyro, Earth\'s field dipping into the ground, a heartbeat in a fingertip. Each page explains how its sensor measures.' },
+  { title: 'Digital experiments', text: 'Measure, compare and question with real data from real sensors: tilt, turn, heat, humidity, distance, light through a finger, current and power. Charts live, full screen for the class.' },
+  { title: 'Electronics smoke test', text: 'Got a module? Plug it in and see it answer: found by its ID, its self test run where it has one, its readings sane. Before it goes into a project, or back to the seller.' },
+];
 const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 </script>
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-6 p-4">
-    <p class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">
-      I2C devices live in the browser: a CH341 USB-to-I2C dongle over WebUSB,
-      the device drivers from atiic, their readings charted and explained.
-    </p>
+    <div class="mt-2">
+      <h1 class="text-2xl font-bold sm:text-3xl">Sensors, live and explained: for the classroom and the bench</h1>
+      <p class="mt-2 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+        Plug a sensor into a CH341 USB dongle and watch it in your browser: its readings charted live, and how it measures explained, with drawings.
+        Nothing to install, no code to write.
+      </p>
+    </div>
+
+    <section class="grid gap-4 sm:grid-cols-3">
+      <div v-for="u in USES" :key="u.title" class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
+        <h2 class="font-semibold">{{ u.title }}</h2>
+        <p class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{{ u.text }}</p>
+      </div>
+    </section>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB: the device pages will need Chrome, Edge or

@@ -37,7 +37,7 @@ function render(page, { robots } = {}) {
     `<meta property="og:url" content="${url}">`,
     `<meta property="og:image" content="${IMAGE}">`,
     '<meta name="twitter:card" content="summary">',
-    page.path === '/' && `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description })}</script>`,
+    page.path === '/' && `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, CH341, electronics, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } })}</script>`,
   ].filter(Boolean).map((t) => `    ${t}\n`).join('');
   return once(html, /<\/head>/, `${tags}  </head>`);
 }

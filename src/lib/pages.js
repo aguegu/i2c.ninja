@@ -27,8 +27,8 @@ const deviceTitle = (d) => `${WHAT[d.to] ?? d.name}, live in your browser`;
 export const PAGES = [
   {
     path: '/',
-    title: 'I2C sensors live in your browser, over a USB dongle',
-    description: `Plug an I2C sensor into a CH341 USB dongle and watch it ${HOW} IMUs, a compass, a gyro, distance, pulse, humidity, power: live charts and how each one measures.`,
+    title: 'Sensors live and explained, for STEM lessons and the bench',
+    description: `STEM education with real sensors: plug one into a CH341 USB dongle and watch it ${HOW} Live charts and how each sensor measures, for lessons, digital experiments and smoke-testing modules: IMUs, a compass, a gyro, distance, pulse, humidity, power.`,
   },
   {
     path: '/get-started',
