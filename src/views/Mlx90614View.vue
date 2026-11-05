@@ -30,7 +30,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img src="/setup-mlx90614.svg" alt="A CH341T dongle wired to a blue MLX90614 module with a black tube over its sensor: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA, all crossing" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
+      <img src="/setup-mlx90614.svg" alt="A CH341T dongle wired to a blue MLX90614 module with a black tube over its sensor: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA, all crossing" class="mx-auto w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The blue board with the sensor under a black tube: its VIN, GND, SCL, SDA run opposite the dongle's, so the four wires cross. Point the tube at what to measure.
       </figcaption>

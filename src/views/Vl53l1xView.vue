@@ -32,7 +32,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <img src="/setup-vl53l1x.svg" alt="A CH341T dongle wired to a purple VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; GPIO1 and XSHUT free" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
+      <img src="/setup-vl53l1x.svg" alt="A CH341T dongle wired to a purple VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; GPIO1 and XSHUT free" class="mx-auto w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The common purple board ("VL53L0/1XV2"): four wires from its VIN, GND, SCL, SDA; GPIO1 and XSHUT stay free. Its window faces away from the pins.
       </figcaption>

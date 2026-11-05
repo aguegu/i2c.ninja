@@ -53,7 +53,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <b>green on 3V3</b> (VCC and the bus at 3.3V). Then four wires to the
           device: SDA, SCL, GND, VCC.
         </p>
-        <img src="/setup.svg" alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board" class="w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
+        <img src="/setup.svg" alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board" class="mx-auto w-full rounded-lg bg-white lg:w-3/5 dark:bg-transparent">
       </div>
     </section>
 
