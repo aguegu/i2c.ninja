@@ -1,5 +1,16 @@
 # Releases
 
+## 1.0.26
+
+- The ITG-3200 page: x, y, z rates and its temperature live, Zero (its
+  bias, held still), the gyro ball, turned so far (the rates added up,
+  three flat views, the drift, why it can't feel the Earth turn), the
+  chart, how it measures (a vibrating mass, the Coriolis push drawn, a
+  capacitive pickoff), its wiring (the blue ITG-3200 module; VIO tied to
+  VDD). Woken before it's asked for its ID (asleep it reads 0).
+- The gyro ball: each ring's positive way marked, a spin arrow while
+  turning, its axes in the charts' colours.
+
 ## 1.0.25
 
 - The HMC5883L page: x, y, z and |B| live, the field's dip, a compass rose
