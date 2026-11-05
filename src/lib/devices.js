@@ -58,6 +58,14 @@ export const DEVICES = [
     measures: 'The temperature of what it points at, without touching it, and its own: a thermometer gun.',
     bus: 'I2C 0x5A',
   },
+  {
+    to: '/adxl345',
+    name: 'ADXL345',
+    maker: 'Analog Devices',
+    kind: 'accelerometer',
+    measures: 'Acceleration on three axes, so gravity and tilt at rest; a self test that pushes its own mass.',
+    bus: 'I2C 0x53',
+  },
 ];
 
 // the other cards: learning paths and the bench
