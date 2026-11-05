@@ -4,6 +4,9 @@
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import GyroBall from '../components/GyroBall.vue';
+import Board3D from '../components/Board3D.vue';
+import TurnViews from '../components/TurnViews.vue';
+import SpinGauge from '../components/SpinGauge.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useItg3200 } from '../lib/useItg3200.js';
@@ -90,16 +93,36 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <h2 class="text-lg font-semibold">Turned so far</h2>
         <button class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="gyro.state !== 'running'" @click="gyro.resetAngles">Reset</button>
       </div>
-      <div class="mt-3 grid grid-cols-3 gap-4">
-        <div v-for="k in AXES" :key="k">
-          <p class="text-sm text-slate-500 dark:text-slate-400">about {{ k }}</p>
-          <p class="font-mono text-3xl tabular-nums">{{ fmt(gyro.angles[k], 0) }}<span class="text-base">°</span></p>
-        </div>
+      <div class="mt-3">
+        <TurnViews :angles="gyro.angles" />
       </div>
       <p class="mt-3 leading-relaxed">
-        A gyro tells how fast, not where: add up each reading times the time since the last, and you get how far it has turned. Press Reset, turn the board a quarter turn about z and back, and watch. Then leave it still: the angles creep, because every leftover bit of bias is added up too, second after second. That drift is why a gyro alone can't keep its heading, and why it's paired with an accelerometer (for which way is down) and a compass (for north).
+        A gyro tells how fast, not where: add up each reading times the time since the last, and you get how far it has turned, here about each axis on its own, drawn from three sides. Press Reset, turn the board a quarter turn about z and back, and watch. (Each axis added up alone is right for one turn at a time; mix turns and only the 3D view below keeps it right.) Then leave it still: the angles creep, because every leftover bit of bias is added up too, second after second. That drift is why a gyro alone can't keep its heading, and why it's paired with an accelerometer (for which way is down) and a compass (for north).
       </p>
     </section>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <section :class="card">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h2 class="text-lg font-semibold">It follows you</h2>
+          <button class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="gyro.state !== 'running'" @click="gyro.resetAngles">Reset</button>
+        </div>
+        <div class="flex justify-center"><Board3D :q="gyro.q" /></div>
+        <p class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+          The rates added up into one whole turn (a quaternion, as in <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>), the board drawn turned by it. Hold the real board as on screen, press Reset, and turn it any way: the drawing follows. Put it down and wait: slowly the two part ways, the drift again.
+        </p>
+      </section>
+      <section :class="card">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h2 class="text-lg font-semibold">How fast can you spin it?</h2>
+          <button class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="gyro.state !== 'running'" @click="gyro.resetPeak">Reset peak</button>
+        </div>
+        <SpinGauge :spin="gyro.spin" :peak="gyro.peak" />
+        <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+          The turning rate's size, whichever way it turns, in revolutions a minute (°/s ÷ 6). Lay it flat and give it a spin, wires permitting: its full scale, 2000 °/s, is 333 rpm; past it the reading clips.
+        </p>
+      </section>
+    </div>
 
     <section :class="card">
       <LiveChart title="Turning rate" unit="°/s" :series="SERIES" :values="rates" :source="gyro.source" :window-ms="WINDOW_MS" :floor="FLOOR_DPS" :digits="1" />

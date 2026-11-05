@@ -22,3 +22,13 @@ export function fromAxisAngle(axis, angle) {
   const h = (angle / DEG) / 2, s = Math.sin(h);
   return [Math.cos(h), axis[0] * s, axis[1] * s, axis[2] * s];
 }
+
+// q turned on by a rate [gx, gy, gz] (radians a second, about the board's own
+// axes) for dt seconds: q + q * (0, w) dt / 2, normalized (as the Mahony
+// filter steps it, step 4)
+export function turnBy([w, x, y, z], [gx, gy, gz], dt) {
+  const h = dt / 2;
+  const q = [w - h * (x * gx + y * gy + z * gz), x + h * (w * gx + y * gz - z * gy), y + h * (w * gy - x * gz + z * gx), z + h * (w * gz + x * gy - y * gx)];
+  const n = Math.hypot(...q);
+  return q.map((c) => c / n);
+}
