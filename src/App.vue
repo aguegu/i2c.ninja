@@ -8,6 +8,7 @@ import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import { useTheme } from './lib/theme.js';
 import { DEVICE_LINKS, LEARN_LINKS } from './lib/nav.js';
+import { version } from '../package.json';
 
 const { dark, toggle } = useTheme();
 const mobile = ref(false);
@@ -21,7 +22,10 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
   <div class="flex min-h-screen flex-col bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100">
     <header class="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
       <div class="mx-auto flex h-14 max-w-5xl items-center gap-5 px-4">
-        <RouterLink to="/" class="text-lg font-bold">i2c.ninja</RouterLink>
+        <div class="flex items-center gap-2">
+          <RouterLink to="/" class="text-lg font-bold">i2c.ninja</RouterLink>
+          <RouterLink to="/about" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}`">{{ version }}</RouterLink>
+        </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
           <NavMenu label="Devices" :links="DEVICE_LINKS" wide />
           <NavMenu label="Learn" :links="LEARN_LINKS" />
