@@ -9,6 +9,18 @@ There is no backend: the site runs entirely in your browser, and nothing about y
 
 Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license: free for noncommercial use, schools and universities included; for commercial use, ask on GitHub. atiic stays MIT.
 
+Commercial
+---
+
+Commercial opportunities are welcome:
+
+- **Vendors**: links on a device's page to where to buy that sensor, the dongle or a kit. Links from vendors are marked as such.
+- **Your sensor here**: a page for your module, once its driver has run on a real one on the bench.
+- **Kits and teaching**: dongle-and-sensor kits around these pages, for workshops, schools and labs.
+- **Commercial use** of i2c.ninja's source, under a license of its own.
+
+Write to [support@meshmass.com](mailto:support@meshmass.com), or see [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc).
+
 Legal disclaimer
 ---
 
