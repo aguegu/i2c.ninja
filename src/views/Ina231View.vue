@@ -86,10 +86,10 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <LiveChart title="Current" unit="mA" :series="CURRENT" :values="r ? [r.current * 1000] : []" :source="ina.currentSource" :window-ms="WINDOW_MS" :floor="CURRENT_SPAN_MA" :digits="1" fit />
     </section>
     <section :class="card">
-      <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="POWER_SPAN_MW" :digits="1" fit />
+      <LiveChart title="Bus voltage" unit="V" :series="BUS" :values="r ? [r.bus] : []" :source="ina.busSource" :window-ms="WINDOW_MS" :floor="BUS_SPAN_V" :digits="3" fit />
     </section>
     <section :class="card">
-      <LiveChart title="Bus voltage" unit="V" :series="BUS" :values="r ? [r.bus] : []" :source="ina.busSource" :window-ms="WINDOW_MS" :floor="BUS_SPAN_V" :digits="3" fit />
+      <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="POWER_SPAN_MW" :digits="1" fit />
     </section>
 
     <section :class="[card, 'leading-relaxed']">
