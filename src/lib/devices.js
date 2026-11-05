@@ -26,6 +26,14 @@ export const DEVICES = [
     measures: 'Relative humidity and temperature, and from them the dew point: when a cold glass starts to sweat.',
     bus: 'I2C 0x40',
   },
+  {
+    to: '/aht21',
+    name: 'AHT21B',
+    maker: 'Aosong',
+    kind: 'Humidity',
+    measures: 'Relative humidity and temperature, and the dew point: another maker\'s answer to the same air.',
+    bus: 'I2C 0x38',
+  },
 ];
 
 // the other cards: learning paths and the bench
