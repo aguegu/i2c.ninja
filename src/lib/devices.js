@@ -34,6 +34,14 @@ export const DEVICES = [
     measures: 'Relative humidity and temperature, and the dew point: another maker\'s answer to the same air.',
     bus: 'I2C 0x38',
   },
+  {
+    to: '/max30102',
+    name: 'MAX30102',
+    maker: 'Maxim (Analog Devices)',
+    kind: 'Pulse',
+    measures: 'Red and infrared light through a fingertip: the heartbeat as a live trace, and how oximeters see oxygen.',
+    bus: 'I2C 0x57',
+  },
 ];
 
 // the other cards: learning paths and the bench
