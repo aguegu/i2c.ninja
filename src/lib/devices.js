@@ -74,6 +74,14 @@ export const DEVICES = [
     measures: 'Earth\'s magnetic field on three axes, so a compass; calibrated against the board\'s own field.',
     bus: 'I2C 0x1E',
   },
+  {
+    to: '/itg3200',
+    name: 'ITG-3200',
+    maker: 'InvenSense',
+    kind: 'gyroscope',
+    measures: 'How fast it turns about three axes, the angle that adds up to, and how a gyro drifts.',
+    bus: 'I2C 0x68',
+  },
 ];
 
 // the other cards: learning paths and the bench
