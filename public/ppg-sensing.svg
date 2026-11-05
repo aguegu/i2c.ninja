@@ -10,12 +10,12 @@
   <!-- the fingertip -->
   <path d="M40 150 C 40 70, 120 40, 260 40 L 600 40 L 600 200 L 260 200 C 150 200, 40 215, 40 150 z" fill="url(#skin)" stroke="#c98d6c" stroke-width="2"/>
   <path d="M520 60 C 540 90, 540 150, 520 180" fill="none" stroke="#d9a080" stroke-width="2"/>
-  <!-- the nail on the top of the tip: its plate, the half-moon by the cuticle, its paler free edge -->
-  <path d="M52 112 C 62 70, 112 46, 206 42 C 222 46, 226 70, 210 76 C 142 76, 100 90, 76 122 z" fill="#f4d3c6" stroke="#cf9c84" stroke-width="1.5"/>
-  <path d="M206 44 C 196 52, 194 66, 208 75 C 220 70, 220 50, 206 44 z" fill="#fbe9e2"/>
-  <path d="M52 112 C 55 98, 60 88, 68 78 L 80 88 C 72 96, 66 106, 62 118 z" fill="#fdf6f2" stroke="#cf9c84" stroke-width="1"/>
-  <path d="M62 96 C 66 88, 70 82, 76 76 L 86 84 C 80 89, 76 94, 72 100 z" fill="#fbf1ec" stroke="#d6a48d" stroke-width="1"/>
-  <path d="M198 43 C 204 48, 204 56, 198 60" fill="none" stroke="#c98d6c" stroke-width="1.5"/>
+  <!-- the nail on the top of the tip: its plate, the half-moon by the cuticle, its free edge, a shine -->
+  <path d="M52 112 C 62 70, 112 46, 206 42 C 222 46, 226 70, 210 76 C 142 76, 100 90, 76 122 z" fill="#efb3a6" stroke="#a8604b" stroke-width="2"/>
+  <path d="M206 44 C 194 52, 192 66, 208 75 C 220 70, 220 50, 206 44 z" fill="#fbe3dc" stroke="#a8604b" stroke-width="1"/>
+  <path d="M52 112 C 55 98, 60 88, 68 78 L 82 88 C 74 96, 68 106, 64 118 z" fill="#fff7f3" stroke="#a8604b" stroke-width="1.5"/>
+  <path d="M96 76 C 120 60, 150 54, 186 52" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <text x="130" y="30" text-anchor="middle" font-size="11" fill="#8d4a36">nail</text>
   <!-- blood vessels in it -->
   <path d="M90 170 C 200 150, 320 175, 600 150" fill="none" stroke="#b71c1c" stroke-width="9" stroke-linecap="round" opacity="0.85"/>
   <path d="M110 120 C 220 110, 360 130, 600 100" fill="none" stroke="#1565c0" stroke-width="7" stroke-linecap="round" opacity="0.6"/>
