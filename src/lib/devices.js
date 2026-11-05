@@ -18,6 +18,14 @@ export const DEVICES = [
     measures: 'Voltage, current and power through a shunt resistor, and the energy used: a USB meter of your own.',
     bus: 'I2C 0x40-0x4F',
   },
+  {
+    to: '/sht20',
+    name: 'SHT20',
+    maker: 'Sensirion',
+    kind: 'Humidity',
+    measures: 'Relative humidity and temperature, and from them the dew point: when a cold glass starts to sweat.',
+    bus: 'I2C 0x40',
+  },
 ];
 
 // the other cards: learning paths and the bench
