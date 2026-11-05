@@ -31,6 +31,7 @@ const peakAt = computed(() => [point(props.peak, R - 4), point(props.peak, R + 8
         <line :x1="point(t, R + 6)[0]" :y1="point(t, R + 6)[1]" :x2="point(t, R - 6)[0]" :y2="point(t, R - 6)[1]" stroke="var(--chart-text)" stroke-width="1.5" />
         <text :x="point(t, R - 20)[0]" :y="point(t, R - 20)[1] + 4" text-anchor="middle" font-size="9" fill="var(--chart-text)">{{ t }}</text>
       </g>
+      <text x="0" y="-28" text-anchor="middle" font-size="9" fill="var(--chart-text)">°/s</text>
       <line v-if="peak > 0.5" :x1="peakAt[0][0]" :y1="peakAt[0][1]" :x2="peakAt[1][0]" :y2="peakAt[1][1]" stroke="#e11d48" stroke-width="3" />
       <line x1="0" y1="0" :x2="needle[0]" :y2="needle[1]" stroke="var(--chart-text)" stroke-width="3" stroke-linecap="round" />
       <circle r="5" fill="var(--chart-text)" />
