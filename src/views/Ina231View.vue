@@ -17,7 +17,31 @@ const CURRENT = [{ label: 'current', color: '--series-1' }];
 const POWER = [{ label: 'power', color: '--series-2' }];
 const BUS = [{ label: 'bus', color: '--series-3' }];
 
+// the INA231's limits (datasheet SBOS644D, 6.3 and 6.5): the shunt voltage
+// +/-81.92 mV at 2.5 uV a count; IN+, IN- and Bus 0-28 V (the ADC's scale goes
+// to 40.96 V: never apply more than 28); Vdd 2.7-5.5 V
+const SHUNT_FULL_SCALE_V = 0.08192;
+const SHUNT_V_PER_COUNT = 2.5e-6;
+const COMMON_MODE_MAX_V = 28;
+const REGISTER_MAX = 32767; // the Current register, signed 16 bits
+const POWER_STEPS_PER_CURRENT_STEP = 25;
+
 const ina = reactive(useIna231({ windowMs: WINDOW_MS }));
+// the current it can measure with the shunt chosen: the shunt's voltage or
+// the Current register's span, whichever is smaller
+const range = computed(() => {
+  const r = Number(ina.shunt);
+  const lsb = ina.currentLsb ?? 0.0001; // the driver's default until connected
+  const byShunt = SHUNT_FULL_SCALE_V / r, byRegister = REGISTER_MAX * lsb;
+  const max = Math.min(byShunt, byRegister);
+  return {
+    max, limitedBy: byShunt <= byRegister ? 'shunt' : 'register', byShunt, byRegister,
+    step: lsb, shuntStep: SHUNT_V_PER_COUNT / r, powerStep: POWER_STEPS_PER_CURRENT_STEP * lsb,
+    powerMax: COMMON_MODE_MAX_V * max, heat: max * max * r,
+  };
+});
+const amps = (a) => (a >= 1 ? `${a.toFixed(2)} A` : a >= 0.001 ? `${(a * 1000).toFixed(1)} mA` : `${(a * 1e6).toFixed(0)} µA`);
+const watts = (w) => (w >= 1 ? `${w.toFixed(1)} W` : `${(w * 1000).toFixed(1)} mW`);
 const r = computed(() => ina.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -35,6 +59,13 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
         First time here? <RouterLink to="/setup" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
+
+    <figure :class="card">
+      <img src="/setup-ina231.svg" alt="A CH341T dongle wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="w-full rounded-lg bg-white">
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The common blue INA231 board. Four wires to the dongle as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd.
+      </figcaption>
+    </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
@@ -90,6 +121,23 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     </section>
     <section :class="card">
       <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="POWER_SPAN_MW" :digits="1" fit />
+    </section>
+
+    <section :class="[card, 'leading-relaxed']">
+      <h2 class="mb-2 text-lg font-semibold">What it can measure, with the {{ SHUNTS.find((x) => x.ohms === Number(ina.shunt))?.mark }} shunt</h2>
+      <table class="mb-3 w-full text-sm">
+        <tbody class="[&_td]:py-1 [&_td]:pr-4 [&_td:first-child]:text-slate-500 dark:[&_td:first-child]:text-slate-400">
+          <tr><td>Current</td><td class="font-mono">up to ±{{ amps(range.max) }}</td><td>limited by the {{ range.limitedBy === 'shunt' ? `shunt: ±81.92 mV / ${ina.shunt} Ω` : `Current register: ${REGISTER_MAX} steps of ${amps(range.step)}` }}{{ range.limitedBy === 'shunt' ? ` (the register would go to ±${amps(range.byRegister)})` : ` (the shunt would allow ±${amps(range.byShunt)})` }}</td></tr>
+          <tr><td>Current step</td><td class="font-mono">{{ amps(range.step) }}</td><td>the Current register's (the shunt voltage itself resolves {{ amps(range.shuntStep) }})</td></tr>
+          <tr><td>Voltage</td><td class="font-mono">0 to 28 V</td><td>on IN+, IN− and Bus alike, in 1.25 mV steps: never more (30 V breaks it), never below Gnd</td></tr>
+          <tr><td>Power step</td><td class="font-mono">{{ watts(range.powerStep) }}</td><td>25 current steps a count: the chip's power moves in these jumps</td></tr>
+          <tr><td>Power, at most</td><td class="font-mono">{{ watts(range.powerMax) }}</td><td>28 V at full current</td></tr>
+          <tr><td>The shunt's heat</td><td class="font-mono">{{ watts(range.heat) }}</td><td>at full current (I² × R): what the resistor must take</td></tr>
+        </tbody>
+      </table>
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        The chip itself runs from the dongle's 3.3 V (Vdd 2.7-5.5 V); what it measures has its own supply, up to 28 V, its − joined to Gnd. A bigger current wants a smaller shunt: a R010 reaches ±3.28 A here, limited then by the Current register's steps.
+      </p>
     </section>
 
     <section :class="[card, 'leading-relaxed']">
