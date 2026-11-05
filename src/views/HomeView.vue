@@ -1,6 +1,7 @@
 <script setup>
 // the home page: what this is, a card a device, the guides, the bench
 import { DEVICES, GUIDES } from '../lib/devices.js';
+import HomeCarousel from '../components/HomeCarousel.vue';
 
 const hasWebUsb = 'usb' in navigator;
 // what it's for
@@ -21,6 +22,8 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
         Nothing to install, no code to write.
       </p>
     </div>
+
+    <HomeCarousel />
 
     <section class="grid gap-4 sm:grid-cols-3">
       <div v-for="u in USES" :key="u.title" class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
