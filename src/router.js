@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
 import { IMU_STEPS } from './views/learn/imuSteps.js';
+import { ORIGIN, pageFor, fullTitle } from './lib/pages.js';
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomeView },
@@ -23,3 +24,14 @@ export default createRouter({
   ],
   scrollBehavior: () => ({ top: 0 }),
 });
+
+// each page's title, description and canonical address, as the build writes
+// them into its HTML (lib/pages.js); an alias names its page's own address
+router.afterEach((to) => {
+  const page = pageFor(to.matched[0]?.path ?? to.path);
+  document.title = fullTitle(page);
+  document.querySelector('meta[name="description"]')?.setAttribute('content', page.description);
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', ORIGIN + page.path);
+});
+
+export default router;

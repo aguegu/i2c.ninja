@@ -7,7 +7,7 @@
   "license": "PolyForm-Noncommercial-1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp dist/index.html dist/404.html",
+    "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "lint": "eslint",
     "test": "node --test \"test/*.test.js\""
