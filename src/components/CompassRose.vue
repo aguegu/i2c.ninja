@@ -1,7 +1,8 @@
 <script setup>
 // A compass rose as a phone shows one: the board's nose fixed at the top,
 // the rose turned so its N points at magnetic north; the board's x (the
-// nose) and y (its left) marked on the rim, z (out of the board, toward
+// nose) and y (its left) marked round the rim in the charts' colours
+// (x blue, y orange, z green), z (out of the board, toward
 // you: seen from above) at the bottom right. heading: degrees
 // clockwise from magnetic north to the nose (null: none yet). A button
 // takes it full screen, the heading written large there.
@@ -41,17 +42,17 @@ const { full, toggle } = useFullscreen(box);
       </g>
       <circle r="5" fill="#334155" />
       <!-- the board's x (its nose): fixed, above the rose -->
-      <path :d="`M 0 ${-MARK - ARROW} L -7 ${-MARK} L 7 ${-MARK} Z`" fill="#f59e0b" stroke="#b45309" />
-      <text x="0" :y="-MARK - LABEL" text-anchor="middle" font-size="14" font-weight="bold" fill="#d97706">x</text>
+      <path :d="`M 0 ${-MARK - ARROW} L -7 ${-MARK} L 7 ${-MARK} Z`" fill="var(--series-1)" stroke="var(--series-1)" />
+      <text x="0" :y="-MARK - LABEL" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--series-1)">x</text>
       <!-- the board's y: fixed, left of the rose -->
-      <path :d="`M ${-MARK - ARROW} 0 L ${-MARK} -7 L ${-MARK} 7 Z`" fill="#f59e0b" stroke="#b45309" />
-      <text :x="-MARK - LABEL" y="5" text-anchor="end" font-size="14" font-weight="bold" fill="#d97706">y</text>
+      <path :d="`M ${-MARK - ARROW} 0 L ${-MARK} -7 L ${-MARK} 7 Z`" fill="var(--series-2)" stroke="var(--series-2)" />
+      <text :x="-MARK - LABEL" y="5" text-anchor="end" font-size="14" font-weight="bold" fill="var(--series-2)">y</text>
       <!-- the board's z: out of it, toward you (seen from above, face up): at the bottom right, as far out as x and y -->
       <g :transform="`translate(${MARK + ARROW / 2} ${MARK + ARROW / 2})`">
-        <circle r="7" fill="#f59e0b" stroke="#b45309" />
-        <circle r="2.2" fill="#b45309" />
+        <circle r="7" fill="var(--series-3)" stroke="var(--series-3)" />
+        <circle r="2.2" fill="white" />
       </g>
-      <text :x="MARK + LABEL" :y="MARK + LABEL + 10" font-size="14" font-weight="bold" fill="#d97706">z</text>
+      <text :x="MARK + LABEL" :y="MARK + LABEL + 10" font-size="14" font-weight="bold" fill="var(--series-3)">z</text>
     </svg>
     <p :class="full ? 'font-mono text-3xl tabular-nums' : 'mt-1 font-mono text-lg tabular-nums'">{{ heading === null ? '—' : `${heading.toFixed(0)}° ${name}` }}</p>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
