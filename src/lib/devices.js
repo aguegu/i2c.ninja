@@ -50,6 +50,14 @@ export const DEVICES = [
     measures: 'Distance up to about 4 m by timing light: a laser ruler, live. Wave a hand over it.',
     bus: 'I2C 0x29',
   },
+  {
+    to: '/mlx90614',
+    name: 'MLX90614',
+    maker: 'Melexis',
+    kind: 'IR thermometer',
+    measures: 'The temperature of what it points at, without touching it, and its own: a thermometer gun.',
+    bus: 'I2C 0x5A',
+  },
 ];
 
 // the other cards: learning paths and the bench
