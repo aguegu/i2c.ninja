@@ -78,12 +78,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it sees</h2>
+      <img src="/ppg-sensing.svg" alt="A fingertip over the sensor: the red and infrared LEDs shine into the skin, light scatters through tissue and blood, and what isn't absorbed comes back to the photodiode" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
       <p class="mb-2">
         <b>Light through a fingertip.</b> The LEDs, red at 660 nm and infrared at 880 nm (its datasheet), pulse 100 times a second; the photodiode counts the light that scatters back (18 bits, up to 262,143). Bare, it sees little (a few thousand counts); a fingertip sends most of it back: the second chart jumps.
         Most of that is steady: skin, bone, the blood that stays. On top of it rides a small ripple: each heartbeat pushes a little more blood into the fingertip, which absorbs a little more light.
       </p>
+      <img src="/ppg-beat.svg" alt="An artery widening as each beat passes, and below it in time the heartbeat signal: a fast rise as the beat arrives, a small notch as the heart's valve closes, a slow fall to the next beat" class="mx-auto mb-3 w-full max-w-xl rounded-lg bg-white">
       <p class="mb-2">
-        <b>The heartbeat</b> is that ripple alone: the slow level taken off (a moving average over 1.5 s) and turned upside down, so more blood is a peak up. The rate is the spacing of the last few peaks. Breathe slowly and the level drifts with your breath too.
+        <b>The heartbeat</b> is that ripple alone: the slow level taken off (a moving average over 1.5 s) and turned upside down, so more blood is a peak up: each beat a fast rise, often a small notch as the heart's valve closes, then a slow fall. The rate is the spacing of the last few peaks. Breathe slowly and the level drifts with your breath too.
       </p>
       <p>
         <b>Two colours for oxygen.</b> Blood full of oxygen absorbs less red light and a little more infrared than blood without. A pulse oximeter compares the ripple in the two colours, each over its own level: <span class="font-mono">R = (AC<sub>red</sub> / DC<sub>red</sub>) / (AC<sub>IR</sub> / DC<sub>IR</sub>)</span>. R falls as saturation rises; turning it into a percentage takes a curve calibrated against people's blood, which this page doesn't have, so it shows R and no percentage. Not a medical device.
