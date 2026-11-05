@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.28
+
+- About's title: "About | i2c.ninja" (was "About i2c.ninja | i2c.ninja").
+
 ## 1.0.27
 
 - SEO: every page has its own title, description, canonical address and

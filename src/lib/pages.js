@@ -52,7 +52,7 @@ export const PAGES = [
   })),
   {
     path: '/about',
-    title: 'About i2c.ninja',
+    title: 'About',
     description: 'What i2c.ninja is: I2C sensors visualised in the browser, built on atiic\'s drivers, the CH341 dongle and WebUSB.',
   },
 ];
