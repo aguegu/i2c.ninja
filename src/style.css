@@ -1,9 +1,27 @@
 @import "tailwindcss";
 
-/* light or dark as the device is: Tailwind's dark: follows
-   prefers-color-scheme; the native controls follow color-scheme */
+/* light or dark as the device is, unless the header's switch picked one
+   (data-theme on <html>): Tailwind's dark: and the tokens below follow
+   that; the native controls follow color-scheme */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 :root {
   color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 /* markdown rendered into the page (the About page's) */
@@ -40,11 +58,18 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --series-1: #3987e5;
     --series-2: #d95926;
     --series-3: #199e70;
     --chart-grid: #334155; /* slate-700 */
     --chart-text: #94a3b8; /* slate-400 */
   }
+}
+:root[data-theme="dark"] {
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --chart-grid: #334155;
+  --chart-text: #94a3b8;
 }
