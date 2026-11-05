@@ -8,13 +8,11 @@ import { ref, onBeforeUnmount } from 'vue';
 import { Itg3200 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
 import { makeSeries } from './series.js';
-import { turnBy } from './quaternion.js';
 
 const SCL_HZ = 400000; // its fast mode
 const READ_MS = 10; // 100 reads a second: the angles added up in small steps
 const ZERO_MS = 2000; // held still this long to measure the bias
 const AXES = ['x', 'y', 'z'];
-const RAD = Math.PI / 180;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -29,9 +27,6 @@ export function useItg3200({ windowMs = 10000 } = {}) {
   const zeroing = ref(false);
   const zeroed = ref(false);
   const angles = ref({ x: 0, y: 0, z: 0 }); // deg turned about each axis since the last reset
-  const q = ref([1, 0, 0, 0]); // the whole turn since the last reset, as a quaternion
-  const spin = ref(0); // deg/s, the rate's size, whatever its axis
-  const peak = ref(0); // the largest spin since the last reset
   const series = makeSeries(3, windowMs);
 
   let bus = null;
@@ -52,12 +47,9 @@ export function useItg3200({ windowMs = 10000 } = {}) {
         if (lastT !== null) {
           const dt = (t0 - lastT) / 1000;
           angles.value = Object.fromEntries(AXES.map((k) => [k, angles.value[k] + c[k] * dt]));
-          q.value = turnBy(q.value, [c.x * RAD, c.y * RAD, c.z * RAD], dt);
         }
         lastT = t0;
         latest.value = c;
-        spin.value = Math.hypot(c.x, c.y, c.z);
-        if (spin.value > peak.value) peak.value = spin.value;
         series.push(t0, [c.x, c.y, c.z]);
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));
       }
@@ -121,11 +113,6 @@ export function useItg3200({ windowMs = 10000 } = {}) {
 
   function resetAngles() {
     angles.value = { x: 0, y: 0, z: 0 };
-    q.value = [1, 0, 0, 0];
-  }
-
-  function resetPeak() {
-    peak.value = 0;
   }
 
   async function disconnect() {
@@ -155,5 +142,5 @@ export function useItg3200({ windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, address, latest, temperature, bias, zeroing, zeroed, angles, q, spin, peak, source: series.source, connect, disconnect, zero, resetAngles, resetPeak };
+  return { state, failure, address, latest, temperature, bias, zeroing, zeroed, angles, source: series.source, connect, disconnect, zero, resetAngles };
 }
