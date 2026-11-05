@@ -11,7 +11,7 @@ import { PAGES, ORIGIN, SITE, fullTitle } from '../src/lib/pages.js';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 const ALIASES = { '/mpu6500': '/mpu6050', '/aht21b': '/aht21' }; // the router's aliases: their own files, canonical to the page
-const IMAGE = `${ORIGIN}/android-chrome-512x512.png`;
+const IMAGE = `${ORIGIN}/og-card.png`; // 1200 x 630, from scripts/og-card.svg (rsvg-convert -w 1200 -h 630)
 const template = readFileSync(`${DIST}index.html`, 'utf8');
 
 const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -36,7 +36,10 @@ function render(page, { robots } = {}) {
     `<meta property="og:description" content="${description}">`,
     `<meta property="og:url" content="${url}">`,
     `<meta property="og:image" content="${IMAGE}">`,
-    '<meta name="twitter:card" content="summary">',
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:height" content="630">',
+    '<meta property="og:image:alt" content="i2c.ninja: sensors, live and explained, in your browser over a USB dongle">',
+    '<meta name="twitter:card" content="summary_large_image">',
     page.path === '/' && `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, CH341, electronics, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } })}</script>`,
   ].filter(Boolean).map((t) => `    ${t}\n`).join('');
   return once(html, /<\/head>/, `${tags}  </head>`);
