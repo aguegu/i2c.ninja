@@ -64,7 +64,7 @@ const rings = Array.from({ length: 3 }, (_, k) => Array.from({ length: RING_POIN
 const axes = NAMES.map((n, k) => {
   const end = project(k === 0 ? [1.25, 0, 0] : k === 1 ? [0, 1.25, 0] : [0, 0, 1.25]);
   const label = project(k === 0 ? [1.42, 0, 0] : k === 1 ? [0, 1.42, 0] : [0, 0, 1.38]);
-  return { n, end, label };
+  return { n, end, label, color: COLOR[k] };
 });
 
 const markers = computed(() => props.phases.map((p, k) => onRing(k, p * DEG)));
@@ -105,8 +105,8 @@ const arrow = computed(() => {
       <polygon :points="positives[k].head" :fill="COLOR[k]" />
     </g>
     <g v-for="a in axes" :key="a.n">
-      <line x1="0" y1="0" :x2="a.end[0]" :y2="a.end[1]" stroke="var(--chart-text)" stroke-width="1" stroke-dasharray="2 3" />
-      <text :x="a.label[0]" :y="a.label[1]" fill="var(--chart-text)" font-size="12" text-anchor="middle" dominant-baseline="middle">{{ a.n }}</text>
+      <line x1="0" y1="0" :x2="a.end[0]" :y2="a.end[1]" :stroke="a.color" stroke-width="1.5" stroke-dasharray="2 3" />
+      <text :x="a.label[0]" :y="a.label[1]" :fill="a.color" font-weight="bold" font-size="12" text-anchor="middle" dominant-baseline="middle">{{ a.n }}</text>
     </g>
     <template v-for="(sp, k) in spins" :key="`spin${k}`">
       <g v-if="sp">
