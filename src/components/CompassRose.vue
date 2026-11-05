@@ -12,6 +12,7 @@ const props = defineProps({
 });
 
 const R = 100;
+const LABEL_ROOM = 18; // above the rose: the nose's x
 const RING = 86;
 const CARDINALS = [['N', 0], ['E', 90], ['S', 180], ['W', 270]];
 const NAMES = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -25,7 +26,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex flex-col items-center" :class="full && 'h-full! w-full! justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <svg :viewBox="`${-R} ${-R} ${2 * R} ${2 * R}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
+    <svg :viewBox="`${-R} ${-R - LABEL_ROOM} ${2 * R} ${2 * R + LABEL_ROOM}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
       <circle :r="RING + 10" fill="#f8fafc" stroke="#334155" stroke-width="4" />
       <g :transform="turn">
         <line v-for="d in TICKS" :key="d" x1="0" :y1="-RING" x2="0" :y2="d % 30 ? -RING + 6 : -RING + 11" :transform="`rotate(${d})`" stroke="#475569" :stroke-width="d % 30 ? 1 : 2" />
@@ -36,6 +37,7 @@ const { full, toggle } = useFullscreen(box);
       <circle r="5" fill="#334155" />
       <!-- the board's nose: fixed, at the top -->
       <path :d="`M 0 ${-RING - 9} L -7 ${-RING + 3} L 7 ${-RING + 3} Z`" fill="#f59e0b" stroke="#b45309" />
+      <text x="0" :y="-RING - 13" text-anchor="middle" font-size="14" font-weight="bold" fill="#d97706">x</text>
     </svg>
     <p :class="full ? 'font-mono text-3xl tabular-nums' : 'mt-1 font-mono text-lg tabular-nums'">{{ heading === null ? '—' : `${heading.toFixed(0)}° ${name}` }}</p>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
