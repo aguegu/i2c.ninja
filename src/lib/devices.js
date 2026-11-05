@@ -42,6 +42,14 @@ export const DEVICES = [
     measures: 'Red and infrared light through a fingertip: the heartbeat as a live trace, and how oximeters see oxygen.',
     bus: 'I2C 0x57',
   },
+  {
+    to: '/vl53l1x',
+    name: 'VL53L1X',
+    maker: 'STMicroelectronics',
+    kind: 'Distance',
+    measures: 'Distance up to about 4 m by timing light: a laser ruler, live. Wave a hand over it.',
+    bus: 'I2C 0x29',
+  },
 ];
 
 // the other cards: learning paths and the bench
