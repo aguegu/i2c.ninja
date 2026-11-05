@@ -7,6 +7,11 @@ import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useIna231 } from '../lib/useIna231.js';
 
 const WINDOW_MS = 10000;
+// the charts' least spans (fit: the range follows the data): a change smaller
+// than these doesn't fill the chart
+const CURRENT_SPAN_MA = 2;
+const POWER_SPAN_MW = 10;
+const BUS_SPAN_V = 0.05;
 const SHUNTS = [{ ohms: 0.1, mark: 'R100' }, { ohms: 0.01, mark: 'R010' }, { ohms: 0.002, mark: 'R002' }];
 const CURRENT = [{ label: 'current', color: '--series-1' }];
 const POWER = [{ label: 'power', color: '--series-2' }];
@@ -78,13 +83,13 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     </div>
 
     <section :class="card">
-      <LiveChart title="Current" unit="mA" :series="CURRENT" :values="r ? [r.current * 1000] : []" :source="ina.currentSource" :window-ms="WINDOW_MS" :floor="20" :digits="1" />
+      <LiveChart title="Current" unit="mA" :series="CURRENT" :values="r ? [r.current * 1000] : []" :source="ina.currentSource" :window-ms="WINDOW_MS" :floor="CURRENT_SPAN_MA" :digits="1" fit />
     </section>
     <section :class="card">
-      <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="100" :digits="1" />
+      <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="POWER_SPAN_MW" :digits="1" fit />
     </section>
     <section :class="card">
-      <LiveChart title="Bus voltage" unit="V" :series="BUS" :values="r ? [r.bus] : []" :source="ina.busSource" :window-ms="WINDOW_MS" :floor="6" :digits="3" />
+      <LiveChart title="Bus voltage" unit="V" :series="BUS" :values="r ? [r.bus] : []" :source="ina.busSource" :window-ms="WINDOW_MS" :floor="BUS_SPAN_V" :digits="3" fit />
     </section>
 
     <section :class="[card, 'leading-relaxed']">
