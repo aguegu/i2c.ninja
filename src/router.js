@@ -22,6 +22,7 @@ const router = createRouter({
     { path: '/learn/imu', component: () => import('./views/learn/ImuIndexView.vue') },
     ...IMU_STEPS.filter((s) => s.component).map((s) => ({ path: `/learn/imu/${s.slug}`, component: s.component })),
     { path: '/about', component: () => import('./views/AboutView.vue') },
+    { path: '/:pathMatch(.*)*', component: () => import('./views/NotFoundView.vue') }, // last: an address the site doesn't have
   ],
   scrollBehavior: () => ({ top: 0 }),
 });

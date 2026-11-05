@@ -58,5 +58,6 @@ export const PAGES = [
 ];
 
 const byPath = new Map(PAGES.map((p) => [p.path, p]));
-export const pageFor = (path) => byPath.get(path.replace(/\/+$/, '') || '/') ?? PAGES[0];
+const NOT_FOUND = { path: '/', title: 'Not found', description: 'No page here.' };
+export const pageFor = (path) => byPath.get(path.replace(/\/+$/, '') || '/') ?? NOT_FOUND;
 export const fullTitle = (p) => (p.path === '/' ? `${SITE}: ${p.title}` : `${p.title} | ${SITE}`);
