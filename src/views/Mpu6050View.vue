@@ -1,16 +1,23 @@
 <script setup>
 // The MPU-6050 or MPU-6500 live (WHO_AM_I picks atiic's driver) on the
-// CH341 dongle. What's its own: an accelerometer and a gyro on one chip,
-// sampled together, so fused (Mahony's filter, as Learn the IMU step 4): the
-// board in 3D, steady and quick. Each sensor alone is explained on the
-// ADXL345's and the ITG-3200's pages.
+// CH341 dongle: an accelerometer and a gyro on one chip, sampled together.
+// Three tabs (in the address: #accelerometer, #gyro): both fused (Mahony's
+// filter, as Learn the IMU step 4) on the 3D board; the accelerometer's
+// views and the gyro's, as the ADXL345's and ITG-3200's pages have them,
+// for those with only this board.
 import { reactive, computed, ref, onBeforeUnmount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import LiveChart from '../components/LiveChart.vue';
 import ImuControls from '../components/ImuControls.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import Board3D from '../components/Board3D.vue';
+import VectorViews from '../components/VectorViews.vue';
+import AttitudeViews from '../components/AttitudeViews.vue';
+import GyroBall from '../components/GyroBall.vue';
+import TurnViews from '../components/TurnViews.vue';
 import { useImu } from '../lib/useImu.js';
+import { useTurned } from '../lib/useTurned.js';
 import { Mahony } from '../lib/fusion.js';
 
 const WINDOW_MS = 10000; // the charts' span
@@ -24,6 +31,19 @@ const SERIES = [
 const AXES = ['x', 'y', 'z'];
 
 const imu = reactive(useImu({ windowMs: WINDOW_MS }));
+const turned = reactive(useTurned(imu.onReading));
+
+const TABS = [
+  { key: 'fused', label: 'Both fused', hash: '' },
+  { key: 'accelerometer', label: 'Accelerometer', hash: '#accelerometer' },
+  { key: 'gyro', label: 'Gyro', hash: '#gyro' },
+];
+const route = useRoute();
+const router = useRouter();
+const tab = computed(() => TABS.find((t) => t.hash && t.hash === route.hash)?.key ?? 'fused');
+const pick = (t) => router.replace({ hash: t.hash });
+const tabOn = 'border-emerald-600 text-emerald-700 dark:text-emerald-400';
+const tabOff = 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100';
 
 // both sensors, one filter: each reading turns it, gravity keeps it level
 const mahony = new Mahony();
@@ -45,6 +65,8 @@ function refuse() {
 const a = computed(() => (imu.latest ? { x: imu.latest.accel[0], y: imu.latest.accel[1], z: imu.latest.accel[2] } : null));
 const g = computed(() => (imu.latest ? { x: imu.latest.gyro[0], y: imu.latest.gyro[1], z: imu.latest.gyro[2] } : null));
 const size = computed(() => (a.value ? Math.hypot(a.value.x, a.value.y, a.value.z) : null));
+const rates = computed(() => (g.value ? AXES.map((k) => g.value[k] - turned.bias[k]) : [0, 0, 0]));
+const phases = computed(() => AXES.map((k) => turned.angles[k]));
 const fmt = (v, d = 2) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
@@ -99,7 +121,11 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       </section>
     </div>
 
-    <section :class="card">
+    <div class="flex gap-4 border-b border-slate-200 dark:border-slate-700" role="tablist">
+      <button v-for="t in TABS" :key="t.key" type="button" role="tab" :aria-selected="tab === t.key" class="-mb-px border-b-2 px-1 pb-2 font-medium" :class="tab === t.key ? tabOn : tabOff" @click="pick(t)">{{ t.label }}</button>
+    </div>
+
+    <section v-if="tab === 'fused'" :class="card" role="tabpanel">
       <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
         <h2 class="text-lg font-semibold">Both on one chip: fused</h2>
         <button :class="button" :disabled="imu.state !== 'running'" @click="refuse">Start again</button>
@@ -117,12 +143,49 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
             Hold the real board as on screen and press Start again, then turn it: the drawing follows, quick as the gyro and steady as gravity. Shake it: it barely flinches. Leave it still: roll and pitch stay put. Only yaw, the heading, creeps a little, since nothing here measures north; a compass (the <RouterLink to="/hmc5883l" class="text-emerald-700 underline dark:text-emerald-400">HMC5883L</RouterLink>) would.
           </p>
           <p class="text-sm text-slate-500 dark:text-slate-400">
-            How it works, step by step: <RouterLink to="/learn/imu/fusion" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU, combining the two</RouterLink>.
-            Each sensor alone: <RouterLink to="/adxl345" class="text-emerald-700 underline dark:text-emerald-400">an accelerometer</RouterLink> (the ADXL345), <RouterLink to="/itg3200" class="text-emerald-700 underline dark:text-emerald-400">a gyro</RouterLink> (the ITG-3200).
+            How it works, step by step: <RouterLink to="/learn/imu/fusion" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU, combining the two</RouterLink>. Each sensor on its own: the Accelerometer and Gyro tabs.
           </p>
         </div>
       </div>
     </section>
+
+    <template v-if="tab === 'accelerometer'">
+      <section :class="card" role="tabpanel">
+        <h2 class="mb-2 font-semibold">What the accelerometer feels, three ways</h2>
+        <VectorViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
+        <p class="mt-3 leading-relaxed">
+          The reading as an arrow, from three sides, the board still in its own axes. At rest it is 1 g long and points up, away from the floor: the springs holding its mass up against gravity. Tilt the board and it leans the other way on the screen, still pointing at the ceiling; shake it and it swings and stretches.
+        </p>
+      </section>
+      <section :class="card">
+        <h2 class="mb-2 font-semibold">The board in the room: gravity held still</h2>
+        <AttitudeViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
+        <p class="mt-3 leading-relaxed">
+          Gravity stays put, pointing down, and the board turns as the accelerometer says: pitch from the side, roll from behind. The heading (yaw) it can't see: a turn about the vertical changes nothing in how gravity falls on its axes. That's the gyro's job, in the next tab.
+        </p>
+      </section>
+    </template>
+
+    <div v-if="tab === 'gyro'" class="grid gap-4 md:grid-cols-[auto_1fr]" role="tabpanel">
+      <section :class="[card, 'flex flex-col items-center']">
+        <GyroBall :rates="rates" :phases="phases" />
+        <p class="text-xs text-slate-500 dark:text-slate-400">rings turn as the board does; the arrow: its spin axis</p>
+      </section>
+      <section :class="card">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h2 class="text-lg font-semibold">Turned so far</h2>
+          <button :class="button" :disabled="imu.state !== 'running' || turned.zeroing" @click="turned.zero">{{ turned.zeroing ? 'Hold still…' : 'Zero' }}</button>
+          <button :class="button" :disabled="imu.state !== 'running'" @click="turned.reset">Reset</button>
+          <span v-if="turned.zeroed" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">bias {{ fmt(turned.bias.x) }}, {{ fmt(turned.bias.y) }}, {{ fmt(turned.bias.z) }} °/s</span>
+        </div>
+        <div class="mt-3">
+          <TurnViews :angles="turned.angles" />
+        </div>
+        <p class="mt-3 leading-relaxed">
+          The gyro's rates added up, about each axis on its own. Hold it still and press Zero (two seconds' average, its bias, is taken off), press Reset, then turn it a quarter turn about z and back. Left still, the angles creep: every leftover bit of bias is added up too. That's why the two sensors are fused, in the first tab.
+        </p>
+      </section>
+    </div>
 
     <section :class="card">
       <LiveChart title="Accelerometer" unit="g" :series="SERIES" :values="imu.latest?.accel" :source="imu.accelSource" :window-ms="WINDOW_MS" :floor="ACCEL_FLOOR_G" :digits="3" />
