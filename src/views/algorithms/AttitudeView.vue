@@ -18,7 +18,7 @@ const src = reactive(useSources({ accel: ACCELEROMETERS, gyro: GYROSCOPES }, { w
 const fusion = reactive(useFusion((fn) => src.onReading((t, v) => fn(t, v.accel, v.gyro)), { windowMs: WINDOW_MS }));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
-const COMPLEMENTARY = String.raw`\theta \leftarrow \alpha\,(\theta + \omega\,\Delta t) + (1 - \alpha)\,\theta_{\text{gravity}}, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
+const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\,\Delta t) + (1 - \alpha)\,\varphi_{\text{gravity}}, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
 </script>
 
 <template>
@@ -56,7 +56,7 @@ const COMPLEMENTARY = String.raw`\theta \leftarrow \alpha\,(\theta + \omega\,\De
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">The complementary filter</h2>
       <p class="mb-2">
-        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the angle θ by the gyro's rate ω, then move it a small part of the way toward gravity's angle.
+        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the roll φ by the gyro's rate about x, then move it a small part of the way toward gravity's φ (the pitch θ alike).
       </p>
       <TexMath class="mb-2 block" display :expr="COMPLEMENTARY" />
       <p>
