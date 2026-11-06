@@ -12,6 +12,7 @@ const card = 'flex flex-col gap-1 rounded-xl bg-white p-4 shadow-sm ring-emerald
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">How i2c.ninja and its drivers, <a href="https://github.com/aguegu/atiic" class="text-emerald-700 underline dark:text-emerald-400">atiic</a>, come about: the sensors, the ideas and the questions on the way.</p>
     </div>
     <RouterLink v-for="p in POSTS" :key="p.slug" :to="`/blog/${p.slug}`" :class="card">
+      <img v-if="p.banner" :src="p.banner.src" alt="" class="mb-2 w-full rounded-lg border border-slate-200 dark:border-slate-700">
       <span class="text-xs text-slate-500 dark:text-slate-400">{{ p.date }} · {{ p.version }}</span>
       <span class="text-lg font-semibold">{{ p.title }}</span>
       <span class="leading-relaxed">{{ p.summary }}</span>

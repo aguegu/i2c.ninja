@@ -21,6 +21,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ post.date }} · {{ BYLINE }} · <RouterLink to="/about#releases" :class="link">{{ post.version }}</RouterLink></p>
     </div>
     <p v-else class="mt-2">No such post. <RouterLink to="/blog" :class="link">All posts</RouterLink>.</p>
+    <img v-if="post?.banner" :src="post.banner.src" :alt="post.banner.alt" class="w-full rounded-xl border border-slate-200 shadow-sm dark:border-slate-700">
     <MarkdownArticle v-if="post" :source="source" />
   </main>
 </template>
