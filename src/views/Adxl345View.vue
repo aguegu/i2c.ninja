@@ -11,22 +11,15 @@ import { useAdxl345 } from '../lib/useAdxl345.js';
 const WINDOW_MS = 10000;
 const LSB_PER_G = 256; // full resolution (its datasheet's typical)
 const AXES = ['x', 'y', 'z'];
-// its datasheet (Rev. G): the features list and Table 1 (TA 25 C, VS 2.5 V)
+// its settings, from its datasheet (Rev. G), and the ones this page picks
 const SPECS = [
-  ['Measures', 'acceleration on 3 axes, gravity included'],
-  ['Ranges', '±2, ±4, ±8 or ±16 g'],
-  ['Resolution', '10 bits fixed, or full resolution: 3.9 mg a count (256 counts a g) at every range, 13 bits at ±16 g'],
-  ['Sensitivity', '230 to 282 counts a g (256 typical), full resolution'],
-  ['Offset at 0 g', '±150 mg on x and y, ±250 mg on z'],
-  ['Noise', '0.75 counts rms on x and y, 1.1 on z (100 Hz)'],
-  ['Output data rate', '0.1 to 3200 Hz; bandwidth half of it'],
-  ['Interfaces', 'I2C (0x53, or 0x1D with SDO/ALT ADDRESS high); SPI, 3- or 4-wire'],
-  ['Supply', '2.0 to 3.6 V; I/O from 1.7 V up to the supply'],
-  ['Current', '140 µA at 100 Hz and up; as low as 23 µA'],
-  ['On the chip', 'single and double tap, activity and inactivity, free-fall detection; a 32-level FIFO; a self test'],
-  ['Temperature', '−40 to +85 °C'],
-  ['Shock', 'survives 10,000 g'],
-  ['Package', '3 × 5 × 1 mm LGA'],
+  ['Range', '±2, ±4, ±8 or ±16 g', '±16 g: room for any shake'],
+  ['Resolution', '10 bits, or full resolution: 3.9 mg a count at every range', 'full resolution, 256 counts a g'],
+  ['Data rate', '0.1 to 3200 readings a second', '100 a second'],
+  ['Address', '0x53, or 0x1D with SDO/ALT ADDRESS high', '0x53 or 0x1D, whichever answers'],
+  ['Interface', 'I2C or SPI', 'I2C, 400 kHz'],
+  ['Supply', '2.0 to 3.6 V', '3.3 V from the dongle'],
+  ['Extras', 'tap, double tap, activity, free-fall detection; a 32-reading FIFO; a self test', 'the self test'],
 ];
 
 const adxl = reactive(useAdxl345({ windowMs: WINDOW_MS }));
@@ -96,11 +89,9 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </section>
 
     <section :class="[card, 'leading-relaxed']">
-      <h2 class="mb-2 text-lg font-semibold">Specifications</h2>
+      <h2 class="mb-2 text-lg font-semibold">Its settings</h2>
       <SpecTable :rows="SPECS" />
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-        From Analog Devices' datasheet (Rev. G). Here it runs at ±16 g, full resolution, 100 samples a second; its tap, free-fall and activity detection and its FIFO aren't used.
-      </p>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">What it offers: Analog Devices' datasheet (Rev. G).</p>
       <p class="mt-3 text-sm">
         <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>: how a mass on springs inside a chip like this feels gravity and a push, with drawings.
       </p>
