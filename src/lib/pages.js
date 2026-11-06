@@ -46,7 +46,7 @@ export const PAGES = [
   {
     path: '/blog',
     title: 'Blog: how i2c.ninja and atiic come about',
-    description: 'Stories behind i2c.ninja and its I2C drivers, atiic: the sensors, the ideas, the questions, and the mistakes on the way.',
+    description: 'Stories behind i2c.ninja and its I2C drivers, atiic: the sensors, the ideas and the questions on the way.',
   },
   ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, title: `${p.title} · blog`, description: p.summary })),
   {
