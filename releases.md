@@ -1,5 +1,11 @@
 # Releases
 
+## 1.3.3
+
+- Share this page without Instagram: it takes no link from a web page, so
+  its button could only copy the link. The phone's own share sheet still
+  reaches it.
+
 ## 1.3.2
 
 - A blog (/blog), in the open: how atiic and i2c.ninja come about, in
