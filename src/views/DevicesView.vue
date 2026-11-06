@@ -11,12 +11,17 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
     <div class="mt-2">
       <h1 class="text-2xl font-bold">Devices</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        The sensors this site reads live over a CH341 dongle, each with its wiring, its readings explained, and its settings. More join one at a time, each once its driver and its page have run on a real one.
+        The sensors this site reads live over a CH341 dongle, each with its wiring, its readings explained, and its settings. Every one is field-tested: its driver run on a real module, and its page tried on the bench with that module in hand, before it joined. More join the same way, one at a time.
       </p>
     </div>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <RouterLink v-for="d in DEVICES" :key="d.to" :to="d.to" :class="card">
-        <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
+        <span class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
+          <span class="flex items-center gap-1 rounded-full bg-emerald-600/10 px-2 py-0.5 text-[11px] text-emerald-800 dark:text-emerald-300" title="Its driver run on a real module, its page tried on the bench">
+            <svg viewBox="0 0 16 16" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3 3l7-7" /></svg>field-tested
+          </span>
+        </span>
         <span class="mt-1 text-lg font-semibold">{{ d.name }}</span>
         <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.maker }}</span>
         <span class="mt-2 flex-1 leading-relaxed">{{ d.measures }}</span>
