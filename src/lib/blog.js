@@ -11,11 +11,19 @@ export const POSTS = [
     markdown: () => import('../blog/1.3.00-three-sensors-from-2012.md?raw'),
   },
   {
+    slug: 'a-dongle-for-a-bridge',
+    title: 'A dongle for a bridge',
+    date: '2026-11-04',
+    version: '1.0.2',
+    summary: 'A homemade bridge replaced by a cheap CH341T USB dongle, opened straight from the browser over WebUSB; getting Linux, Windows and Android to let it through; and the sensors coming back one at a time.',
+    markdown: () => import('../blog/1.0.02-a-dongle-for-a-bridge.md?raw'),
+  },
+  {
     slug: 'reloaded',
     title: 'Reloaded',
     date: '2026-11-04',
     version: '1.0.0',
-    summary: 'i2c.ninja and its drivers, atiic, started over from an empty tree: a USB dongle in place of a homemade bridge, drivers that only join once tested on a real board, and a site whose purpose is education.',
+    summary: 'Why atiic and i2c.ninja exist: drivers for a decade of I2C chips, loyal to their datasheets and to no particular chip, started over from an empty tree, and a site whose purpose is education.',
     markdown: () => import('../blog/1.0.00-reloaded.md?raw'),
   },
 ];
