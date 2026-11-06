@@ -2,8 +2,7 @@
 // The board in 3D in the corner of a "glass box", as in an engineering
 // drawing: its true orthographic projection on the floor (seen from above),
 // on the wall behind it (seen from its nose, along X) and on the wall to its
-// right (seen from its left side, along Y), with dashed projector lines from
-// its nose to each. The world's axes X, Y, Z (capitals) leave the walls'
+// right (seen from its left side, along Y). The world's axes X, Y, Z (capitals) leave the walls'
 // shared corner along their edges; the board's own x, y, z (lowercase) from
 // its centre, turned with it. Turned by q (the board's axes into the
 // world's), seen from in front of it and to its left. The walls take the
@@ -14,7 +13,7 @@ import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 import { camera } from '../lib/view.js';
 import { rotate } from '../lib/quaternion.js';
-import { BOARD, L, FACES, ARROW, BODY_AXES } from '../lib/board.js';
+import { BOARD, FACES, ARROW, BODY_AXES } from '../lib/board.js';
 
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
@@ -22,7 +21,6 @@ const props = defineProps({
 
 const S = 52; // px a unit
 const D = 1.7; // the walls' distance from the board's centre, and their half size
-const NOSE_TIP = [L + 0.25, 0, 0];
 // each wall: the world axis it stands across, where, the side it's seen
 // from (eye: inside the box, as ProjectionViews shows it), its colour, its label
 const WALLS = [
@@ -66,11 +64,6 @@ const board = computed(() => turned.value
   .map((f) => { const p = f.room.map(at); return { ...f, points: pts(f.room), depth: p.reduce((s, v) => s + v[2], 0) / p.length }; })
   .sort((a, b) => a.depth - b.depth));
 const arrow = computed(() => pts(ARROW.map((v) => rotate(props.q, v))));
-// from the nose's tip to each wall, straight across
-const projectors = computed(() => {
-  const tip = rotate(props.q, NOSE_TIP);
-  return WALLS.map((w) => ({ key: w.key, color: w.color, a: at(tip), b: at(onWall(w, tip)) }));
-});
 // the world's axes, capitals (the board's at the start, Z up), leaving the
 // corner where the three walls meet, along their shared edges: X between the
 // floor and the right wall, Y between the floor and the wall behind, Z up
@@ -116,7 +109,6 @@ const { full, toggle } = useFullscreen(box);
         <polygon :points="a.head" stroke="none" />
         <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
       </g>
-      <line v-for="p in projectors" :key="p.key" :x1="p.a[0]" :y1="p.a[1]" :x2="p.b[0]" :y2="p.b[1]" :stroke="p.color" stroke-width="1.2" stroke-dasharray="4 3" />
       <g v-for="f in board" :key="f.name">
         <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
         <polyline v-if="f.name === 'top'" :points="arrow" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
@@ -126,7 +118,6 @@ const { full, toggle } = useFullscreen(box);
         <polygon :points="a.head" stroke="none" />
         <text :x="a.tag[0]" :y="a.tag[1]" font-size="11" text-anchor="middle" stroke="none">{{ a.key }}</text>
       </g>
-      <circle v-for="p in projectors" :key="`d${p.key}`" :cx="p.b[0]" :cy="p.b[1]" r="2.5" :fill="p.color" />
     </svg>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
   </div>
