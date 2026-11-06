@@ -1,5 +1,24 @@
 # Releases
 
+## 1.2.0
+
+- Physics, a second way in beside the devices: a page a topic
+  (lib/physics.js), the Physics menu, By physics on the home page, a footer
+  column, their titles for search. The first: Acceleration and gravity
+  (/physics/acceleration): a Live card that scans the bus for any
+  accelerometer the site knows (ADXL345, MPU-6050, MPU-6500; lib/sources.js,
+  lib/useSource.js, SourceBar: each chip linked to its page and wiring),
+  the views, a mass on springs and the capacitor drawn, tilt from gravity,
+  things to try.
+- AccelerometerViews: the accelerometer's views as one component (the
+  readings with the dial and a hint, three ways, the board in the room, the
+  chart), fed by each page's own adapter: the ADXL345 page, the Acceleration
+  page and the MPU page's Accelerometer tab. HintNote, a light bulb beside a
+  hint.
+- The ADXL345 page's How it measures shortened to its own, linking the
+  physics. "New to the dongle? Get started." under every device page's
+  wiring drawing.
+
 ## 1.1.3
 
 - The MPU-6050/6500 page to the newer pages' standard: its wiring drawing
