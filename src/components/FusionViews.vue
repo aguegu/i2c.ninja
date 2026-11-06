@@ -57,8 +57,8 @@ const flatCaptions = computed(() => {
   const u = props.fusion.fused;
   const deg = (v) => (u ? `${f(v, 0)}°` : '—');
   return {
-    ahead: { sym: 'φ', sub: 'q', value: deg(u?.roll), name: 'roll' },
-    left: { sym: 'θ', sub: 'q', value: deg(u?.pitch), name: 'pitch' },
+    back: { sym: 'φ', sub: 'q', value: deg(u?.roll), name: 'roll' },
+    side: { sym: 'θ', sub: 'q', value: deg(u?.pitch), name: 'pitch' },
     floor: { sym: 'ψ', sub: 'q', value: deg(u?.yaw), name: 'yaw' },
   };
 });
@@ -154,7 +154,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </div>
     <figure class="mt-4 flex flex-col items-center">
       <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
-      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: its true projection on the floor (from above), the wall to its left (from its right side) and the wall ahead (from behind); the dashed lines drop its nose onto each. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
+      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: seen from in front, its true projection on the floor (from above), the wall to its right (from its left side) and the wall behind it (from its nose); the dashed lines drop its nose onto each. The world's axes leave the walls' corner. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
     </figure>
     <div class="mt-4">
       <ProjectionViews :q="fusion.fused?.q ?? [1, 0, 0, 0]" :captions="flatCaptions" />

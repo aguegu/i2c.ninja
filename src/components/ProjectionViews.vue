@@ -1,9 +1,9 @@
 <script setup>
 // The glass box's three walls unfolded (ProjectionBox): the board seen
 // straight along each of the world's axes, an orthographic view, as it
-// projects onto that wall. The floor from above (Z at you), the left wall
-// from the board's right side (Y away), the wall ahead from behind the board
-// (X away). World axes in capitals at the walls' edges; the board's own (body)
+// projects onto that wall. The floor from above (Z at you), the right wall
+// from the board's left side (Y at you), the wall behind from its nose (X at
+// you). World axes in capitals at the walls' edges; the board's own (body)
 // axes in lowercase from its centre. q turns the board's axes into the
 // world's. captions: per wall { sym, sub, value, name } under it. A button
 // takes the three full screen.
@@ -15,7 +15,7 @@ import { BOARD, FACES, ARROW, BODY_AXES } from '../lib/board.js';
 
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
-  captions: { type: Object, default: null }, // { floor, left, ahead }
+  captions: { type: Object, default: null }, // { floor, side, back }
 });
 
 const S = 50; // px a unit, as the walls' 1.7 units = 85 px
@@ -29,8 +29,8 @@ const WORLD_COLOR = { X: 'var(--series-1)', Y: 'var(--series-2)', Z: 'var(--seri
 // toward the eye (eye), and the world axis it is seen along
 const VIEWS = [
   { key: 'floor', title: 'The floor, from above', h: [1, 0, 0], v: [0, 1, 0], eye: [0, 0, 1], along: 'Z', away: 'Z points at you' },
-  { key: 'left', title: 'The left wall, from its right side', h: [1, 0, 0], v: [0, 0, 1], eye: [0, -1, 0], along: 'Y', away: 'Y points away' },
-  { key: 'ahead', title: 'The wall ahead, from behind', h: [0, -1, 0], v: [0, 0, 1], eye: [-1, 0, 0], along: 'X', away: 'X points away' },
+  { key: 'side', title: 'The right wall, from its left side', h: [-1, 0, 0], v: [0, 0, 1], eye: [0, 1, 0], along: 'Y', away: 'Y points at you' },
+  { key: 'back', title: 'The wall behind, from its nose', h: [0, 1, 0], v: [0, 0, 1], eye: [1, 0, 0], along: 'X', away: 'X points at you' },
 ];
 
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];

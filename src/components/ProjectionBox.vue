@@ -1,18 +1,18 @@
 <script setup>
 // The board in 3D in the corner of a "glass box", as in an engineering
 // drawing: its true orthographic projection on the floor (seen from above),
-// on the far wall ahead of its nose (seen along x) and on the wall to its
-// left (seen from its right side, along y), with dashed projector lines
-// from its nose to each. The world's axes X, Y, Z (capitals) along the
-// edges where two walls meet; the board's own x, y, z (lowercase) from its
-// centre, turned with it. Turned by q (the board's axes into the room's),
-// seen as lib/view.js does: behind it and to its right. The walls take the
+// on the wall behind it (seen from its nose, along X) and on the wall to its
+// right (seen from its left side, along Y), with dashed projector lines from
+// its nose to each. The world's axes X, Y, Z (capitals) leave the walls'
+// shared corner along their edges; the board's own x, y, z (lowercase) from
+// its centre, turned with it. Turned by q (the board's axes into the
+// world's), seen from in front of it and to its left. The walls take the
 // axes' chart colours (x blue, y orange, z green). A button takes it full
 // screen.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
-import { project } from '../lib/view.js';
+import { camera } from '../lib/view.js';
 import { rotate } from '../lib/quaternion.js';
 import { BOARD, L, FACES, ARROW, BODY_AXES } from '../lib/board.js';
 
@@ -27,10 +27,15 @@ const NOSE_TIP = [L + 0.25, 0, 0];
 // from (eye: inside the box, as ProjectionViews shows it), its colour, its label
 const WALLS = [
   { key: 'floor', axis: 2, at: -D, eye: [0, 0, 1], color: 'var(--series-3)', label: 'the floor: ψ' },
-  { key: 'ahead', axis: 0, at: D, eye: [-1, 0, 0], color: 'var(--series-1)', label: 'the wall ahead: φ' },
-  { key: 'left', axis: 1, at: D, eye: [0, -1, 0], color: 'var(--series-2)', label: 'the left wall: θ' },
+  { key: 'back', axis: 0, at: -D, eye: [1, 0, 0], color: 'var(--series-1)', label: 'the wall behind: φ' },
+  { key: 'side', axis: 1, at: -D, eye: [0, 1, 0], color: 'var(--series-2)', label: 'the right wall: θ' },
 ];
 
+// in front of the board and to its left, up: the walls stand behind it, and
+// the world's axes leave their shared corner, as in a textbook drawing
+const VIEW_AZ_DEG = 40;
+const VIEW_EL_DEG = 25;
+const project = camera(VIEW_AZ_DEG, VIEW_EL_DEG);
 const at = (v) => project(v, S);
 const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const pts = (ps) => ps.map((p) => at(p).slice(0, 2).map((c) => c.toFixed(1)).join(',')).join(' ');
@@ -41,7 +46,7 @@ const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
   const p = (u, v) => { const r = [0, 0, 0]; r[w.axis] = w.at; r[a] = u; r[b] = v; return r; };
   const grid = [-D / 2, 0, D / 2].flatMap((t) => [[p(t, -D), p(t, D)], [p(-D, t), p(D, t)]]);
-  return { ...w, square: pts([p(-D, -D), p(D, -D), p(D, D), p(-D, D)]), grid: grid.map(([u, v]) => [at(u), at(v)]), tag: w.axis === 2 ? at([-0.2 * D, -D, -D]).map((c, k) => c + (k === 1 ? 14 : 0)) : at(p(-D * 0.95, D * 0.85)) }; // the floor's at its front edge, clear of Y
+  return { ...w, square: pts([p(-D, -D), p(D, -D), p(D, D), p(-D, D)]), grid: grid.map(([u, v]) => [at(u), at(v)]), tag: at(TAGS[w.key]) };
 });
 
 const turned = computed(() => FACES.map((f) => ({ ...f, room: f.pts.map((v) => rotate(props.q, v)) })));
@@ -63,20 +68,20 @@ const projectors = computed(() => {
   const tip = rotate(props.q, NOSE_TIP);
   return WALLS.map((w) => ({ key: w.key, color: w.color, a: at(tip), b: at(onWall(w, tip)) }));
 });
-// the world's axes, capitals (the board's at the start, Z up), each along
-// the edge where two walls meet: X between the floor and the left wall, Y
-// between the floor and the wall ahead, Z up the corner of the two walls.
-// A stretch of each edge, its head at the positive end: X and Y on their
-// edges' outer halves (the corner they point to is behind the board), Z up
-// the corner's top half
-const STRETCH = { X: [-0.95 * D, -0.15 * D], Y: [-0.95 * D, -0.15 * D], Z: [0.1 * D, 0.9 * D] };
+// the world's axes, capitals (the board's at the start, Z up), leaving the
+// corner where the three walls meet, along their shared edges: X between the
+// floor and the right wall, Y between the floor and the wall behind, Z up
+// the two walls' corner
+const CORNER = -D;
+const AXIS_TO = 0.2 * D; // how far along: past the walls' middle
+// where each wall's label sits: inside it, near an outer corner
+const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
 const AXES = [
-  { key: 'X', on: [0, D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
-  { key: 'Y', on: [D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
-  { key: 'Z', on: [D, D, 0], dir: [0, 0, 1], color: 'var(--series-3)' },
+  { key: 'X', on: [0, -D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
+  { key: 'Y', on: [-D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
+  { key: 'Z', on: [-D, -D, 0], dir: [0, 0, 1], color: 'var(--series-3)' },
 ].map((a) => {
-  const [from, to] = STRETCH[a.key];
-  const o = at(a.on.map((c, k) => c + from * a.dir[k])), e = at(a.on.map((c, k) => c + to * a.dir[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
+  const o = at(a.on.map((c, k) => c + CORNER * a.dir[k])), e = at(a.on.map((c, k) => c + AXIS_TO * a.dir[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
   const ux = dx / n, uy = dy / n; // the arrow's way on screen
   const head = [[e[0], e[1]], [e[0] - 9 * ux - 4 * uy, e[1] - 9 * uy + 4 * ux], [e[0] - 9 * ux + 4 * uy, e[1] - 9 * uy - 4 * ux]];
   return { ...a, o, e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 10 * ux, e[1] + 10 * uy] };
@@ -99,7 +104,7 @@ const { full, toggle } = useFullscreen(box);
       <g v-for="w in walls" :key="w.key">
         <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
-        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 0 ? 'end' : 'start'" :fill="w.color">{{ w.label }}</text>
+        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.key === 'back' ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
       </g>
       <g v-for="s in shadows" :key="s.key">
         <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
