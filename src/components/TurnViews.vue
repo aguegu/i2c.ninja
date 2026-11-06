@@ -18,6 +18,12 @@ const props = defineProps({
 
 const R = 100;
 const HALF = { x: 55, y: 32.5, z: 4 }; // the board, half sizes (px)
+const WALL = 85; // the wall's half size (px)
+const GRID = [-WALL / 2, 0, WALL / 2];
+const TOP = '#1f5fa8'; // the 3D board's colours
+const SIDE = '#163f70';
+// the top face's arrow, as the 3D board's (x ahead), in px: the shaft and its head
+const ARROW = [[-30, 0], [30, 0], [19, -10], [30, 0], [19, 10]].map((p) => p.join(',')).join(' ');
 const COLOR = { x: 'var(--series-1)', y: 'var(--series-2)', z: 'var(--series-3)' };
 // each view: its axes across and up, the axis it turns about, and the turn's
 // sense on screen: about an axis toward the eye a positive turn looks
@@ -42,13 +48,18 @@ const { full, toggle } = useFullscreen(box);
       <figure v-for="w in views" :key="w.key" class="flex flex-col items-center">
         <figcaption class="mb-1 text-sm font-semibold">{{ w.title }}</figcaption>
         <svg :viewBox="`${-R} ${-R} ${2 * R} ${2 * R}`" :class="full ? 'h-[60vh] w-full' : 'h-48 w-full max-w-60'" role="img" :aria-label="`${w.title}: turned ${w.a.toFixed(0)} degrees about ${w.about}`">
-          <circle r="80" fill="none" stroke="var(--chart-grid)" stroke-dasharray="3 4" />
-          <line :x1="-R + 8" y1="0" :x2="R - 8" y2="0" stroke="var(--chart-grid)" />
-          <line x1="0" :y1="-R + 8" x2="0" :y2="R - 8" stroke="var(--chart-grid)" />
+          <!-- the wall it's seen on, as in the glass box: tinted in its axis's colour, a faint grid -->
+          <rect :x="-WALL" :y="-WALL" :width="2 * WALL" :height="2 * WALL" :fill="COLOR[w.about]" fill-opacity="0.08" :stroke="COLOR[w.about]" stroke-opacity="0.6" />
+          <g :stroke="COLOR[w.about]" stroke-opacity="0.2">
+            <line v-for="t in GRID" :key="`v${t}`" :x1="t" :y1="-WALL" :x2="t" :y2="WALL" />
+            <line v-for="t in GRID" :key="`h${t}`" :x1="-WALL" :y1="t" :x2="WALL" :y2="t" />
+          </g>
           <text :x="R - 6" y="-6" text-anchor="end" font-size="11" :fill="COLOR[w.h]">+{{ w.h }}</text>
           <text x="5" :y="-R + 14" font-size="11" :fill="COLOR[w.v]">+{{ w.v }}</text>
           <g :transform="w.turn">
-            <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" rx="2" fill="#1f5fa8" fill-opacity="0.55" stroke="#163f70" stroke-width="1.5" />
+            <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" :fill="w.about === 'z' ? TOP : SIDE" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
+            <!-- from above: the top face, its big white nose arrow, as on the 3D board -->
+            <polyline v-if="w.about === 'z'" :points="ARROW" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             <!-- the nose (+x) where it shows: an arrow from above and from the side, a dot seen from the nose -->
             <path v-if="w.h === 'x'" :d="`M ${w.bw - 2} 0 L ${w.bw + 14} 0`" :stroke="COLOR.x" stroke-width="4" stroke-linecap="round" />
             <path v-if="w.h === 'x'" :d="`M ${w.bw + 20} 0 L ${w.bw + 10} -6 L ${w.bw + 10} 6 Z`" :fill="COLOR.x" />
