@@ -90,10 +90,10 @@ const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">Mahony's filter: the same in 3D</h2>
       <p class="mb-2">
-        The fused line, the board and the attitude indicator above come from Mahony's filter. It keeps the whole orientation (a quaternion) and turns it by the gyro each reading. Then it compares where gravity says up is with where the orientation says it is, and steers the gyro's reading toward agreement: some of the difference now (kp, a spring), and the difference added up over time (ki).
+        The fused lines above come from Mahony's filter. It keeps the whole orientation (a quaternion) and turns it by the gyro each reading. Then it compares where gravity says up is with where the orientation says it is, and steers the gyro's reading toward agreement: some of the difference now (kp, a spring), and the difference added up over time (ki).
       </p>
       <p>
-        That added-up part settles only where it cancels the gyro's offset: the filter learns the offset while in use, no holding still needed. That's "gyro offset learned" above, on the axes gravity can see.
+        That added-up part settles only where it cancels the gyro's offset: the filter learns the offset while in use, no holding still needed. That's the −ki ∫e dt line above, on the axes gravity can see.
       </p>
     </section>
 
@@ -107,9 +107,9 @@ const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">Try this</h2>
       <ol class="list-decimal space-y-2 pl-5">
-        <li><b>Hold it as on screen.</b> Lay the board flat, x away from you, press Start again, then tilt and turn it: the drawing follows, quick as the gyro and steady as gravity.</li>
+        <li><b>Hold it as on screen.</b> Lay the board flat, x away from you, press Start again, then tilt and turn it: the fused φ, θ and ψ follow, quick as the gyro and steady as gravity.</li>
         <li><b>Shake it.</b> Gravity's line jumps; the fused one barely flinches.</li>
-        <li><b>Leave it still for a minute.</b> The gyro-alone line walks away; the fused one stays put, and the offset learned settles near what the gyro reads at rest.</li>
+        <li><b>Leave it still for a minute.</b> The gyro-alone line walks away; the fused one stays put, and −ki ∫e dt settles near what the gyro reads at rest.</li>
         <li><b>Turn it flat on the table.</b> Roll and pitch don't move; yaw follows, then creeps once you stop: nothing here measures north.</li>
         <li><b>Two boards?</b> Turn one of them half a turn on the tape and try again: the fused attitude fights itself. Line them up again.</li>
       </ol>

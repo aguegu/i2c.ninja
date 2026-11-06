@@ -1,15 +1,12 @@
 <script setup>
 // Two sensors fused, every way the site shows it: the numbers in and the
-// formulas they go through (each with the latest values), the board in 3D and the
-// attitude indicator, Mahony's roll, pitch and yaw with Start again and the
-// gyro offset it learned, then roll and pitch three ways (fused, gravity's,
-// the gyro alone) on charts. A page brings a useFusion() (reactive) fed by
-// its readings; running enables the button.
+// formulas they go through (each with the latest values; Start again), then
+// roll and pitch three ways (fused, gravity's, the gyro alone) on charts. A
+// page brings a useFusion() (reactive) fed by its readings; running enables
+// the button.
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
-import Board3D from './Board3D.vue';
-import AttitudeIndicator from './AttitudeIndicator.vue';
 
 const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
@@ -23,7 +20,6 @@ const THREE = [
   { label: 'gravity', color: '--series-2' },
   { label: 'gyro alone', color: '--series-3' },
 ];
-const AXES = ['x', 'y', 'z'];
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
 // the latest numbers, as they go into the formulas
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
@@ -44,6 +40,7 @@ const turn = computed(() => {
   const beta = 2 * Math.acos(w) * (180 / Math.PI), s2 = Math.sqrt(1 - w * w);
   return { beta, n: s2 > 1e-6 ? q.slice(1).map((c) => (sgn * c) / s2) : null };
 });
+const fusionAngles = (u) => (u.fused ? `(${f(u.fused.roll, 1)}, ${f(u.fused.pitch, 1)}, ${f(u.fused.yaw, 1)})°` : '—');
 // each block: a formula a row (LaTeX), its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
@@ -70,12 +67,14 @@ const blocks = computed(() => {
     { title: 'Fused: Mahony\'s filter, each reading', rows: [
       { tex: String.raw`k_p =`, value: `${u.kp} /s`, note: 'the spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
       { tex: String.raw`k_i =`, value: `${u.ki} /s²`, note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki = 10 s (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others on Learn the IMU, step 4' },
+      { tex: String.raw`-k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, note: 'what the I has learned so far: the gyro\'s offset, on the axes gravity can see' },
       { tex: String.raw`k_d =`, value: '0', note: 'no D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time, kd de/dt how fast it changes; here kd = 0, so a PI controller' },
       { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; φ, θ and ψ come from it' },
+      { tex: String.raw`(\varphi,\ \theta,\ \psi) =`, value: fusionAngles(u), note: 'roll, pitch and yaw, from the new q: the attitude, fused' },
     ] },
   ];
 });
@@ -85,7 +84,10 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
 
 <template>
   <section :class="card">
-    <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
+    <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+      <h2 class="text-lg font-semibold">The numbers, and what's done with them</h2>
+      <button :class="button" :disabled="!running" @click="fusion.restart">Start again</button>
+    </div>
     <div class="flex flex-col gap-3">
       <div v-for="b in blocks" :key="b.title">
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
@@ -94,24 +96,6 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
             <TexMath :expr="r.tex" /><span :class="value">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
-      </div>
-    </div>
-  </section>
-  <section :class="card">
-    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-      <h2 class="text-lg font-semibold">Fused</h2>
-      <button :class="button" :disabled="!running" @click="fusion.restart">Start again</button>
-    </div>
-    <div class="mt-2 grid items-center gap-4 md:grid-cols-2">
-      <div class="flex flex-col items-center">
-        <Board3D :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
-      </div>
-      <div class="flex flex-col items-center gap-2">
-        <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" />
-        <p class="font-mono text-sm tabular-nums">roll {{ f(fusion.fused?.roll) }}° · pitch {{ f(fusion.fused?.pitch) }}° · yaw {{ f(fusion.fused?.yaw) }}°</p>
-        <p class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">
-          gyro offset learned: <template v-for="(k, i) in AXES" :key="k">{{ i ? ' · ' : '' }}{{ k }} {{ f(fusion.learned?.[i], 2) }}</template> °/s
-        </p>
       </div>
     </div>
   </section>
