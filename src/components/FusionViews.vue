@@ -2,13 +2,15 @@
 // Two sensors fused, every way the site shows it: the numbers in and the
 // formulas they go through (each with the latest values; Start again), then
 // roll and pitch three ways (gravity's, the gyro alone, fused) and yaw two
-// ways (the gyro alone, fused) on charts, then the result: the board turned by q. A
+// ways (the gyro alone, fused) on charts, then the result on a pilot's
+// instruments: the attitude indicator (φ, θ) and the heading indicator (ψ). A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
-import Board3D from './Board3D.vue';
+import AttitudeIndicator from './AttitudeIndicator.vue';
+import HeadingIndicator from './HeadingIndicator.vue';
 
 const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
@@ -47,7 +49,6 @@ const turnOf = (q) => {
   return { beta, n: s2 > 1e-6 ? q.slice(1).map((c) => (sgn * c) / s2) : null };
 };
 const turn = computed(() => turnOf(props.fusion.fused?.held?.q));
-const result = computed(() => turnOf(props.fusion.fused?.q)); // the new q's
 const fusionAngles = (u) => (u.fused ? `(${f(u.fused.roll, 1)}, ${f(u.fused.pitch, 1)}, ${f(u.fused.yaw, 1)})°` : '—');
 // each block: a formula a row (LaTeX), its result with the latest numbers
 const blocks = computed(() => {
@@ -119,18 +120,27 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="fusion.fused ? [fusion.gyroAlone.yaw, fusion.fused.yaw] : []" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
   <section :class="card">
-    <h2 class="mb-2 text-lg font-semibold">The result: the board, as q says</h2>
-    <div class="grid items-center gap-4 md:grid-cols-[1fr_auto]">
-      <div class="flex justify-center">
-        <Board3D :q="fusion.fused?.q ?? [1, 0, 0, 0]" :axis="result?.n ?? null" />
-      </div>
-      <div class="flex flex-col gap-1 text-sm">
-        <TexMath :expr="String.raw`(\varphi_q,\ \theta_q,\ \psi_q)`" />
-        <p class="font-mono tabular-nums">{{ fusionAngles(fusion) }}</p>
-        <TexMath class="mt-2" :expr="String.raw`\beta,\ \mathbf{n}`" />
-        <p class="font-mono tabular-nums">{{ result ? `${result.beta.toFixed(1)}°` : '—' }}, {{ vec(result?.n, 2) }}</p>
-        <p class="mt-2 max-w-56 text-xs text-slate-500 dark:text-slate-400">Turned from flat (the start) by β about the dashed line, n: the new q, drawn as you'd hold the board, behind it and to its right.</p>
-      </div>
+    <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
+    <div class="flex flex-wrap justify-center gap-x-10 gap-y-4">
+      <figure class="flex flex-col items-center gap-1">
+        <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" />
+        <figcaption class="text-center text-sm">
+          <TexMath :expr="String.raw`\varphi_q,\ \theta_q`" />
+          <span class="font-mono tabular-nums"> {{ f(fusion.fused?.roll, 0) }}°, {{ f(fusion.fused?.pitch, 0) }}°</span>
+          <span class="block text-xs text-slate-500 dark:text-slate-400">the attitude indicator: the horizon tilts with φ, drops as the nose comes up with θ</span>
+        </figcaption>
+      </figure>
+      <figure class="flex flex-col items-center gap-1">
+        <HeadingIndicator :heading="fusion.fused?.yaw ?? null" />
+        <figcaption class="text-center text-sm">
+          <TexMath :expr="String.raw`\psi_q`" />
+          <span class="font-mono tabular-nums"> {{ f(fusion.fused?.yaw, 0) }}°</span>
+          <span class="block text-xs text-slate-500 dark:text-slate-400">the heading indicator: 0 is where the nose pointed at the start</span>
+        </figcaption>
+      </figure>
     </div>
+    <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+      In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
+    </p>
   </section>
 </template>
