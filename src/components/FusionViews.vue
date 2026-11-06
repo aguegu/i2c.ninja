@@ -29,6 +29,12 @@ const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const formula = 'grid grid-cols-[auto_auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
 const value = 'text-emerald-700 dark:text-emerald-400';
 const vec = (v, d) => (v ? `(${v.map((c) => n(c, d)).join(', ')})` : '—');
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const aHat = computed(() => {
+  const a = props.fusion.input?.accel, m = a && Math.hypot(...a);
+  return m ? a.map((c) => c / m) : null;
+});
+const err = computed(() => (aHat.value && props.fusion.fused?.up ? cross(aHat.value, props.fusion.fused.up) : null));
 // each block: a formula a row, its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
@@ -47,7 +53,9 @@ const blocks = computed(() => {
       { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
-      { lhs: 'e', rhs: '= â × v̂', value: '', note: 'â = a / |a|, up as gravity says; v̂, up as q says; e, how far apart (a cross product)' },
+      { lhs: 'â', rhs: '= a / |a| =', value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
+      { lhs: 'v̂', rhs: '= (2(xz − wy), 2(yz + wx), 1 − 2(x² + y²)) =', value: vec(u.fused?.up, 3), note: 'up, as q says' },
+      { lhs: 'e', rhs: '= â × v̂ =', value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
       { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: '⊗, the quaternion product: q turned by ω′ over Δt, then made unit length' },
       { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'the attitude, a quaternion (w, x, y, z): roll, pitch and yaw come from it' },
