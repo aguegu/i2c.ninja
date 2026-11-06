@@ -1,5 +1,21 @@
 # Releases
 
+## 1.2.1
+
+- Physics: Rotation and the gyroscope (/physics/rotation): a Live card that
+  finds any gyroscope on the bus (MPU-6050, MPU-6500, ITG-3200: the MPUs
+  asked first, the ITG-3200 woken only where none holds the address), the
+  gyro's views, angular velocity and the right-hand rule, the Coriolis push
+  drawn, from rate to angle and its drift, things to try. Tried with an
+  ITG-3200.
+- GyroViews: the gyro's views as one component (the rates with Zero, the
+  ball, turned so far, the chart), fed by each page's adapter: the
+  ITG-3200 page (its composable now an adapter), the MPU page's Gyro tab,
+  the Rotation page. useTurned adds up any stream of gyro readings.
+- The ITG-3200 page's How it measures shortened, linking Rotation.
+- Recent keeps physics pages too (noted Physics). Physics left of Devices
+  in the header.
+
 ## 1.2.0
 
 - Physics, a second way in beside the devices: a page a topic
