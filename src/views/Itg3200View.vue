@@ -55,7 +55,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
       <p class="mb-2">
-        Three independent vibratory MEMS gyroscopes, one an axis: turned, the Coriolis effect deflects each vibrating structure, a capacitive pickoff feels it, and the signal is amplified, demodulated and filtered into a voltage proportional to the rate, which a 16-bit converter reads (its datasheet, 5.3). How a shaking mass feels a turn, with a drawing: <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation</RouterLink>.
+        Three independent vibratory MEMS gyroscopes, one an axis: turned, the Coriolis effect deflects each vibrating structure, a capacitive pickoff feels it, and the signal is amplified, demodulated and filtered into a voltage proportional to the rate, which a 16-bit converter reads (its datasheet, 5.3). How a shaking mass feels a turn, with a drawing: <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation and the gyroscope</RouterLink>.
       </p>
       <p>
         <b>The numbers:</b> ±2000 °/s, 14.375 counts a °/s; its offset can be up to ±40 °/s from the factory, noise about 0.38 °/s at the 98 Hz filter used here. It samples up to 8 kHz; its temperature reads 280 counts a degree.

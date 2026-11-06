@@ -15,7 +15,7 @@ export const PHYSICS = [
   },
   {
     slug: 'rotation',
-    title: 'Rotation',
+    title: 'Rotation and the gyroscope',
     blurb: 'How fast something turns, which way is positive, how a shaking mass feels a turn, and why a gyro drifts.',
     devices: [
       { to: '/itg3200', label: 'ITG-3200', note: 'gyroscope' },
