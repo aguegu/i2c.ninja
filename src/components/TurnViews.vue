@@ -10,6 +10,7 @@
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
+import { BOARD } from '../lib/board.js';
 
 const props = defineProps({
   angles: { type: Object, default: () => ({ x: 0, y: 0, z: 0 }) }, // degrees
@@ -20,8 +21,8 @@ const R = 100;
 const HALF = { x: 55, y: 32.5, z: 4 }; // the board, half sizes (px)
 const WALL = 85; // the wall's half size (px)
 const GRID = [-WALL / 2, 0, WALL / 2];
-const TOP = '#1f5fa8'; // the 3D board's colours
-const SIDE = '#163f70';
+const TOP = BOARD.top;
+const SIDE = BOARD.side;
 // the top face's arrow, as the 3D board's (x ahead), in px: the shaft and its head
 const ARROW = [[-30, 0], [30, 0], [19, -10], [30, 0], [19, 10]].map((p) => p.join(',')).join(' ');
 const COLOR = { x: 'var(--series-1)', y: 'var(--series-2)', z: 'var(--series-3)' };
@@ -57,7 +58,7 @@ const { full, toggle } = useFullscreen(box);
           <text :x="R - 6" y="-6" text-anchor="end" font-size="11" :fill="COLOR[w.h]">+{{ w.h }}</text>
           <text x="5" :y="-R + 14" font-size="11" :fill="COLOR[w.v]">+{{ w.v }}</text>
           <g :transform="w.turn">
-            <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" :fill="w.about === 'z' ? TOP : SIDE" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
+            <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" :fill="w.about === 'z' ? TOP : SIDE" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
             <!-- from above: the top face, its big white nose arrow, as on the 3D board -->
             <polyline v-if="w.about === 'z'" :points="ARROW" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             <!-- the nose (+x) where it shows: an arrow from above and from the side, a dot seen from the nose -->

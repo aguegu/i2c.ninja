@@ -12,6 +12,7 @@ import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 import { project } from '../lib/view.js';
 import { rotate } from '../lib/quaternion.js';
+import { BOARD } from '../lib/board.js';
 
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
@@ -21,9 +22,9 @@ const S = 52; // px a unit
 const D = 1.7; // the walls' distance from the board's centre, and their half size
 const L = 1.1, W = 0.65, H = 0.07; // the board's half length (x), width (y), thickness (z), as Board3D
 const NOSE_TIP = [L + 0.25, 0, 0];
-const TOP = '#1f5fa8';
-const SIDE = '#163f70';
-const BOTTOM = '#0f2c50';
+const TOP = BOARD.top;
+const SIDE = BOARD.side;
+const BOTTOM = BOARD.bottom;
 // each wall: the room axis it stands across, where, its colour, its label
 const WALLS = [
   { key: 'floor', axis: 2, at: -D, color: 'var(--series-3)', label: 'from above: ψ' },
@@ -89,7 +90,7 @@ const { full, toggle } = useFullscreen(box);
       </g>
       <line v-for="p in projectors" :key="p.key" :x1="p.a[0]" :y1="p.a[1]" :x2="p.b[0]" :y2="p.b[1]" :stroke="p.color" stroke-width="1.2" stroke-dasharray="4 3" />
       <g v-for="f in board" :key="f.name">
-        <polygon :points="f.points" :fill="f.fill" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
+        <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
         <polyline v-if="f.name === 'top'" :points="arrow" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       </g>
       <circle v-for="p in projectors" :key="`d${p.key}`" :cx="p.b[0]" :cy="p.b[1]" r="2.5" :fill="p.color" />

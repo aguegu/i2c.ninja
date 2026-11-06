@@ -6,6 +6,7 @@
 import { computed } from 'vue';
 import { project as view } from '../lib/view.js';
 import { rotate } from '../lib/quaternion.js';
+import { BOARD } from '../lib/board.js';
 
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
@@ -14,9 +15,9 @@ const props = defineProps({
 
 const S = 70; // px a unit
 const L = 1.1, W = 0.65, H = 0.07; // half length (x), width (y), thickness (z)
-const TOP = '#1f5fa8';
-const SIDE = '#163f70';
-const BOTTOM = '#0f2c50';
+const TOP = BOARD.top;
+const SIDE = BOARD.side;
+const BOTTOM = BOARD.bottom;
 
 const corner = (sx, sy, sz) => [sx * L, sy * W, sz * H];
 const FACES = [
@@ -54,7 +55,7 @@ const axisLine = computed(() => {
   <svg viewBox="-150 -120 300 240" class="h-72 w-full max-w-sm" role="img" aria-label="The board in 3D, as the filter has it">
     <line v-if="axisLine" :x1="axisLine.b[0]" :y1="axisLine.b[1]" :x2="axisLine.a[0]" :y2="axisLine.a[1]" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 4" />
     <g v-for="f in faces" :key="f.name">
-      <polygon :points="f.points" :fill="f.fill" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
+      <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
       <template v-if="f.name === 'top'">
         <polygon :points="chip" fill="#1d1d1d" />
         <polyline :points="arrow" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />

@@ -17,6 +17,7 @@ import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 import { rollOf, pitchOf } from '../lib/tilt.js';
+import { BOARD } from '../lib/board.js';
 
 const props = defineProps({
   x: { type: Number, default: 0 }, // g, the board's axes
@@ -34,9 +35,9 @@ const L = 1.1, W = 0.65, H = 0.07; // half length (x), width (y), thickness (z),
 const G_PX = 60; // gravity's arrow, 1 g
 const HEAD_PX = 10;
 const MIN = { gravity: 0.2, magnetic: 5 }; // g, uT: a reading weaker than this keeps the last turn
-const TOP = '#1f5fa8';
-const SIDE = '#163f70';
-const BOTTOM = '#0f2c50';
+const TOP = BOARD.top;
+const SIDE = BOARD.side;
+const BOTTOM = BOARD.bottom;
 
 const corner = (sx, sy, sz) => [sx * L, sy * W, sz * H];
 const FACES = [
@@ -118,7 +119,7 @@ const { full, toggle } = useFullscreen(box);
           <template v-else>
             <line x1="0" :y1="-R + 6" x2="0" :y2="R - 6" stroke="var(--chart-grid)" stroke-dasharray="4 4" />
           </template>
-          <polygon v-for="f in w.faces" :key="f.name" :points="f.points" :fill="f.fill" stroke="#0b1f38" stroke-width="1" stroke-linejoin="round" />
+          <polygon v-for="f in w.faces" :key="f.name" :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
           <polyline v-if="w.nose" :points="w.nose" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
           <g v-if="w.gravity === 'down'" :transform="`translate(${R - 22} ${-R + 10})`" :stroke="names.color" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
             <line x1="0" y1="0" x2="0" :y2="G_PX" /><polyline :points="head" />

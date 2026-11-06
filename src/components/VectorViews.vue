@@ -10,6 +10,7 @@
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
+import { BOARD } from '../lib/board.js';
 
 const props = defineProps({
   x: { type: Number, default: 0 }, // the board's axes, in unit
@@ -60,7 +61,7 @@ const { full, toggle } = useFullscreen(box);
           <circle :r="SCALE_PX" fill="none" stroke="var(--chart-grid)" stroke-width="1.5" />
           <line :x1="-R + 8" y1="0" :x2="R - 8" y2="0" stroke="var(--chart-grid)" />
           <line x1="0" :y1="-R + 8" x2="0" :y2="R - 8" stroke="var(--chart-grid)" />
-          <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" rx="2" fill="#1f5fa8" fill-opacity="0.35" stroke="#1f5fa8" />
+          <rect :x="-w.bw" :y="-w.bh" :width="2 * w.bw" :height="2 * w.bh" rx="2" :fill="BOARD.top" fill-opacity="0.35" :stroke="BOARD.top" />
           <text :x="R - 6" y="-6" text-anchor="end" font-size="11" fill="var(--chart-text)">+{{ w.h }}</text>
           <text x="5" :y="-R + 14" font-size="11" fill="var(--chart-text)">+{{ w.v }}</text>
           <text :x="SCALE_PX * 0.71 + 3" :y="-SCALE_PX * 0.71 - 3" font-size="10" fill="var(--chart-text)">{{ scale }} {{ unit }}</text>
