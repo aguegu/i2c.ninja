@@ -34,7 +34,7 @@ const aHat = computed(() => {
   const a = props.fusion.input?.accel, m = a && Math.hypot(...a);
   return m ? a.map((c) => c / m) : null;
 });
-const err = computed(() => (aHat.value && props.fusion.fused?.up ? cross(aHat.value, props.fusion.fused.up) : null));
+const err = computed(() => (aHat.value && props.fusion.fused?.held ? cross(aHat.value, props.fusion.fused.held.up) : null));
 // each block: a formula a row, its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
@@ -53,12 +53,12 @@ const blocks = computed(() => {
       { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
+      { lhs: 'q', rhs: '=', value: vec(u.fused?.held?.q, 3), note: 'the attitude held from the reading before, a quaternion (qw, qx, qy, qz)' },
       { lhs: 'â', rhs: '= a / |a| =', value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
-      { lhs: 'v̂', rhs: '= (2(qx qz − qw qy), 2(qy qz + qw qx), 1 − 2(qx² + qy²)) =', value: vec(u.fused?.up, 3), note: 'up, as q says: qw, qx, qy, qz are q\'s four numbers, the attitude held so far (the last line)' },
+      { lhs: 'v̂', rhs: '= (2(qx qz − qw qy), 2(qy qz + qw qx), 1 − 2(qx² + qy²)) =', value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { lhs: 'e', rhs: '= â × v̂ =', value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
-      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: '⊗, the quaternion product: q turned by ω′ over Δt, then made unit length' },
-      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'the attitude, a quaternion (qw, qx, qy, qz): roll, pitch and yaw come from it' },
+      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt =', value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; roll, pitch and yaw come from it' },
     ] },
   ];
 });

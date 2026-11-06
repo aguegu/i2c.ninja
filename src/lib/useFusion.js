@@ -14,7 +14,7 @@ const MAX_STEP_S = 0.1; // a longer gap between readings: not integrated
 export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const mahony = new Mahony();
   const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s }
-  const fused = ref(null); // { q, up (the room's z in the board's axes), roll, pitch, yaw } degrees
+  const fused = ref(null); // { q, held: { q, up } from the reading before (up: the room's z in the board's axes), roll, pitch, yaw } degrees
   const gravity = ref(null); // { roll, pitch }
   const gyroAlone = ref(null); // { roll, pitch }
   const learned = ref(null); // the gyro offset Mahony's integral learned, deg/s [x y z]
@@ -27,6 +27,8 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     const dt = lastT === null ? 0 : (t - lastT) / 1000;
     lastT = t;
     const step = dt > 0 && dt <= MAX_STEP_S ? dt : 0;
+    // the attitude held from the reading before, and its up: what this reading is compared with
+    const held = mahony.q ? { q: mahony.q, up: mahony.up() } : null;
     mahony.update(accel, gyro, step);
     const g = { roll: rollOf(...accel), pitch: pitchOf(...accel) };
     if (!alone) alone = { ...g };
@@ -34,7 +36,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     alone.pitch -= gyro[1] * step; // nose up is about -y
     const m = mahony.angles();
     input.value = { accel, gyro, dt: step };
-    fused.value = { q: mahony.q, up: mahony.q ? mahony.up() : null, ...m };
+    fused.value = { q: mahony.q, held, ...m };
     gravity.value = g;
     gyroAlone.value = { ...alone };
     learned.value = mahony.learnedOffset();
