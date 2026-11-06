@@ -1,7 +1,16 @@
 // The blog: a post a story, written in markdown (src/blog/<file>.md), newest
 // first. A post's file is named after the release it goes out with, then its
-// name (1.3.00-...: 1.3.0). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
+// name (1.3.00-...: 1.3.0); a note outside the releases by its date
+// (2026-11-06-..., version null). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
+  {
+    slug: 'the-last-generation',
+    title: 'The last generation?',
+    date: '2026-11-06',
+    version: null, // a note, not a release's story: named by its date
+    summary: 'greenrain, a terminal Matrix rain from 2013, can be made in seconds now. Is this the last generation of human coders? What an agent makes, what it didn\'t make here, and why the passion is back.',
+    markdown: () => import('../blog/2026-11-06-the-last-generation.md?raw'),
+  },
   {
     slug: 'three-sensors-from-2012',
     title: 'Three sensors from 2012',

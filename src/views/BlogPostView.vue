@@ -18,7 +18,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div v-if="post" class="mt-2">
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400"><RouterLink to="/blog">Blog</RouterLink></p>
       <h1 class="text-2xl font-bold">{{ post.title }}</h1>
-      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ post.date }} · {{ BYLINE }} · <RouterLink to="/about#releases" :class="link">{{ post.version }}</RouterLink></p>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ post.date }} · {{ BYLINE }} · <RouterLink v-if="post.version" to="/about#releases" :class="link">{{ post.version }}</RouterLink><template v-else>a note</template></p>
     </div>
     <p v-else class="mt-2">No such post. <RouterLink to="/blog" :class="link">All posts</RouterLink>.</p>
     <img v-if="post?.banner" :src="post.banner.src" :alt="post.banner.alt" class="w-full rounded-xl border border-slate-200 shadow-sm dark:border-slate-700">
