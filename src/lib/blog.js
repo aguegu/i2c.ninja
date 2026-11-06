@@ -17,7 +17,7 @@ export const POSTS = [
     title: 'Three sensors from 2012',
     date: '2026-11-06',
     version: '1.3.0',
-    banner: { src: '/blog/sensors-comic.svg', alt: 'A comic in three panels: in 2012 the maker eyes a little quadcopter, "Too dangerous to fly...", and the sensors go into a drawer; in 2026 the drawer opens in a cloud of dust and the three boards are "Still working!"; the maker and the robot stand on a tower of Devices, Physics and Algorithms: "Level up!"' },
+    banner: { src: '/blog/sensors-comic.svg', alt: 'A comic in three panels: in 2012 the maker eyes a little quadcopter, "Too dangerous to fly...", and the sensors go into a drawer; in 2026 the drawer opens in a cloud of dust and the three boards are "Still working!"; the robot stands on a tower of Devices, Physics and Algorithms: "Level up!"' },
     summary: 'An accelerometer, a compass and a gyro bought for a first drone, fourteen years in a drawer, and the device pages, the physics and the first algorithm page they led to.',
     markdown: () => import('../blog/1.3.00-three-sensors-from-2012.md?raw'),
   },
