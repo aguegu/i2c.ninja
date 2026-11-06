@@ -67,7 +67,7 @@
 <circle cx="1056.0" cy="317" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <text x="1013.0" y="254" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MPU-6050</text>
 <path d="M1088 214 H1142 Q1160 214 1160 232 V246 Q1160 264 1142 264 H1124 L1058 270 L1104 264 H1088 Q1070 264 1070 246 V232 Q1070 214 1088 214 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="1115.0" y="246.2" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">0X68!</text>
+<text x="1115.0" y="246.2" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">0x68!</text>
 <rect x="14" y="14" width="380" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="406" y="14" width="420" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="838" y="14" width="348" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
