@@ -41,7 +41,8 @@ const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const pts = (ps) => ps.map((p) => at(p).slice(0, 2).map((c) => c.toFixed(1)).join(',')).join(' ');
 const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point dropped straight onto a wall
 
-// where each wall's label sits: inside it, near an outer corner
+// where each wall's label sits: inside it, near its outer edge on screen
+// (the right wall's at its left, reading inward; the others' at their right)
 const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
 // the walls' squares, faint grids on them
 const walls = WALLS.map((w) => {
@@ -104,7 +105,7 @@ const { full, toggle } = useFullscreen(box);
       <g v-for="w in walls" :key="w.key">
         <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
-        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.key === 'back' ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
+        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.key === 'side' ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
       </g>
       <g v-for="s in shadows" :key="s.key">
         <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
