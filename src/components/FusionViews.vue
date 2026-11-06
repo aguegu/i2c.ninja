@@ -129,9 +129,9 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <h2 class="mb-2 text-lg font-semibold">The math, drawn</h2>
     <div class="grid items-start gap-6 lg:grid-cols-[3fr_2fr]">
       <div>
-        <p class="mb-2 text-sm font-semibold">Gravity's tilt: atan2 as a triangle</p>
-        <TiltTriangles :accel="fusion.input?.accel ?? null" />
-        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">atan2 takes the two legs of a right triangle, across and up, and gives the angle at its corner, the right way round in every quarter. Tilt the board and the triangles follow.</p>
+        <p class="mb-2 text-sm font-semibold">Gravity's tilt: atan2 as a triangle, and q's</p>
+        <TiltTriangles :accel="fusion.input?.accel ?? null" :v-hat="fusion.fused?.held?.up ?? null" />
+        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">atan2 takes the two legs of a right triangle, across and up, and gives the angle at its corner, the right way round in every quarter. Tilt the board and the triangles follow. The red line is a, gravity's say; the violet one is v̂, the same angle as q says it: the gap between them is what Mahony's filter closes.</p>
       </div>
       <div>
         <p class="mb-2 text-sm font-semibold">Mahony's comparison: the two ups</p>
