@@ -76,7 +76,7 @@ const projectors = computed(() => {
 // floor and the right wall, Y between the floor and the wall behind, Z up
 // the two walls' corner
 const CORNER = -D;
-const AXIS_TO = 0.2 * D; // how far along: past the walls' middle
+const AXIS_TO = 1.25 * D; // how far along: the whole edge and a little out of the walls
 const AXES = [
   { key: 'X', on: [0, -D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
   { key: 'Y', on: [-D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
