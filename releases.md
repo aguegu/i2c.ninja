@@ -1,5 +1,21 @@
 # Releases
 
+## 1.3.2
+
+- A blog (/blog), in the open: how atiic and i2c.ninja come about, in
+  Weihong's words. Posts in markdown (src/blog), each with a comic strip at
+  its top and drawings inside: Reloaded (the datasheet in code, loyal to no
+  chip; a coding agent alongside), A dongle for a bridge (the CH341T in place
+  of the homemade bridge, WebUSB), Three sensors from 2012 (devices, physics,
+  algorithms: deep, and stereo), and a note, The last generation? (greenrain,
+  2013). Blog in the footer.
+- Field-tested, said: the Devices page and every device card, the home's
+  Devices card: each device's driver run on a real module and its page tried
+  on the bench before it joined.
+- Share this page: a QR code of the link, popping up (uqr, drawn in the
+  page).
+- The course and the blog share one markdown renderer (MarkdownArticle).
+
 ## 1.3.1
 
 - Home as a simple landing page: the hero (where the name comes from, I2C,
