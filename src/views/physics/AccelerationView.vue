@@ -7,13 +7,11 @@ import { reactive } from 'vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import AccelerometerViews from '../../components/AccelerometerViews.vue';
 import SourceBar from '../../components/SourceBar.vue';
-import { PHYSICS } from '../../lib/physics.js';
 import { ACCELEROMETERS } from '../../lib/sources.js';
 import { useSource } from '../../lib/useSource.js';
 
 const src = reactive(useSource(ACCELEROMETERS));
 
-const topic = PHYSICS.find((p) => p.slug === 'acceleration');
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
 </script>
@@ -58,15 +56,6 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p>
         It works only while the sensor is still: a push adds to gravity and reads as a tilt. And it can't tell the heading (a turn about the vertical changes nothing in how gravity falls on the axes). A gyroscope covers both, which is why phones and drones carry both. Step by step: <RouterLink to="/learn/imu/tilt" :class="link">Learn the IMU, tilt from gravity</RouterLink>.
       </p>
-    </section>
-
-    <section :class="card">
-      <h2 class="mb-3 text-lg font-semibold">Measure it with</h2>
-      <div class="grid gap-3 sm:grid-cols-2">
-        <RouterLink v-for="d in topic.devices" :key="d.to" :to="d.to" class="rounded-xl border border-slate-200 px-4 py-3 ring-emerald-600 transition hover:shadow-md hover:ring-2 dark:border-slate-700">
-          <span class="font-semibold">{{ d.label }}</span> <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.note }}</span>
-        </RouterLink>
-      </div>
     </section>
 
     <section :class="[card, 'leading-relaxed']">
