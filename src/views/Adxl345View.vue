@@ -89,10 +89,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </section>
 
     <section :class="[card, 'leading-relaxed']">
-      <h2 class="mb-2 text-lg font-semibold">Its settings</h2>
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+        <h2 class="text-lg font-semibold">Its settings</h2>
+        <a href="https://www.analog.com" class="text-sm text-emerald-700 underline dark:text-emerald-400">Analog Devices</a>
+      </div>
       <SpecTable :rows="SPECS" />
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>: how a mass on springs inside a chip like this feels gravity and a push, with drawings. Its maker: <a href="https://www.analog.com" class="text-emerald-700 underline dark:text-emerald-400">Analog Devices</a>.
+        <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>
       </p>
     </section>
   </main>
