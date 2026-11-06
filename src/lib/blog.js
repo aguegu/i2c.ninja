@@ -1,6 +1,6 @@
 // The blog: a post a story, written in markdown (src/blog/<file>.md), newest
 // first. A post's file is named after the release it goes out with, then its
-// name (1.3.00-...: 1.3.0). Quotes are the words of the person behind the site.
+// name (1.3.00-...: 1.3.0). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
   {
     slug: 'three-sensors-from-2012',
