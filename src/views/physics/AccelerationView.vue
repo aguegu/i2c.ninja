@@ -42,16 +42,17 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <div class="grid gap-4 md:grid-cols-[1fr_auto]">
-      <LiveSourceCard :src="src" title="Acceleration" :chart="false" />
+      <LiveSourceCard :src="src" title="Acceleration" :chart="false">
+        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          It looks for any accelerometer this site knows (the ADXL345, the MPU-6050 or MPU-6500) on the dongle's bus, and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        </p>
+      </LiveSourceCard>
       <section :class="[card, 'flex flex-col items-center']">
         <AttitudeIndicator :roll="roll" :pitch="pitch" />
         <p class="mt-2 font-mono text-sm tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
         <p class="text-xs text-slate-500 dark:text-slate-400">from gravity, held still</p>
       </section>
     </div>
-    <p class="-mt-2 text-sm text-slate-500 dark:text-slate-400">
-      It looks for any accelerometer this site knows (the ADXL345, the MPU-6050 or MPU-6500) on the dongle's bus, and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </p>
 
     <section :class="card">
       <h2 class="mb-2 font-semibold">What the accelerometer feels, three ways</h2>
