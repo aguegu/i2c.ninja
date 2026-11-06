@@ -141,8 +141,8 @@ filtered, often with notch filters that follow the motors' speed.
 
 <p>
 In principle: acceleration added up is speed, speed added up is position. In practice the errors grow with the
-square of the time. Take an offset of {{ ACCEL_OFFSET_G }} g left after calibration: integrated twice it moves
-the position by {{ driftAfter(1) }} m after 1 s, {{ driftAfter(10) }} m after 10 s and {{ driftAfter(60) }} m
+square of the time. Take an offset of 0.01 g left after calibration: integrated twice it moves
+the position by 0.05 m after 1 s, 5 m after 10 s and 177 m
 after a minute (a·t²/2), and any tilt error leaks part of gravity's 1 g in too.
 </p>
 <p>
@@ -170,7 +170,7 @@ because they fuse GPS, compass and barometer with the IMU for navigation, not on
 
 <ul>
 <li><b>IMU</b>, inertial measurement unit: the sensors themselves, the accelerometer and gyro (the <a href="/mpu6050#raw">raw numbers</a>).</li>
-<li><b>AHRS</b>, attitude and heading reference system: an IMU plus the filter that turns its readings into an orientation (<a href="/algorithms/attitude">steps 4</a> and <a href="/algorithms/attitude">5</a>), with a compass for the heading.</li>
+<li><b>AHRS</b>, attitude and heading reference system: an IMU plus the filter that turns its readings into an orientation (<a href="/algorithms/attitude">the attitude page</a>), with a compass for the heading.</li>
 <li><b>INS</b>, inertial navigation system: goes on to speed and position, by integrating with the drift problem above, fused with GPS and others to hold it in check.</li>
 </ul>
 
