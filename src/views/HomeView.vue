@@ -1,9 +1,8 @@
 <script setup>
-// The home page as a book's cover, then its contents. The cover: the title,
-// what it is, the glass box with the board turning slowly in it (still when
-// the system asks for less motion), the three parts, the way in. The
-// contents: the parts and their pages, as a book lists its chapters, and
-// the course. Recent above them, when there is any.
+// The home page, a simple landing page: the hero (what it is, the glass box
+// with the board swaying in it, still for reduced motion, and the way in),
+// where you were, what's inside as six cards, three quotes on measuring and
+// understanding, and who makes it.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from '../components/ProjectionBox.vue';
 import { DEVICES, GUIDES } from '../lib/devices.js';
@@ -11,12 +10,12 @@ import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
 import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
-import { version } from '../../package.json';
 
 const hasWebUsb = 'usb' in navigator;
-const EDITION = version.split('.').slice(0, 2).join('.'); // 1.3.0: edition 1.3
+const year = new Date().getFullYear();
+const course = GUIDES[0];
 
-// the cover's board: a slow sway about the vertical, a little roll and pitch
+// the hero's board: a slow sway about the vertical, a little roll and pitch
 const SWAY_DEG = 35;
 const SWAY_S = 9; // a sway there and back
 const ROLL_DEG = 18;
@@ -39,64 +38,90 @@ onMounted(() => {
 });
 onBeforeUnmount(() => cancelAnimationFrame(frame));
 
-// the contents, part by part, a card a page: its kind, title, what it's
-// about, and a foot line
-const physicsTitle = (slug) => PHYSICS.find((p) => p.slug === slug)?.title ?? slug;
-const PARTS = [
-  { n: 'I', title: 'Physics', note: 'what is measured', items: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, kind: 'Physics', label: p.title, text: p.blurb, foot: `with ${p.devices.map((d) => d.label).join(', ')}` })) },
-  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: [{ to: '/devices', kind: 'Devices', label: `${DEVICES.length} sensors, live`, text: DEVICES.map((d) => d.name).join(' · '), foot: 'All devices →' }] },
-  { n: 'III', title: 'Algorithms', note: 'the maths that joins them', items: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, kind: 'Algorithm', label: p.title, text: p.blurb, foot: `combines ${p.combines.map(physicsTitle).join(' + ')}` })) },
-  { n: '', title: 'Learn', lead: 'Course', note: 'the parts in order, step by step', items: GUIDES.map((g) => ({ to: g.to, kind: g.kind, label: g.name, text: g.measures })) },
+// what's inside: a card each, its icon (a 24-unit SVG path), where it goes
+const FEATURES = [
+  { icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM12 3v18M3 12h18', title: 'Physics', to: `/physics/${PHYSICS[0].slug}`, text: `What is measured, drawn and explained: ${PHYSICS.filter((p) => p.component).map((p) => p.title.toLowerCase()).join(', ')}.` },
+  { icon: 'M7 3v3M12 3v3M17 3v3M7 18v3M12 18v3M17 18v3M3 8h18v8H3z', title: 'Devices', to: '/devices', text: `${DEVICES.length} sensors live in the browser, each with its wiring, its readings explained and its settings: motion, magnetism, humidity, heat, distance, pulse, power.` },
+  { icon: 'M4 18l5-6 4 3 7-9M4 6h4M16 18h4', title: 'Algorithms', to: `/algorithms/${ALGORITHMS[0].slug}`, text: 'The maths that joins sensors into what none gives alone, every formula with its live numbers: attitude from an accelerometer and a gyro.' },
+  { icon: 'M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4zM9 8h6M9 12h6', title: 'A course', to: course?.to ?? '/learn', text: 'The parts in order, step by step: the physics, the wiring, what the sensors give, the maths, then practice. Each step says where to go and when you\'re done.' },
+  { icon: 'M4 5h16v11H4zM9 20h6M12 16v4', title: 'Nothing to install', to: '/get-started', text: 'A CH341 USB dongle, four wires and a Chromium browser: WebUSB reads the sensor, the page charts it live, full screen for the class. Works offline once visited.' },
+  { icon: 'M12 3l8 4v5c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V7z', title: 'Open for learning', to: '/about', text: 'Free for STEM lessons, digital experiments and the electronics bench (PolyForm Noncommercial). The drivers, atiic, are MIT.' },
 ];
-const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
-const button = 'rounded-lg px-4 py-2 font-medium';
+
+// on measuring and understanding, with their sources
+const QUOTES = [
+  { text: 'When you can measure what you are speaking about, and express it in numbers, you know something about it.', by: 'Lord Kelvin', where: 'Electrical Units of Measurement, 1883' },
+  { text: 'Nothing is too wonderful to be true, if it be consistent with the laws of nature.', by: 'Michael Faraday', where: 'his diary, 1849' },
+  { text: 'The first principle is that you must not fool yourself — and you are the easiest person to fool.', by: 'Richard Feynman', where: 'Cargo Cult Science, 1974' },
+];
+const link = 'text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-5xl flex-col gap-10 p-4">
-    <!-- the cover -->
-    <section class="mx-auto mt-4 flex w-full max-w-2xl flex-col items-center rounded-sm border border-slate-300 bg-white px-6 pt-10 pb-6 text-center shadow-md sm:px-12 dark:border-slate-600 dark:bg-slate-800">
-      <p class="text-xs tracking-[0.3em] text-emerald-700 uppercase dark:text-emerald-400">a hands-on book of sensors</p>
-      <h1 class="mt-4 font-serif text-5xl font-bold tracking-tight sm:text-6xl">i2c.ninja</h1>
-      <p class="mt-3 font-serif text-xl text-slate-600 italic dark:text-slate-300">Sensors, live and explained</p>
-      <div class="my-4 w-full"><ProjectionBox :q="q" /></div>
-      <p class="font-serif text-lg tracking-wide">Physics · Devices · Algorithms</p>
-      <p class="mt-2 max-w-md text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        A sensor on a CH341 dongle, its readings live in your browser, and how it all works, drawn and worked out. For STEM lessons, digital experiments and the electronics bench; nothing to install.
+  <main class="flex flex-col">
+    <!-- hero -->
+    <section class="hero flex flex-col items-center px-4 pt-14 pb-8 text-center">
+      <p class="text-xs tracking-[0.3em] text-slate-500 uppercase dark:text-slate-400">a hands-on book of sensors</p>
+      <h1 class="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">i2c.ninja</h1>
+      <p class="mt-4 max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">
+        Plug a sensor into a CH341 USB dongle and watch it in your browser: its readings live, what it measures explained, and the maths that turns readings into understanding, worked out step by step.
       </p>
-      <div class="mt-5 flex flex-wrap justify-center gap-3">
-        <RouterLink v-for="g in GUIDES" :key="g.to" :to="g.to" :class="[button, 'bg-emerald-600 text-white hover:bg-emerald-700']">Start the course</RouterLink>
-        <RouterLink to="/get-started" :class="[button, 'border border-slate-300 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700']">Get started</RouterLink>
+      <p class="mt-2 max-w-xl text-sm text-slate-500 dark:text-slate-400">For STEM lessons, digital experiments and the electronics bench.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <RouterLink v-if="course" :to="course.to" class="rounded-lg bg-emerald-600 px-5 py-2.5 font-medium text-white hover:bg-emerald-700">Start the course</RouterLink>
+        <RouterLink to="/get-started" class="rounded-lg bg-emerald-600/10 px-5 py-2.5 font-medium text-emerald-800 hover:bg-emerald-600/20 dark:text-emerald-300">Get started</RouterLink>
       </div>
-      <p class="mt-8 w-full border-t border-slate-200 pt-3 text-xs tracking-widest text-slate-500 uppercase dark:border-slate-700 dark:text-slate-400">Sourcekit · edition {{ EDITION }}</p>
+      <p v-if="!hasWebUsb" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).</p>
+      <div class="mt-4 w-full max-w-md"><ProjectionBox :q="q" /></div>
     </section>
 
-    <p v-if="!hasWebUsb" class="mx-auto max-w-2xl rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).
-    </p>
+    <!-- where you were -->
+    <section v-if="recent.length" class="mx-auto w-full max-w-5xl px-4 pb-6 text-center text-sm">
+      <span class="text-slate-500 dark:text-slate-400">Where you were:</span>
+      <template v-for="(r, i) in withLabels(recent)" :key="r.to">{{ i ? ' · ' : ' ' }}<RouterLink :to="r.to" :class="link">{{ r.label }}</RouterLink> <span class="text-xs text-slate-400">{{ ago(r.at) }}</span></template>
+      <button type="button" class="ml-2 text-xs text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
+    </section>
 
-    <!-- the contents -->
-    <section class="w-full">
-      <div v-if="recent.length" class="mb-8 text-sm">
-        <span class="text-slate-500 dark:text-slate-400">Where you were:</span>
-        <template v-for="(r, i) in withLabels(recent)" :key="r.to">{{ i ? ' · ' : ' ' }}<RouterLink :to="r.to" class="text-emerald-700 underline dark:text-emerald-400">{{ r.label }}</RouterLink> <span class="text-xs text-slate-400">{{ ago(r.at) }}</span></template>
-        <button type="button" class="ml-2 text-xs text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
-      </div>
+    <!-- what's inside -->
+    <section class="mx-auto grid w-full max-w-5xl gap-4 px-4 pb-12 sm:grid-cols-2 lg:grid-cols-3">
+      <RouterLink v-for="f in FEATURES" :key="f.title" :to="f.to" class="flex flex-col rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
+        <svg viewBox="0 0 24 24" class="mb-2 h-7 w-7 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="f.icon" /></svg>
+        <span class="font-semibold">{{ f.title }}</span>
+        <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{{ f.text }}</span>
+      </RouterLink>
+    </section>
 
-      <h2 class="mb-6 text-center font-serif text-2xl tracking-wide">Contents</h2>
-      <div v-for="p in PARTS" :key="p.title" class="mb-10">
-        <p class="mb-3 font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">{{ p.lead ?? `Part ${p.n}` }}</span>{{ p.title }} <span class="text-sm text-slate-500 italic dark:text-slate-400">· {{ p.note }}</span></p>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <RouterLink v-for="it in p.items" :key="it.to" :to="it.to" :class="card">
-            <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ it.kind }}</span>
-            <span class="mt-1 text-lg font-semibold">{{ it.label }}</span>
-            <span v-if="it.sub" class="text-sm text-slate-500 dark:text-slate-400">{{ it.sub }}</span>
-            <span class="mt-2 flex-1 leading-relaxed">{{ it.text }}</span>
-            <span v-if="it.foot" class="mt-3 text-xs text-slate-500 dark:text-slate-400" :class="it.mono && 'font-mono'">{{ it.foot }}</span>
-          </RouterLink>
-        </div>
-      </div>
-      <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">More devices join one at a time, each once its driver and its page have run on a real one.</p>
+    <!-- quotes -->
+    <section class="mx-auto grid w-full max-w-5xl gap-8 px-4 pb-12 lg:grid-cols-3">
+      <figure v-for="qt in QUOTES" :key="qt.by" class="quote relative m-0 pt-7 text-center">
+        <blockquote class="m-0 leading-relaxed text-slate-700 italic dark:text-slate-300">{{ qt.text }}</blockquote>
+        <figcaption class="mt-2 text-xs tracking-wide text-slate-500 dark:text-slate-400">— {{ qt.by }}, <span class="italic">{{ qt.where }}</span></figcaption>
+      </figure>
+    </section>
+
+    <!-- who makes it -->
+    <section class="px-4 pb-12 text-center text-xs text-slate-500 dark:text-slate-400">
+      <p>Made by <a href="https://sourcekit.cc" :class="link">Sourcekit</a>; the drivers are <a href="https://github.com/aguegu/atiic" :class="link">atiic</a>, open on GitHub.</p>
+      <p class="mt-2"><RouterLink to="/about" :class="link">About</RouterLink> · <RouterLink to="/about#releases" :class="link">Releases</RouterLink> · <a href="https://github.com/aguegu/i2c.ninja/discussions" :class="link">Discussions</a></p>
+      <p class="mt-2">© {{ year }} i2c.ninja</p>
     </section>
   </main>
 </template>
+
+<style scoped>
+.hero {
+  background: radial-gradient(120% 120% at 50% -10%, rgb(5 150 105 / 0.14), transparent 60%);
+}
+.quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: rgb(5 150 105);
+  opacity: 0.35;
+}
+</style>
