@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
 import { IMU_STEPS } from './views/learn/imuSteps.js';
+import { PHYSICS } from './lib/physics.js';
 import { ORIGIN, pageFor, fullTitle } from './lib/pages.js';
 import { record } from './lib/recent.js';
 
@@ -22,6 +23,7 @@ const router = createRouter({
     { path: '/itg3200', component: () => import('./views/Itg3200View.vue') },
     { path: '/learn/imu', component: () => import('./views/learn/ImuIndexView.vue') },
     ...IMU_STEPS.filter((s) => s.component).map((s) => ({ path: `/learn/imu/${s.slug}`, component: s.component })),
+    ...PHYSICS.filter((p) => p.component).map((p) => ({ path: `/physics/${p.slug}`, component: p.component })),
     { path: '/about', component: () => import('./views/AboutView.vue') },
     { path: '/:pathMatch(.*)*', component: () => import('./views/NotFoundView.vue') }, // last: an address the site doesn't have
   ],

@@ -4,6 +4,7 @@
 // running the app), with the sitemap.
 import { DEVICES } from './devices.js';
 import { IMU_STEPS } from '../views/learn/imuSteps.js';
+import { PHYSICS } from './physics.js';
 
 export const SITE = 'i2c.ninja';
 export const ORIGIN = 'https://i2c.ninja';
@@ -49,6 +50,11 @@ export const PAGES = [
     path: `/learn/imu/${s.slug}`,
     title: `${s.title} · Learn the IMU`,
     description: `${s.blurb} Learn the IMU, with an MPU-6050 live in the browser.`,
+  })),
+  ...PHYSICS.filter((p) => p.component).map((p) => ({
+    path: `/physics/${p.slug}`,
+    title: `${p.title}: how sensors measure it`,
+    description: `${p.blurb} With the sensors that measure it live in the browser, and things to try in class.`,
   })),
   {
     path: '/about',

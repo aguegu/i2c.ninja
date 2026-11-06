@@ -2,6 +2,7 @@
 // the home page: what this is, a card a device, the guides, the bench
 import { DEVICES, GUIDES } from '../lib/devices.js';
 import HomeCarousel from '../components/HomeCarousel.vue';
+import { PHYSICS } from '../lib/physics.js';
 import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
 
 const hasWebUsb = 'usb' in navigator;
@@ -52,7 +53,19 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
     </section>
 
     <section>
-      <h2 class="mb-3 text-lg font-semibold">Devices</h2>
+      <h2 class="mb-3 text-lg font-semibold">By physics</h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <RouterLink v-for="p in PHYSICS.filter((t) => t.component)" :key="p.slug" :to="`/physics/${p.slug}`" :class="card">
+          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</span>
+          <span class="mt-1 text-lg font-semibold">{{ p.title }}</span>
+          <span class="mt-2 flex-1 leading-relaxed">{{ p.blurb }}</span>
+          <span class="mt-3 text-xs text-slate-500 dark:text-slate-400">with {{ p.devices.map((d) => d.label).join(', ') }}</span>
+        </RouterLink>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-lg font-semibold">By device</h2>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <RouterLink v-for="d in DEVICES" :key="d.to" :to="d.to" :class="card">
           <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
