@@ -18,6 +18,7 @@ const src = reactive(useSources({ accel: ACCELEROMETERS, gyro: GYROSCOPES }, { w
 const fusion = reactive(useFusion((fn) => src.onReading((t, v) => fn(t, v.accel, v.gyro)), { windowMs: WINDOW_MS }));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
+const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 const WIKI = 'https://en.wikipedia.org/wiki/';
 // further reading, by what it explains on this page
 const READING = [
@@ -59,6 +60,10 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
 
     <section :class="card">
       <SourceBar :src="src" />
+      <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <button :class="button" :disabled="src.state !== 'running' || fusion.zeroing" @click="fusion.zero">{{ fusion.zeroing ? 'Hold still…' : 'Zero' }}</button>
+        <HintNote>Hold the board still and press Zero: two seconds of the gyro averaged, b₀, taken off from then on, and the filter started again.</HintNote>
+      </div>
       <HintNote v-if="src.apart" class="mt-3">
         Two boards: line them up so their printed x, y and z arrows point the same ways, and fix them together (tape, a breadboard). The filter takes them as one board; an axis turned the other way reads as a turn the other way.
       </HintNote>
@@ -109,7 +114,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
       <ol class="list-decimal space-y-2 pl-5">
         <li><b>Hold it as on screen.</b> Lay the board flat, x away from you, press Start again, then tilt and turn it: the fused φ, θ and ψ follow, quick as the gyro and steady as gravity.</li>
         <li><b>Shake it.</b> Gravity's line jumps; the fused one barely flinches.</li>
-        <li><b>Leave it still for a minute.</b> The gyro-alone line walks away; the fused one stays put, and b̂ settles near what the gyro reads at rest.</li>
+        <li><b>Leave it still for a minute.</b> The gyro-alone line walks away; the fused one stays put, and b̂ settles near what the gyro reads at rest. Then press Zero, held still, and leave it again: b₀ took the offset, so b̂ stays near 0 and the gyro-alone line barely walks.</li>
         <li><b>Turn it flat on the table.</b> Roll and pitch don't move; yaw follows, then creeps once you stop: nothing here measures north.</li>
         <li><b>Two boards?</b> Turn one of them half a turn on the tape and try again: the fused attitude fights itself. Line them up again.</li>
       </ol>

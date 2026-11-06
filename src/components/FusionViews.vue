@@ -52,7 +52,8 @@ const blocks = computed(() => {
   return [
     { title: 'From the sensors, every reading', rows: [
       { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer' },
-      { tex: String.raw`\boldsymbol{\omega} = (\omega_x,\ \omega_y,\ \omega_z) =`, value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro: the rates about x, y and z' },
+      { tex: String.raw`\mathbf{b}_0 =`, value: `${vec(u.b0, 2)} °/s`, note: u.zeroed ? 'Zero\'s offset: the gyro\'s average, held still for two seconds' : 'Zero\'s offset: none yet (hold the board still, press Zero)' },
+      { tex: String.raw`\boldsymbol{\omega} = (\omega_x,\ \omega_y,\ \omega_z) =`, value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro: the rates about x, y and z, as read, b₀ taken off' },
       { tex: String.raw`\Delta t =`, value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
     ] },
     { title: 'Gravity\'s tilt, from a alone', rows: [
