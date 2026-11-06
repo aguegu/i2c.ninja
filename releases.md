@@ -1,5 +1,24 @@
 # Releases
 
+## 1.2.2
+
+- Physics: Magnetism and the compass (/physics/magnetism): a Live card that
+  finds any magnetometer on the bus (the HMC5883L, read at its 15 a second),
+  the magnetometer's views, Earth's field and its dip drawn, a permalloy
+  bridge and set/reset, a compass and declination (NOAA's calculator), the
+  board's own field (hard and soft iron), things to try. Tried with an
+  HMC5883L.
+- MagnetometerViews: the magnetometer's views as one component (the field
+  with the compass rose, Calibrate, three ways, the board against the field,
+  the chart), fed by each page's adapter; useHardIron calibrates any stream
+  of readings. The HMC5883L page's composable now an adapter.
+- Device pages end with Its settings: what the chip offers and what the
+  page uses, the few that matter (SpecTable), its maker's home page at the
+  heading, See also its physics page; in place of How it measures on the
+  ADXL345, ITG-3200 and HMC5883L pages.
+- The Live card says the chip's own rate. Device and physics pages' opening
+  paragraph full width.
+
 ## 1.2.1
 
 - Physics: Rotation and the gyroscope (/physics/rotation): a Live card that
