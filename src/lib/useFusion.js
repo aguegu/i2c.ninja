@@ -13,6 +13,7 @@ const MAX_STEP_S = 0.1; // a longer gap between readings: not integrated
 
 export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const mahony = new Mahony();
+  const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s }
   const fused = ref(null); // { q, roll, pitch, yaw } degrees
   const gravity = ref(null); // { roll, pitch }
   const gyroAlone = ref(null); // { roll, pitch }
@@ -32,6 +33,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     alone.roll += gyro[0] * step; // roll turns about +x
     alone.pitch -= gyro[1] * step; // nose up is about -y
     const m = mahony.angles();
+    input.value = { accel, gyro, dt: step };
     fused.value = { q: mahony.q, ...m };
     gravity.value = g;
     gyroAlone.value = { ...alone };
@@ -51,5 +53,5 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     pitchSeries.clear();
   }
 
-  return { fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, restart };
+  return { input, kp: mahony.kp, ki: mahony.ki, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, restart };
 }

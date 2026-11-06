@@ -1,14 +1,16 @@
 <script setup>
-// Two sensors fused, every way the site shows it: the board in 3D and the
+// Two sensors fused, every way the site shows it: the numbers in and the
+// formulas they go through (each with the latest values), the board in 3D and the
 // attitude indicator, Mahony's roll, pitch and yaw with Start again and the
 // gyro offset it learned, then roll and pitch three ways (fused, gravity's,
 // the gyro alone) on charts. A page brings a useFusion() (reactive) fed by
 // its readings; running enables the button.
+import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import Board3D from './Board3D.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 
-defineProps({
+const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
   running: { type: Boolean, default: false },
   windowMs: { type: Number, default: 10000 },
@@ -22,11 +24,54 @@ const THREE = [
 ];
 const AXES = ['x', 'y', 'z'];
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
+// the latest numbers, as they go into the formulas
+const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
+const formula = 'grid grid-cols-[auto_auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
+const value = 'text-emerald-700 dark:text-emerald-400';
+const vec = (v, d) => (v ? `(${v.map((c) => n(c, d)).join(', ')})` : '—');
+// each block: a formula a row, its result with the latest numbers
+const blocks = computed(() => {
+  const u = props.fusion, i = u.input;
+  return [
+    { title: 'From the sensors, every reading', rows: [
+      { lhs: 'a', rhs: '=', value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer' },
+      { lhs: 'ω', rhs: '=', value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro' },
+      { lhs: 'Δt', rhs: '=', value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
+    ] },
+    { title: 'Gravity\'s tilt, from a alone', rows: [
+      { lhs: 'roll', rhs: '= atan2(ay, az) =', value: `${f(u.gravity?.roll, 1)}°`, note: '' },
+      { lhs: 'pitch', rhs: '= atan2(ax, √(ay² + az²)) =', value: `${f(u.gravity?.pitch, 1)}°`, note: '' },
+    ] },
+    { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
+      { lhs: 'roll', rhs: '← roll + ωx × Δt =', value: `${f(u.gyroAlone?.roll, 1)}°`, note: '' },
+      { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
+    ] },
+    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
+      { lhs: 'e', rhs: '= â × v̂', value: '', note: 'up measured × up the filter holds' },
+      { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity' },
+      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: 'turned, then made unit length' },
+      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'roll, pitch and yaw come from it' },
+    ] },
+  ];
+});
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 </script>
 
 <template>
+  <section :class="card">
+    <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
+    <div class="grid gap-3 lg:grid-cols-2">
+      <div v-for="b in blocks" :key="b.title">
+        <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
+        <div :class="formula">
+          <template v-for="r in b.rows" :key="r.lhs + r.rhs">
+            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="font-sans text-xs text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
   <section :class="card">
     <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
       <h2 class="text-lg font-semibold">Fused</h2>
