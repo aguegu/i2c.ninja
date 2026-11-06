@@ -3,15 +3,22 @@
 // sensor reads 1 g upward, how a MEMS accelerometer feels it (the ADXL345's
 // datasheet: a polysilicon proof mass on springs, a differential
 // capacitor), tilt from gravity; the devices that measure it; things to try
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import LiveSourceCard from '../../components/LiveSourceCard.vue';
+import AttitudeIndicator from '../../components/AttitudeIndicator.vue';
+import VectorViews from '../../components/VectorViews.vue';
+import AttitudeViews from '../../components/AttitudeViews.vue';
 import { PHYSICS } from '../../lib/physics.js';
 import { ACCELEROMETERS } from '../../lib/sources.js';
 import { useSource } from '../../lib/useSource.js';
 import { rollOf, pitchOf } from '../../lib/tilt.js';
 
 const src = reactive(useSource(ACCELEROMETERS));
+// the reading as x, y, z in g, 1 g on z (flat, at rest) until there is one
+const a = computed(() => (src.latest ? { x: src.latest[0], y: src.latest[1], z: src.latest[2] } : { x: 0, y: 0, z: 1 }));
+const roll = computed(() => rollOf(a.value.x, a.value.y, a.value.z));
+const pitch = computed(() => pitchOf(a.value.x, a.value.y, a.value.z));
 
 const topic = PHYSICS.find((p) => p.slug === 'acceleration');
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -28,14 +35,29 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <LiveSourceCard :src="src" title="Acceleration" :floor="1.2">
-      <template #default="{ v }">
-        <p v-if="v" class="mt-2 font-mono text-sm text-slate-500 tabular-nums dark:text-slate-400">tilt, held still: roll {{ rollOf(...v).toFixed(0) }}° · pitch {{ pitchOf(...v).toFixed(0) }}°</p>
-      </template>
-    </LiveSourceCard>
+    <LiveSourceCard :src="src" title="Acceleration" :floor="1.2" />
     <p class="-mt-2 text-sm text-slate-500 dark:text-slate-400">
       It looks for any accelerometer this site knows (the ADXL345, the MPU-6050 or MPU-6500) on the dongle's bus, and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
     </p>
+
+    <div class="grid gap-4 md:grid-cols-[auto_1fr]">
+      <section :class="[card, 'flex flex-col items-center']">
+        <AttitudeIndicator :roll="roll" :pitch="pitch" />
+        <p class="mt-2 font-mono text-sm tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400">from gravity, held still</p>
+      </section>
+      <section :class="card">
+        <h2 class="mb-2 font-semibold">What the accelerometer feels, three ways</h2>
+        <VectorViews :x="a.x" :y="a.y" :z="a.z" />
+        <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">The reading as an arrow, from three sides, the board still in its own axes: 1 g up at rest; tilt it and the arrow leans the other way, still pointing at the ceiling.</p>
+      </section>
+    </div>
+
+    <section :class="card">
+      <h2 class="mb-2 font-semibold">The board in the room: gravity held still</h2>
+      <AttitudeViews :x="a.x" :y="a.y" :z="a.z" />
+      <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">The other way round: gravity stays put, pointing down, and the board turns as the reading says: pitch from the side, roll from behind. The heading, a turn about the vertical, it can't see.</p>
+    </section>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">A mass on springs</h2>
