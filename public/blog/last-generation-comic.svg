@@ -206,8 +206,8 @@
 <path d="M842 58 H1026 Q1044 58 1044 76 V132 Q1044 150 1026 150 H902 L888 156 L882 150 H842 Q824 150 824 132 V76 Q824 58 842 58 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
 <text x="934.0" y="99.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WHERE DO THE VARS</text>
 <text x="934.0" y="119.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">IN V̂ COME FROM?</text>
-<path d="M1052 150 H1156 Q1174 150 1174 168 V188 Q1174 206 1156 206 H1118 L1104 226 L1098 206 H1052 Q1034 206 1034 188 V168 Q1034 150 1052 150 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="1104.0" y="183.04" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">GOOD QUESTION!</text>
+<path d="M1032 146 H1162 Q1180 146 1180 164 V188 Q1180 206 1162 206 H1118 L1104 226 L1098 206 H1032 Q1014 206 1014 188 V164 Q1014 146 1032 146 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1097.0" y="181.04" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">GOOD QUESTION!</text>
 <rect x="14" y="14" width="380" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="406" y="14" width="390" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>

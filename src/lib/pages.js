@@ -48,7 +48,8 @@ export const PAGES = [
     title: 'Blog: how i2c.ninja and atiic come about',
     description: 'Stories behind i2c.ninja and its I2C drivers, atiic: the sensors, the ideas and the questions on the way.',
   },
-  ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, title: `${p.title} · blog`, description: p.summary })),
+  // a post: its own preview (its comic, public/blog/og/<slug>.png, 1200 x 630), as an article
+  ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, title: `${p.title} · blog`, description: p.summary, type: 'article', published: p.date, image: p.banner ? `/blog/og/${p.slug}.png` : null, imageAlt: p.banner?.alt })),
   {
     path: '/devices',
     title: 'Devices: I2C sensors live in the browser',

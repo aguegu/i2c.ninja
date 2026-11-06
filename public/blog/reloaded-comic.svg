@@ -108,9 +108,9 @@
 <rect x="738" y="268" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
 <circle cx="754" cy="283" r="5" fill="#1e1b18"/><circle cx="778" cy="283" r="5" fill="#1e1b18"/>
 <path d="M758 306 Q766 312 774 306" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
-<path d="M440 74 H630 Q648 74 648 92 V140 Q648 158 630 158 H498 L484 156 L478 158 H440 Q422 158 422 140 V92 Q422 74 440 74 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="535.0" y="111.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">DATASHEET IN CODE,</text>
-<text x="535.0" y="131.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">NOT BOUND TO ANY CHIP!</text>
+<path d="M434 70 H646 Q664 70 664 88 V140 Q664 158 646 158 H498 L484 156 L478 158 H434 Q416 158 416 140 V88 Q416 70 434 70 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="540.0" y="109.47" font-size="14.5" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">DATASHEET IN CODE,</text>
+<text x="540.0" y="128.97" font-size="14.5" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">NOT BOUND TO ANY CHIP!</text>
 <path d="M692 96 H796 Q814 96 814 114 V148 Q814 166 796 166 H772 L758 216 L752 166 H692 Q674 166 674 148 V114 Q674 96 692 96 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
 <text x="744.0" y="126.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LET'S</text>
 <text x="744.0" y="148.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">RELOAD.</text>

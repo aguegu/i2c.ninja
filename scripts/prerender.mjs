@@ -12,7 +12,8 @@ import { MOVED } from '../src/lib/moved.js';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 const ALIASES = { '/mpu6500': '/mpu6050', '/aht21b': '/aht21' }; // the router's aliases: their own files, canonical to the page
-const IMAGE = `${ORIGIN}/og-card.png`; // 1200 x 630, from scripts/og-card.svg (rsvg-convert -w 1200 -h 630)
+const IMAGE = `${ORIGIN}/og-card.png`; // 1200 x 630, from scripts/og-card.svg (rsvg-convert -w 1200 -h 630); a page may have its own (page.image)
+const IMAGE_ALT = 'i2c.ninja: I2C sensors, live and explained, in your browser over a USB dongle';
 const template = readFileSync(`${DIST}index.html`, 'utf8');
 
 const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -32,14 +33,15 @@ function render(page, { robots } = {}) {
   const tags = [
     robots && `<meta name="robots" content="${robots}">`,
     `<meta property="og:site_name" content="${SITE}">`,
-    `<meta property="og:type" content="website">`,
+    `<meta property="og:type" content="${page.type ?? 'website'}">`,
+    page.published && `<meta property="article:published_time" content="${page.published}">`,
     `<meta property="og:title" content="${title}">`,
     `<meta property="og:description" content="${description}">`,
     `<meta property="og:url" content="${url}">`,
-    `<meta property="og:image" content="${IMAGE}">`,
+    `<meta property="og:image" content="${page.image ? ORIGIN + page.image : IMAGE}">`,
     '<meta property="og:image:width" content="1200">',
     '<meta property="og:image:height" content="630">',
-    '<meta property="og:image:alt" content="i2c.ninja: sensors, live and explained, in your browser over a USB dongle">',
+    `<meta property="og:image:alt" content="${esc(page.imageAlt ?? IMAGE_ALT)}">`,
     '<meta name="twitter:card" content="summary_large_image">',
     page.path === '/' && `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, CH341, electronics, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } })}</script>`,
   ].filter(Boolean).map((t) => `    ${t}\n`).join('');
