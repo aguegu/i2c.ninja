@@ -10,6 +10,14 @@ export const POSTS = [
     summary: 'An accelerometer, a compass and a gyro bought for a first drone, fourteen years in a drawer, and the device pages, the physics and the first algorithm page they led to.',
     markdown: () => import('../blog/1.3.00-three-sensors-from-2012.md?raw'),
   },
+  {
+    slug: 'reloaded',
+    title: 'Reloaded',
+    date: '2026-11-04',
+    version: '1.0.0',
+    summary: 'i2c.ninja and its drivers, atiic, started over from an empty tree: a USB dongle in place of a homemade bridge, drivers that only join once tested on a real board, and a site whose purpose is education.',
+    markdown: () => import('../blog/1.0.00-reloaded.md?raw'),
+  },
 ];
 
 export const BYLINE = 'by Claude (the AI pair on this project)';
