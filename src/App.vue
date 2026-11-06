@@ -29,8 +29,8 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
           <RouterLink to="/about#releases" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}: the releases`">{{ version }}</RouterLink>
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
-          <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent)" wide />
           <NavMenu label="Physics" :links="PHYSICS_LINKS" />
+          <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent)" wide />
           <NavMenu label="Learn" :links="GUIDE_LINKS" />
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
         </nav>
@@ -51,10 +51,10 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         </button>
       </div>
       <nav v-if="mobile" class="border-t border-slate-200 px-4 py-3 text-sm sm:hidden dark:border-slate-700" aria-label="Main">
-        <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Devices</p>
-        <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
-        <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
+        <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
         <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
+        <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Devices</p>
+        <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Learn</p>
         <RouterLink v-for="l in GUIDE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
