@@ -32,7 +32,7 @@
 <circle cx="336.6666666666667" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="355.3333333333333" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="374.0" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
-<text x="366" y="262" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MPU</text>
+<text x="366" y="190" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MPU</text>
 <path d="M52 74 H206 Q224 74 224 92 V130 Q224 148 206 148 H98 L84 184 L78 148 H52 Q34 148 34 130 V92 Q34 74 52 74 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
 <text x="129.0" y="106.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CAN YOU</text>
 <text x="129.0" y="127.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SPEAK I²C?</text>

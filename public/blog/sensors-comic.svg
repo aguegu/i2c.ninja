@@ -59,8 +59,8 @@
 <circle cx="686" cy="120" r="15" fill="#d6d3d1" fill-opacity="0.85" stroke="#1e1b18" stroke-width="2"/>
 <circle cx="736" cy="102" r="13" fill="#d6d3d1" fill-opacity="0.85" stroke="#1e1b18" stroke-width="2"/>
 <text x="706" y="74" font-size="22" text-anchor="middle" fill="#78716c" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5" transform="rotate(-8 706 74)">COUGH!</text>
-<path d="M574 146 H718 Q736 146 736 164 V180 Q736 198 718 198 H620 L606 214 L600 198 H574 Q556 198 556 180 V164 Q556 146 574 146 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="646.0" y="177.76" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">STILL WORKING!</text>
+<path d="M574 140 H718 Q736 140 736 158 V174 Q736 192 718 192 H616 L602 198 L596 192 H574 Q556 192 556 174 V158 Q556 140 574 140 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="646.0" y="171.76" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">STILL WORKING!</text>
 <rect x="822" y="28" width="218" height="32" fill="#ddd6fe" stroke="#1e1b18" stroke-width="3"/>
 <text x="931.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">DEEP, AND STEREO</text>
 <path d="M878 320 h220 l-20 50 h-180 z" fill="#cbd5e1" stroke="#1e1b18" stroke-width="3.5"/>
