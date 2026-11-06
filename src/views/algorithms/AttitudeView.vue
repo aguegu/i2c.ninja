@@ -18,6 +18,29 @@ const src = reactive(useSources({ accel: ACCELEROMETERS, gyro: GYROSCOPES }, { w
 const fusion = reactive(useFusion((fn) => src.onReading((t, v) => fn(t, v.accel, v.gyro)), { windowMs: WINDOW_MS }));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
+const WIKI = 'https://en.wikipedia.org/wiki/';
+// further reading, by what it explains on this page
+const READING = [
+  { topic: 'The filter', items: [
+    { href: 'https://doi.org/10.1109/TAC.2008.923738', title: 'Nonlinear Complementary Filters on the Special Orthogonal Group', note: 'Robert Mahony, Tarek Hamel and Jean-Michel Pflimlin, IEEE Transactions on Automatic Control, 2008: the filter on this page' },
+    { href: 'https://doi.org/10.1109/ICORR.2011.5975346', title: 'Estimation of IMU and MARG orientation using a gradient descent algorithm', note: 'Sebastian Madgwick, Andrew Harrison and Ravi Vaidyanathan, ICORR 2011: the other well-known small filter' },
+    { href: `${WIKI}Kalman_filter`, title: 'Kalman filter', note: 'Wikipedia: the heavier, statistical way, in navigation systems' },
+  ] },
+  { topic: 'The maths', items: [
+    { href: `${WIKI}Aircraft_principal_axes`, title: 'Aircraft principal axes', note: 'Wikipedia: roll, pitch and yaw (φ, θ, ψ)' },
+    { href: `${WIKI}Quaternions_and_spatial_rotation`, title: 'Quaternions and spatial rotation', note: 'Wikipedia: q, its product ⊗, and turning by it' },
+    { href: `${WIKI}Euler%27s_rotation_theorem`, title: 'Euler\'s rotation theorem', note: 'Wikipedia: any attitude is one turn away, β about n' },
+    { href: `${WIKI}Atan2`, title: 'atan2', note: 'Wikipedia: the angle from two numbers, gravity\'s φ and θ' },
+    { href: `${WIKI}Cross_product`, title: 'Cross product', note: 'Wikipedia: e, how far apart two directions are' },
+  ] },
+  { topic: 'Control', items: [
+    { href: `${WIKI}PID_controller`, title: 'PID controller', note: 'Wikipedia: kp, ki and kd' },
+  ] },
+  { topic: 'The bigger picture', items: [
+    { href: `${WIKI}Inertial_measurement_unit`, title: 'Inertial measurement unit', note: 'Wikipedia: accelerometers and gyros together' },
+    { href: `${WIKI}Attitude_and_heading_reference_system`, title: 'Attitude and heading reference system', note: 'Wikipedia: with a compass too, a full attitude' },
+  ] },
+];
 const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\,\Delta t) + (1 - \alpha)\,\varphi_{\text{gravity}}, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
 </script>
 
@@ -72,9 +95,6 @@ const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\
       <p>
         That added-up part settles only where it cancels the gyro's offset: the filter learns the offset while in use, no holding still needed. That's "gyro offset learned" above, on the axes gravity can see.
       </p>
-      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Where it comes from: Robert Mahony, Tarek Hamel and Jean-Michel Pflimlin, <a href="https://doi.org/10.1109/TAC.2008.923738" :class="link">Nonlinear Complementary Filters on the Special Orthogonal Group</a> (IEEE Transactions on Automatic Control, 2008). The bigger picture on Wikipedia: <a href="https://en.wikipedia.org/wiki/Attitude_and_heading_reference_system" :class="link">Attitude and heading reference system</a>.
-      </p>
     </section>
 
     <section :class="[card, 'leading-relaxed']">
@@ -93,6 +113,27 @@ const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\
         <li><b>Turn it flat on the table.</b> Roll and pitch don't move; yaw follows, then creeps once you stop: nothing here measures north.</li>
         <li><b>Two boards?</b> Turn one of them half a turn on the tape and try again: the fused attitude fights itself. Line them up again.</li>
       </ol>
+    </section>
+    <section :class="[card, 'leading-relaxed']">
+      <h2 class="mb-2 text-lg font-semibold">More to read</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div v-for="g in READING" :key="g.topic">
+          <p class="mb-1 text-sm font-semibold">{{ g.topic }}</p>
+          <ul class="space-y-1 text-sm">
+            <li v-for="r in g.items" :key="r.href">
+              <a :href="r.href" :class="link">{{ r.title }}</a>
+              <span class="text-slate-500 dark:text-slate-400"> · {{ r.note }}</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="mb-1 text-sm font-semibold">On this site</p>
+          <ul class="space-y-1 text-sm">
+            <li><RouterLink to="/learn/imu" :class="link">Learn the IMU</RouterLink><span class="text-slate-500 dark:text-slate-400"> · step by step with an MPU-6050, sliders for τ, kp and ki</span></li>
+            <li><RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink><span class="text-slate-500 dark:text-slate-400"> · and</span> <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink><span class="text-slate-500 dark:text-slate-400"> · the two sensors on their own</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
   </main>
 </template>
