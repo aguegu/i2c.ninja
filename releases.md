@@ -1,5 +1,33 @@
 # Releases
 
+## 1.3.0
+
+- Algorithms, a third way in beside the devices and the physics: a page an
+  algorithm combining physics (lib/algorithms.js), the Algorithms menu, By
+  algorithm on the home page, a footer column, Recent. The first: Attitude
+  from accel and gyro (/algorithms/attitude), 6-axis sensor fusion. Tried
+  with an MPU and with an ADXL345 + ITG-3200.
+- A Live card finding a pair: an accelerometer and a gyro, from one chip
+  (an MPU's two halves paired) or two boards (a hint to line up their
+  axes); lib/useSources.js scans for several quantities at once (useSource
+  now built on it). Zero: the gyro held still two seconds, b0 taken off.
+- The numbers and the formulas, drawn by KaTeX (TexMath, loaded with this
+  page only), each with its live value: the readings, gravity's tilt, the
+  gyro alone, q (q0 from gravity, beta and n), Mahony's filter step by step
+  (kp, ki, kd = 0 as PID, a-hat, v-hat, e, b-hat, omega', q turned, the
+  fused angles). Every angle subscripted by its path: g gravity's, omega
+  the gyro alone, q fused, c the complementary filter's.
+- The math, drawn: atan2 as triangles, Mahony's two ups. Charts for phi,
+  theta and psi, each way named as in the formulas.
+- The result: an attitude indicator and a new heading indicator (a pilot's
+  gauges), the board in a glass box (its projections on three walls, the
+  world's axes from their corner) and the walls unfolded as flat views.
+  The body frame (x, y, z) and the world frame (X, Y, Z) named, with a card
+  on what q is for; more to read (the papers, the maths, PID).
+- The board drawn in a neutral slate everywhere (lib/board.js): blue,
+  orange and green are the axes'. The gyro pages' flat views styled as the
+  glass box. See also from Acceleration and Rotation to the new page.
+
 ## 1.2.2
 
 - Physics: Magnetism and the compass (/physics/magnetism): a Live card that
