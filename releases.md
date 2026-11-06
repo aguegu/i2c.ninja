@@ -6,7 +6,7 @@
   algorithm combining physics (lib/algorithms.js), the Algorithms menu, By
   algorithm on the home page, a footer column, Recent. The first: Attitude
   from accel and gyro (/algorithms/attitude), 6-axis sensor fusion. Tried
-  with an MPU and with an ADXL345 + ITG-3200.
+  on the bench.
 - A Live card finding a pair: an accelerometer and a gyro, from one chip
   (an MPU's two halves paired) or two boards (a hint to line up their
   axes); lib/useSources.js scans for several quantities at once (useSource
