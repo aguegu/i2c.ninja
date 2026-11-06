@@ -81,7 +81,7 @@ const AXES = [
   return { ...a, o, e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 10 * ux, e[1] + 10 * uy] };
 });
 // the board's own (body) axes, lowercase, from its centre: turned with it
-const BODY_LEN = 0.95;
+const BODY_LEN = 1.45; // out past the board's edges (half length 1.1), clear of the white arrow
 const body = computed(() => BODY_AXES.map((a) => {
   const o = at([0, 0, 0]), e = at(rotate(props.q, a.dir).map((c) => c * BODY_LEN)), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy) || 1;
   const ux = dx / n, uy = dy / n;

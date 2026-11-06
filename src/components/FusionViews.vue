@@ -13,6 +13,8 @@ import TexMath from './TexMath.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
 import ProjectionViews from './ProjectionViews.vue';
+import TiltTriangles from './TiltTriangles.vue';
+import TwoUps from './TwoUps.vue';
 import ProjectionBox from './ProjectionBox.vue';
 
 const props = defineProps({
@@ -124,6 +126,21 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </div>
   </section>
   <section :class="card">
+    <h2 class="mb-2 text-lg font-semibold">The math, drawn</h2>
+    <div class="grid items-start gap-6 lg:grid-cols-[3fr_2fr]">
+      <div>
+        <p class="mb-2 text-sm font-semibold">Gravity's tilt: atan2 as a triangle</p>
+        <TiltTriangles :accel="fusion.input?.accel ?? null" />
+        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">atan2 takes the two legs of a right triangle, across and up, and gives the angle at its corner, the right way round in every quarter. Tilt the board and the triangles follow.</p>
+      </div>
+      <div>
+        <p class="mb-2 text-sm font-semibold">Mahony's comparison: the two ups</p>
+        <TwoUps :a-hat="aHat" :v-hat="fusion.fused?.held?.up ?? null" :e="err" />
+        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">In the board's own axes. Held still they lie together; shake it and â swings away while v̂ hardly moves; e is the axis the filter turns q about to bring them back.</p>
+      </div>
+    </div>
+  </section>
+  <section :class="card">
     <LiveChart title="φ, the roll" unit="°" :series="PHI" :values="fusion.fused ? [fusion.gravity.roll, fusion.gyroAlone.roll, fusion.fused.roll] : []" :source="fusion.rollSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
   <section :class="card">
@@ -138,16 +155,16 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <figure class="flex flex-col items-center gap-1">
         <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" />
         <figcaption class="text-center text-sm">
-          <TexMath :expr="String.raw`\varphi_q,\ \theta_q`" />
-          <span class="font-mono tabular-nums"> {{ f(fusion.fused?.roll, 0) }}°, {{ f(fusion.fused?.pitch, 0) }}°</span>
+          <TexMath :expr="String.raw`\varphi_q,\ \theta_q =`" />
+          <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.roll, 0) }}°, {{ f(fusion.fused?.pitch, 0) }}°</span>
           <span class="block text-xs text-slate-500 dark:text-slate-400">the attitude indicator: the horizon tilts with φ, drops as the nose comes up with θ</span>
         </figcaption>
       </figure>
       <figure class="flex flex-col items-center gap-1">
         <HeadingIndicator :heading="fusion.fused?.yaw ?? null" />
         <figcaption class="text-center text-sm">
-          <TexMath :expr="String.raw`\psi_q`" />
-          <span class="font-mono tabular-nums"> {{ f(fusion.fused?.yaw, 0) }}°</span>
+          <TexMath :expr="String.raw`\psi_q =`" />
+          <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.yaw, 0) }}°</span>
           <span class="block text-xs text-slate-500 dark:text-slate-400">the heading indicator: 0 is where the nose pointed at the start</span>
         </figcaption>
       </figure>

@@ -25,7 +25,7 @@ const R = 118; // room round the wall for the axes sticking out
 const D = WALL / S; // the walls' half size, units: as the glass box's
 const CORNER = [-D, -D, -D]; // where the three walls meet: the world's axes leave it
 const AXIS_LEN = 2.25 * D; // the whole edge and a little out, as in the glass box
-const BODY_LEN = 0.95; // the body axes' arrows, units
+const BODY_LEN = 1.45; // the body axes' arrows, units: out past the board's edges, clear of the white arrow
 const WORLD = { X: [1, 0, 0], Y: [0, 1, 0], Z: [0, 0, 1] };
 const WORLD_COLOR = { X: 'var(--series-1)', Y: 'var(--series-2)', Z: 'var(--series-3)' };
 // each wall seen straight on: its screen right (h) and up (v) in world axes,
