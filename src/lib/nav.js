@@ -16,6 +16,7 @@ export const START_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/get-started', label: 'Set up the dongle' },
   { to: '/about', label: 'About' },
+  { to: '/blog', label: 'Blog' },
 ];
 export const ELSEWHERE_LINKS = [
   { href: DISCUSSIONS, label: 'Discussions', note: 'questions, ideas, what you built' },

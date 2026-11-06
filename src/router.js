@@ -11,6 +11,8 @@ const router = createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/get-started', component: () => import('./views/SetupView.vue') },
+    { path: '/blog', component: () => import('./views/BlogView.vue') },
+    { path: '/blog/:slug', component: () => import('./views/BlogPostView.vue') },
     { path: '/devices', component: () => import('./views/DevicesView.vue') },
     { path: '/mpu6050', alias: '/mpu6500', component: () => import('./views/Mpu6050View.vue') },
     { path: '/ina231', component: () => import('./views/Ina231View.vue') },

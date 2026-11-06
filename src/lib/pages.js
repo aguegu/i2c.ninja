@@ -4,6 +4,7 @@
 // running the app), with the sitemap.
 import { DEVICES } from './devices.js';
 import { COURSES } from './courses.js';
+import { POSTS } from './blog.js';
 import { PHYSICS } from './physics.js';
 import { ALGORITHMS } from './algorithms.js';
 
@@ -42,6 +43,12 @@ export const PAGES = [
     title: deviceTitle(d),
     description: `${d.maker} ${d.name}: ${d.measures} ${HOW[0].toUpperCase()}${HOW.slice(1)}`,
   })),
+  {
+    path: '/blog',
+    title: 'Blog: how i2c.ninja and atiic come about',
+    description: 'Stories behind i2c.ninja and its I2C drivers, atiic: the sensors, the ideas, the questions, and the mistakes on the way.',
+  },
+  ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, title: `${p.title} · blog`, description: p.summary })),
   {
     path: '/devices',
     title: 'Devices: I2C sensors live in the browser',
