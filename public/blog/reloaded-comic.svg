@@ -1,17 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A three-panel comic. 2022: a homemade bridge, slow and dropping its Bluetooth link; the maker sighs. 2026: the maker and a little robot at a laptop: datasheet in code, not bound to any chip; the robot says let's reload, from an empty tree. Then a sensor on the desk answers its ID, 0x68: it answered.">
-<defs>
-  <pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
-  <pattern id="dots2" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern>
-</defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. 2022: the maker sighs at a homemade STC bridge, slow, its link dropping. 2026: the maker and a little robot at a laptop: Datasheet in code, not bound to any chip! Let's reload. Then an MPU-6050 answers 0x68!: it answered.">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
 <rect width="1200" height="420" fill="#fffdf7"/>
 <rect x="14" y="14" width="380" height="392" fill="#e2e8f0"/>
 <rect x="14" y="14" width="380" height="392" fill="url(#dots)"/>
 <rect x="406" y="14" width="420" height="392" fill="#dcfce7"/>
 <rect x="406" y="14" width="420" height="392" fill="url(#dots)"/>
 <rect x="838" y="14" width="348" height="392" fill="#fef3c7"/>
-<rect x="838" y="14" width="348" height="392" fill="url(#dots)"/>
-<rect x="28" y="28" width="76" height="34" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
-<text x="66.0" y="52" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >2022</text>
+<rect x="838" y="14" width="348" height="392" fill="url(#hot)"/>
+<rect x="28" y="28" width="74" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="65.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">2022</text>
 <rect x="44" y="300" width="340" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
 <rect x="214" y="240" width="110" height="60" rx="6" fill="#57534e" stroke="#1e1b18" stroke-width="3.5"/>
 <rect x="254.0" y="252" width="30" height="30" rx="3" fill="#1e1b18"/>
@@ -19,49 +17,46 @@
 <circle cx="254.66666666666666" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="283.3333333333333" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="312.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
-<text x="269" y="234" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >STC bridge</text>
-<path d="M164 200 l18 -14 l10 16 l18 -14" fill="none" stroke="#2563eb" stroke-width="4" stroke-dasharray="6 6"/>
-<text x="246" y="190" font-size="16" text-anchor="middle" fill="#2563eb" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" transform="rotate(-8 246 190)" >...dropped</text>
+<text x="269.0" y="232" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">STC BRIDGE</text>
+<path d="M164 196 l18 -14 l10 16 l18 -14" fill="none" stroke="#2563eb" stroke-width="4" stroke-dasharray="6 6"/>
+<text x="250" y="186" font-size="15" text-anchor="middle" fill="#2563eb" font-weight="700" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5" transform="rotate(-8 250 186)">...DROPPED</text>
 <path d="M60 340 Q62 240 106 236 Q150 240 152 340 Z" fill="#78716c" stroke="#1e1b18" stroke-width="3.5"/>
 <circle cx="106" cy="190" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
 <path d="M68 184 Q70 146 106 148 Q144 146 144 180 Q126 166 106 168 Q88 164 68 184 Z" fill="#1e1b18"/>
 <circle cx="92" cy="192" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="120" cy="192" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M102 192h8" stroke="#1e1b18" stroke-width="3"/>
 <circle cx="92" cy="193" r="2.6" fill="#1e1b18"/><circle cx="120" cy="193" r="2.6" fill="#1e1b18"/>
-<path d="M136 254 q24 -40 4 -70" fill="none" stroke="#1e1b18" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M152 56 H356 Q374 56 374 74 V112 Q374 130 356 130 H188 L134 150 L168 130 H152 Q134 130 134 112 V74 Q134 56 152 56 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="254.0" y="88.3" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >Slow... and the</text>
-<text x="254.0" y="110.3" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >link drops again.</text>
-<text x="84" y="380" font-size="30" text-anchor="middle" fill="#78716c" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" transform="rotate(-6 84 380)" >SIGH</text>
-<rect x="420" y="28" width="76" height="34" fill="#bbf7d0" stroke="#1e1b18" stroke-width="3"/>
-<text x="458.0" y="52" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >2026</text>
+<path d="M160 64 H360 Q378 64 378 82 V120 Q378 138 360 138 H196 L138 150 L176 138 H160 Q142 138 142 120 V82 Q142 64 160 64 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="260.0" y="96.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SLOW, AND THE</text>
+<text x="260.0" y="117.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LINK DROPS AGAIN.</text>
+<text x="90" y="382" font-size="26" text-anchor="middle" fill="#78716c" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5" transform="rotate(-6 90 382)">SIGH...</text>
+<rect x="420" y="28" width="74" height="32" fill="#bbf7d0" stroke="#1e1b18" stroke-width="3"/>
+<text x="457.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">2026</text>
 <rect x="426" y="318" width="380" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
 <path d="M576 206 h150 v96 h-150 z" fill="#cbd5e1" stroke="#1e1b18" stroke-width="3.5"/>
 <rect x="586" y="216" width="130" height="76" fill="#1e293b"/>
 <path d="M560 302 h182 l-10 16 h-162 z" fill="#94a3b8" stroke="#1e1b18" stroke-width="3.5"/>
-<text x="592" y="240" font-size="13" fill="#5eead4" font-family="ui-monospace, monospace">class Mpu6050 {</text>
-<text x="592" y="258" font-size="13" fill="#e2e8f0" font-family="ui-monospace, monospace">  write(0x6B, 0)</text>
-<text x="592" y="276" font-size="13" fill="#e2e8f0" font-family="ui-monospace, monospace">}</text>
-<path d="M442 330 Q444 230 488 226 Q532 230 534 330 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
-<circle cx="488" cy="180" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
-<path d="M450 174 Q452 136 488 138 Q526 136 526 170 Q508 156 488 158 Q470 154 450 174 Z" fill="#1e1b18"/>
-<circle cx="474" cy="182" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="502" cy="182" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M484 182h8" stroke="#1e1b18" stroke-width="3"/>
-<circle cx="474" cy="183" r="2.6" fill="#1e1b18"/><circle cx="502" cy="183" r="2.6" fill="#1e1b18"/>
-<line x1="766" y1="228" x2="766" y2="250" stroke="#1e1b18" stroke-width="3.5"/><circle cx="766" cy="224" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
-<rect x="726" y="250" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
-<rect x="738" y="264" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
-<circle cx="754" cy="279" r="5" fill="#1e1b18"/><circle cx="778" cy="279" r="5" fill="#1e1b18"/>
-<path d="M758 302 Q766 308 774 302" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
-<path d="M442 46 H636 Q654 46 654 64 V120 Q654 138 636 138 H500 L486 150 L480 138 H442 Q424 138 424 120 V64 Q424 46 442 46 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="539.0" y="76.3" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >Datasheet in code,</text>
-<text x="539.0" y="98.3" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >not bound to</text>
-<text x="539.0" y="120.3" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >any chip!</text>
-<path d="M686 78 H796 Q814 78 814 96 V156 Q814 174 796 174 H772 L758 214 L752 174 H686 Q668 174 668 156 V96 Q668 78 686 78 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="741.0" y="121.15" font-size="19" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >Let's</text>
-<text x="741.0" y="144.15" font-size="19" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >reload.</text>
-<rect x="838" y="14" width="348" height="392" fill="url(#dots2)"/>
-<polygon points="1130,150 1093,166 1114,192 1071,193 1071,224 1034,208 1012,235 990,208 953,224 953,193 910,192 931,166 894,150 931,134 910,108 953,107 953,76 990,92 1012,65 1034,92 1071,76 1071,107 1114,108 1093,134" fill="#fde047" stroke="#1e1b18" stroke-width="4" stroke-linejoin="round"/>
-<text x="1012" y="144" font-size="38" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" transform="rotate(-6 1012 144)" >IT</text>
-<text x="1012" y="184" font-size="38" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" transform="rotate(-6 1012 184)" >ANSWERED!</text>
+<text x="592" y="236" font-size="12.5" fill="#5eead4" font-family="ui-monospace, Menlo, monospace" xml:space="preserve">class Mpu6050 {</text>
+<text x="592" y="254" font-size="12.5" fill="#e2e8f0" font-family="ui-monospace, Menlo, monospace" xml:space="preserve">  write(0x6B, 0)</text>
+<text x="592" y="272" font-size="12.5" fill="#e2e8f0" font-family="ui-monospace, Menlo, monospace" xml:space="preserve">}</text>
+<path d="M442 336 Q444 236 488 232 Q532 236 534 336 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="488" cy="186" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M450 180 Q452 142 488 144 Q526 142 526 176 Q508 162 488 164 Q470 160 450 180 Z" fill="#1e1b18"/>
+<circle cx="474" cy="188" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="502" cy="188" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M484 188h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="474" cy="189" r="2.6" fill="#1e1b18"/><circle cx="502" cy="189" r="2.6" fill="#1e1b18"/>
+<line x1="766" y1="232" x2="766" y2="254" stroke="#1e1b18" stroke-width="3.5"/><circle cx="766" cy="228" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="726" y="254" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="738" y="268" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="754" cy="283" r="5" fill="#1e1b18"/><circle cx="778" cy="283" r="5" fill="#1e1b18"/>
+<path d="M758 306 Q766 312 774 306" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<path d="M440 74 H630 Q648 74 648 92 V140 Q648 158 630 158 H498 L484 156 L478 158 H440 Q422 158 422 140 V92 Q422 74 440 74 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="535.0" y="111.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">DATASHEET IN CODE,</text>
+<text x="535.0" y="131.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">NOT BOUND TO ANY CHIP!</text>
+<path d="M692 96 H796 Q814 96 814 114 V148 Q814 166 796 166 H772 L758 216 L752 166 H692 Q674 166 674 148 V114 Q674 96 692 96 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="744.0" y="126.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LET'S</text>
+<text x="744.0" y="148.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">RELOAD.</text>
+<polygon points="1152,140 1104,159 1130,194 1075,192 1070,232 1026,208 992,240 972,203 920,216 931,177 878,168 916,140 878,112 931,103 920,64 972,77 992,40 1026,72 1070,48 1075,88 1130,86 1104,121" fill="#fde047" stroke="#1e1b18" stroke-width="4" stroke-linejoin="round"/>
+<text x="1012" y="128" font-size="34" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5" transform="rotate(-6 1012 128)">IT</text>
+<text x="1012" y="166" font-size="34" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5" transform="rotate(-6 1012 166)">ANSWERED!</text>
 <rect x="858" y="330" width="310" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
 <rect x="958" y="262" width="110" height="64" rx="6" fill="#2563eb" stroke="#1e1b18" stroke-width="3.5"/>
 <rect x="998.0" y="274" width="30" height="30" rx="3" fill="#1e1b18"/>
@@ -70,11 +65,9 @@
 <circle cx="1013.0" cy="317" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="1034.5" cy="317" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
 <circle cx="1056.0" cy="317" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
-<text x="1013" y="252" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >MPU-6050</text>
-<path d="M971.0 300 q-17.5 -6 -31.5 -2" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
-<path d="M1055.0 300 q17.5 -6 31.5 -2" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
-<path d="M1078 226 H1142 Q1160 226 1160 244 V260 Q1160 278 1142 278 H1114 L1052 276 L1094 278 H1078 Q1060 278 1060 260 V244 Q1060 226 1078 226 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
-<text x="1110.0" y="259.7" font-size="22" text-anchor="middle" fill="#1e1b18" font-weight="bold" font-family="'Comic Neue','Comic Sans MS','Chalkboard SE','Marker Felt',cursive" >0x68!</text>
+<text x="1013.0" y="254" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MPU-6050</text>
+<path d="M1088 214 H1142 Q1160 214 1160 232 V246 Q1160 264 1142 264 H1124 L1058 270 L1104 264 H1088 Q1070 264 1070 246 V232 Q1070 214 1088 214 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1115.0" y="246.2" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">0X68!</text>
 <rect x="14" y="14" width="380" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="406" y="14" width="420" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
 <rect x="838" y="14" width="348" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
