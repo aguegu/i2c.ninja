@@ -53,9 +53,12 @@ const blocks = computed(() => {
       { tex: String.raw`\varphi \leftarrow \varphi + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: 'started from gravity\'s φ' },
       { tex: String.raw`\theta \leftarrow \theta - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: 'started from gravity\'s θ; nose up is a turn about −y' },
     ] },
-    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
+    { title: 'The attitude, q: a quaternion', rows: [
+      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) = \bigl(\cos\tfrac{\beta}{2},\ \mathbf{n}\sin\tfrac{\beta}{2}\bigr)`, value: '', note: 'a turn by an angle β about an axis n (a unit vector): how the board sits in the room; flat and facing the start, (1, 0, 0, 0)' },
       { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \cos\tfrac{\theta}{2}\sin\tfrac{\varphi}{2},\ -\sin\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \sin\tfrac{\theta}{2}\sin\tfrac{\varphi}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s φ and θ above, the yaw ψ (psi) 0' },
-      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'then the q the last line made, a reading before: a turn by an angle β about an axis n is (cos β/2, n sin β/2)' },
+      { tex: String.raw`\mathbf{q} =`, value: vec(u.fused?.held?.q, 3), note: 'then, each reading: the q the filter made the reading before (the last line below)' },
+    ] },
+    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki}), each reading`, rows: [
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
