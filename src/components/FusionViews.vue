@@ -67,7 +67,9 @@ const blocks = computed(() => {
       { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', note: 'how far the board has turned from the start, all in one turn' },
       { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), note: 'the axis of that turn (none while β is 0): so q = (cos β/2, n sin β/2)' },
     ] },
-    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki}), each reading`, rows: [
+    { title: 'Fused: Mahony\'s filter, each reading', rows: [
+      { tex: String.raw`k_p =`, value: `${u.kp} /s`, note: 'the spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
+      { tex: String.raw`k_i =`, value: `${u.ki} /s²`, note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki = 10 s (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others on Learn the IMU, step 4' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
