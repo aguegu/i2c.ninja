@@ -1,9 +1,14 @@
 <script setup>
 // A physics page's connect bar: connect and scan, the sensor found (choose
-// one when there are several), a failure if any. src: a useSource() (reactive).
+// one when there are several), a failure if any, and a note naming the
+// chips it looks for, each linked to its page (its wiring is there).
+// src: a useSource() (reactive).
 import { hasWebUsb, hex } from '../lib/dongle.js';
 
 defineProps({ src: { type: Object, required: true } });
+const link = 'text-emerald-700 underline dark:text-emerald-400';
+// "a", "a or b", "a, b or c"
+const sep = (i, n) => (i === 0 ? '' : i === n - 1 ? ' or ' : ', ');
 </script>
 
 <template>
@@ -28,4 +33,9 @@ defineProps({ src: { type: Object, required: true } });
       <p v-if="src.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ src.failure.error }}</p>
     </div>
   </div>
+  <p class="text-sm text-slate-500 dark:text-slate-400">
+    It looks for any {{ src.noun }} this site knows on the dongle's bus:
+    <template v-for="(c, i) in src.chips" :key="c.name">{{ sep(i, src.chips.length) }}<RouterLink :to="c.to" :class="link">{{ c.name }}</RouterLink></template>
+    (each one's page shows its wiring), and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+  </p>
 </template>

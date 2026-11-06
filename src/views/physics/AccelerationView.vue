@@ -30,9 +30,6 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
     <section :class="card">
       <SourceBar :src="src" />
-      <p class="text-sm text-slate-500 dark:text-slate-400">
-        It looks for any accelerometer this site knows (the ADXL345, the MPU-6050 or MPU-6500) on the dongle's bus, and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-      </p>
     </section>
 
     <AccelerometerViews :a="src.latest ? { x: src.latest[0], y: src.latest[1], z: src.latest[2] } : null" :source="src.source" />

@@ -116,5 +116,5 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, found, chosen, latest, unit: kind.unit, source: series.source, connect, disconnect, choose };
+  return { state, failure, found, chosen, latest, unit: kind.unit, noun: kind.noun, chips: kind.chips, source: series.source, connect, disconnect, choose };
 }
