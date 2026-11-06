@@ -1,8 +1,8 @@
 <script setup>
 // The home page, a simple landing page: the hero (what it is, the glass box
 // with the board swaying in it, still for reduced motion, and the way in),
-// what's inside as six cards, three quotes on measuring and
-// understanding, and who makes it.
+// what's inside as six cards, and three quotes on measuring and
+// understanding.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from '../components/ProjectionBox.vue';
 import { DEVICES } from '../lib/devices.js';
@@ -11,7 +11,6 @@ import { ALGORITHMS } from '../lib/algorithms.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
 
 const hasWebUsb = 'usb' in navigator;
-const year = new Date().getFullYear();
 
 // the hero's board: a slow sway about the vertical, a little roll and pitch
 const SWAY_DEG = 35;
@@ -52,7 +51,6 @@ const QUOTES = [
   { text: 'Nothing is too wonderful to be true, if it be consistent with the laws of nature.', by: 'Michael Faraday', where: 'his diary, 1849' },
   { text: 'The first principle is that you must not fool yourself — and you are the easiest person to fool.', by: 'Richard Feynman', where: 'Cargo Cult Science, 1974' },
 ];
-const link = 'text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400';
 </script>
 
 <template>
@@ -86,13 +84,6 @@ const link = 'text-emerald-700 underline-offset-2 hover:underline dark:text-emer
         <blockquote class="m-0 leading-relaxed text-slate-700 italic dark:text-slate-300">{{ qt.text }}</blockquote>
         <figcaption class="mt-2 text-xs tracking-wide text-slate-500 dark:text-slate-400">— {{ qt.by }}, <span class="italic">{{ qt.where }}</span></figcaption>
       </figure>
-    </section>
-
-    <!-- who makes it -->
-    <section class="px-4 pb-12 text-center text-xs text-slate-500 dark:text-slate-400">
-      <p>Made by <a href="https://sourcekit.cc" :class="link">Sourcekit</a>; the drivers are <a href="https://github.com/aguegu/atiic" :class="link">atiic</a>, open on GitHub.</p>
-      <p class="mt-2"><RouterLink to="/about" :class="link">About</RouterLink> · <RouterLink to="/about#releases" :class="link">Releases</RouterLink> · <a href="https://github.com/aguegu/i2c.ninja/discussions" :class="link">Discussions</a></p>
-      <p class="mt-2">© {{ year }} i2c.ninja</p>
     </section>
   </main>
 </template>
