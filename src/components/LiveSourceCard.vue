@@ -11,6 +11,7 @@ const props = defineProps({
   title: { type: String, required: true }, // the chart's
   floor: { type: Number, default: 1 },
   digits: { type: Number, default: 3 },
+  chart: { type: Boolean, default: true }, // false: the page charts it in a card of its own
 });
 
 const SERIES = [
@@ -58,7 +59,7 @@ const fmt = (n) => (n === undefined || n === null ? '—' : n.toFixed(props.digi
       </div>
     </div>
     <slot :v="v" :size="size" />
-    <div class="mt-3">
+    <div v-if="chart" class="mt-3">
       <LiveChart :title="title" :unit="src.unit" :series="SERIES" :values="v ?? []" :source="src.source" :window-ms="10000" :floor="floor" :digits="digits" />
     </div>
   </section>
