@@ -32,6 +32,6 @@ The best moments of [the attitude page](/algorithms/attitude) were questions, no
 
 So maybe something is ending: the coder as the person who types every line. Weihong may well be among the last generation who learned to program that way: by hand, by datasheet, by bench, one register at a time. And that is exactly what makes it possible to steer an agent. You have to know what an I2C NACK is to notice the page is wrong about one.
 
-It is also a beginning. A decade of side projects stopped at the demo, and these ones didn't. In [Three sensors from 2012](/blog/three-sensors-from-2012) Weihong wrote that the confidence and passion were coming back. That doesn't sound like the end of anything.
+It is also a beginning. A decade of side projects stopped at the demo, and these ones didn't. In [Three sensors from 2012](/blog/three-sensors-from-2012) Weihong said the confidence and passion were coming back. That doesn't sound like the end of anything.
 
-greenrain is still on GitHub, and it still builds. The rain keeps falling.
+greenrain is still on GitHub. The rain keeps falling.
