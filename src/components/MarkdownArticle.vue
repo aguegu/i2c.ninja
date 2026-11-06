@@ -54,6 +54,7 @@ function follow(e) {
 .markdown a { color: var(--color-emerald-700); text-decoration: underline; }
 .markdown em { color: var(--color-slate-500); }
 .markdown details { margin: 0.5rem 0; padding: 0.75rem 1rem; border-radius: 0.75rem; background: var(--color-slate-50); }
+.markdown img { display: block; width: 100%; max-width: 720px; height: auto; margin: 1rem auto; }
 .markdown blockquote { margin: 0.75rem 0; padding: 0.25rem 0 0.25rem 1rem; border-left: 3px solid var(--color-emerald-600); color: var(--color-slate-600); font-style: italic; }
 .markdown h3 { margin: 1.25rem 0 0.5rem; font-weight: 600; }
 .markdown code { font-family: ui-monospace, monospace; font-size: 0.9em; }
