@@ -3,14 +3,17 @@
 // right, y up: the axes as printed; turned by its angle about z), from its
 // right side (x right, z up; by its angle about y), from its nose (y right,
 // z up; by its angle about x). Each angle is the rate about that axis added
-// up on its own: right for one turn at a time, a sketch when turns mix. A
-// button takes the three full screen.
+// up on its own: right for one turn at a time, a sketch when turns mix.
+// captions: optional, per axis { sym, sub, value, name } in place of
+// "about x" (a page showing its own angles, e.g. roll as φ). A button takes
+// the three full screen.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
   angles: { type: Object, default: () => ({ x: 0, y: 0, z: 0 }) }, // degrees
+  captions: { type: Object, default: null },
 });
 
 const R = 100;
@@ -59,7 +62,8 @@ const { full, toggle } = useFullscreen(box);
             <text x="12" y="4" font-size="11" stroke="none">{{ w.about }}</text>
           </g>
         </svg>
-        <p class="font-mono text-sm tabular-nums">about {{ w.about }} {{ w.a.toFixed(0) }}°</p>
+        <p v-if="captions?.[w.about]" class="font-mono text-sm tabular-nums">{{ captions[w.about].sym }}<sub>{{ captions[w.about].sub }}</sub> {{ captions[w.about].value }} · {{ captions[w.about].name }}</p>
+        <p v-else class="font-mono text-sm tabular-nums">about {{ w.about }} {{ w.a.toFixed(0) }}°</p>
         <p class="font-mono text-xs text-slate-500 dark:text-slate-400">{{ w.away }}</p>
       </figure>
     </div>

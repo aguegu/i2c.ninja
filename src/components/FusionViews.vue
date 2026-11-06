@@ -3,7 +3,8 @@
 // formulas they go through (each with the latest values; Start again), then
 // roll and pitch three ways (gravity's, the gyro alone, fused) and yaw two
 // ways (the gyro alone, fused) on charts, then the result on a pilot's
-// instruments: the attitude indicator (φ, θ) and the heading indicator (ψ). A
+// instruments: the attitude indicator (φ, θ) and the heading indicator (ψ),
+// and each angle on its own in three flat views. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
 import { computed } from 'vue';
@@ -11,6 +12,7 @@ import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
+import TurnViews from './TurnViews.vue';
 
 const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
@@ -50,6 +52,21 @@ const turnOf = (q) => {
 };
 const turn = computed(() => turnOf(props.fusion.fused?.held?.q));
 const fusionAngles = (u) => (u.fused ? `(${f(u.fused.roll, 1)}, ${f(u.fused.pitch, 1)}, ${f(u.fused.yaw, 1)})°` : '—');
+// the fused angles as turns about the board's axes, for the flat views:
+// roll about +x; pitch nose up, about -y; yaw turning right, about -z
+const flatAngles = computed(() => {
+  const u = props.fusion.fused;
+  return u ? { x: u.roll, y: -u.pitch, z: -u.yaw } : { x: 0, y: 0, z: 0 };
+});
+const flatCaptions = computed(() => {
+  const u = props.fusion.fused;
+  const deg = (v) => (u ? `${f(v, 0)}°` : '—');
+  return {
+    x: { sym: 'φ', sub: 'q', value: deg(u?.roll), name: 'roll' },
+    y: { sym: 'θ', sub: 'q', value: deg(u?.pitch), name: 'pitch' },
+    z: { sym: 'ψ', sub: 'q', value: deg(u?.yaw), name: 'yaw' },
+  };
+});
 // each block: a formula a row (LaTeX), its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
@@ -138,6 +155,10 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
           <span class="block text-xs text-slate-500 dark:text-slate-400">the heading indicator: 0 is where the nose pointed at the start</span>
         </figcaption>
       </figure>
+    </div>
+    <div class="mt-4">
+      <TurnViews :angles="flatAngles" :captions="flatCaptions" />
+      <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">each angle on its own, seen along its axis: exact for one turn at a time, a sketch when they mix</p>
     </div>
     <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
       In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
