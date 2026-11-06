@@ -17,7 +17,7 @@ const COLOR = { x: 'var(--series-1)', y: 'var(--series-2)', z: 'var(--series-3)'
 const DEG = 180 / Math.PI;
 
 const n = (v) => v.toFixed(2);
-// one triangle: across (h) and up (v) in g, their names and colours
+// one triangle: across (h) and up (v) in g, their names (parts [text, sub?]) and colours
 function triangle(h, v, hName, vName, hColor, vColor, sym) {
   const angle = Math.atan2(v, h);
   const P = [h * U, -v * U];
@@ -37,8 +37,8 @@ function triangle(h, v, hName, vName, hColor, vColor, sym) {
 const views = computed(() => {
   const [ax, ay, az] = props.accel ?? [0, 0, 1];
   return [
-    { key: 'phi', tex: String.raw`\varphi_g = \operatorname{atan2}(a_y,\ a_z)`, t: triangle(az, ay, 'a_z', 'a_y', COLOR.z, COLOR.y, 'φ') },
-    { key: 'theta', tex: String.raw`\theta_g = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right)`, t: triangle(Math.hypot(ay, az), ax, '√(a_y²+a_z²)', 'a_x', COLOR.level, COLOR.x, 'θ') },
+    { key: 'phi', tex: String.raw`\varphi_g = \operatorname{atan2}(a_y,\ a_z)`, t: triangle(az, ay, [['a'], ['z', 1]], [['a'], ['y', 1]], COLOR.z, COLOR.y, 'φ') },
+    { key: 'theta', tex: String.raw`\theta_g = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right)`, t: triangle(Math.hypot(ay, az), ax, [['√(a'], ['y', 1], ['² + a'], ['z', 1], ['²)']], [['a'], ['x', 1]], COLOR.level, COLOR.x, 'θ') },
   ];
 });
 </script>
@@ -59,8 +59,9 @@ const views = computed(() => {
         <circle :cx="w.t.P[0]" :cy="w.t.P[1]" r="3" fill="currentColor" />
         <polyline :points="w.t.arc" fill="none" stroke="#f59e0b" stroke-width="2" />
         <text :x="w.t.tag[0]" :y="w.t.tag[1]" font-size="12" text-anchor="middle" fill="#d97706">{{ w.t.sym }}</text>
-        <text :x="R - 4" y="-5" font-size="10" text-anchor="end" :fill="w.t.hColor">{{ w.t.hName }}</text>
-        <text x="5" :y="-R + 12" font-size="10" :fill="w.t.vColor">{{ w.t.vName }}</text>
+        <!-- the axes' names: across under its right end, up beside its top -->
+        <text :x="R - 4" y="15" font-size="11" text-anchor="end" :fill="w.t.hColor"><tspan v-for="(p, i) in w.t.hName" :key="i" :baseline-shift="p[1] ? 'sub' : null" :font-size="p[1] ? 8 : null">{{ p[0] }}</tspan></text>
+        <text x="6" :y="-R + 12" font-size="11" :fill="w.t.vColor"><tspan v-for="(p, i) in w.t.vName" :key="i" :baseline-shift="p[1] ? 'sub' : null" :font-size="p[1] ? 8 : null">{{ p[0] }}</tspan></text>
       </svg>
       <figcaption class="text-center text-sm">
         <TexMath :expr="w.tex" />

@@ -55,9 +55,18 @@ const drawn = computed(() => {
     return a.map((c, k) => ARC_R * (ka * c + kv * v[k]));
   }));
   const e = props.e ?? [0, 0, 0];
+  const ra = arrow(scale(a, UP_LEN), A_COLOR, 'â'), rv = arrow(scale(v, UP_LEN), V_COLOR, 'v̂');
+  // their labels beside the tips, one each side, so close arrows don't share one spot
+  if (ra.head && rv.head) {
+    const aLeft = ra.e[0] <= rv.e[0];
+    ra.tag = [ra.e[0] + (aLeft ? -8 : 8), ra.e[1] + 4];
+    ra.anchor = aLeft ? 'end' : 'start';
+    rv.tag = [rv.e[0] + (aLeft ? 8 : -8), rv.e[1] + 4];
+    rv.anchor = aLeft ? 'start' : 'end';
+  }
   return {
-    a: arrow(scale(a, UP_LEN), A_COLOR, 'â'),
-    v: arrow(scale(v, UP_LEN), V_COLOR, 'v̂'),
+    a: ra,
+    v: rv,
     e: arrow(scale(e, E_SCALE), E_COLOR, `e ×${E_SCALE}`),
     arc,
     deg: (Math.atan2(norm(e), cos) * DEG).toFixed(1),
@@ -79,7 +88,7 @@ const drawn = computed(() => {
           <template v-if="r.head">
             <line :x1="r.o[0]" :y1="r.o[1]" :x2="r.e[0]" :y2="r.e[1]" stroke-width="2.5" />
             <polygon :points="r.head" stroke="none" />
-            <text :x="r.tag[0]" :y="r.tag[1]" font-size="13" font-weight="bold" text-anchor="middle" stroke="none">{{ r.label }}</text>
+            <text :x="r.tag[0]" :y="r.tag[1]" font-size="13" font-weight="bold" :text-anchor="r.anchor ?? 'middle'" stroke="none">{{ r.label }}</text>
           </template>
           <circle v-else :cx="r.dot[0]" :cy="r.dot[1]" r="3" stroke="none" />
         </g>
