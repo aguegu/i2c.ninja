@@ -36,6 +36,6 @@ const sep = (i, n) => (i === 0 ? '' : i === n - 1 ? ' or ' : ', ');
   <p class="text-sm text-slate-500 dark:text-slate-400">
     It looks for any {{ src.noun }} this site knows on the dongle's bus:
     <template v-for="(c, i) in src.chips" :key="c.name">{{ sep(i, src.chips.length) }}<RouterLink :to="c.to" :class="link">{{ c.name }}</RouterLink></template>
-    (each one's page shows its wiring), and reads it 50 times a second.
+    (each one's page shows its wiring), and reads it {{ src.rate }} times a second.
   </p>
 </template>

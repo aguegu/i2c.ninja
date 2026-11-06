@@ -18,7 +18,6 @@ const SPECS = [
   ['Data rate', '0.1 to 3200 readings a second', '100 a second'],
   ['Address', '0x53, or 0x1D with SDO/ALT ADDRESS high', '0x53 or 0x1D, whichever answers'],
   ['Interface', 'I2C or SPI', 'I2C, 400 kHz'],
-  ['Supply', '2.0 to 3.6 V', '3.3 V from the dongle'],
   ['Extras', 'tap, double tap, activity, free-fall detection; a 32-reading FIFO; a self test', 'the self test'],
 ];
 

@@ -20,7 +20,6 @@ const SPECS = [
   ['Mode', 'continuous, single measurement, or idle', 'continuous; idle when stopped'],
   ['Address', '0x1E only', '0x1E'],
   ['Interface', 'I2C, 100 or 400 kHz (and a 3.4 MHz high-speed mode)', 'I2C, 400 kHz'],
-  ['Supply', '2.16 to 3.6 V; its I/O from 1.71 V up to the supply', '3.3 V from the dongle'],
   ['Extras', 'a self test (about 1.1 gauss of its own, either way); a data-ready pin', 'the self test'],
 ];
 

@@ -2,7 +2,7 @@
 // chip of one quantity (lib/sources.js), read the chosen one every READ_MS
 // as [x, y, z] in its unit, the last windowMs kept for the chart. Several
 // found: choose(i) switches between them.
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
 import { makeSeries } from './series.js';
 
@@ -19,6 +19,9 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
   const chosen = ref(-1);
   const latest = ref(null); // [x, y, z]
   const series = makeSeries(3, windowMs);
+  // readings a second: the chosen chip's, else the fastest it may find
+  const perSecond = (c) => Math.round(1000 / (c.readMs ?? READ_MS));
+  const rate = computed(() => (found.value[chosen.value] ? perSecond(found.value[chosen.value].chip) : Math.max(...kind.chips.map(perSecond))));
 
   const listeners = new Set();
   // fn(t ms, [x, y, z]) on each reading, for a page that works per reading (adding up a gyro)
@@ -123,5 +126,5 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, found, chosen, latest, unit: kind.unit, noun: kind.noun, chips: kind.chips, source: series.source, onReading, connect, disconnect, choose };
+  return { state, failure, found, chosen, latest, unit: kind.unit, noun: kind.noun, chips: kind.chips, rate, source: series.source, onReading, connect, disconnect, choose };
 }

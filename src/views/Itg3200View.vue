@@ -19,7 +19,6 @@ const SPECS = [
   ['Clock', 'its own oscillator, a gyro\'s, or an external 32.768 kHz or 19.2 MHz', 'the X gyro\'s, as its maker recommends'],
   ['Address', '0x68, or 0x69 with AD0 high', '0x68 or 0x69, whichever answers'],
   ['Interface', 'I2C, up to 400 kHz', 'I2C, 400 kHz'],
-  ['Supply', '2.1 to 3.6 V; its I/O (VLOGIC) from 1.71 V up to the supply', '3.3 V from the dongle'],
   ['Extras', 'a temperature sensor; a data-ready interrupt', 'the temperature'],
 ];
 
