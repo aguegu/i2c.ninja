@@ -13,6 +13,7 @@ import TexMath from './TexMath.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
 import TurnViews from './TurnViews.vue';
+import ProjectionBox from './ProjectionBox.vue';
 
 const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
@@ -156,6 +157,10 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         </figcaption>
       </figure>
     </div>
+    <figure class="mt-4 flex flex-col items-center">
+      <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
+      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: its true projection on the floor (from above), the wall ahead (from its nose) and the wall to its left (from its right side); the dashed lines drop its nose onto each</figcaption>
+    </figure>
     <div class="mt-4">
       <TurnViews :angles="flatAngles" :captions="flatCaptions" />
       <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">each angle on its own, seen along its axis: exact for one turn at a time, a sketch when they mix</p>
