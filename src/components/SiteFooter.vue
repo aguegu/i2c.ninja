@@ -1,10 +1,12 @@
 <script setup>
-// The footer: the site map (every page, from lib/nav.js) and the license.
+// The footer: the site map (every page, from lib/nav.js), share this page,
+// and the license.
 // Kept short as the devices grow: they fill rows across the full width
 // first; Learn (its index; the steps are linked from there), Get started
 // and Elsewhere share the row under them.
 import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 import { COURSE_LINKS } from '../lib/courses.js';
+import ShareRow from './ShareRow.vue';
 
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
@@ -53,6 +55,7 @@ const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
         </div>
       </div>
     </nav>
+    <div class="mx-auto max-w-5xl px-4 pb-4"><ShareRow /></div>
     <p class="mx-auto max-w-5xl px-4 pb-5 text-xs text-slate-400">
       i2c.ninja · free for noncommercial use (PolyForm Noncommercial 1.0.0); the drivers, atiic, are MIT.
     </p>
