@@ -1,5 +1,5 @@
 // Quaternions as [w, x, y, z], turning the board's axes into the room's.
-// Learn the IMU, step 5.
+// The attitude page's q (what q is for: its card there).
 const DEG = 180 / Math.PI;
 
 // v turned by q

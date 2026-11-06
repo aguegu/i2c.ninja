@@ -26,7 +26,7 @@ const R = 100; // the viewBox's half size
 const SCALE_PX = 60; // the reference circle's radius
 const CUT = 1.55; // the arrow's longest, in scales, inside the box
 const HEAD_PX = 10;
-// the board, half sizes (px): as Learn the IMU's 3D board, 1.1 x 0.65 x 0.07
+// the board, half sizes (px): as the 3D board's (lib/board.js), 1.1 x 0.65 x 0.07
 const HALF = { x: 55, y: 32.5, z: 3.5 };
 
 const VIEWS = [

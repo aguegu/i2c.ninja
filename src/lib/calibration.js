@@ -1,8 +1,8 @@
-// Learn the IMU, step 6: calibration. The accelerometer from six still
+// The MPU page's Calibration tab. The accelerometer from six still
 // positions, one face down each (each axis once at +1 g, once at -1 g):
 // per axis, the offset is the middle of its two readings and the scale half
 // their span. Corrected: (raw - offset) / scale. The gyro's offset: its mean
-// at rest (step 3's).
+// at rest (the gyro's Zero).
 export const AXES = ['x', 'y', 'z'];
 const FACE_MIN_G = 0.8; // the axis pointing up reads at least this
 const FACE_OFF_G = 0.3; // the other two at most this: square enough on a face
@@ -34,5 +34,5 @@ export function fitAccel(faces) {
 export const correct = (raw, { offset, scale }) => raw.map((v, k) => (v - offset[k]) / scale[k]);
 
 // the tilt a constant accelerometer offset of `g` across the 1 g fakes,
-// degrees (step 2's angles lean by this much)
+// degrees (gravity's tilt leans by this much)
 export const tiltError = (g) => Math.asin(Math.min(1, Math.abs(g))) * (180 / Math.PI);

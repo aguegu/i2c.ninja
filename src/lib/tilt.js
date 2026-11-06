@@ -1,4 +1,4 @@
-// Tilt from gravity (Learn the IMU, step 2), the board held like a plane:
+// Tilt from gravity (Acceleration and gravity, the attitude page), the board held like a plane:
 // its x arrow the nose, face up (so y points left, z up). Degrees.
 export const DEG = 180 / Math.PI;
 

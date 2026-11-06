@@ -1,17 +1,17 @@
 <script setup>
-// Learn the IMU, step 6: calibration. Why the chip in hand needs it, and
-// the values a flight controller keeps: the gyro's offset (with the
+// The MPU's calibration, a tab of its page: why the chip in hand needs it,
+// and the values a flight controller keeps: the gyro's offset (with the
 // temperature it was measured at), the accelerometer's offset and scale per
 // axis from six still positions, taken one at a time: the pose shown, the
-// board's face told live, each recorded by itself after a second still.
+// board's face told live, each recorded by itself after a second still. The
+// page's calibration is switched off while here (raw readings), and its
+// saved one read again after a save or a forget.
 import { reactive, ref, computed, onBeforeUnmount } from 'vue';
-import ImuControls from '../../components/ImuControls.vue';
-import Board3D from '../../components/Board3D.vue';
-import AxisCalLine from '../../components/AxisCalLine.vue';
-import { useImu } from '../../lib/useImu.js';
-import { AXES, faceUp, faceKey, fitAccel, correct, tiltError } from '../../lib/calibration.js';
-import { fromAxisAngle } from '../../lib/quaternion.js';
-import { loadCalibration, saveCalibration, forgetCalibration } from '../../lib/calibrationStore.js';
+import Board3D from './Board3D.vue';
+import AxisCalLine from './AxisCalLine.vue';
+import { AXES, faceUp, faceKey, fitAccel, correct, tiltError } from '../lib/calibration.js';
+import { fromAxisAngle } from '../lib/quaternion.js';
+import { loadCalibration, saveCalibration, forgetCalibration } from '../lib/calibrationStore.js';
 
 const RECORD_MS = 1000; // a position averaged over this long, still
 const GYRO_RECORD_MS = 2000;
@@ -20,7 +20,7 @@ const STILL_G = 0.15; // |a| further than this from 1 g: being pushed
 const S_PER_MIN = 60;
 const COLORS = ['--series-1', '--series-2', '--series-3'];
 // the six positions in order: how to hold the board, and the pose to show
-// (a turn from flat, face up; step 2's frame: x the nose, y left, z up)
+// (a turn from flat, face up; x the nose, y left, z up)
 const POSITIONS = [
   { key: '+z', hint: 'flat on the table, face up', q: [1, 0, 0, 0] },
   { key: '-z', hint: 'flat, upside down', q: fromAxisAngle([1, 0, 0], 180) },
@@ -31,7 +31,12 @@ const POSITIONS = [
 ];
 const HINT = Object.fromEntries(POSITIONS.map((p) => [p.key, p.hint]));
 
-const imu = reactive(useImu({ calibrated: false })); // raw: this step measures the raw errors
+const props = defineProps({ imu: { type: Object, required: true } }); // the page's useImu(), reactive
+const imu = props.imu;
+// measured raw: the page's saved calibration off while this tab is open
+const wasOn = imu.calibrationOn;
+imu.setCalibrationOn(false);
+onBeforeUnmount(() => imu.setCalibrationOn(wasOn));
 const saved = ref(loadCalibration()); // what's kept for this tab
 const saveFailed = ref(false);
 
@@ -123,11 +128,13 @@ function save() {
   const v = Object.fromEntries(Object.entries(measured.value).filter(([, x]) => x !== null));
   saveFailed.value = !saveCalibration(v);
   saved.value = loadCalibration();
+  imu.reloadCalibration();
 }
 
 function forget() {
   forgetCalibration();
   saved.value = null;
+  imu.reloadCalibration();
 }
 const savedParts = computed(() => {
   const s = saved.value;
@@ -146,26 +153,15 @@ const td = 'px-2 py-1';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <div class="mt-2">
-      <p class="text-sm text-slate-500 dark:text-slate-400"><RouterLink to="/learn/imu" class="underline">Learn the IMU</RouterLink> · step 6</p>
-      <h1 class="text-2xl font-bold">Calibration</h1>
-      <p :class="['mt-1 text-slate-500 dark:text-slate-400', prose]">
-        No two chips read alike. Every step so far ran into it: the gyro's offset that turned into drift (step 3), an
-        accelerometer that never reads exactly 1 g. Calibration measures this chip's errors once, so they can be taken off
-        every reading after. Here are the values a flight controller keeps, measured on the chip in your hand.
-      </p>
-    </div>
-
-    <ImuControls :imu="imu" />
-
+  <div class="flex flex-col gap-4">
+    <p class="leading-relaxed text-slate-500 dark:text-slate-400">No two chips read alike: a gyro's offset turns into drift, an accelerometer never reads exactly 1 g. Calibration measures this chip's errors once, so they can be taken off every reading after. Here are the values a flight controller keeps, measured on the chip in your hand. While this tab is open the readings are raw.</p>
     <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">1. The gyro's offset</h2>
       <p :class="['mb-3', prose]">
         At rest a gyro should read 0 deg/s; it reads its offset. Added up for a minute, an offset of 1 deg/s is 60° of
         drift. Hold the board still and measure it. Then warm the chip with a fingertip for half a minute and measure
         again: the offset moves with temperature, which is why it's kept with the temperature it was taken at, and why
-        step 4's filter learning it on the go helps.
+        Mahony's filter learning it on the go (b̂, on the attitude page) helps.
       </p>
       <div class="mb-3 flex flex-wrap items-center gap-2">
         <button :class="primary" :disabled="imu.state !== 'running' || !!gyroRecording" @click="measureGyro">{{ gyroRecording ? 'Hold it still…' : 'Measure the gyro offset (2 s, still)' }}</button>
@@ -227,7 +223,7 @@ const td = 'px-2 py-1';
         <p v-if="check" :class="prose">
           The check: gravity is the same 1 g in every position, so the total |a| should be too. Raw it varied by
           <b>{{ (check.raw * 1000).toFixed(1) }} mg</b> over the six positions; corrected, by <b>{{ (check.fixed * 1000).toFixed(2) }} mg</b>.
-          And left in, the x or y offset would lean step 2's level by up to <b>{{ check.tilt.toFixed(1) }}°</b>.
+          And left in, the x or y offset would lean gravity's level by up to <b>{{ check.tilt.toFixed(1) }}°</b>.
         </p>
       </div>
     </section>
@@ -255,10 +251,5 @@ const td = 'px-2 py-1';
         reference, the errors measured against it, taken off after.
       </p>
     </section>
-
-    <nav class="flex justify-between text-sm">
-      <RouterLink to="/learn/imu/attitude" class="text-emerald-700 underline dark:text-emerald-400">← Step 5: 3D attitude</RouterLink>
-      <RouterLink to="/learn/imu/faq" class="text-emerald-700 underline dark:text-emerald-400">Step 7: questions →</RouterLink>
-    </nav>
-  </main>
+  </div>
 </template>

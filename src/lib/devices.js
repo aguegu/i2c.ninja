@@ -1,6 +1,8 @@
 // The device pages, for the home page's cards: one each, in the order shown.
 // A page joins only once its driver has run on a real device (atiic's board
 // tests) and the page itself on the bench.
+import { COURSES } from './courses.js';
+
 export const DEVICES = [
   {
     to: '/mpu6050',
@@ -84,12 +86,5 @@ export const DEVICES = [
   },
 ];
 
-// the other cards: learning paths and the bench
-export const GUIDES = [
-  {
-    to: '/learn/imu',
-    name: 'Learn the IMU',
-    kind: 'Step by step',
-    measures: 'From raw counts to gravity, angles, gyro rates, fusion and calibration, with the MPU-6050 live.',
-  },
-];
+// the other cards: the courses (lib/courses.js)
+export const GUIDES = COURSES.map((c) => ({ to: `/learn/${c.slug}`, name: c.title, kind: 'Course', measures: c.blurb }));

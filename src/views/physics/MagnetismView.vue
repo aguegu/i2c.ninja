@@ -60,7 +60,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">A compass, and where north is</h2>
       <p class="mb-2">
-        Held level, the part of the field along the ground points to magnetic north: the heading is the angle from the board's nose (x) to it, the compass rose above. Tilted, some of the vertical field leaks into x and y and the heading drifts; an accelerometer telling the tilt fixes that (see <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink>, and sensor fusion in <RouterLink to="/learn/imu/fusion" :class="link">Learn the IMU</RouterLink>).
+        Held level, the part of the field along the ground points to magnetic north: the heading is the angle from the board's nose (x) to it, the compass rose above. Tilted, some of the vertical field leaks into x and y and the heading drifts; an accelerometer telling the tilt fixes that (see <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink>, and sensor fusion in <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>).
       </p>
       <p>
         Magnetic north isn't true north: the gap, the declination, depends on where you are and creeps year by year as the field moves. Your own declination and dip are on NOAA's <a href="https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml" :class="link">magnetic field calculator</a>; compare its dip with the one measured above, once calibrated.

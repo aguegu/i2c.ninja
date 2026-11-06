@@ -118,12 +118,18 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
       <p>
         That added-up part settles only where it cancels the gyro's offset: the filter learns the offset while in use, no holding still needed. That's b̂, the bias estimated, above, on the axes gravity can see.
       </p>
+      <div class="mt-3 flex flex-col gap-2 rounded-lg bg-slate-50 p-3 text-sm dark:bg-slate-900">
+        <p class="font-semibold">Try the gains</p>
+        <label class="flex flex-wrap items-center gap-3">kp <input v-model.number="fusion.kp" type="range" min="0" max="5" step="0.1" class="w-56 accent-emerald-600"> <span class="font-mono tabular-nums">{{ fusion.kp.toFixed(1) }} /s</span></label>
+        <label class="flex flex-wrap items-center gap-3">ki <input v-model.number="fusion.ki" type="range" min="0" max="1" step="0.05" class="w-56 accent-emerald-600"> <span class="font-mono tabular-nums">{{ fusion.ki.toFixed(2) }} /s²</span></label>
+        <p class="text-slate-500 dark:text-slate-400">kp at 0: gravity is ignored, the gyro alone, drift and all; at 5 gravity pulls hard and shakes come through. ki at 0, left still: φ<sub>q</sub> and θ<sub>q</sub> settle a little off level, the spring against the offset. <button type="button" class="underline" @click="fusion.kp = fusion.defaults.kp; fusion.ki = fusion.defaults.ki">Back to {{ fusion.defaults.kp }} and {{ fusion.defaults.ki }}</button>.</p>
+      </div>
     </section>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it can't see: north</h2>
       <p>
-        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and the compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift. Step by step, with sliders for τ, kp and ki: <RouterLink to="/learn/imu/fusion" :class="link">Learn the IMU, combining the two</RouterLink>.
+        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and the compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift. Try kp and ki with the sliders under Mahony's filter above; the whole path, step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
       </p>
     </section>
 
@@ -133,7 +139,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
         <li><b>Hold it as on screen.</b> Lay the board flat, x away from you, press Start again, then tilt and turn it: the fused φ, θ and ψ follow, quick as the gyro and steady as gravity.</li>
         <li><b>Shake it.</b> Gravity's line jumps; the fused one barely flinches.</li>
         <li><b>Leave it still for a minute.</b> The gyro-alone line walks away; the fused one stays put, and b̂ settles near what the gyro reads at rest. Then press Zero, held still, and leave it again: b₀ took the offset, so b̂ stays near 0 and the gyro-alone line barely walks.</li>
-        <li><b>Turn it flat on the table.</b> Roll and pitch don't move; yaw follows, then creeps once you stop: nothing here measures north.</li>
+        <li><b>Turn it flat on the table.</b> Roll and pitch don't move; yaw follows, then creeps once you stop: nothing here measures north. Go a full circle: q's qw runs from 1 through 0 (half a turn) to −1, back where it started written −q, the same turn.</li>
         <li><b>Two boards?</b> Turn one of them half a turn on the tape and try again: the fused attitude fights itself. Line them up again.</li>
       </ol>
     </section>
@@ -152,7 +158,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
         <div>
           <p class="mb-1 text-sm font-semibold">On this site</p>
           <ul class="space-y-1 text-sm">
-            <li><RouterLink to="/learn/imu" :class="link">Learn the IMU</RouterLink><span class="text-slate-500 dark:text-slate-400"> · step by step with an MPU-6050, sliders for τ, kp and ki</span></li>
+            <li><RouterLink to="/learn/motion" :class="link">The Motion course</RouterLink><span class="text-slate-500 dark:text-slate-400"> · step by step: the physics, the wiring, the sensors, this page, practice</span></li>
             <li><RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink><span class="text-slate-500 dark:text-slate-400"> · and</span> <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink><span class="text-slate-500 dark:text-slate-400"> · the two sensors on their own</span></li>
           </ul>
         </div>

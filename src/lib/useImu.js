@@ -24,7 +24,7 @@ const RATE_EVERY_MS = 1000;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// calibrated: take step 6's saved calibration off each reading (when it was
+// calibrated: take the Calibration tab's saved calibration off each reading (when it was
 // saved for the chip connected and the switch is on); false for the pages
 // about raw readings
 export function useImu({ windowMs = 10000, calibrated = true } = {}) {
@@ -34,7 +34,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const address = ref(ADDRESSES[0]);
   const chipName = ref(null); // the chip found, by its WHO_AM_I
   const chip = ref(null); // its facts (atiic's Driver.chip): tempLsb, tempOffset, ...
-  const calibration = ref(calibrated ? loadCalibration() : null); // step 6's, if saved this session
+  const calibration = ref(calibrated ? loadCalibration() : null); // the Calibration tab's, if saved this session
   const calibrationOn = ref(true); // the switch in the controls
   // the saved calibration is for the chip connected, and applied
   const calibrationApplies = () => !!(calibration.value && calibrationOn.value && calibration.value.chip === chipName.value);
@@ -202,7 +202,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
 
   const setCalibrationOn = (on) => { calibrationOn.value = on; };
 
-  // step 6 saved or forgot one: read it again (the other pages' controls show it)
+  // the Calibration tab saved or forgot one: read it again (the other pages' controls show it)
   function reloadCalibration() {
     if (calibrated) calibration.value = loadCalibration();
   }

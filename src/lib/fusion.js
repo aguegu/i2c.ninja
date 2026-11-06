@@ -1,4 +1,4 @@
-// Learn the IMU, step 4: the gyro and gravity combined. In step 2's frame
+// The gyro and gravity combined (the attitude page, lib/useFusion.js). In the board's frame
 // (x the nose, y left, z up; the accelerometer reading +1 g up at rest):
 // roll right side down +, pitch nose up +, yaw turning right +. Degrees and
 // deg/s at the edges; radians inside.

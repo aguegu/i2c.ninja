@@ -1,12 +1,11 @@
 <script setup>
-// Learn the IMU, step 1: what the chip sends. One I2C read of 14 bytes,
-// pairs of bytes into signed counts, counts into g, deg/s and degrees C by
-// the scale chosen. Every stage live from the chip in hand.
-import { reactive, computed } from 'vue';
-import LiveChart from '../../components/LiveChart.vue';
-import ImuControls from '../../components/ImuControls.vue';
-import { useImu, REG_DATA, DATA_BYTES } from '../../lib/useImu.js';
-import { hex } from '../../lib/dongle.js';
+// The MPU's raw numbers, a tab of its page: what the chip sends. One I2C
+// read of 14 bytes, pairs of bytes into signed counts, counts into g, deg/s
+// and degrees C by the scale chosen. Every stage live from the page's imu.
+import { computed } from 'vue';
+import LiveChart from './LiveChart.vue';
+import { REG_DATA, DATA_BYTES } from '../lib/useImu.js';
+import { hex } from '../lib/dongle.js';
 
 const WINDOW_MS = 10000;
 const ACCEL_FLOOR_G = 1.2;
@@ -19,7 +18,8 @@ const SERIES = [
 // the 14 bytes from ACCEL_XOUT_H (0x3B) on, two per value, high byte first
 const VALUES = ['ACCEL_X', 'ACCEL_Y', 'ACCEL_Z', 'TEMP', 'GYRO_X', 'GYRO_Y', 'GYRO_Z'];
 
-const imu = reactive(useImu({ windowMs: WINDOW_MS, calibrated: false })); // raw: this step is about the raw readings
+const props = defineProps({ imu: { type: Object, required: true } }); // the page's useImu(), reactive
+const imu = props.imu;
 
 const hex2 = (b) => b.toString(16).padStart(2, '0').toUpperCase();
 const rows = computed(() => {
@@ -47,18 +47,8 @@ const td = 'px-2 py-1';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <div class="mt-2">
-      <p class="text-sm text-slate-500 dark:text-slate-400"><RouterLink to="/learn/imu" class="underline">Learn the IMU</RouterLink> · step 1</p>
-      <h1 class="text-2xl font-bold">Raw numbers to physics</h1>
-      <p :class="['mt-1 text-slate-500 dark:text-slate-400', prose]">
-        The chip doesn't send "1 g". It sends bytes; everything else is arithmetic. Connect, hold the board, and watch
-        each stage below change as you move it.
-      </p>
-    </div>
-
-    <ImuControls :imu="imu" />
-
+  <div class="flex flex-col gap-4">
+    <p class="leading-relaxed text-slate-500 dark:text-slate-400">The chip doesn't send "1 g". It sends bytes; everything else is arithmetic. Connect, hold the board, and watch each stage below change as you move it.</p>
     <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">1. One read, 14 bytes</h2>
       <p :class="prose">
@@ -130,7 +120,7 @@ const td = 'px-2 py-1';
         </li>
         <li class="mb-2">
           <b>Keep it still and look at the gyro rows.</b> Not quite 0 deg/s: every gyro has an offset (its bias). It
-          matters later, when turning rates are added up into an angle (step 3).
+          matters when turning rates are added up into an angle (the Gyro tab's "Turned so far").
         </li>
         <li>
           <b>Why can't it read gravity in free fall?</b> Falling, nothing pushes on it: all three axes read 0 g. (Don't
@@ -138,10 +128,5 @@ const td = 'px-2 py-1';
         </li>
       </ol>
     </section>
-
-    <nav class="flex justify-between text-sm">
-      <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">All steps</RouterLink>
-      <RouterLink to="/learn/imu/tilt" class="text-emerald-700 underline dark:text-emerald-400">Step 2: tilt from gravity →</RouterLink>
-    </nav>
-  </main>
+  </div>
 </template>

@@ -1,15 +1,18 @@
 <script setup>
 // The MPU-6050 or MPU-6500 live (WHO_AM_I picks atiic's driver) on the
 // CH341 dongle: an accelerometer and a gyro on one chip, sampled together.
-// Two tabs (in the address: #accelerometer, the default, and #gyro): the
-// accelerometer's views and the gyro's, the same as the ADXL345's and the
-// ITG-3200's pages; both fused on the algorithm page it links to.
+// Tabs (in the address: #accelerometer, the default, #gyro, #raw,
+// #calibration): the accelerometer's views and the gyro's, the same as the
+// ADXL345's and the ITG-3200's pages; the raw bytes to physics; the chip's
+// own calibration, kept for these pages. Both fused on the algorithm page.
 import { reactive, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ImuControls from '../components/ImuControls.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import AccelerometerViews from '../components/AccelerometerViews.vue';
 import GyroViews from '../components/GyroViews.vue';
+import ImuRawNumbers from '../components/ImuRawNumbers.vue';
+import ImuCalibration from '../components/ImuCalibration.vue';
 import { useImu } from '../lib/useImu.js';
 import { useTurned } from '../lib/useTurned.js';
 
@@ -21,6 +24,8 @@ const turned = reactive(useTurned((fn) => imu.onReading((t, accel, gyro) => fn(t
 const TABS = [
   { key: 'accelerometer', label: 'Accelerometer', hash: '#accelerometer' },
   { key: 'gyro', label: 'Gyro', hash: '#gyro' },
+  { key: 'raw', label: 'Raw numbers', hash: '#raw' },
+  { key: 'calibration', label: 'Calibration', hash: '#calibration' },
 ];
 const route = useRoute();
 const router = useRouter();
@@ -42,7 +47,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <h1 class="text-2xl font-bold">{{ imu.chipName ?? 'MPU-6050 / MPU-6500' }}</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         A 3-axis accelerometer and a 3-axis gyro on one chip, and its temperature: the motion sensor of phones, game controllers and drones. Live over the CH341 dongle at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
-        New to IMUs? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn what these numbers mean</RouterLink>.
+        New to IMUs? <RouterLink to="/learn/motion" class="text-emerald-700 underline dark:text-emerald-400">Take the Motion course</RouterLink>.
       </p>
     </div>
 
@@ -63,6 +68,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <AccelerometerViews v-if="tab === 'accelerometer'" :a="a" :source="imu.accelSource" :window-ms="WINDOW_MS" />
+    <ImuRawNumbers v-if="tab === 'raw'" :imu="imu" />
+    <ImuCalibration v-if="tab === 'calibration'" :imu="imu" />
     <GyroViews v-if="tab === 'gyro'" :g="g" :turned="turned" :source="imu.gyroSource" :running="imu.state === 'running'" :window-ms="WINDOW_MS" />
 
     <section :class="[card, 'leading-relaxed']">
@@ -71,7 +78,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Each sensor alone falls short: the accelerometer knows which way is down but jumps at every push; the gyro follows every turn but drifts. Fused, they give an attitude steady and quick at once, the trick inside every phone and drone. See it live with this board, every formula with its numbers: <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>.
       </p>
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink> · <RouterLink to="/learn/imu" :class="link">Learn the IMU</RouterLink>
+        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
       </p>
     </section>
   </main>

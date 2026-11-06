@@ -6,7 +6,7 @@
 // average (b0) taken off every reading from then on, and the filter started
 // again. The last windowMs of roll and pitch, three ways each, and yaw two
 // ways, kept for charts.
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, watch, onBeforeUnmount } from 'vue';
 import { Mahony } from './fusion.js';
 import { rollOf, pitchOf } from './tilt.js';
 import { makeSeries } from './series.js';
@@ -19,6 +19,10 @@ const wrap180 = (d) => ((((d + 180) % 360) + 360) % 360) - 180;
 
 export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const mahony = new Mahony();
+  // its gains, adjustable: kp /s, ki /s^2
+  const kp = ref(mahony.kp);
+  const ki = ref(mahony.ki);
+  watch([kp, ki], ([p, i]) => { mahony.kp = p; mahony.ki = i; });
   const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s }
   const fused = ref(null); // { q, held: { q, up } from the reading before (up: the room's z in the board's axes), roll, pitch, yaw } degrees
   const gravity = ref(null); // { roll, pitch }
@@ -90,5 +94,5 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     zeroing.value = true;
   }
 
-  return { b0, zeroing, zeroed, zero, input, kp: mahony.kp, ki: mahony.ki, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
+  return { b0, zeroing, zeroed, zero, input, kp, ki, defaults: { kp: mahony.kp, ki: mahony.ki }, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
 }

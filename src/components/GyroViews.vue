@@ -67,7 +67,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <TurnViews :angles="turned.angles" />
     </div>
     <p class="mt-3 leading-relaxed">
-      A gyro tells how fast, not where: add up each reading times the time since the last, and you get how far it has turned, here about each axis on its own, drawn from three sides. Press Reset, turn the board a quarter turn about z and back, and watch. Then leave it still: the angles creep, because every leftover bit of bias is added up too, second after second. That drift is why a gyro alone can't keep its heading, and why it's paired with an accelerometer (for which way is down) and a compass (for north). (Each axis added up alone is right for one turn at a time; mixed turns need them added up together, as Learn the IMU does.)
+      A gyro tells how fast, not where: add up each reading times the time since the last, and you get how far it has turned, here about each axis on its own, drawn from three sides. Press Reset, turn the board a quarter turn about z and back, and watch. Then leave it still: the angles creep, because every leftover bit of bias is added up too, second after second. That drift is why a gyro alone can't keep its heading, and why it's paired with an accelerometer (for which way is down) and a compass (for north). (Each axis added up alone is right for one turn at a time; mixed turns need them added up together, as q does on <RouterLink to="/algorithms/attitude" class="text-emerald-700 underline dark:text-emerald-400">Attitude from accel and gyro</RouterLink>.)
     </p>
   </section>
 

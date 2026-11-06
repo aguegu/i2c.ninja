@@ -1,4 +1,4 @@
-// The IMU's calibration (Learn the IMU, step 6), kept for this browser tab:
+// The IMU's calibration (the MPU page's Calibration tab), kept for this browser tab:
 // sessionStorage, so it lasts while the tab does. Stored per chip type
 // (WHO_AM_I's name): another board of the same type would take it too,
 // which the controls make plain ("calibrated", with a switch to turn it off).

@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PAGES, ORIGIN, SITE, fullTitle } from '../src/lib/pages.js';
+import { MOVED } from '../src/lib/moved.js';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 const ALIASES = { '/mpu6500': '/mpu6050', '/aht21b': '/aht21' }; // the router's aliases: their own files, canonical to the page
@@ -54,7 +55,6 @@ const fileOf = (path) => (path === '/' ? 'index.html' : `${path.slice(1)}.html`)
 for (const page of PAGES) write(fileOf(page.path), render(page));
 for (const [alias, path] of Object.entries(ALIASES)) write(fileOf(alias), render(PAGES.find((p) => p.path === path)));
 // old addresses: a page that forwards (and names the new one canonical)
-const MOVED = { '/setup': '/get-started' };
 for (const [from, to] of Object.entries(MOVED)) {
   write(fileOf(from), `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Moved | ${SITE}</title><link rel="canonical" href="${ORIGIN}${to}"><meta http-equiv="refresh" content="0; url=${to}"><meta name="robots" content="noindex"></head><body><a href="${to}">${ORIGIN}${to}</a></body></html>\n`);
 }

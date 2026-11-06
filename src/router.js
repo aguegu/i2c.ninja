@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
-import { IMU_STEPS } from './views/learn/imuSteps.js';
+import { MOVED } from './lib/moved.js';
 import { PHYSICS } from './lib/physics.js';
 import { ALGORITHMS } from './lib/algorithms.js';
 import { ORIGIN, pageFor, fullTitle } from './lib/pages.js';
@@ -11,7 +11,6 @@ const router = createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/get-started', component: () => import('./views/SetupView.vue') },
-    { path: '/setup', redirect: '/get-started' }, // its address before 1.0.27
     { path: '/mpu6050', alias: '/mpu6500', component: () => import('./views/Mpu6050View.vue') },
     { path: '/ina231', component: () => import('./views/Ina231View.vue') },
     { path: '/sht20', component: () => import('./views/Sht20View.vue') },
@@ -22,8 +21,9 @@ const router = createRouter({
     { path: '/adxl345', component: () => import('./views/Adxl345View.vue') },
     { path: '/hmc5883l', component: () => import('./views/Hmc5883lView.vue') },
     { path: '/itg3200', component: () => import('./views/Itg3200View.vue') },
-    { path: '/learn/imu', component: () => import('./views/learn/ImuIndexView.vue') },
-    ...IMU_STEPS.filter((s) => s.component).map((s) => ({ path: `/learn/imu/${s.slug}`, component: s.component })),
+    { path: '/learn', component: () => import('./views/learn/LearnView.vue') },
+    ...Object.entries(MOVED).map(([path, to]) => ({ path, redirect: to })), // old addresses, before the course's
+    { path: '/learn/:slug', component: () => import('./views/learn/CourseView.vue') },
     ...PHYSICS.filter((p) => p.component).map((p) => ({ path: `/physics/${p.slug}`, component: p.component })),
     ...ALGORITHMS.filter((p) => p.component).map((p) => ({ path: `/algorithms/${p.slug}`, component: p.component })),
     { path: '/about', component: () => import('./views/AboutView.vue') },

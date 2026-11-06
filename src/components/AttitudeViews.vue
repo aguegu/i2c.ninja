@@ -31,7 +31,7 @@ const up = computed(() => (magnetic.value ? [-props.x, -props.y, -props.z] : [pr
 
 const R = 100; // the viewBox's half size
 const S = 50; // px a board unit
-const L = 1.1, W = 0.65, H = 0.07; // half length (x), width (y), thickness (z), as Learn the IMU's board
+const L = 1.1, W = 0.65, H = 0.07; // half length (x), width (y), thickness (z), as lib/board.js's
 const G_PX = 60; // gravity's arrow, 1 g
 const HEAD_PX = 10;
 const MIN = { gravity: 0.2, magnetic: 5 }; // g, uT: a reading weaker than this keeps the last turn

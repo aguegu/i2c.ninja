@@ -4,6 +4,7 @@
 // first; Learn (its index; the steps are linked from there), Get started
 // and Elsewhere share the row under them.
 import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
+import { COURSE_LINKS } from '../lib/courses.js';
 
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
@@ -35,7 +36,7 @@ const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
         <div>
           <p :class="head">Learn</p>
           <ul>
-            <li><RouterLink to="/learn/imu" :class="link">Learn the IMU</RouterLink></li>
+            <li v-for="l in COURSE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
           </ul>
         </div>
         <div>

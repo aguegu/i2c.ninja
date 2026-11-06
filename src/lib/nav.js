@@ -9,7 +9,7 @@ export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';
 export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
 
-export const DEVICE_LINKS = DEVICES.filter((d) => d.to !== '/learn/imu').map((d) => ({ to: d.to, label: d.name, note: d.kind }));
+export const DEVICE_LINKS = DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind }));
 // the guides, each by its index page (its chapters are linked from there)
 export const GUIDE_LINKS = GUIDES.map((g) => ({ to: g.to, label: g.name, note: g.kind }));
 export const START_LINKS = [

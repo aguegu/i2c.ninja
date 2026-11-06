@@ -3,7 +3,7 @@
 // HTML at build time (so search engines and link previews see them without
 // running the app), with the sitemap.
 import { DEVICES } from './devices.js';
-import { IMU_STEPS } from '../views/learn/imuSteps.js';
+import { COURSES } from './courses.js';
 import { PHYSICS } from './physics.js';
 import { ALGORITHMS } from './algorithms.js';
 
@@ -37,20 +37,20 @@ export const PAGES = [
     title: 'Get started: set up the CH341 USB to I2C dongle',
     description: 'The CH341 dongle in I2C mode: the jumpers, the browser (Chrome, Edge, Firefox) and what Linux, Windows, macOS and Android need for WebUSB.',
   },
-  ...DEVICES.filter((d) => d.to !== '/learn/imu').map((d) => ({
+  ...DEVICES.map((d) => ({
     path: d.to,
     title: deviceTitle(d),
     description: `${d.maker} ${d.name}: ${d.measures} ${HOW[0].toUpperCase()}${HOW.slice(1)}`,
   })),
   {
-    path: '/learn/imu',
-    title: 'Learn the IMU: accelerometer and gyro, step by step',
-    description: 'From raw counts to gravity, tilt, gyro angles, sensor fusion (complementary, Mahony), quaternions and calibration, with an MPU-6050 live in the browser.',
+    path: '/learn',
+    title: 'Learn: courses through the physics, the sensors and the maths',
+    description: 'Step-by-step courses through this site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, with sensors live in the browser.',
   },
-  ...IMU_STEPS.filter((s) => s.component).map((s) => ({
-    path: `/learn/imu/${s.slug}`,
-    title: `${s.title} · Learn the IMU`,
-    description: `${s.blurb} Learn the IMU, with an MPU-6050 live in the browser.`,
+  ...COURSES.map((c) => ({
+    path: `/learn/${c.slug}`,
+    title: `${c.title} · a course`,
+    description: `${c.blurb} You'll need ${c.kit}.`,
   })),
   ...PHYSICS.filter((p) => p.component).map((p) => ({
     path: `/physics/${p.slug}`,

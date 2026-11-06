@@ -59,7 +59,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         A gyro tells how fast, not where. Add up each reading times the time since the last and you get how far it has turned: that's "Turned so far" above. But every gyro reads a little even when still (its zero-rate bias), and that is added up too, second after second: the angle creeps away. Zeroing takes most of it off; what is left still drifts, more as the chip warms or cools.
       </p>
       <p>
-        So a gyro alone can't keep an orientation for long. Phones and drones pair it with an accelerometer, which knows which way is down (see <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink>), and a compass for north; combining them is sensor fusion (<RouterLink to="/learn/imu/fusion" :class="link">Learn the IMU</RouterLink>). And the Earth itself turns, 15° an hour (0.004 °/s): far below what such a chip can tell from its own offset. Navigation gyros, ring-laser or fibre-optic, do feel it, and find true north by it.
+        So a gyro alone can't keep an orientation for long. Phones and drones pair it with an accelerometer, which knows which way is down (see <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink>), and a compass for north; combining them is sensor fusion (<RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>). And the Earth itself turns, 15° an hour (0.004 °/s): far below what such a chip can tell from its own offset. Navigation gyros, ring-laser or fibre-optic, do feel it, and find true north by it.
       </p>
     </section>
 

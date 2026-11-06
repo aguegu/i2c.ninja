@@ -32,7 +32,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">ADXL345</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         Analog Devices' 3-axis accelerometer: the push on a tiny mass inside it, in g, along three axes, so gravity at rest, and every shake. Live over the CH341 dongle, at 100 samples a second.
-        New to these numbers? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>.
+        New to these numbers? <RouterLink to="/learn/motion" class="text-emerald-700 underline dark:text-emerald-400">Take the Motion course</RouterLink>.
       </p>
     </div>
 

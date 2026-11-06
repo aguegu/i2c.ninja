@@ -54,7 +54,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Held still, the 1 g is shared among the three axes by how the chip is tilted. Flat, it is all on z. Tip the nose up by an angle θ and x reads 1 g × sin θ while z reads 1 g × cos θ: at 30°, x reads 0.5 g. From the shares the tilt comes back: roll and pitch, the way a phone knows which way is up.
       </p>
       <p>
-        It works only while the sensor is still: a push adds to gravity and reads as a tilt. And it can't tell the heading (a turn about the vertical changes nothing in how gravity falls on the axes). A gyroscope covers both, which is why phones and drones carry both. Step by step: <RouterLink to="/learn/imu/tilt" :class="link">Learn the IMU, tilt from gravity</RouterLink>.
+        It works only while the sensor is still: a push adds to gravity and reads as a tilt. And it can't tell the heading (a turn about the vertical changes nothing in how gravity falls on the axes). A gyroscope covers both, which is why phones and drones carry both. Step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
       </p>
     </section>
 
