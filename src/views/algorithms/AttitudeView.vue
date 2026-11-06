@@ -41,7 +41,7 @@ const READING = [
     { href: `${WIKI}Attitude_and_heading_reference_system`, title: 'Attitude and heading reference system', note: 'Wikipedia: with a compass too, a full attitude' },
   ] },
 ];
-const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\,\Delta t) + (1 - \alpha)\,\varphi_{\text{gravity}}, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
+const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omega_x\,\Delta t) + (1 - \alpha)\,\varphi_g, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
 </script>
 
 <template>
@@ -79,7 +79,7 @@ const COMPLEMENTARY = String.raw`\varphi \leftarrow \alpha\,(\varphi + \omega_x\
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">The complementary filter</h2>
       <p class="mb-2">
-        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the roll φ by the gyro's rate about x, then move it a small part of the way toward gravity's φ (the pitch θ alike).
+        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the roll φ<sub>c</sub> (c, the complementary filter's) by the gyro's rate about x, then move it a small part of the way toward gravity's φ<sub>g</sub> (the pitch θ alike).
       </p>
       <TexMath class="mb-2 block" display :expr="COMPLEMENTARY" />
       <p>

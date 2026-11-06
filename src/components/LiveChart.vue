@@ -11,7 +11,7 @@ import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 const props = defineProps({
   title: { type: String, required: true },
   unit: { type: String, required: true },
-  series: { type: Array, required: true }, // [{ label, color: '--series-1' }]
+  series: { type: Array, required: true }, // [{ label, sub (a subscript, optional), color: '--series-1' }]
   values: { type: Array, default: () => [] }, // the latest value of each, for the legend
   source: { type: Function, required: true },
   windowMs: { type: Number, default: 10000 },
@@ -124,12 +124,12 @@ const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(p
   <figure ref="figure" class="flex flex-col gap-2" :class="full && 'h-full bg-white p-6 dark:bg-slate-800'">
     <figcaption class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
       <span class="font-semibold">{{ title }} <span class="font-normal text-slate-500 dark:text-slate-400">{{ unit }}</span></span>
-      <span v-for="(s, k) in series" :key="s.label" class="flex items-center gap-1.5 font-mono text-sm tabular-nums">
+      <span v-for="(s, k) in series" :key="s.label + (s.sub ?? '')" class="flex items-center gap-1.5 font-mono text-sm tabular-nums">
         <span class="inline-block h-0.5 w-4 rounded" :style="{ background: `var(${s.color})` }" />
-        {{ s.label }} {{ fmt(values[k]) }}
+        <span>{{ s.label }}<sub v-if="s.sub">{{ s.sub }}</sub></span> {{ fmt(values[k]) }}
       </span>
       <FullscreenButton v-if="canFullscreen" :full="full" class="ml-auto self-center" @toggle="toggleFull" />
     </figcaption>
-    <canvas ref="canvas" class="w-full" :class="full ? 'min-h-0 flex-1' : 'h-48'" role="img" :aria-label="`${title}, ${unit}: the last ${windowMs / 1000} s of ${series.map((s) => s.label).join(', ')}`" />
+    <canvas ref="canvas" class="w-full" :class="full ? 'min-h-0 flex-1' : 'h-48'" role="img" :aria-label="`${title}, ${unit}: the last ${windowMs / 1000} s of ${series.map((s) => s.label + (s.sub ? `_${s.sub}` : '')).join(', ')}`" />
   </figure>
 </template>

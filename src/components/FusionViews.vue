@@ -15,11 +15,11 @@ const props = defineProps({
 });
 
 const ANGLE_FLOOR_DEG = 45; // the charts' least half-range
-// each angle three ways, named as in the formulas, in their order
+// each angle three ways, named as in the formulas (g gravity's, ω the gyro alone, q fused), in their order
 const threeOf = (sym) => [
-  { label: `${sym} gravity`, color: '--series-1' },
-  { label: `${sym} gyro alone`, color: '--series-2' },
-  { label: `${sym} fused`, color: '--series-3' },
+  { label: sym, sub: 'g', color: '--series-1' },
+  { label: sym, sub: 'ω', color: '--series-2' },
+  { label: sym, sub: 'q', color: '--series-3' },
 ];
 const PHI = threeOf('φ');
 const THETA = threeOf('θ');
@@ -54,15 +54,15 @@ const blocks = computed(() => {
       { tex: String.raw`\Delta t =`, value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
     ] },
     { title: 'Gravity\'s tilt, from a alone', rows: [
-      { tex: String.raw`\varphi = \operatorname{atan2}(a_y,\ a_z) =`, value: `${f(u.gravity?.roll, 1)}°`, note: 'φ (phi), the roll: about the nose, x' },
-      { tex: String.raw`\theta = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${f(u.gravity?.pitch, 1)}°`, note: 'θ (theta), the pitch: nose up' },
+      { tex: String.raw`\varphi_g = \operatorname{atan2}(a_y,\ a_z) =`, value: `${f(u.gravity?.roll, 1)}°`, note: 'φ (phi), the roll: about the nose, x; g, gravity\'s' },
+      { tex: String.raw`\theta_g = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${f(u.gravity?.pitch, 1)}°`, note: 'θ (theta), the pitch: nose up' },
     ] },
     { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
-      { tex: String.raw`\varphi \leftarrow \varphi + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: 'started from gravity\'s φ' },
-      { tex: String.raw`\theta \leftarrow \theta - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: 'started from gravity\'s θ; nose up is a turn about −y' },
+      { tex: String.raw`\varphi_\omega \leftarrow \varphi_\omega + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: 'ω: the gyro\'s alone, started from gravity\'s' },
+      { tex: String.raw`\theta_\omega \leftarrow \theta_\omega - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: 'started from gravity\'s; nose up is a turn about −y' },
     ] },
     { title: 'The attitude, q: a quaternion, four numbers for how the board sits in the room', rows: [
-      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \cos\tfrac{\theta}{2}\sin\tfrac{\varphi}{2},\ -\sin\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \sin\tfrac{\theta}{2}\sin\tfrac{\varphi}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s φ and θ above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
+      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s roll and pitch above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
       { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'then, each reading: the q the filter made the reading before (the last line below)' },
       { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', note: 'how far the board has turned from the start, all in one turn' },
       { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), note: 'the axis of that turn (none while β is 0): so q = (cos β/2, n sin β/2)' },
@@ -76,8 +76,8 @@ const blocks = computed(() => {
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time, kd de/dt how fast it changes; here kd = 0, so a PI controller' },
-      { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; φ, θ and ψ come from it' },
-      { tex: String.raw`(\varphi,\ \theta,\ \psi) =`, value: fusionAngles(u), note: 'roll, pitch and yaw, from the new q: the attitude, fused' },
+      { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; the fused angles come from it (the last line)' },
+      { tex: String.raw`(\varphi_q,\ \theta_q,\ \psi_q) =`, value: fusionAngles(u), note: 'q: roll, pitch and yaw from the new q, the attitude fused' },
     ] },
   ];
 });
