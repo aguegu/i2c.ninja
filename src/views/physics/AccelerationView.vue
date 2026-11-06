@@ -3,8 +3,15 @@
 // sensor reads 1 g upward, how a MEMS accelerometer feels it (the ADXL345's
 // datasheet: a polysilicon proof mass on springs, a differential
 // capacitor), tilt from gravity; the devices that measure it; things to try
+import { reactive } from 'vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
+import LiveSourceCard from '../../components/LiveSourceCard.vue';
 import { PHYSICS } from '../../lib/physics.js';
+import { ACCELEROMETERS } from '../../lib/sources.js';
+import { useSource } from '../../lib/useSource.js';
+import { rollOf, pitchOf } from '../../lib/tilt.js';
+
+const src = reactive(useSource(ACCELEROMETERS));
 
 const topic = PHYSICS.find((p) => p.slug === 'acceleration');
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -20,6 +27,15 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Acceleration is how fast a velocity changes: speeding up, slowing down, turning. Accelerometers measure it in g, the acceleration of free fall at the Earth's surface (about 9.81 m/s²). And they show something surprising: sitting still on a desk, one reads 1 g, pointing up.
       </p>
     </div>
+
+    <LiveSourceCard :src="src" title="Acceleration" :floor="1.2">
+      <template #default="{ v }">
+        <p v-if="v" class="mt-2 font-mono text-sm text-slate-500 tabular-nums dark:text-slate-400">tilt, held still: roll {{ rollOf(...v).toFixed(0) }}° · pitch {{ pitchOf(...v).toFixed(0) }}°</p>
+      </template>
+    </LiveSourceCard>
+    <p class="-mt-2 text-sm text-slate-500 dark:text-slate-400">
+      It looks for any accelerometer this site knows (the ADXL345, the MPU-6050 or MPU-6500) on the dongle's bus, and reads it 50 times a second. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+    </p>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">A mass on springs</h2>
