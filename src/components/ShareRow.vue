@@ -2,11 +2,12 @@
 // Share this page: the device's own share sheet where the browser has one
 // (WeChat, WhatsApp, Telegram, Instagram... through it), plain share links to
 // a few networks (nothing loaded from them, no trackers), email, and copy the
-// link; each as its logo (Simple Icons, CC0; LinkedIn isn't in it: a plain
+// link, and a QR code of it to scan from a phone (uqr, drawn here); each as its logo (Simple Icons, CC0; LinkedIn isn't in it: a plain
 // "in" mark). Instagram takes no link from a web page: its button copies the
 // link and opens Instagram to paste it. The page's address without its #tab,
 // and its title.
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { renderSVG } from 'uqr';
 import { siX, siFacebook, siReddit, siInstagram } from 'simple-icons';
 import { useRoute } from 'vue-router';
 import { ORIGIN, pageFor, fullTitle } from '../lib/pages.js';
@@ -33,6 +34,17 @@ const NETWORKS = [
 ];
 const INSTAGRAM = siInstagram.path;
 const instagramCopied = ref(false);
+
+// the QR code: a pop-up, dark on white whatever the theme (scanners need it);
+// shut by a click outside or Esc
+const QR = 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM18 18h3v3h-3zM14 20h2M20 14v2M6 6h1M17 6h1M6 17h1';
+const qrOpen = ref(false);
+const qrBox = ref(null);
+const qrSvg = computed(() => (qrOpen.value ? renderSVG(url.value, { border: 2 }) : ''));
+const onDoc = (ev) => { if (qrOpen.value && qrBox.value && !qrBox.value.contains(ev.target)) qrOpen.value = false; };
+const onKey = (ev) => { if (ev.key === 'Escape') qrOpen.value = false; };
+onMounted(() => { document.addEventListener('click', onDoc); document.addEventListener('keydown', onKey); });
+onBeforeUnmount(() => { document.removeEventListener('click', onDoc); document.removeEventListener('keydown', onKey); });
 
 // Instagram: the link copied, Instagram opened to paste it
 async function toInstagram() {
@@ -85,7 +97,22 @@ const icon = 'flex h-8 w-8 items-center justify-center rounded-full border borde
     <button type="button" :class="icon" :title="copied ? 'Copied' : 'Copy the link'" aria-label="Copy the link" @click="copy">
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path :d="LINK" /></svg>
     </button>
+    <div ref="qrBox" class="relative">
+      <button type="button" :class="icon" title="A QR code of the link" aria-label="Show a QR code of the link" :aria-expanded="qrOpen" @click="qrOpen = !qrOpen">
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path :d="QR" /></svg>
+      </button>
+      <div v-if="qrOpen" class="absolute bottom-10 left-1/2 z-20 w-56 -translate-x-1/2 rounded-xl border border-slate-200 bg-white p-3 text-center shadow-lg dark:border-slate-700">
+        <!-- eslint-disable-next-line vue/no-v-html -- uqr's SVG of our own address -->
+        <div class="qr" v-html="qrSvg" />
+        <p class="mt-2 font-mono text-[11px] break-all text-slate-600">{{ url }}</p>
+        <p class="text-xs text-slate-500">scan it with a phone's camera</p>
+      </div>
+    </div>
     <span v-if="copied" class="text-xs text-emerald-700 dark:text-emerald-400">link copied</span>
     <span v-if="instagramCopied" class="text-xs text-emerald-700 dark:text-emerald-400">link copied: paste it in Instagram</span>
   </div>
 </template>
+
+<style>
+.qr svg { display: block; width: 100%; height: auto; }
+</style>
