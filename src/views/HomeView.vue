@@ -1,119 +1,111 @@
 <script setup>
-// the home page: what this is, a card a device, the guides, the bench
+// The home page as a book's cover, then its contents. The cover: the title,
+// what it is, the glass box with the board turning slowly in it (still when
+// the system asks for less motion), the three parts, the way in. The
+// contents: the parts and their pages, as a book lists its chapters, and
+// the course. Recent above them, when there is any.
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import ProjectionBox from '../components/ProjectionBox.vue';
 import { DEVICES, GUIDES } from '../lib/devices.js';
-import HomeCarousel from '../components/HomeCarousel.vue';
 import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
+import { fromAxisAngle } from '../lib/quaternion.js';
 import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
+import { version } from '../../package.json';
 
-const physicsTitle = (slug) => PHYSICS.find((p) => p.slug === slug)?.title ?? slug;
 const hasWebUsb = 'usb' in navigator;
-// what it's for
-const USES = [
-  { title: 'STEM lessons', text: 'See the physics happen: gravity on a spring-held mass, the Coriolis push in a gyro, Earth\'s field dipping into the ground, a heartbeat in a fingertip. Each page explains how its sensor measures.' },
-  { title: 'Digital experiments', text: 'Measure, compare and question with real data from real sensors: tilt, turn, heat, humidity, distance, light through a finger, current and power. Charts live, full screen for the class.' },
-  { title: 'Electronics smoke test', text: 'Got a module? Plug it in and see it answer: found by its ID, its self test run where it has one, its readings sane. Before it goes into a project, or back to the seller.' },
+const EDITION = version.split('.').slice(0, 2).join('.'); // 1.3.0: edition 1.3
+
+// the cover's board: a slow sway about the vertical, a little roll and pitch
+const SWAY_DEG = 35;
+const SWAY_S = 9; // a sway there and back
+const ROLL_DEG = 18;
+const PITCH_DEG = 12;
+const PITCH_S = 6;
+const mul = ([a, b, c, d], [e, f, g, h]) => [a * e - b * f - c * g - d * h, a * f + b * e + c * h - d * g, a * g - b * h + c * e + d * f, a * h + b * g - c * f + d * e];
+const pose = (s) => {
+  const yaw = fromAxisAngle([0, 0, 1], SWAY_DEG * Math.sin((2 * Math.PI * s) / SWAY_S));
+  const pitch = fromAxisAngle([0, -1, 0], PITCH_DEG * Math.sin((2 * Math.PI * s) / PITCH_S));
+  const roll = fromAxisAngle([1, 0, 0], ROLL_DEG);
+  return mul(yaw, mul(pitch, roll));
+};
+const q = ref(pose(1.5));
+let frame = 0;
+onMounted(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t0 = performance.now();
+  const tick = (t) => { q.value = pose(1.5 + (t - t0) / 1000); frame = requestAnimationFrame(tick); };
+  frame = requestAnimationFrame(tick);
+});
+onBeforeUnmount(() => cancelAnimationFrame(frame));
+
+// the contents, part by part
+const PARTS = [
+  { n: 'I', title: 'Physics', note: 'what is measured', items: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title })) },
+  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind })) },
+  { n: 'III', title: 'Algorithms', note: 'the maths that joins them', items: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title })) },
 ];
-const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
+const button = 'rounded-lg px-4 py-2 font-medium';
 </script>
 
 <template>
-  <main class="mx-auto flex max-w-5xl flex-col gap-6 p-4">
-    <div class="mt-2">
-      <h1 class="text-2xl font-bold sm:text-3xl">Sensors, live and explained: for the classroom and the bench</h1>
-      <p class="mt-2 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
-        Plug a sensor into a CH341 USB dongle and watch it in your browser: its readings charted live, and how it measures explained, with drawings.
-        Nothing to install, no code to write.
+  <main class="mx-auto flex max-w-5xl flex-col gap-10 p-4">
+    <!-- the cover -->
+    <section class="mx-auto mt-4 flex w-full max-w-2xl flex-col items-center rounded-sm border border-slate-300 bg-white px-6 pt-10 pb-6 text-center shadow-md sm:px-12 dark:border-slate-600 dark:bg-slate-800">
+      <p class="text-xs tracking-[0.3em] text-emerald-700 uppercase dark:text-emerald-400">a hands-on book of sensors</p>
+      <h1 class="mt-4 font-serif text-5xl font-bold tracking-tight sm:text-6xl">i2c.ninja</h1>
+      <p class="mt-3 font-serif text-xl text-slate-600 italic dark:text-slate-300">Sensors, live and explained</p>
+      <div class="my-4 w-full"><ProjectionBox :q="q" /></div>
+      <p class="font-serif text-lg tracking-wide">Physics · Devices · Algorithms</p>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        A sensor on a CH341 dongle, its readings live in your browser, and how it all works, drawn and worked out. For STEM lessons, digital experiments and the electronics bench; nothing to install.
       </p>
-    </div>
-
-    <HomeCarousel />
-
-    <section class="grid gap-4 sm:grid-cols-3">
-      <div v-for="u in USES" :key="u.title" class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-        <h2 class="font-semibold">{{ u.title }}</h2>
-        <p class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{{ u.text }}</p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <RouterLink v-for="g in GUIDES" :key="g.to" :to="g.to" :class="[button, 'bg-emerald-600 text-white hover:bg-emerald-700']">Start the course</RouterLink>
+        <RouterLink to="/get-started" :class="[button, 'border border-slate-300 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700']">Get started</RouterLink>
       </div>
+      <p class="mt-8 w-full border-t border-slate-200 pt-3 text-xs tracking-widest text-slate-500 uppercase dark:border-slate-700 dark:text-slate-400">Sourcekit · edition {{ EDITION }}</p>
     </section>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB: the device pages will need Chrome, Edge or
-      another Chromium (Chrome on Android too, with an OTG cable).
+    <p v-if="!hasWebUsb" class="mx-auto max-w-2xl rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).
     </p>
 
-    <section v-if="recent.length">
-      <div class="mb-3 flex items-baseline gap-3">
-        <h2 class="text-lg font-semibold">Recent</h2>
-        <button type="button" class="text-sm text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
+    <!-- the contents -->
+    <section class="mx-auto w-full max-w-2xl">
+      <div v-if="recent.length" class="mb-8 text-sm">
+        <span class="text-slate-500 dark:text-slate-400">Where you were:</span>
+        <template v-for="(r, i) in withLabels(recent)" :key="r.to">{{ i ? ' · ' : ' ' }}<RouterLink :to="r.to" class="text-emerald-700 underline dark:text-emerald-400">{{ r.label }}</RouterLink> <span class="text-xs text-slate-400">{{ ago(r.at) }}</span></template>
+        <button type="button" class="ml-2 text-xs text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
       </div>
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <RouterLink v-for="r in withLabels(recent)" :key="r.to" :to="r.to" class="flex items-baseline justify-between gap-2 rounded-xl bg-white px-4 py-3 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 dark:bg-slate-800">
-          <span><span class="font-semibold">{{ r.label }}</span> <span class="text-xs text-slate-500 dark:text-slate-400">{{ r.note }}</span></span>
-          <span class="shrink-0 text-xs text-slate-400">{{ ago(r.at) }}</span>
-        </RouterLink>
-      </div>
-    </section>
 
-    <section>
-      <h2 class="mb-3 text-lg font-semibold">By algorithm</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="p in ALGORITHMS.filter((t) => t.component)" :key="p.slug" :to="`/algorithms/${p.slug}`" :class="card">
-          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Algorithm</span>
-          <span class="mt-1 text-lg font-semibold">{{ p.title }}</span>
-          <span class="mt-2 flex-1 leading-relaxed">{{ p.blurb }}</span>
-          <span class="mt-3 text-xs text-slate-500 dark:text-slate-400">combines {{ p.combines.map(physicsTitle).join(' + ') }}</span>
-        </RouterLink>
+      <h2 class="mb-6 text-center font-serif text-2xl tracking-wide">Contents</h2>
+      <div v-for="p in PARTS" :key="p.n" class="mb-8">
+        <p class="font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">Part {{ p.n }}</span>{{ p.title }} <span class="text-sm text-slate-500 italic dark:text-slate-400">· {{ p.note }}</span></p>
+        <ol class="mt-2">
+          <li v-for="(it, i) in p.items" :key="it.to">
+            <RouterLink :to="it.to" class="group flex items-baseline gap-2 py-1">
+              <span class="w-6 shrink-0 text-right text-sm text-slate-400 tabular-nums">{{ i + 1 }}</span>
+              <span class="group-hover:text-emerald-600">{{ it.label }}</span>
+              <span class="flex-1 border-b border-dotted border-slate-300 dark:border-slate-600" />
+              <span v-if="it.note" class="text-sm text-slate-500 dark:text-slate-400">{{ it.note }}</span>
+            </RouterLink>
+          </li>
+        </ol>
       </div>
-    </section>
-
-    <section>
-      <h2 class="mb-3 text-lg font-semibold">By physics</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="p in PHYSICS.filter((t) => t.component)" :key="p.slug" :to="`/physics/${p.slug}`" :class="card">
-          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</span>
-          <span class="mt-1 text-lg font-semibold">{{ p.title }}</span>
-          <span class="mt-2 flex-1 leading-relaxed">{{ p.blurb }}</span>
-          <span class="mt-3 text-xs text-slate-500 dark:text-slate-400">with {{ p.devices.map((d) => d.label).join(', ') }}</span>
-        </RouterLink>
+      <div class="mb-4">
+        <p class="font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">Course</span>Learn <span class="text-sm text-slate-500 italic dark:text-slate-400">· the parts in order, step by step</span></p>
+        <ol class="mt-2">
+          <li v-for="g in GUIDES" :key="g.to">
+            <RouterLink :to="g.to" class="group flex items-baseline gap-2 py-1">
+              <span class="w-6 shrink-0" />
+              <span class="group-hover:text-emerald-600">{{ g.name }}</span>
+              <span class="flex-1 border-b border-dotted border-slate-300 dark:border-slate-600" />
+            </RouterLink>
+          </li>
+        </ol>
       </div>
-    </section>
-
-    <section>
-      <h2 class="mb-3 text-lg font-semibold">By device</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="d in DEVICES" :key="d.to" :to="d.to" :class="card">
-          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
-          <span class="mt-1 text-lg font-semibold">{{ d.name }}</span>
-          <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.maker }}</span>
-          <span class="mt-2 flex-1 leading-relaxed">{{ d.measures }}</span>
-          <span class="mt-3 font-mono text-xs text-slate-500 dark:text-slate-400">{{ d.bus }}</span>
-        </RouterLink>
-      </div>
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-        More return one at a time, each once its driver and its page have run on a real device.
-      </p>
-    </section>
-
-    <section>
-      <h2 class="mb-3 text-lg font-semibold">Learn</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="g in GUIDES" :key="g.to" :to="g.to" :class="card">
-          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ g.kind }}</span>
-          <span class="mt-1 text-lg font-semibold">{{ g.name }}</span>
-          <span class="mt-2 flex-1 leading-relaxed">{{ g.measures }}</span>
-        </RouterLink>
-      </div>
-    </section>
-
-    <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <h2 class="mb-2 text-lg font-semibold">The bench</h2>
-      <p class="mb-3 leading-relaxed">
-        A CH341 dongle with its jumpers on I2C and 3V3, four wires to the
-        device, a Chromium browser that may open it.
-      </p>
-      <RouterLink to="/get-started" class="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800">
-        Set it up
-      </RouterLink>
+      <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">More devices join one at a time, each once its driver and its page have run on a real one.</p>
     </section>
   </main>
 </template>
