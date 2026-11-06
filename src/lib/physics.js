@@ -13,6 +13,16 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/AccelerationView.vue'),
   },
+  {
+    slug: 'rotation',
+    title: 'Rotation',
+    blurb: 'How fast something turns, which way is positive, how a shaking mass feels a turn, and why a gyro drifts.',
+    devices: [
+      { to: '/itg3200', label: 'ITG-3200', note: 'gyroscope' },
+      { to: '/mpu6050#gyro', label: 'MPU-6050 / MPU-6500', note: 'its gyro' },
+    ],
+    component: () => import('../views/physics/RotationView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title }));

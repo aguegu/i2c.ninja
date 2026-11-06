@@ -1,18 +1,15 @@
 // An ITG-3200 on the CH341 dongle, for a page: woken (asleep, its WHO_AM_I
 // reads 0) and found at 0x68 or 0x69, set up by atiic's driver (+/-2000
-// deg/s, a 98 Hz filter at 1 kHz), read every READ_MS. The rates added up
-// into angles turned (each step's rate times the time since the last),
-// after its zero-rate bias is taken off: zero() measures that bias, held
-// still. The last windowMs kept for the chart.
+// deg/s, a 98 Hz filter at 1 kHz), read every READ_MS; each reading to
+// onReading's listeners (a page adds them up: lib/useTurned.js). The last
+// windowMs kept for the chart.
 import { ref, onBeforeUnmount } from 'vue';
 import { Itg3200 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
 import { makeSeries } from './series.js';
 
 const SCL_HZ = 400000; // its fast mode
-const READ_MS = 10; // 100 reads a second: the angles added up in small steps
-const ZERO_MS = 2000; // held still this long to measure the bias
-const AXES = ['x', 'y', 'z'];
+const READ_MS = 10; // 100 reads a second: a turn added up in small steps
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -21,19 +18,16 @@ export function useItg3200({ windowMs = 10000 } = {}) {
   const state = ref('idle'); // idle, connecting, running
   const failure = ref(null);
   const address = ref(null);
-  const latest = ref(null); // { x, y, z } deg/s, the bias taken off
+  const latest = ref(null); // { x, y, z } deg/s
   const temperature = ref(null); // C
-  const bias = ref({ x: 0, y: 0, z: 0 }); // deg/s
-  const zeroing = ref(false);
-  const zeroed = ref(false);
-  const angles = ref({ x: 0, y: 0, z: 0 }); // deg turned about each axis since the last reset
   const series = makeSeries(3, windowMs);
+  const listeners = new Set();
+  // fn(t ms, [x, y, z] deg/s) on each reading
+  const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
   let bus = null;
   let gyro = null;
   let generation = 0;
-  let lastT = null;
-  let sum = null; // while zeroing: { x, y, z, n }
 
   async function loop(gen) {
     try {
@@ -42,15 +36,9 @@ export function useItg3200({ windowMs = 10000 } = {}) {
         const m = await gyro.measure();
         const g = m.gyroscopes;
         temperature.value = m.temperature;
-        if (sum) { for (const k of AXES) sum[k] += g[k]; sum.n++; }
-        const c = Object.fromEntries(AXES.map((k) => [k, g[k] - bias.value[k]]));
-        if (lastT !== null) {
-          const dt = (t0 - lastT) / 1000;
-          angles.value = Object.fromEntries(AXES.map((k) => [k, angles.value[k] + c[k] * dt]));
-        }
-        lastT = t0;
-        latest.value = c;
-        series.push(t0, [c.x, c.y, c.z]);
+        latest.value = g;
+        series.push(t0, [g.x, g.y, g.z]);
+        for (const fn of listeners) fn(t0, [g.x, g.y, g.z]);
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));
       }
     } catch (e) {
@@ -86,7 +74,6 @@ export function useItg3200({ windowMs = 10000 } = {}) {
       gyro = new Itg3200(bus, address.value);
       await gyro.init();
       series.clear();
-      lastT = null;
       generation++;
       loop(generation);
       state.value = 'running';
@@ -96,32 +83,11 @@ export function useItg3200({ windowMs = 10000 } = {}) {
     }
   }
 
-  // held still: the average rate over ZERO_MS is the bias, taken off after
-  async function zero() {
-    if (state.value !== 'running' || zeroing.value) return;
-    zeroing.value = true;
-    sum = { x: 0, y: 0, z: 0, n: 0 };
-    await delay(ZERO_MS);
-    const s = sum;
-    sum = null;
-    zeroing.value = false;
-    if (!s || !s.n) return;
-    bias.value = Object.fromEntries(AXES.map((k) => [k, s[k] / s.n]));
-    zeroed.value = true;
-    resetAngles();
-  }
-
-  function resetAngles() {
-    angles.value = { x: 0, y: 0, z: 0 };
-  }
-
   async function disconnect() {
     generation++;
     const b = bus;
     bus = null;
     gyro = null;
-    sum = null;
-    zeroing.value = false;
     state.value = 'idle';
     try {
       await b?.close();
@@ -142,5 +108,5 @@ export function useItg3200({ windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, address, latest, temperature, bias, zeroing, zeroed, angles, source: series.source, connect, disconnect, zero, resetAngles };
+  return { state, failure, address, latest, temperature, source: series.source, onReading, connect, disconnect };
 }

@@ -1,7 +1,7 @@
 // A gyro's rates added up into the angle turned about each axis (each
 // reading's rate times the time since the last), after a bias measured held
-// still (zero) is taken off; reset starts the angles again. Fed by a page's
-// reading hook: onReading(fn(t ms, accel, gyro deg/s [x, y, z])).
+// still (zero) is taken off; reset starts the angles again. Fed by any
+// stream of readings: subscribe(fn(t ms, [x, y, z] deg/s)) -> unsubscribe.
 import { ref, onBeforeUnmount } from 'vue';
 
 const AXES = ['x', 'y', 'z'];
@@ -9,7 +9,7 @@ const ZERO_MS = 2000; // held still this long to measure the bias
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function useTurned(onReading) {
+export function useTurned(subscribe) {
   const angles = ref({ x: 0, y: 0, z: 0 }); // degrees
   const bias = ref({ x: 0, y: 0, z: 0 }); // deg/s
   const zeroing = ref(false);
@@ -17,8 +17,8 @@ export function useTurned(onReading) {
   let lastT = null;
   let sum = null;
 
-  const off = onReading((t, accel, gyro) => {
-    const g = { x: gyro[0], y: gyro[1], z: gyro[2] };
+  const off = subscribe((t, [x, y, z]) => {
+    const g = { x, y, z };
     if (sum) { for (const k of AXES) sum[k] += g[k]; sum.n++; }
     if (lastT !== null && t > lastT) {
       const dt = (t - lastT) / 1000;

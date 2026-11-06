@@ -2,27 +2,17 @@
 // The ITG-3200 live on the CH341 dongle: its three rates, the turn they
 // add up to, its bias zeroed out, and how a vibrating mass feels a turn
 import { reactive, computed } from 'vue';
-import LiveChart from '../components/LiveChart.vue';
-import GyroBall from '../components/GyroBall.vue';
-import TurnViews from '../components/TurnViews.vue';
+import GyroViews from '../components/GyroViews.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useItg3200 } from '../lib/useItg3200.js';
+import { useTurned } from '../lib/useTurned.js';
 
 const WINDOW_MS = 10000;
-const FLOOR_DPS = 10; // the chart's least half-range: the noise at rest stays small
-const SERIES = [
-  { label: 'x', color: '--series-1' },
-  { label: 'y', color: '--series-2' },
-  { label: 'z', color: '--series-3' },
-];
-const AXES = ['x', 'y', 'z'];
 
 const gyro = reactive(useItg3200({ windowMs: WINDOW_MS }));
+const turned = reactive(useTurned(gyro.onReading));
 const g = computed(() => gyro.latest);
-const rates = computed(() => (g.value ? [g.value.x, g.value.y, g.value.z] : [0, 0, 0]));
-const phases = computed(() => [gyro.angles.x, gyro.angles.y, gyro.angles.z]);
-const fmt = (v, d = 1) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 </script>
 
@@ -51,6 +41,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         {{ gyro.state === 'connecting' ? 'Connecting…' : 'Connect' }}
       </button>
       <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="gyro.disconnect">Stop</button>
+      <span v-if="gyro.state === 'running'" class="font-mono text-sm tabular-nums">itself {{ gyro.temperature?.toFixed(1) ?? '—' }} °C</span>
       <span v-if="gyro.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(gyro.address) }} · 400 kHz · ±2000 °/s · 98 Hz filter</span>
     </section>
     <div v-if="gyro.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
@@ -59,57 +50,12 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p v-if="gyro.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ gyro.failure.error }}</p>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-[1fr_auto]">
-      <section :class="card">
-        <div class="grid grid-cols-3 gap-4">
-          <div v-for="k in AXES" :key="k">
-            <p class="text-sm text-slate-500 dark:text-slate-400">about {{ k }}</p>
-            <p class="font-mono text-3xl tabular-nums">{{ fmt(g?.[k]) }} <span class="text-base">°/s</span></p>
-          </div>
-        </div>
-        <div class="mt-3">
-          <p class="text-sm text-slate-500 dark:text-slate-400">itself</p>
-          <p class="font-mono text-3xl tabular-nums">{{ fmt(gyro.temperature) }} <span class="text-base">°C</span></p>
-        </div>
-        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-          Held still a gyro should read 0 on every axis, but each has a small offset of its own, its zero-rate bias, which drifts with temperature. Hold it still and press Zero: two seconds' average is taken off from then on.
-        </p>
-        <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <button class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="gyro.state !== 'running' || gyro.zeroing" @click="gyro.zero">{{ gyro.zeroing ? 'Hold still…' : 'Zero' }}</button>
-          <span v-if="gyro.zeroed" class="font-mono text-sm text-slate-500 tabular-nums dark:text-slate-400">bias {{ fmt(gyro.bias.x, 2) }}, {{ fmt(gyro.bias.y, 2) }}, {{ fmt(gyro.bias.z, 2) }} °/s</span>
-        </div>
-      </section>
-      <section :class="[card, 'flex flex-col items-center']">
-        <GyroBall :rates="rates" :phases="phases" />
-        <p class="text-xs text-slate-500 dark:text-slate-400">rings turn as the board does; the arrow: its spin axis</p>
-      </section>
-    </div>
-
-    <section :class="card">
-      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <h2 class="text-lg font-semibold">Turned so far</h2>
-        <button class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="gyro.state !== 'running'" @click="gyro.resetAngles">Reset</button>
-      </div>
-      <div class="mt-3">
-        <TurnViews :angles="gyro.angles" />
-      </div>
-      <p class="mt-3 leading-relaxed">
-        A gyro tells how fast, not where: add up each reading times the time since the last, and you get how far it has turned, here about each axis on its own, drawn from three sides. Press Reset, turn the board a quarter turn about z and back, and watch. (Each axis added up alone is right for one turn at a time; mixed turns need them added up together, as Learn the IMU does.) Then leave it still: the angles creep, because every leftover bit of bias is added up too, second after second. That drift is why a gyro alone can't keep its heading, and why it's paired with an accelerometer (for which way is down) and a compass (for north). Could it feel the Earth turn? The Earth turns 15° an hour, 0.004 °/s: a sixteenth of one count here (0.07 °/s), and lost in an offset that can be ±40 °/s and shifts with temperature far more than that. Navigation gyros (ring-laser, fibre-optic) do feel it, and find true north by it.
-      </p>
-    </section>
-
-    <section :class="card">
-      <LiveChart title="Turning rate" unit="°/s" :series="SERIES" :values="rates" :source="gyro.source" :window-ms="WINDOW_MS" :floor="FLOOR_DPS" :digits="1" />
-    </section>
+    <GyroViews :g="g" :turned="turned" :source="gyro.source" :running="gyro.state === 'running'" :window-ms="WINDOW_MS" />
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
       <p class="mb-2">
-        <b>A mass kept shaking.</b> Each axis is a tiny vibrating structure: a mass driven back and forth, all the time. Not turning, it stays on its line. Turning, the Coriolis effect pushes it sideways, across its swing, flipping with each swing and growing with the rate of turn: F = 2 m v × Ω.
-      </p>
-      <SvgDrawing src="/itg3200-coriolis.svg" alt="Two panels: not turning, a mass driven back and forth between springs stays on its line and the sense plates above and below see equal gaps; turning, the Coriolis effect pushes it sideways toward a plate, flipping with each swing" class="mx-auto mb-3 w-full max-w-2xl" />
-      <p class="mb-2">
-        <b>Felt by capacitors.</b> Plates beside the mass feel the sideways push as a change in capacitance (a capacitive pickoff). The signal swings in step with the drive, so the chip amplifies it, demodulates it against the drive and filters it into a voltage proportional to the rate, then a 16-bit converter on each axis reads it.
+        Three independent vibratory MEMS gyroscopes, one an axis: turned, the Coriolis effect deflects each vibrating structure, a capacitive pickoff feels it, and the signal is amplified, demodulated and filtered into a voltage proportional to the rate, which a 16-bit converter reads (its datasheet, 5.3). How a shaking mass feels a turn, with a drawing: <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation</RouterLink>.
       </p>
       <p>
         <b>The numbers:</b> ±2000 °/s, 14.375 counts a °/s; its offset can be up to ±40 °/s from the factory, noise about 0.38 °/s at the 98 Hz filter used here. It samples up to 8 kHz; its temperature reads 280 counts a degree.

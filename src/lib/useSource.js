@@ -20,6 +20,10 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
   const latest = ref(null); // [x, y, z]
   const series = makeSeries(3, windowMs);
 
+  const listeners = new Set();
+  // fn(t ms, [x, y, z]) on each reading, for a page that works per reading (adding up a gyro)
+  const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
+
   let bus = null;
   let sensor = null;
   let generation = 0;
@@ -32,6 +36,7 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
         const v = await sensor.read();
         latest.value = v;
         series.push(t0, v);
+        for (const fn of listeners) fn(t0, v);
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));
       }
     } catch (e) {
@@ -116,5 +121,5 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, found, chosen, latest, unit: kind.unit, noun: kind.noun, chips: kind.chips, source: series.source, connect, disconnect, choose };
+  return { state, failure, found, chosen, latest, unit: kind.unit, noun: kind.noun, chips: kind.chips, source: series.source, onReading, connect, disconnect, choose };
 }

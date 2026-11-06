@@ -13,8 +13,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import Board3D from '../components/Board3D.vue';
 import AccelerometerViews from '../components/AccelerometerViews.vue';
-import GyroBall from '../components/GyroBall.vue';
-import TurnViews from '../components/TurnViews.vue';
+import GyroViews from '../components/GyroViews.vue';
 import { useImu } from '../lib/useImu.js';
 import { useTurned } from '../lib/useTurned.js';
 import { Mahony } from '../lib/fusion.js';
@@ -30,7 +29,7 @@ const SERIES = [
 const AXES = ['x', 'y', 'z'];
 
 const imu = reactive(useImu({ windowMs: WINDOW_MS }));
-const turned = reactive(useTurned(imu.onReading));
+const turned = reactive(useTurned((fn) => imu.onReading((t, accel, gyro) => fn(t, gyro))));
 
 const TABS = [
   { key: 'fused', label: 'Both fused', hash: '' },
@@ -64,8 +63,6 @@ function refuse() {
 const a = computed(() => (imu.latest ? { x: imu.latest.accel[0], y: imu.latest.accel[1], z: imu.latest.accel[2] } : null));
 const g = computed(() => (imu.latest ? { x: imu.latest.gyro[0], y: imu.latest.gyro[1], z: imu.latest.gyro[2] } : null));
 const size = computed(() => (a.value ? Math.hypot(a.value.x, a.value.y, a.value.z) : null));
-const rates = computed(() => (g.value ? AXES.map((k) => g.value[k] - turned.bias[k]) : [0, 0, 0]));
-const phases = computed(() => AXES.map((k) => turned.angles[k]));
 const fmt = (v, d = 2) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
@@ -151,26 +148,9 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <AccelerometerViews :a="a" :tiles="false" :chart="false" />
     </template>
 
-    <div v-if="tab === 'gyro'" class="grid gap-4 md:grid-cols-[auto_1fr]" role="tabpanel">
-      <section :class="[card, 'flex flex-col items-center']">
-        <GyroBall :rates="rates" :phases="phases" />
-        <p class="text-xs text-slate-500 dark:text-slate-400">rings turn as the board does; the arrow: its spin axis</p>
-      </section>
-      <section :class="card">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h2 class="text-lg font-semibold">Turned so far</h2>
-          <button :class="button" :disabled="imu.state !== 'running' || turned.zeroing" @click="turned.zero">{{ turned.zeroing ? 'Hold still…' : 'Zero' }}</button>
-          <button :class="button" :disabled="imu.state !== 'running'" @click="turned.reset">Reset</button>
-          <span v-if="turned.zeroed" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">bias {{ fmt(turned.bias.x) }}, {{ fmt(turned.bias.y) }}, {{ fmt(turned.bias.z) }} °/s</span>
-        </div>
-        <div class="mt-3">
-          <TurnViews :angles="turned.angles" />
-        </div>
-        <p class="mt-3 leading-relaxed">
-          The gyro's rates added up, about each axis on its own. Hold it still and press Zero (two seconds' average, its bias, is taken off), press Reset, then turn it a quarter turn about z and back. Left still, the angles creep: every leftover bit of bias is added up too. That's why the two sensors are fused, in the first tab.
-        </p>
-      </section>
-    </div>
+    <template v-if="tab === 'gyro'">
+      <GyroViews :g="g" :turned="turned" :running="imu.state === 'running'" :chart="false" />
+    </template>
 
     <section :class="card">
       <LiveChart title="Accelerometer" unit="g" :series="SERIES" :values="imu.latest?.accel" :source="imu.accelSource" :window-ms="WINDOW_MS" :floor="ACCEL_FLOOR_G" :digits="3" />
