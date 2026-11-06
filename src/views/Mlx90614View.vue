@@ -24,7 +24,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <h1 class="text-2xl font-bold">MLX90614</h1>
-      <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+      <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         Melexis' infrared thermometer: the temperature of whatever it's pointed at, without touching it, the way a forehead or kitchen thermometer gun works, and its own temperature beside it. Live over the CH341 dongle.
       </p>
     </div>

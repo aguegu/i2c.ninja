@@ -72,7 +72,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <h1 class="text-2xl font-bold">{{ imu.chipName ?? 'MPU-6050 / MPU-6500' }}</h1>
-      <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+      <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         A 3-axis accelerometer and a 3-axis gyro on one chip, and its temperature: the motion sensor of phones, game controllers and drones. Live over the CH341 dongle at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
         New to IMUs? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn what these numbers mean</RouterLink>.
       </p>

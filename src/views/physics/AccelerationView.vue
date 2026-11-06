@@ -21,7 +21,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
       <h1 class="text-2xl font-bold">Acceleration and gravity</h1>
-      <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+      <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         Acceleration is how fast a velocity changes: speeding up, slowing down, turning. Accelerometers measure it in g, the acceleration of free fall at the Earth's surface (about 9.81 m/s²). And they show something surprising: sitting still on a desk, one reads 1 g, pointing up.
       </p>
     </div>

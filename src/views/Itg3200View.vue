@@ -20,7 +20,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <h1 class="text-2xl font-bold">ITG-3200</h1>
-      <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+      <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         InvenSense's 3-axis gyroscope: how fast it's turning, in degrees a second, about three axes, and its own temperature. Live over the CH341 dongle, 100 readings a second.
         New to these numbers? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>.
       </p>
