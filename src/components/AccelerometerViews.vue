@@ -50,6 +50,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
           <p class="font-mono text-3xl tabular-nums">{{ fmt(size) }} <span class="text-base">g</span></p>
         </div>
       </div>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
       <div class="mt-auto">
         <slot name="note" />
       </div>

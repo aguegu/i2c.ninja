@@ -50,11 +50,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p v-if="adxl.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ adxl.failure.error }}</p>
     </div>
 
-    <AccelerometerViews :a="a" :source="adxl.source" :window-ms="WINDOW_MS">
-      <template #note>
-        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
-      </template>
-    </AccelerometerViews>
+    <AccelerometerViews :a="a" :source="adxl.source" :window-ms="WINDOW_MS" />
 
     <section :class="card">
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
