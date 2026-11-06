@@ -54,7 +54,8 @@ const blocks = computed(() => {
       { tex: String.raw`\text{pitch} \leftarrow \text{pitch} - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
-      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'the attitude held from the reading before, a quaternion' },
+      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \cos\tfrac{\theta}{2}\sin\tfrac{\varphi}{2},\ -\sin\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \sin\tfrac{\theta}{2}\sin\tfrac{\varphi}{2}\bigr)`, value: '', note: 'the start (and Start again): gravity\'s roll φ and pitch θ, yaw 0' },
+      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'then the q the last line made, a reading before: a turn by α about an axis n is (cos α/2, n sin α/2)' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
