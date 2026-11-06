@@ -66,7 +66,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.lhs + r.rhs">
-            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
       </div>
