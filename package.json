@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "atiic": "github:aguegu/atiic#1.3.23",
+    "katex": "0.19.1",
     "marked": "18.1.3",
     "vue": "3.5.44",
     "vue-router": "5.4.0",

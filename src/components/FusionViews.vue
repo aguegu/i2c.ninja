@@ -7,6 +7,7 @@
 // its readings; running enables the button.
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
+import TexMath from './TexMath.vue';
 import Board3D from './Board3D.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 
@@ -26,7 +27,7 @@ const AXES = ['x', 'y', 'z'];
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
 // the latest numbers, as they go into the formulas
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
-const formula = 'grid grid-cols-[auto_auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
+const formula = 'grid grid-cols-[auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
 const value = 'text-emerald-700 dark:text-emerald-400';
 const vec = (v, d) => (v ? `(${v.map((c) => n(c, d)).join(', ')})` : '—');
 const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
@@ -35,30 +36,30 @@ const aHat = computed(() => {
   return m ? a.map((c) => c / m) : null;
 });
 const err = computed(() => (aHat.value && props.fusion.fused?.held ? cross(aHat.value, props.fusion.fused.held.up) : null));
-// each block: a formula a row, its result with the latest numbers
+// each block: a formula a row (LaTeX), its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
   return [
     { title: 'From the sensors, every reading', rows: [
-      { lhs: 'a', rhs: '=', value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer: (ax, ay, az)' },
-      { lhs: 'ω', rhs: '=', value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro, the rates about x, y and z: (ωx, ωy, ωz)' },
-      { lhs: 'Δt', rhs: '=', value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
+      { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer' },
+      { tex: String.raw`\boldsymbol{\omega} = (\omega_x,\ \omega_y,\ \omega_z) =`, value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro: the rates about x, y and z' },
+      { tex: String.raw`\Delta t =`, value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
     ] },
     { title: 'Gravity\'s tilt, from a alone', rows: [
-      { lhs: 'roll', rhs: '= atan2(ay, az) =', value: `${f(u.gravity?.roll, 1)}°`, note: '' },
-      { lhs: 'pitch', rhs: '= atan2(ax, √(ay² + az²)) =', value: `${f(u.gravity?.pitch, 1)}°`, note: '' },
+      { tex: String.raw`\text{roll} = \operatorname{atan2}(a_y,\ a_z) =`, value: `${f(u.gravity?.roll, 1)}°`, note: '' },
+      { tex: String.raw`\text{pitch} = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${f(u.gravity?.pitch, 1)}°`, note: '' },
     ] },
     { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
-      { lhs: 'roll', rhs: '← roll + ωx × Δt =', value: `${f(u.gyroAlone?.roll, 1)}°`, note: '' },
-      { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
+      { tex: String.raw`\text{roll} \leftarrow \text{roll} + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: '' },
+      { tex: String.raw`\text{pitch} \leftarrow \text{pitch} - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
-      { lhs: 'q', rhs: '=', value: vec(u.fused?.held?.q, 3), note: 'the attitude held from the reading before, a quaternion (qw, qx, qy, qz)' },
-      { lhs: 'â', rhs: '= a / |a| =', value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
-      { lhs: 'v̂', rhs: '= (2(qx qz − qw qy), 2(qy qz + qw qx), 1 − 2(qx² + qy²)) =', value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
-      { lhs: 'e', rhs: '= â × v̂ =', value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
-      { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
-      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt =', value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; roll, pitch and yaw come from it' },
+      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'the attitude held from the reading before, a quaternion' },
+      { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
+      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
+      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
+      { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt`, value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
+      { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; roll, pitch and yaw come from it' },
     ] },
   ];
 });
@@ -73,8 +74,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <div v-for="b in blocks" :key="b.title">
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
-          <template v-for="r in b.rows" :key="r.lhs + r.rhs">
-            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+          <template v-for="r in b.rows" :key="r.tex">
+            <TexMath :expr="r.tex" /><span :class="value">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
       </div>

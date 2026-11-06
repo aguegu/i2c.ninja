@@ -8,6 +8,7 @@ import { reactive } from 'vue';
 import SourceBar from '../../components/SourceBar.vue';
 import HintNote from '../../components/HintNote.vue';
 import FusionViews from '../../components/FusionViews.vue';
+import TexMath from '../../components/TexMath.vue';
 import { ACCELEROMETERS, GYROSCOPES } from '../../lib/sources.js';
 import { useSources } from '../../lib/useSources.js';
 import { useFusion } from '../../lib/useFusion.js';
@@ -17,7 +18,7 @@ const src = reactive(useSources({ accel: ACCELEROMETERS, gyro: GYROSCOPES }, { w
 const fusion = reactive(useFusion((fn) => src.onReading((t, v) => fn(t, v.accel, v.gyro)), { windowMs: WINDOW_MS }));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
-const formula = 'rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-slate-900';
+const COMPLEMENTARY = String.raw`\theta \leftarrow \alpha\,(\theta + \omega\,\Delta t) + (1 - \alpha)\,\theta_{\text{gravity}}, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
 </script>
 
 <template>
@@ -55,9 +56,9 @@ const formula = 'rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-sla
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">The complementary filter</h2>
       <p class="mb-2">
-        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the angle by the gyro, then move it a small part of the way toward gravity's angle.
+        Each is good exactly where the other is bad, so take the gyro's quick changes and gravity's long-run level. Each reading: turn the angle θ by the gyro's rate ω, then move it a small part of the way toward gravity's angle.
       </p>
-      <p :class="['mb-2', formula]">angle = α × (angle + rate × Δt) + (1 − α) × gravity's angle,   α = τ / (τ + Δt)</p>
+      <TexMath class="mb-2 block" display :expr="COMPLEMENTARY" />
       <p>
         Over less than τ (half a second, say) the gyro wins: a shake is only a nudge. Over more, gravity wins: the drift can't build up. It works per axis, so it's right while the tilts stay modest.
       </p>
