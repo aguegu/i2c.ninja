@@ -11,7 +11,7 @@ Questions, ideas, a sensor you'd like to see here, or what you built with it: th
 
 Install it as an app (the install button in Chrome's or Edge's address bar, or "Add to Home screen" on Android) and, once visited, it works offline: a classroom needs the dongle on USB, not the internet.
 
-There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it. The little it remembers (the device pages you opened last, your light or dark choice) stays in this browser's storage; clearing the site's data forgets it.
+There is no backend: the site runs entirely in your browser, and nothing about your devices or their readings leaves it. The little it remembers (the device pages you opened last, your light or dark choice) stays in this browser's storage; clearing the site's data forgets it. Page visits are counted anonymously with [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/): no cookies, no tracking across sites, and visitors in the EU aren't counted at all; it tells us which pages are read, so we know what to improve.
 
 Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja), under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license: free for noncommercial use, schools and universities included; for commercial use, write to [support@meshmass.com](mailto:support@meshmass.com). atiic stays MIT.
 

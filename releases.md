@@ -1,5 +1,16 @@
 # Releases
 
+## 1.1.1
+
+- Recent: the device pages this browser opened last (four, newest first),
+  on the home page (with "clear") and on top of the Devices menu. Kept in
+  localStorage (lib/recent.js): this browser only, offline too, other tabs
+  follow. Tests.
+- About says what the site remembers, and that page visits are counted
+  anonymously with Cloudflare Web Analytics (no cookies, no cross-site
+  tracking, the EU not counted).
+- Fixed: opening an alias (/mpu6500) inside the app titled it Not found.
+
 ## 1.1.0
 
 - A PWA: installable as an app (desktop, Android), and offline once visited.
