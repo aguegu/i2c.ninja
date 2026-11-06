@@ -54,11 +54,11 @@ const blocks = computed(() => {
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
       { lhs: 'â', rhs: '= a / |a| =', value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
-      { lhs: 'v̂', rhs: '= (2(xz − wy), 2(yz + wx), 1 − 2(x² + y²)) =', value: vec(u.fused?.up, 3), note: 'up, as q says' },
+      { lhs: 'v̂', rhs: '= (2(qx qz − qw qy), 2(qy qz + qw qx), 1 − 2(qx² + qy²)) =', value: vec(u.fused?.up, 3), note: 'up, as q says: qw, qx, qy, qz are q\'s four numbers, the attitude held so far (the last line)' },
       { lhs: 'e', rhs: '= â × v̂ =', value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
       { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: '⊗, the quaternion product: q turned by ω′ over Δt, then made unit length' },
-      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'the attitude, a quaternion (w, x, y, z): roll, pitch and yaw come from it' },
+      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'the attitude, a quaternion (qw, qx, qy, qz): roll, pitch and yaw come from it' },
     ] },
   ];
 });
