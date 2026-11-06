@@ -23,7 +23,7 @@ export const POSTS = [
     title: 'Reloaded',
     date: '2026-11-04',
     version: '1.0.0',
-    banner: { src: '/blog/reloaded-comic.svg', alt: 'A comic in three panels: in 2022 a homemade bridge, slow, its Bluetooth link dropping; in 2026 the maker and a little robot at a laptop, "Datasheet in code, not bound to any chip!", "Let\'s reload."; then an MPU-6050 answers "0x68!": it answered.' },
+    banner: { src: '/blog/reloaded-comic.svg', alt: 'A comic in three panels: in 2022 a homemade bridge, slow, its Bluetooth link dropping; in 2026 the maker and a little robot at a laptop running greenrain (green falling characters), "Datasheet in code, not bound to any chip!", "Let\'s reload."; then an MPU-6050 answers "0x68!": it answered.' },
     summary: 'Why atiic and i2c.ninja exist: drivers for a decade of I2C chips, loyal to their datasheets and to no particular chip, started over from an empty tree, and a site whose purpose is education.',
     markdown: () => import('../blog/1.0.00-reloaded.md?raw'),
   },
