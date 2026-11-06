@@ -71,6 +71,9 @@ const formula = 'rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-sla
       <p>
         That added-up part settles only where it cancels the gyro's offset: the filter learns the offset while in use, no holding still needed. That's "gyro offset learned" above, on the axes gravity can see.
       </p>
+      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Where it comes from: Robert Mahony, Tarek Hamel and Jean-Michel Pfimlin, <a href="https://doi.org/10.1109/TAC.2008.923738" :class="link">Nonlinear Complementary Filters on the Special Orthogonal Group</a> (IEEE Transactions on Automatic Control, 2008). The bigger picture on Wikipedia: <a href="https://en.wikipedia.org/wiki/Attitude_and_heading_reference_system" :class="link">Attitude and heading reference system</a>.
+      </p>
     </section>
 
     <section :class="[card, 'leading-relaxed']">
