@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
 import { IMU_STEPS } from './views/learn/imuSteps.js';
 import { ORIGIN, pageFor, fullTitle } from './lib/pages.js';
+import { record } from './lib/recent.js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,10 +31,13 @@ const router = createRouter({
 // each page's title, description and canonical address, as the build writes
 // them into its HTML (lib/pages.js); an alias names its page's own address
 router.afterEach((to) => {
-  const page = pageFor(to.matched[0]?.path ?? to.path);
+  // the route's own path; for an alias (/mpu6500), its page's (/mpu6050)
+  const own = to.matched[0] ? (to.matched[0].aliasOf ?? to.matched[0]).path : to.path;
+  const page = pageFor(own);
   document.title = fullTitle(page);
   document.querySelector('meta[name="description"]')?.setAttribute('content', page.description);
   document.querySelector('link[rel="canonical"]')?.setAttribute('href', ORIGIN + page.path);
+  record(own); // a device page: to the recent list (lib/recent.js)
 });
 
 export default router;

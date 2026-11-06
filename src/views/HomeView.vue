@@ -2,6 +2,7 @@
 // the home page: what this is, a card a device, the guides, the bench
 import { DEVICES, GUIDES } from '../lib/devices.js';
 import HomeCarousel from '../components/HomeCarousel.vue';
+import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
 
 const hasWebUsb = 'usb' in navigator;
 // what it's for
@@ -36,6 +37,19 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
       This browser has no WebUSB: the device pages will need Chrome, Edge or
       another Chromium (Chrome on Android too, with an OTG cable).
     </p>
+
+    <section v-if="recent.length">
+      <div class="mb-3 flex items-baseline gap-3">
+        <h2 class="text-lg font-semibold">Recent</h2>
+        <button type="button" class="text-sm text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <RouterLink v-for="r in withLabels(recent)" :key="r.to" :to="r.to" class="flex items-baseline justify-between gap-2 rounded-xl bg-white px-4 py-3 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 dark:bg-slate-800">
+          <span><span class="font-semibold">{{ r.label }}</span> <span class="text-xs text-slate-500 dark:text-slate-400">{{ r.note }}</span></span>
+          <span class="shrink-0 text-xs text-slate-400">{{ ago(r.at) }}</span>
+        </RouterLink>
+      </div>
+    </section>
 
     <section>
       <h2 class="mb-3 text-lg font-semibold">Devices</h2>
