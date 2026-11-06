@@ -37,7 +37,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
 <template>
   <div v-if="tiles" class="grid gap-4 md:grid-cols-[1fr_auto]">
-    <section :class="card">
+    <section :class="[card, 'flex flex-col']">
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div v-for="k in AXES" :key="k">
           <p class="text-sm text-slate-500 dark:text-slate-400">{{ k }}</p>
@@ -48,7 +48,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
           <p class="font-mono text-3xl tabular-nums">{{ fmt(size) }} <span class="text-base">g</span></p>
         </div>
       </div>
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt.</p>
+      <p class="mt-auto pt-3 text-sm text-slate-500 dark:text-slate-400">Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
     </section>
     <section :class="[card, 'flex flex-col items-center']">
       <AttitudeIndicator :roll="roll" :pitch="pitch" />
