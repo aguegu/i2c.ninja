@@ -46,7 +46,7 @@ const blocks = computed(() => {
       { lhs: 'roll', rhs: '← roll + ωx × Δt =', value: `${f(u.gyroAlone?.roll, 1)}°`, note: '' },
       { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
-    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
+    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, wide: true, rows: [
       { lhs: 'e', rhs: '= â × v̂', value: '', note: 'up measured × up the filter holds' },
       { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity' },
       { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: 'turned, then made unit length' },
@@ -62,7 +62,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   <section :class="card">
     <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
     <div class="grid gap-3 lg:grid-cols-2">
-      <div v-for="b in blocks" :key="b.title">
+      <div v-for="b in blocks" :key="b.title" :class="b.wide && 'lg:col-span-2'">
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.lhs + r.rhs">
