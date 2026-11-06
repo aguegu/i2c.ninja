@@ -21,7 +21,10 @@ const props = defineProps({
 const S = 50; // px a unit, as the walls' 1.7 units = 85 px
 const WALL = 85;
 const GRID = [-WALL / 2, 0, WALL / 2];
-const R = 100;
+const R = 118; // room round the wall for the axes sticking out
+const D = WALL / S; // the walls' half size, units: as the glass box's
+const CORNER = [-D, -D, -D]; // where the three walls meet: the world's axes leave it
+const AXIS_LEN = 2.25 * D; // the whole edge and a little out, as in the glass box
 const BODY_LEN = 0.95; // the body axes' arrows, units
 const WORLD = { X: [1, 0, 0], Y: [0, 1, 0], Z: [0, 0, 1] };
 const WORLD_COLOR = { X: 'var(--series-1)', Y: 'var(--series-2)', Z: 'var(--series-3)' };
@@ -36,6 +39,13 @@ const VIEWS = [
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const flat = (w, p) => [S * dot(p, w.h), -S * dot(p, w.v)];
 const pts = (w, ps) => ps.map((p) => flat(w, p).map((c) => c.toFixed(1)).join(',')).join(' ');
+// an arrow from o to e (screen px): its head and where its label goes
+function arrowFrom(o, e) {
+  const dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+  const head = [[e[0], e[1]], [e[0] - 9 * ux - 4 * uy, e[1] - 9 * uy + 4 * ux], [e[0] - 9 * ux + 4 * uy, e[1] - 9 * uy - 4 * ux]];
+  return { e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 9 * ux, e[1] + 9 * uy + 4] };
+}
+
 // an arrow from the centre to the end e (screen px): its line and head
 function arrowTo(e) {
   const n = Math.hypot(e[0], e[1]);
@@ -56,12 +66,15 @@ const views = computed(() => VIEWS.map((w) => {
     const d = rotate(props.q, a.dir);
     return { ...a, toward: dot(d, w.eye), arrow: arrowTo(flat(w, d.map((c) => c * BODY_LEN))) };
   });
-  // the world's two axes across this wall, labelled at their positive ends
+  // the world's axes as in the glass box: the two across this wall from the
+  // walls' corner along its edges, the third seen end on at that corner
+  const o = flat(w, CORNER);
   const world = Object.entries(WORLD).filter(([k]) => k !== w.along).map(([k, d]) => {
-    const e = flat(w, d.map((c) => c * (WALL / S)));
-    return { key: k, e, color: WORLD_COLOR[k] };
+    const e = flat(w, CORNER.map((c, i) => c + AXIS_LEN * d[i]));
+    const a = arrowFrom(o, e);
+    return { key: k, o, ...a, color: WORLD_COLOR[k] };
   });
-  return { ...w, faces, top, arrow: top ? pts(w, ARROW.map((v) => rotate(props.q, v))) : null, body, world, color: WORLD_COLOR[w.along], caption: props.captions?.[w.key] };
+  return { ...w, o, faces, top, arrow: top ? pts(w, ARROW.map((v) => rotate(props.q, v))) : null, body, world, color: WORLD_COLOR[w.along], caption: props.captions?.[w.key] };
 }));
 const box = ref(null);
 const { full, toggle } = useFullscreen(box);
@@ -78,8 +91,12 @@ const { full, toggle } = useFullscreen(box);
             <line v-for="t in GRID" :key="`v${t}`" :x1="t" :y1="-WALL" :x2="t" :y2="WALL" />
             <line v-for="t in GRID" :key="`h${t}`" :x1="-WALL" :y1="t" :x2="WALL" :y2="t" />
           </g>
-          <!-- the world's axes across the wall, capitals at their positive ends -->
-          <text v-for="a in w.world" :key="a.key" :x="a.e[0] + (a.e[0] > 0 ? 4 : a.e[0] < 0 ? -4 : 0)" :y="a.e[1] + (a.e[1] < 0 ? -4 : a.e[1] > 0 ? 12 : 4)" :text-anchor="a.e[0] > 0 ? 'start' : a.e[0] < 0 ? 'end' : 'middle'" font-size="11" font-weight="bold" :fill="a.color">+{{ a.key }}</text>
+          <!-- the world's axes, capitals, from the walls' corner along the edges, as in the glass box -->
+          <g v-for="a in w.world" :key="a.key" :stroke="a.color" :fill="a.color">
+            <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2.5" />
+            <polygon :points="a.head" stroke="none" />
+            <text :x="a.tag[0]" :y="a.tag[1]" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
+          </g>
           <polygon v-for="f in w.faces" :key="f.name" :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
           <polyline v-if="w.arrow" :points="w.arrow" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
           <!-- the board's own axes, lowercase -->
@@ -90,12 +107,12 @@ const { full, toggle } = useFullscreen(box);
               <text :x="a.arrow.tag[0]" :y="a.arrow.tag[1]" font-size="11" text-anchor="middle" stroke="none">{{ a.key }}</text>
             </template>
           </g>
-          <!-- the axis it's seen along, at the corner: a dot toward you, a cross away -->
-          <g :transform="`translate(${-R + 14} ${R - 12})`" :stroke="w.color" :fill="w.color">
-            <circle r="6" fill="none" stroke-width="2" />
-            <circle v-if="w.eye[0] + w.eye[1] + w.eye[2] > 0" r="2" stroke="none" />
-            <g v-else stroke-width="2"><line x1="-4" y1="-4" x2="4" y2="4" /><line x1="4" y1="-4" x2="-4" y2="4" /></g>
-            <text x="10" y="4" font-size="11" font-weight="bold" stroke="none">{{ w.along }}</text>
+          <!-- the third axis, seen end on at the corner: a dot toward you, a cross away -->
+          <g :transform="`translate(${w.o[0]} ${w.o[1]})`" :stroke="w.color" :fill="w.color">
+            <circle r="7" fill="white" stroke-width="2" />
+            <circle v-if="w.eye[0] + w.eye[1] + w.eye[2] > 0" r="2.4" stroke="none" />
+            <g v-else stroke-width="2"><line x1="-4.5" y1="-4.5" x2="4.5" y2="4.5" /><line x1="4.5" y1="-4.5" x2="-4.5" y2="4.5" /></g>
+            <text :x="w.o[0] < 0 ? -11 : 11" :y="w.o[1] < 0 ? -9 : 17" :text-anchor="w.o[0] < 0 ? 'end' : 'start'" font-size="12" font-weight="bold" stroke="none">{{ w.along }}</text>
           </g>
         </svg>
         <p v-if="w.caption" class="font-mono text-sm tabular-nums">{{ w.caption.sym }}<sub>{{ w.caption.sub }}</sub> {{ w.caption.value }} · {{ w.caption.name }}</p>
