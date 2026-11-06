@@ -4,11 +4,24 @@
 import { reactive, computed } from 'vue';
 import GyroViews from '../components/GyroViews.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
+import SpecTable from '../components/SpecTable.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useItg3200 } from '../lib/useItg3200.js';
 import { useTurned } from '../lib/useTurned.js';
 
 const WINDOW_MS = 10000;
+// its settings, from its product specification (rev 1.4's register map,
+// rev 1.7's figures), and the ones this page picks (atiic's driver)
+const SPECS = [
+  ['Range', '±2000 °/s, its only full scale', '±2000 °/s, 14.375 counts a °/s'],
+  ['Filter', 'a low-pass of 256, 188, 98, 42, 20, 10 or 5 Hz', '98 Hz'],
+  ['Sample rate', '8 kHz (256 Hz filter) or 1 kHz, divided down as far as 3.9 a second', '1 kHz, read 100 times a second'],
+  ['Clock', 'its own oscillator, a gyro\'s, or an external 32.768 kHz or 19.2 MHz', 'the X gyro\'s, as its maker recommends'],
+  ['Address', '0x68, or 0x69 with AD0 high', '0x68 or 0x69, whichever answers'],
+  ['Interface', 'I2C, up to 400 kHz', 'I2C, 400 kHz'],
+  ['Supply', '2.1 to 3.6 V; its I/O (VLOGIC) from 1.71 V up to the supply', '3.3 V from the dongle'],
+  ['Extras', 'a temperature sensor; a data-ready interrupt', 'the temperature'],
+];
 
 const gyro = reactive(useItg3200({ windowMs: WINDOW_MS }));
 const turned = reactive(useTurned(gyro.onReading));
@@ -53,12 +66,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <GyroViews :g="g" :turned="turned" :source="gyro.source" :running="gyro.state === 'running'" :window-ms="WINDOW_MS" />
 
     <section :class="[card, 'leading-relaxed']">
-      <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
-      <p class="mb-2">
-        Three independent vibratory MEMS gyroscopes, one an axis: turned, the Coriolis effect deflects each vibrating structure, a capacitive pickoff feels it, and the signal is amplified, demodulated and filtered into a voltage proportional to the rate, which a 16-bit converter reads (its datasheet, 5.3). How a shaking mass feels a turn, with a drawing: <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation and the gyroscope</RouterLink>.
-      </p>
-      <p>
-        <b>The numbers:</b> ±2000 °/s, 14.375 counts a °/s; its offset can be up to ±40 °/s from the factory, noise about 0.38 °/s at the 98 Hz filter used here. It samples up to 8 kHz; its temperature reads 280 counts a degree.
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-x-4">
+        <h2 class="text-lg font-semibold">Its settings</h2>
+        <a href="https://invensense.tdk.com" class="text-sm text-emerald-700 underline dark:text-emerald-400">InvenSense (TDK)</a>
+      </div>
+      <SpecTable :rows="SPECS" />
+      <p class="mt-3 text-sm">
+        <b>See also:</b> <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation and the gyroscope</RouterLink>
       </p>
     </section>
   </main>
