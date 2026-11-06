@@ -1,5 +1,15 @@
 # Releases
 
+## 1.1.3
+
+- The MPU-6050/6500 page to the newer pages' standard: its wiring drawing
+  with the GY-521's printed axes (setup-mpu6050.svg), acceleration and
+  rotation tiles with the temperature, the dial (fused roll and pitch), and
+  three tabs in the address: both fused (Mahony's filter on the 3D board,
+  Start again), the accelerometer's views (three ways, the board in the
+  room) and the gyro's (the ball, turned so far with Zero and Reset), for
+  those who have only this board. How it measures waits for its datasheets.
+
 ## 1.1.2
 
 - The service worker sends pages to the network first: from the cache
