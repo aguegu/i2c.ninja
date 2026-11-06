@@ -23,14 +23,16 @@ const props = defineProps({
 const S = 52; // px a unit
 const D = 1.7; // the walls' distance from the board's centre, and their half size
 const NOSE_TIP = [L + 0.25, 0, 0];
-// each wall: the room axis it stands across, where, its colour, its label
+// each wall: the world axis it stands across, where, the side it's seen
+// from (eye: inside the box, as ProjectionViews shows it), its colour, its label
 const WALLS = [
-  { key: 'floor', axis: 2, at: -D, color: 'var(--series-3)', label: 'the floor: ψ' },
-  { key: 'ahead', axis: 0, at: D, color: 'var(--series-1)', label: 'the wall ahead: φ' },
-  { key: 'left', axis: 1, at: D, color: 'var(--series-2)', label: 'the left wall: θ' },
+  { key: 'floor', axis: 2, at: -D, eye: [0, 0, 1], color: 'var(--series-3)', label: 'the floor: ψ' },
+  { key: 'ahead', axis: 0, at: D, eye: [-1, 0, 0], color: 'var(--series-1)', label: 'the wall ahead: φ' },
+  { key: 'left', axis: 1, at: D, eye: [0, -1, 0], color: 'var(--series-2)', label: 'the left wall: θ' },
 ];
 
 const at = (v) => project(v, S);
+const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const pts = (ps) => ps.map((p) => at(p).slice(0, 2).map((c) => c.toFixed(1)).join(',')).join(' ');
 const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point dropped straight onto a wall
 
@@ -43,12 +45,14 @@ const walls = WALLS.map((w) => {
 });
 
 const turned = computed(() => FACES.map((f) => ({ ...f, room: f.pts.map((v) => rotate(props.q, v)) })));
-// on each wall: every face dropped onto it (their union is the board's shadow), the nose arrow too
+// on each wall: every face dropped onto it (their union is the board's
+// outline there), and the nose arrow when the top face is toward the wall's eye
 const shadows = computed(() => WALLS.map((w) => ({
   key: w.key,
   color: w.color,
   faces: turned.value.map((f) => pts(f.room.map((v) => onWall(w, v)))),
-  arrow: pts(ARROW.map((v) => onWall(w, rotate(props.q, v)))),
+  // the nose arrow is on the top face: seen only while that faces the wall's eye
+  arrow: dot3(rotate(props.q, [0, 0, 1]), w.eye) > 0 ? pts(ARROW.map((v) => onWall(w, rotate(props.q, v)))) : null,
 })));
 const board = computed(() => turned.value
   .map((f) => { const p = f.room.map(at); return { ...f, points: pts(f.room), depth: p.reduce((s, v) => s + v[2], 0) / p.length }; })
@@ -95,7 +99,7 @@ const { full, toggle } = useFullscreen(box);
       </g>
       <g v-for="s in shadows" :key="s.key">
         <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
-        <polyline :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <polyline v-if="s.arrow" :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </g>
       <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
         <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2" />
