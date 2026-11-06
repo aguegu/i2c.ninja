@@ -41,7 +41,7 @@ const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
   const p = (u, v) => { const r = [0, 0, 0]; r[w.axis] = w.at; r[a] = u; r[b] = v; return r; };
   const grid = [-D / 2, 0, D / 2].flatMap((t) => [[p(t, -D), p(t, D)], [p(-D, t), p(D, t)]]);
-  return { ...w, square: pts([p(-D, -D), p(D, -D), p(D, D), p(-D, D)]), grid: grid.map(([u, v]) => [at(u), at(v)]), tag: at(p(w.axis === 2 ? D : -D * 0.95, w.axis === 2 ? -D * 0.95 : D * 0.85)) };
+  return { ...w, square: pts([p(-D, -D), p(D, -D), p(D, D), p(-D, D)]), grid: grid.map(([u, v]) => [at(u), at(v)]), tag: w.axis === 2 ? at([-0.2 * D, -D, -D]).map((c, k) => c + (k === 1 ? 14 : 0)) : at(p(-D * 0.95, D * 0.85)) }; // the floor's at its front edge, clear of Y
 });
 
 const turned = computed(() => FACES.map((f) => ({ ...f, room: f.pts.map((v) => rotate(props.q, v)) })));
@@ -99,7 +99,7 @@ const { full, toggle } = useFullscreen(box);
       <g v-for="w in walls" :key="w.key">
         <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
-        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 1 ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
+        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 0 ? 'end' : 'start'" :fill="w.color">{{ w.label }}</text>
       </g>
       <g v-for="s in shadows" :key="s.key">
         <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
