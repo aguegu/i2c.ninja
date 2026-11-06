@@ -3,7 +3,8 @@
 // drawing: its true orthographic projection on the floor (seen from above),
 // on the far wall ahead of its nose (seen along x) and on the wall to its
 // left (seen from its right side, along y), with dashed projector lines
-// from its nose to each, and the room's axes x, y, z. Turned by q (the board's axes into the room's),
+// from its nose to each, and the room's axes x, y, z at the floor's near
+// corner. Turned by q (the board's axes into the room's),
 // seen as lib/view.js does: behind it and to its right. The walls take the
 // axes' chart colours (x blue, y orange, z green). A button takes it full
 // screen.
@@ -72,14 +73,16 @@ const projectors = computed(() => {
   const tip = rotate(props.q, NOSE_TIP);
   return WALLS.map((w) => ({ key: w.key, color: w.color, a: at(tip), b: at(onWall(w, tip)) }));
 });
-// the room's axes from the centre to the walls (z up to the walls' top), as
-// the board's at the start: drawn before the board, which hides their roots
+// the room's axes (the board's at the start), as a tripod at the floor's
+// near corner, along the box's edges, clear of the board
+const ORIGIN = [-D, -D, -D];
+const AXIS_LEN = 0.9 * D;
 const AXES = [
-  { key: 'x', to: [D, 0, 0], color: 'var(--series-1)' },
-  { key: 'y', to: [0, D, 0], color: 'var(--series-2)' },
-  { key: 'z', to: [0, 0, D], color: 'var(--series-3)' },
+  { key: 'x', to: [AXIS_LEN, 0, 0], color: 'var(--series-1)' },
+  { key: 'y', to: [0, AXIS_LEN, 0], color: 'var(--series-2)' },
+  { key: 'z', to: [0, 0, AXIS_LEN], color: 'var(--series-3)' },
 ].map((a) => {
-  const o = at([0, 0, 0]), e = at(a.to), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
+  const o = at(ORIGIN), e = at(ORIGIN.map((c, k) => c + a.to[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
   const ux = dx / n, uy = dy / n; // the arrow's way on screen
   const head = [[e[0], e[1]], [e[0] - 9 * ux - 4 * uy, e[1] - 9 * uy + 4 * ux], [e[0] - 9 * ux + 4 * uy, e[1] - 9 * uy - 4 * ux]];
   return { ...a, o, e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 10 * ux, e[1] + 10 * uy] };
@@ -97,7 +100,7 @@ const { full, toggle } = useFullscreen(box);
         <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 1 ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
       </g>
       <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
-        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="1.5" />
+        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2" />
         <polygon :points="a.head" stroke="none" />
         <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
       </g>
