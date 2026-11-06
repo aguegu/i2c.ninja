@@ -23,6 +23,15 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/RotationView.vue'),
   },
+  {
+    slug: 'magnetism',
+    title: 'Magnetism and the compass',
+    blurb: 'Earth\'s field and its dip into the ground, how a strip of permalloy feels it, a compass from it, and the board\'s own field.',
+    devices: [
+      { to: '/hmc5883l', label: 'HMC5883L', note: 'magnetometer' },
+    ],
+    component: () => import('../views/physics/MagnetismView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title }));

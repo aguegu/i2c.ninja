@@ -7,7 +7,7 @@ import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
 import { makeSeries } from './series.js';
 
 const SCL_HZ = 400000;
-const READ_MS = 20; // 50 a second: smooth enough to see a shake
+const READ_MS = 20; // 50 a second: smooth enough to see a shake (a chip's readMs if slower)
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -28,6 +28,7 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
   let sensor = null;
   let generation = 0;
   let running = null;
+  let readMs = READ_MS;
 
   async function loop(gen) {
     try {
@@ -37,7 +38,7 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
         latest.value = v;
         series.push(t0, v);
         for (const fn of listeners) fn(t0, v);
-        await delay(Math.max(0, READ_MS - (performance.now() - t0)));
+        await delay(Math.max(0, readMs - (performance.now() - t0)));
       }
     } catch (e) {
       if (gen !== generation) return;
@@ -56,6 +57,7 @@ export function useSource(kind, { windowMs = 10000 } = {}) {
     latest.value = null;
     try {
       sensor = await f.chip.open(bus, f.address);
+      readMs = f.chip.readMs ?? READ_MS;
       generation++;
       running = loop(generation);
     } catch (e) {

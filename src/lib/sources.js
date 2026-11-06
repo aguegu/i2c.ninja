@@ -1,9 +1,9 @@
 // The sensors a physics page can read, by what they measure: for each chip,
 // its page (its wiring is there), the addresses to look at, how to know it
 // there (its own ID register), and how to read it, in the physics' unit, as
-// [x, y, z]. A page's Live card
+// [x, y, z] (readMs: how often, when slower than the page's pace). A page's Live card
 // scans for every chip of its quantity (lib/useSource.js).
-import { Adxl345, Mpu6050, Mpu6500, Itg3200 } from 'atiic';
+import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l } from 'atiic';
 
 const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1))[0];
 
@@ -64,6 +64,25 @@ export const GYROSCOPES = {
         const d = new Itg3200(bus, a);
         await d.init();
         return { read: async () => { const { gyroscopes: v } = await d.measure(); return [v.x, v.y, v.z]; } };
+      },
+    },
+  ],
+};
+
+export const MAGNETOMETERS = {
+  noun: 'magnetometer',
+  unit: 'µT',
+  chips: [
+    {
+      name: 'HMC5883L',
+      to: '/hmc5883l',
+      addresses: Hmc5883l.addresses,
+      readMs: 67, // its 15 Hz (atiic's setting): faster repeats the sample
+      detect: (bus, a) => Hmc5883l.chip.identify(bus, a),
+      open: async (bus, a) => {
+        const d = new Hmc5883l(bus, a);
+        await d.init();
+        return { read: async () => { const { magnetometers: v } = await d.measure(); return [v.x, v.y, v.z]; } };
       },
     },
   ],
