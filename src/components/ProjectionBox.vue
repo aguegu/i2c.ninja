@@ -99,14 +99,14 @@ const { full, toggle } = useFullscreen(box);
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
         <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 1 ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
       </g>
+      <g v-for="s in shadows" :key="s.key">
+        <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
+        <polyline :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
       <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
         <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2" />
         <polygon :points="a.head" stroke="none" />
         <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
-      </g>
-      <g v-for="s in shadows" :key="s.key">
-        <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
-        <polyline :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </g>
       <line v-for="p in projectors" :key="p.key" :x1="p.a[0]" :y1="p.a[1]" :x2="p.b[0]" :y2="p.b[1]" :stroke="p.color" stroke-width="1.2" stroke-dasharray="4 3" />
       <g v-for="f in board" :key="f.name">
