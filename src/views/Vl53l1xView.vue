@@ -28,14 +28,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">VL53L1X</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         ST's time-of-flight distance sensor: it times light to whatever it faces and back, and turns the time into millimetres, up to about 4 m. Live over the CH341 dongle.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
       <SvgDrawing src="/setup-vl53l1x.svg" alt="A CH341T dongle wired to a purple VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; GPIO1 and XSHUT free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The common purple board ("VL53L0/1XV2"): four wires from its VIN, GND, SCL, SDA; GPIO1 and XSHUT stay free. Its window faces away from the pins.
+        The common purple board ("VL53L0/1XV2"): four wires from its VIN, GND, SCL, SDA; GPIO1 and XSHUT stay free. Its window faces away from the pins. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

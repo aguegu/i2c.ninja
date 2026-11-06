@@ -77,7 +77,6 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <h1 class="text-2xl font-bold">{{ imu.chipName ?? 'MPU-6050 / MPU-6500' }}</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         A 3-axis accelerometer and a 3-axis gyro on one chip, and its temperature: the motion sensor of phones, game controllers and drones. Live over the CH341 dongle at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
         New to IMUs? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn what these numbers mean</RouterLink>.
       </p>
     </div>
@@ -85,7 +84,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <figure :class="card">
       <SvgDrawing src="/setup-mpu6050.svg" alt="A CH341T dongle wired to a GY-521 board (MPU-6050), turned so its pins face the dongle: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC; INT, AD0, XCL, XDA free; its axes as printed" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The GY-521 board, turned half a turn so its pins face the dongle's and the four wires run straight: SDA, SCL, GND, VCC. INT, AD0, XCL and XDA stay free; AD0 left low gives 0x68 (high: 0x69). Its X and Y arrows are printed on it, Z points out of the board; they're the axes read below.
+        The GY-521 board, turned half a turn so its pins face the dongle's and the four wires run straight: SDA, SCL, GND, VCC. INT, AD0, XCL and XDA stay free; AD0 left low gives 0x68 (high: 0x69). Its X and Y arrows are printed on it, Z points out of the board; they're the axes read below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

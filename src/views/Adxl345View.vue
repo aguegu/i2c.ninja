@@ -22,7 +22,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">ADXL345</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         Analog Devices' 3-axis accelerometer: the push on a tiny mass inside it, in g, along three axes, so gravity at rest, and every shake. Live over the CH341 dongle, at 100 samples a second.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
         New to these numbers? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>.
       </p>
     </div>
@@ -30,7 +29,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <figure :class="card">
       <SvgDrawing src="/setup-adxl345.svg" alt="A CH341T dongle wired to an ADXL345 breakout whose pins run VIN, 3V3, GND, CS, INT1, INT2, SDO, SDA, SCL: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; the other five free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VIN, GND, SCL and SDA. Leave CS, SDO and the INT pins free: the board answers on I2C at 0x53 (SDO to 3V3 would move it to 0x1D). The axes printed on the board are the ones charted below.
+        Four wires: VCC to VIN, GND, SCL and SDA. Leave CS, SDO and the INT pins free: the board answers on I2C at 0x53 (SDO to 3V3 would move it to 0x1D). The axes printed on the board are the ones charted below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

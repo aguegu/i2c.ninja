@@ -32,7 +32,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">ITG-3200</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         InvenSense's 3-axis gyroscope: how fast it's turning, in degrees a second, about three axes, and its own temperature. Live over the CH341 dongle, 100 readings a second.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
         New to these numbers? <RouterLink to="/learn/imu" class="text-emerald-700 underline dark:text-emerald-400">Learn the IMU</RouterLink>.
       </p>
     </div>
@@ -40,7 +39,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <figure :class="card">
       <SvgDrawing src="/setup-itg3200.svg" alt="A CH341T dongle wired to a blue ITG-3200 module whose pins run SCL, SDA, CLK, INT, GND, VIO, VDD: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VDD; INT and CLK free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VDD, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VDD unless the board already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below.
+        Four wires: VCC to VDD, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VDD unless the board already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

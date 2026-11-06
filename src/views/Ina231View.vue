@@ -57,14 +57,13 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <h1 class="text-2xl font-bold">INA231</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over the CH341 dongle.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
       <SvgDrawing src="/setup-ina231.svg" alt="A CH341T dongle wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="mx-auto w-full" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The common blue INA231 board. Four wires to the dongle as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd.
+        The common blue INA231 board. Four wires to the dongle as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

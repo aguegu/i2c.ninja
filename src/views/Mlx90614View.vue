@@ -26,14 +26,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">MLX90614</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         Melexis' infrared thermometer: the temperature of whatever it's pointed at, without touching it, the way a forehead or kitchen thermometer gun works, and its own temperature beside it. Live over the CH341 dongle.
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
       <SvgDrawing src="/setup-mlx90614.svg" alt="A CH341T dongle wired to a blue MLX90614 module with a black tube over its sensor: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA, all crossing" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The blue board with the sensor under a black tube: its VIN, GND, SCL, SDA run opposite the dongle's, so the four wires cross. Point the tube at what to measure.
+        The blue board with the sensor under a black tube: its VIN, GND, SCL, SDA run opposite the dongle's, so the four wires cross. Point the tube at what to measure. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

@@ -35,13 +35,12 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <h1 class="text-2xl font-bold">{{ name }}</h1>
       <p class="mt-1 max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
         <slot name="intro" />
-        First time here? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Set up the dongle</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
       <SvgDrawing :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
-      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }}</figcaption>
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }} New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.</figcaption>
     </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
