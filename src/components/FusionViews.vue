@@ -15,11 +15,14 @@ const props = defineProps({
 });
 
 const ANGLE_FLOOR_DEG = 45; // the charts' least half-range
-const THREE = [
-  { label: 'fused', color: '--series-1' },
-  { label: 'gravity', color: '--series-2' },
-  { label: 'gyro alone', color: '--series-3' },
+// each angle three ways, named as in the formulas, in their order
+const threeOf = (sym) => [
+  { label: `${sym} gravity`, color: '--series-1' },
+  { label: `${sym} gyro alone`, color: '--series-2' },
+  { label: `${sym} fused`, color: '--series-3' },
 ];
+const PHI = threeOf('φ');
+const THETA = threeOf('θ');
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
 // the latest numbers, as they go into the formulas
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
@@ -100,9 +103,9 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </div>
   </section>
   <section :class="card">
-    <LiveChart title="Roll" unit="degrees" :series="THREE" :values="fusion.fused ? [fusion.fused.roll, fusion.gravity.roll, fusion.gyroAlone.roll] : []" :source="fusion.rollSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
+    <LiveChart title="φ, the roll" unit="°" :series="PHI" :values="fusion.fused ? [fusion.gravity.roll, fusion.gyroAlone.roll, fusion.fused.roll] : []" :source="fusion.rollSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
   <section :class="card">
-    <LiveChart title="Pitch" unit="degrees" :series="THREE" :values="fusion.fused ? [fusion.fused.pitch, fusion.gravity.pitch, fusion.gyroAlone.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
+    <LiveChart title="θ, the pitch" unit="°" :series="THETA" :values="fusion.fused ? [fusion.gravity.pitch, fusion.gyroAlone.pitch, fusion.fused.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
 </template>

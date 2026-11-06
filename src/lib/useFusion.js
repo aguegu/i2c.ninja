@@ -18,7 +18,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const gravity = ref(null); // { roll, pitch }
   const gyroAlone = ref(null); // { roll, pitch }
   const learned = ref(null); // the gyro offset Mahony's integral learned, deg/s [x y z]
-  const rollSeries = makeSeries(3, windowMs); // fused, gravity, gyro alone
+  const rollSeries = makeSeries(3, windowMs); // gravity's, the gyro alone, fused: the formulas' order
   const pitchSeries = makeSeries(3, windowMs);
   let lastT = null;
   let alone = null;
@@ -40,8 +40,8 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     gravity.value = g;
     gyroAlone.value = { ...alone };
     learned.value = mahony.learnedOffset();
-    rollSeries.push(t, [m.roll, g.roll, alone.roll]);
-    pitchSeries.push(t, [m.pitch, g.pitch, alone.pitch]);
+    rollSeries.push(t, [g.roll, alone.roll, m.roll]);
+    pitchSeries.push(t, [g.pitch, alone.pitch, m.pitch]);
   });
   onBeforeUnmount(off);
 
