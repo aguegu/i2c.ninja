@@ -101,7 +101,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex justify-center" :class="full && 'h-full! w-full! items-center bg-white p-4 dark:bg-slate-900'">
-    <svg viewBox="-170 -150 340 290" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
+    <svg viewBox="-170 -172 340 312" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
       <g v-for="w in walls" :key="w.key">
         <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
