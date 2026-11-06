@@ -4,12 +4,30 @@
 import { reactive, computed } from 'vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import AccelerometerViews from '../components/AccelerometerViews.vue';
+import SpecTable from '../components/SpecTable.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useAdxl345 } from '../lib/useAdxl345.js';
 
 const WINDOW_MS = 10000;
 const LSB_PER_G = 256; // full resolution (its datasheet's typical)
 const AXES = ['x', 'y', 'z'];
+// its datasheet (Rev. G): the features list and Table 1 (TA 25 C, VS 2.5 V)
+const SPECS = [
+  ['Measures', 'acceleration on 3 axes, gravity included'],
+  ['Ranges', '±2, ±4, ±8 or ±16 g'],
+  ['Resolution', '10 bits fixed, or full resolution: 3.9 mg a count (256 counts a g) at every range, 13 bits at ±16 g'],
+  ['Sensitivity', '230 to 282 counts a g (256 typical), full resolution'],
+  ['Offset at 0 g', '±150 mg on x and y, ±250 mg on z'],
+  ['Noise', '0.75 counts rms on x and y, 1.1 on z (100 Hz)'],
+  ['Output data rate', '0.1 to 3200 Hz; bandwidth half of it'],
+  ['Interfaces', 'I2C (0x53, or 0x1D with SDO/ALT ADDRESS high); SPI, 3- or 4-wire'],
+  ['Supply', '2.0 to 3.6 V; I/O from 1.7 V up to the supply'],
+  ['Current', '140 µA at 100 Hz and up; as low as 23 µA'],
+  ['On the chip', 'single and double tap, activity and inactivity, free-fall detection; a 32-level FIFO; a self test'],
+  ['Temperature', '−40 to +85 °C'],
+  ['Shock', 'survives 10,000 g'],
+  ['Package', '3 × 5 × 1 mm LGA'],
+];
 
 const adxl = reactive(useAdxl345({ windowMs: WINDOW_MS }));
 const a = computed(() => adxl.latest);
@@ -78,12 +96,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </section>
 
     <section :class="[card, 'leading-relaxed']">
-      <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
-      <p class="mb-2">
-        Inside, on each axis, a proof mass of polysilicon hangs on polysilicon springs over the silicon; plates on it and fixed plates beside it make a differential capacitor, and the chip finds how far and which way the mass moved by phase-sensitive demodulation (its datasheet's words). How a mass on springs feels gravity and a push, with drawings: <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>.
+      <h2 class="mb-2 text-lg font-semibold">Specifications</h2>
+      <SpecTable :rows="SPECS" />
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        From Analog Devices' datasheet (Rev. G). Here it runs at ±16 g, full resolution, 100 samples a second; its tap, free-fall and activity detection and its FIFO aren't used.
       </p>
-      <p>
-        <b>The numbers:</b> ±2 to ±16 g; in full resolution every range keeps 256 counts a g (3.9 mg a count), from 10 bits at ±2 g to 13 bits at ±16 g. Here it runs at ±16 g and 100 Hz; it can sample up to 3200 Hz, and its own tap, free-fall and activity detection aren't used.
+      <p class="mt-3 text-sm">
+        <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>: how a mass on springs inside a chip like this feels gravity and a push, with drawings.
       </p>
     </section>
   </main>
