@@ -1,7 +1,7 @@
 <script setup>
 // The home page, a simple landing page: the hero (what it is, the glass box
 // with the board swaying in it, still for reduced motion, and the way in),
-// where you were, what's inside as six cards, three quotes on measuring and
+// what's inside as six cards, three quotes on measuring and
 // understanding, and who makes it.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from '../components/ProjectionBox.vue';
@@ -9,7 +9,6 @@ import { DEVICES } from '../lib/devices.js';
 import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
-import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
 
 const hasWebUsb = 'usb' in navigator;
 const year = new Date().getFullYear();
@@ -63,23 +62,13 @@ const link = 'text-emerald-700 underline-offset-2 hover:underline dark:text-emer
       <p class="text-xs tracking-[0.3em] text-slate-500 uppercase dark:text-slate-400">a hands-on book of sensors</p>
       <h1 class="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">i2c.ninja</h1>
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">named after <b class="font-semibold text-slate-700 dark:text-slate-200">I²C</b>, "I-squared-C": the two-wire bus, SDA and SCL, that most small sensors speak</p>
-      <p class="mt-4 max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">
-        Wire an I²C sensor to a CH341 USB dongle and watch it in your browser: its readings live, what it measures explained, and the maths that turns readings into understanding, worked out step by step.
-      </p>
-      <p class="mt-2 max-w-xl text-sm text-slate-500 dark:text-slate-400">For STEM lessons, digital experiments and the electronics bench.</p>
+      <p class="mt-4 max-w-xl text-slate-600 dark:text-slate-300">For STEM lessons, digital experiments and the electronics bench.</p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         <RouterLink to="/devices" class="rounded-lg bg-emerald-600 px-5 py-2.5 font-medium text-white hover:bg-emerald-700">Explore sensors</RouterLink>
         <RouterLink to="/get-started" class="rounded-lg bg-emerald-600/10 px-5 py-2.5 font-medium text-emerald-800 hover:bg-emerald-600/20 dark:text-emerald-300">Get started</RouterLink>
       </div>
       <p v-if="!hasWebUsb" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).</p>
       <div class="mt-4 w-full max-w-md"><ProjectionBox :q="q" /></div>
-    </section>
-
-    <!-- where you were -->
-    <section v-if="recent.length" class="mx-auto w-full max-w-5xl px-4 pb-6 text-center text-sm">
-      <span class="text-slate-500 dark:text-slate-400">Where you were:</span>
-      <template v-for="(r, i) in withLabels(recent)" :key="r.to">{{ i ? ' · ' : ' ' }}<RouterLink :to="r.to" :class="link">{{ r.label }}</RouterLink> <span class="text-xs text-slate-400">{{ ago(r.at) }}</span></template>
-      <button type="button" class="ml-2 text-xs text-slate-500 underline hover:text-emerald-600 dark:text-slate-400" title="Forget the pages opened here (kept in this browser only)" @click="clearRecent">clear</button>
     </section>
 
     <!-- what's inside -->
