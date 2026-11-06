@@ -1,5 +1,16 @@
 # Releases
 
+## 1.1.2
+
+- The service worker sends pages to the network first: from the cache
+  (1.1.0) they never passed Cloudflare, whose Web Analytics beacon is added
+  on the way, so returning visits and the installed app went uncounted.
+  A copy is kept as each page passes; offline (a failsafe), a page comes
+  from its copy or the precached app shell, whose router opens it. The
+  scripts, styles and drawings stay precached (73 files, 784 KiB). Tried on
+  r8845: a change on the server shows up online; offline a page opened
+  before and one never opened both load.
+
 ## 1.1.1
 
 - Recent: the device pages this browser opened last (four, newest first),

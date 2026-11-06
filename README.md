@@ -46,8 +46,11 @@ npm run build   # dist/: vite, then scripts/prerender.mjs (a page's own
                 #   HTML a route), then scripts/sw.mjs (the service worker)
 ```
 
-It's a PWA: installable, and once visited it works offline (Workbox
-precaches every file; a new release waits for the page's Reload).
+It's a PWA: installable, with offline as a failsafe. Pages go to the
+network first (through Cloudflare, so its Web Analytics counts returning
+visits too), a copy kept as they pass; offline, a page comes from its copy
+or the precached app shell. Scripts, styles and drawings are precached
+(Workbox); a new release waits for the page's Reload.
 
 Every push to `main` builds and publishes the site
 (`.github/workflows/pages.yml`).
