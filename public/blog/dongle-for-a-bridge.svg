@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" role="img" aria-label="2022: the browser over Web Serial (or Bluetooth) to a homemade STC bridge with an AT command set, then I2C to the sensor. 2026: the browser over WebUSB straight to a CH341T dongle, then I2C to the sensor">
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#059669"/></marker></defs>
+  <rect class="bg" width="760" height="330" rx="14" fill="#f8fafc"/>
+  <text x="30" y="50" font-size="15" fill="#64748b" text-anchor="start" font-weight="bold" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >2022</text>
+  <rect x="30" y="64" width="128" height="78" rx="8" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M30 80h128" stroke="#94a3b8" stroke-width="1.5"/>
+  <circle cx="42" cy="72" r="3" fill="#f87171"/>
+  <circle cx="52" cy="72" r="3" fill="#fbbf24"/>
+  <circle cx="62" cy="72" r="3" fill="#34d399"/>
+  <polyline points="44,126 66,108 86,118 110,96 142,104" fill="none" stroke="#059669" stroke-width="2"/>
+  <text x="94" y="160" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >a web page</text>
+  <line x1="162" y1="90" x2="300" y2="90" stroke="#334155" stroke-width="2"  marker-end="url(#ar)"/>
+  <text x="231.0" y="82" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >Web Serial</text>
+  <line x1="162" y1="130" x2="300" y2="130" stroke="#334155" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+  <text x="231.0" y="122" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >Bluetooth (CH9141)</text>
+  <rect x="304" y="70" width="156" height="76" rx="9" fill="#fff" stroke="#94a3b8" stroke-width="1.5" />
+  <text x="382.0" y="106.0" font-size="13" fill="#334155" text-anchor="middle" font-weight="bold" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >homemade bridge</text>
+  <text x="382.0" y="123.0" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >STC 8-bit, AT commands</text>
+  <line x1="464" y1="108" x2="600" y2="108" stroke="#334155" stroke-width="2"  marker-end="url(#ar)"/>
+  <text x="532.0" y="100" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >I2C</text>
+  <rect x="610" y="80" width="78" height="56" rx="6" fill="#64748b"/>
+  <rect x="636" y="96" width="24" height="24" rx="2" fill="#1e293b"/>
+  <circle cx="622" cy="128" r="3" fill="#fbbf24"/>
+  <circle cx="640" cy="128" r="3" fill="#fbbf24"/>
+  <circle cx="658" cy="128" r="3" fill="#fbbf24"/>
+  <circle cx="676" cy="128" r="3" fill="#fbbf24"/>
+  <text x="649" y="154" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >a sensor</text>
+  <line x1="20" y1="182" x2="740" y2="182" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="30" y="214" font-size="15" fill="#059669" text-anchor="start" font-weight="bold" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >2026</text>
+  <rect x="30" y="228" width="128" height="78" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5"/>
+  <path d="M30 244h128" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="42" cy="236" r="3" fill="#f87171"/>
+  <circle cx="52" cy="236" r="3" fill="#fbbf24"/>
+  <circle cx="62" cy="236" r="3" fill="#34d399"/>
+  <polyline points="44,290 66,272 86,282 110,260 142,268" fill="none" stroke="#059669" stroke-width="2"/>
+  <text x="94" y="324" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >a web page</text>
+  <line x1="162" y1="272" x2="300" y2="272" stroke="#059669" stroke-width="2"  marker-end="url(#arg)"/>
+  <text x="231.0" y="264" font-size="11" fill="#059669" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >WebUSB</text>
+  <rect x="304" y="234" width="156" height="76" rx="9" fill="#fff" stroke="#059669" stroke-width="1.5" />
+  <text x="382.0" y="270.0" font-size="13" fill="#334155" text-anchor="middle" font-weight="bold" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >CH341T dongle</text>
+  <text x="382.0" y="287.0" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >off the shelf, I2C mode</text>
+  <line x1="464" y1="272" x2="600" y2="272" stroke="#059669" stroke-width="2"  marker-end="url(#arg)"/>
+  <text x="532.0" y="264" font-size="11" fill="#059669" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >I2C, four wires</text>
+  <rect x="610" y="244" width="78" height="56" rx="6" fill="#64748b"/>
+  <rect x="636" y="260" width="24" height="24" rx="2" fill="#1e293b"/>
+  <circle cx="622" cy="292" r="3" fill="#fbbf24"/>
+  <circle cx="640" cy="292" r="3" fill="#fbbf24"/>
+  <circle cx="658" cy="292" r="3" fill="#fbbf24"/>
+  <circle cx="676" cy="292" r="3" fill="#fbbf24"/>
+  <text x="649" y="318" font-size="11" fill="#64748b" text-anchor="middle" font-weight="normal" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" >a sensor</text>
+</svg>
