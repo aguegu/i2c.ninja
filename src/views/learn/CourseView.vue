@@ -50,24 +50,26 @@ function follow(e) {
   </main>
 </template>
 
-<style scoped>
-.course :deep(h2) { margin: 1.75rem 0 0.75rem; padding-top: 1.25rem; border-top: 1px solid var(--chart-grid); font-size: 1.25rem; font-weight: 600; }
-.course :deep(p) { margin: 0.5rem 0; }
-.course :deep(ol) { list-style: decimal; padding-left: 1.5rem; }
-.course :deep(ul) { list-style: disc; padding-left: 1.5rem; }
-.course :deep(li) { margin: 0.5rem 0; }
-.course :deep(li > ul) { margin-top: 0.25rem; }
-.course :deep(a) { color: var(--color-emerald-700); text-decoration: underline; }
-.course :deep(em) { color: var(--color-slate-500); }
-.course :deep(details) { margin: 0.5rem 0; padding: 0.75rem 1rem; border-radius: 0.75rem; background: var(--color-slate-50); }
-.course :deep(summary) { cursor: pointer; font-weight: 600; }
-.course :deep(details[open] summary) { margin-bottom: 0.5rem; }
-:global([data-theme="dark"]) .course :deep(a) { color: var(--color-emerald-400); }
-:global([data-theme="dark"]) .course :deep(em) { color: var(--color-slate-400); }
-:global([data-theme="dark"]) .course :deep(details) { background: var(--color-slate-900); }
+<style>
+/* the course's markdown: plain CSS, not scoped (v-html content); .course is
+   this page's only. Dark as the site's dark: variant (style.css) */
+.course h2 { margin: 1.75rem 0 0.75rem; padding-top: 1.25rem; border-top: 1px solid var(--chart-grid); font-size: 1.25rem; font-weight: 600; }
+.course p { margin: 0.5rem 0; }
+.course ol { list-style: decimal; padding-left: 1.5rem; }
+.course ul { list-style: disc; padding-left: 1.5rem; }
+.course li { margin: 0.5rem 0; }
+.course li > ul { margin-top: 0.25rem; }
+.course a { color: var(--color-emerald-700); text-decoration: underline; }
+.course em { color: var(--color-slate-500); }
+.course details { margin: 0.5rem 0; padding: 0.75rem 1rem; border-radius: 0.75rem; background: var(--color-slate-50); }
+.course summary { cursor: pointer; font-weight: 600; }
+.course details[open] summary { margin-bottom: 0.5rem; }
+[data-theme="dark"] .course a { color: var(--color-emerald-400); }
+[data-theme="dark"] .course em { color: var(--color-slate-400); }
+[data-theme="dark"] .course details { background: var(--color-slate-900); }
 @media (prefers-color-scheme: dark) {
-  :global(:root:not([data-theme="light"])) .course :deep(a) { color: var(--color-emerald-400); }
-  :global(:root:not([data-theme="light"])) .course :deep(em) { color: var(--color-slate-400); }
-  :global(:root:not([data-theme="light"])) .course :deep(details) { background: var(--color-slate-900); }
+  :root:not([data-theme="light"]) .course a { color: var(--color-emerald-400); }
+  :root:not([data-theme="light"]) .course em { color: var(--color-slate-400); }
+  :root:not([data-theme="light"]) .course details { background: var(--color-slate-900); }
 }
 </style>
