@@ -3,9 +3,8 @@
 // (x, y, z, |a|) with the dial beside them, the reading three ways, the
 // board in the room with gravity held still, and the chart. A page brings
 // the reading ({ x, y, z } in g, or null) and the chart's buffers
-// (source()), and its own controls and note in the readings card's slots:
-// #top above the readings, #note at the card's foot. tiles=false leaves out
-// the readings and the dial (a page that has its own), chart=false the chart.
+// (source()); its own controls stay outside. tiles=false leaves out the
+// readings and the dial (a page that has its own), chart=false the chart.
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
@@ -38,8 +37,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
 <template>
   <div v-if="tiles" class="grid gap-4 md:grid-cols-[1fr_auto]">
-    <section :class="[card, 'flex flex-col']">
-      <slot name="top" />
+    <section :class="card">
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div v-for="k in AXES" :key="k">
           <p class="text-sm text-slate-500 dark:text-slate-400">{{ k }}</p>
@@ -51,9 +49,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         </div>
       </div>
       <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
-      <div class="mt-auto">
-        <slot name="note" />
-      </div>
     </section>
     <section :class="[card, 'flex flex-col items-center']">
       <AttitudeIndicator :roll="roll" :pitch="pitch" />
