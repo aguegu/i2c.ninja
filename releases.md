@@ -1,5 +1,30 @@
 # Releases
 
+## 1.3.1
+
+- Home as a simple landing page: the hero (where the name comes from, I2C,
+  the two-wire bus most small sensors speak; Explore sensors and Get
+  started; the glass box with the board swaying in it, still for reduced
+  motion), six cards (physics, devices, algorithms, smoke-testing a module,
+  nothing to install, open for learning), three quotes on measuring with
+  their sources. The carousel gone.
+- A Devices page (/devices), every device a card; All devices at the foot of
+  the Devices menu. The header: Physics, Devices, Algorithms.
+- Share this page, in the footer: the device's share sheet where there is
+  one, X, Facebook, LinkedIn, Reddit, Instagram (copies the link: it takes
+  none from a page), email, copy link, as their logos (Simple Icons); plain
+  links, nothing loaded from the networks.
+- The MPU-6050 page reworked: tabs for the accelerometer's and the gyro's
+  views (as the ADXL345's and ITG-3200's pages), the raw numbers and the
+  calibration; Both together links to the attitude page.
+- Learn as courses written in markdown; the first, Motion (the physics, the
+  wiring, what the sensors give, the maths, practice, and the questions).
+  Not in the header yet. Learn the IMU folded into the pages (raw numbers
+  and calibration on the MPU page, the kp/ki sliders on the attitude page);
+  its old addresses forward.
+- The attitude page: v-hat in the atan2 triangles beside gravity's, the gap
+  between them; kp and ki adjustable.
+
 ## 1.3.0
 
 - Algorithms, a third way in beside the devices and the physics: a page an
