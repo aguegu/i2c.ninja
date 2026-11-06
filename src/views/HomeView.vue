@@ -5,7 +5,7 @@
 // understanding, and who makes it.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from '../components/ProjectionBox.vue';
-import { DEVICES, GUIDES } from '../lib/devices.js';
+import { DEVICES } from '../lib/devices.js';
 import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
@@ -13,7 +13,6 @@ import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
 
 const hasWebUsb = 'usb' in navigator;
 const year = new Date().getFullYear();
-const course = GUIDES[0];
 
 // the hero's board: a slow sway about the vertical, a little roll and pitch
 const SWAY_DEG = 35;
@@ -43,7 +42,7 @@ const FEATURES = [
   { icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM12 3v18M3 12h18', title: 'Physics', to: `/physics/${PHYSICS[0].slug}`, text: `What is measured, drawn and explained: ${PHYSICS.filter((p) => p.component).map((p) => p.title.toLowerCase()).join(', ')}.` },
   { icon: 'M7 3v3M12 3v3M17 3v3M7 18v3M12 18v3M17 18v3M3 8h18v8H3z', title: 'Devices', to: '/devices', text: `${DEVICES.length} sensors live in the browser, each with its wiring, its readings explained and its settings: motion, magnetism, humidity, heat, distance, pulse, power.` },
   { icon: 'M4 18l5-6 4 3 7-9M4 6h4M16 18h4', title: 'Algorithms', to: `/algorithms/${ALGORITHMS[0].slug}`, text: 'The maths that joins sensors into what none gives alone, every formula with its live numbers: attitude from an accelerometer and a gyro.' },
-  { icon: 'M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4zM9 8h6M9 12h6', title: 'A course', to: course?.to ?? '/learn', text: 'The parts in order, step by step: the physics, the wiring, what the sensors give, the maths, then practice. Each step says where to go and when you\'re done.' },
+  { icon: 'M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7 15h10', title: 'Smoke-test a module', to: '/devices', text: 'Got a module? Plug it in and see it answer: found by its ID, its self test run where it has one, its readings sane. Before it goes into a project, or back to the seller.' },
   { icon: 'M4 5h16v11H4zM9 20h6M12 16v4', title: 'Nothing to install', to: '/get-started', text: 'A CH341 USB dongle, four wires and a Chromium browser: WebUSB reads the sensor, the page charts it live, full screen for the class. Works offline once visited.' },
   { icon: 'M12 3l8 4v5c0 5-3.5 8-8 9c-4.5-1-8-4-8-9V7z', title: 'Open for learning', to: '/about', text: 'Free for STEM lessons, digital experiments and the electronics bench (PolyForm Noncommercial). The drivers, atiic, are MIT.' },
 ];
@@ -68,7 +67,7 @@ const link = 'text-emerald-700 underline-offset-2 hover:underline dark:text-emer
       </p>
       <p class="mt-2 max-w-xl text-sm text-slate-500 dark:text-slate-400">For STEM lessons, digital experiments and the electronics bench.</p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <RouterLink v-if="course" :to="course.to" class="rounded-lg bg-emerald-600 px-5 py-2.5 font-medium text-white hover:bg-emerald-700">Start the course</RouterLink>
+        <RouterLink to="/devices" class="rounded-lg bg-emerald-600 px-5 py-2.5 font-medium text-white hover:bg-emerald-700">Explore sensors</RouterLink>
         <RouterLink to="/get-started" class="rounded-lg bg-emerald-600/10 px-5 py-2.5 font-medium text-emerald-800 hover:bg-emerald-600/20 dark:text-emerald-300">Get started</RouterLink>
       </div>
       <p v-if="!hasWebUsb" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).</p>
