@@ -1,19 +1,23 @@
-// The device pages this browser opened last, newest first, kept in
+// The device and physics pages this browser opened last, newest first, kept in
 // localStorage: on this device only, nothing sent anywhere (the site has no
 // backend), offline too. Storage may be blocked (a private window, site data
 // cleared or refused): then the list just stays empty. Other tabs follow
 // through the storage event.
 import { ref } from 'vue';
-import { DEVICE_LINKS } from './nav.js';
+import { DEVICE_LINKS, PHYSICS_LINKS } from './nav.js';
 
 const KEY = 'i2c.ninja/recent';
 const MAX = 4;
-const DEVICE_PATHS = new Set(DEVICE_LINKS.map((l) => l.to));
+// each page that counts, with its label, a note and its kind
+const PAGES = new Map([
+  ...DEVICE_LINKS.map((l) => [l.to, { ...l, kind: 'device' }]),
+  ...PHYSICS_LINKS.map((l) => [l.to, { ...l, note: 'Physics', kind: 'physics' }]),
+]);
 
 function load() {
   try {
     const v = JSON.parse(localStorage.getItem(KEY));
-    return Array.isArray(v) ? v.filter((r) => r && DEVICE_PATHS.has(r.to) && typeof r.at === 'number').slice(0, MAX) : [];
+    return Array.isArray(v) ? v.filter((r) => r && PAGES.has(r.to) && typeof r.at === 'number').slice(0, MAX) : [];
   } catch {
     return [];
   }
@@ -30,10 +34,10 @@ function save() {
   }
 }
 
-// a page opened: to the top if it's a device page (its own path, as the
-// router matched it, so an alias counts as its page)
+// a page opened: to the top if it's a device or physics page (its own path,
+// as the router matched it, so an alias counts as its page)
 export function record(path) {
-  if (!DEVICE_PATHS.has(path)) return;
+  if (!PAGES.has(path)) return;
   recent.value = [{ to: path, at: Date.now() }, ...recent.value.filter((r) => r.to !== path)].slice(0, MAX);
   save();
 }
@@ -51,8 +55,9 @@ if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => { if (e.key === KEY) recent.value = load(); });
 }
 
-// the recent list with each page's name and kind, as the menus show them
-export const withLabels = (list) => list.map((r) => ({ ...DEVICE_LINKS.find((l) => l.to === r.to), at: r.at }));
+// the recent list with each page's label, note and kind ('device', 'physics');
+// kind given: only those
+export const withLabels = (list, kind) => list.map((r) => ({ ...PAGES.get(r.to), at: r.at })).filter((r) => !kind || r.kind === kind);
 
 // "just now", "5 min ago", "3 h ago", "yesterday", "4 days ago"
 export function ago(at, now = Date.now()) {

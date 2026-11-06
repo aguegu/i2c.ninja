@@ -11,7 +11,16 @@ test('keeps the device pages opened, newest first, each once, four at most', () 
   assert.deepEqual(recent.value.map((r) => r.to), ['/sht20', '/vl53l1x', '/adxl345', '/itg3200']);
 });
 
-test('ignores pages that aren\'t device pages', () => {
+test('keeps physics pages too, labelled Physics', async () => {
+  clearRecent();
+  record('/physics/acceleration');
+  record('/adxl345');
+  const { withLabels } = await import('../src/lib/recent.js');
+  assert.deepEqual(withLabels(recent.value).map((r) => [r.to, r.kind]), [['/adxl345', 'device'], ['/physics/acceleration', 'physics']]);
+  assert.deepEqual(withLabels(recent.value, 'physics').map((r) => r.note), ['Physics']);
+});
+
+test('ignores pages that aren\'t device or physics pages', () => {
   clearRecent();
   for (const p of ['/', '/about', '/get-started', '/learn/imu', '/learn/imu/tilt', '/no-such-page']) record(p);
   assert.deepEqual(recent.value, []);
