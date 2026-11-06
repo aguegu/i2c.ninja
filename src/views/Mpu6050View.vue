@@ -12,8 +12,7 @@ import ImuControls from '../components/ImuControls.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import AttitudeIndicator from '../components/AttitudeIndicator.vue';
 import Board3D from '../components/Board3D.vue';
-import VectorViews from '../components/VectorViews.vue';
-import AttitudeViews from '../components/AttitudeViews.vue';
+import AccelerometerViews from '../components/AccelerometerViews.vue';
 import GyroBall from '../components/GyroBall.vue';
 import TurnViews from '../components/TurnViews.vue';
 import { useImu } from '../lib/useImu.js';
@@ -150,20 +149,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </section>
 
     <template v-if="tab === 'accelerometer'">
-      <section :class="card" role="tabpanel">
-        <h2 class="mb-2 font-semibold">What the accelerometer feels, three ways</h2>
-        <VectorViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
-        <p class="mt-3 leading-relaxed">
-          The reading as an arrow, from three sides, the board still in its own axes. At rest it is 1 g long and points up, away from the floor: the springs holding its mass up against gravity. Tilt the board and it leans the other way on the screen, still pointing at the ceiling; shake it and it swings and stretches.
-        </p>
-      </section>
-      <section :class="card">
-        <h2 class="mb-2 font-semibold">The board in the room: gravity held still</h2>
-        <AttitudeViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
-        <p class="mt-3 leading-relaxed">
-          Gravity stays put, pointing down, and the board turns as the accelerometer says: pitch from the side, roll from behind. The heading (yaw) it can't see: a turn about the vertical changes nothing in how gravity falls on its axes. That's the gyro's job, in the next tab.
-        </p>
-      </section>
+      <AccelerometerViews :a="a" :tiles="false" :chart="false" />
     </template>
 
     <div v-if="tab === 'gyro'" class="grid gap-4 md:grid-cols-[auto_1fr]" role="tabpanel">

@@ -2,31 +2,17 @@
 // The ADXL345 live on the CH341 dongle: its three axes in g, the tilt
 // they give at rest, and its self test against the datasheet's limits
 import { reactive, computed } from 'vue';
-import LiveChart from '../components/LiveChart.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
-import AttitudeIndicator from '../components/AttitudeIndicator.vue';
-import VectorViews from '../components/VectorViews.vue';
-import AttitudeViews from '../components/AttitudeViews.vue';
+import AccelerometerViews from '../components/AccelerometerViews.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
-import { rollOf, pitchOf } from '../lib/tilt.js';
 import { useAdxl345 } from '../lib/useAdxl345.js';
 
 const WINDOW_MS = 10000;
-const FLOOR_G = 1.2; // the chart's least half-range: 1 g at rest stays in view
 const LSB_PER_G = 256; // full resolution (its datasheet's typical)
-const SERIES = [
-  { label: 'x', color: '--series-1' },
-  { label: 'y', color: '--series-2' },
-  { label: 'z', color: '--series-3' },
-];
 const AXES = ['x', 'y', 'z'];
 
 const adxl = reactive(useAdxl345({ windowMs: WINDOW_MS }));
 const a = computed(() => adxl.latest);
-const size = computed(() => (a.value ? Math.hypot(a.value.x, a.value.y, a.value.z) : null));
-const roll = computed(() => (a.value ? rollOf(a.value.x, a.value.y, a.value.z) : 0));
-const pitch = computed(() => (a.value ? pitchOf(a.value.x, a.value.y, a.value.z) : 0));
-const fmt = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 </script>
 
@@ -64,46 +50,11 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p v-if="adxl.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ adxl.failure.error }}</p>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-[1fr_auto]">
-      <section :class="card">
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div v-for="k in AXES" :key="k">
-            <p class="text-sm text-slate-500 dark:text-slate-400">{{ k }}</p>
-            <p class="font-mono text-3xl tabular-nums">{{ fmt(a?.[k]) }} <span class="text-base">g</span></p>
-          </div>
-          <div>
-            <p class="text-sm text-slate-500 dark:text-slate-400">|a|, all three</p>
-            <p class="font-mono text-3xl tabular-nums">{{ fmt(size) }} <span class="text-base">g</span></p>
-          </div>
-        </div>
+    <AccelerometerViews :a="a" :source="adxl.source" :window-ms="WINDOW_MS">
+      <template #note>
         <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</p>
-      </section>
-      <section :class="[card, 'flex flex-col items-center']">
-        <AttitudeIndicator :roll="roll" :pitch="pitch" />
-        <p class="mt-2 font-mono text-sm tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
-        <p class="text-xs text-slate-500 dark:text-slate-400">from gravity, held still</p>
-      </section>
-    </div>
-
-    <section :class="card">
-      <h2 class="mb-2 font-semibold">What the chip feels, three ways</h2>
-      <VectorViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
-      <p class="mt-3 leading-relaxed">
-        The reading as an arrow, seen from three sides like an engineering drawing; the board (its outline) stays still, in its own axes as printed. At rest the arrow is 1 g long, pointing up, away from the floor: not gravity's pull but the springs holding the mass up against it. Lying flat it stands straight up in the two side views and is a dot from above; tilt the real board and it leans in the views that see the tilt, still pointing at the ceiling. Shake it and it swings and stretches (dashed past 1.55 g); drop it onto a cushion and it shrinks toward the centre.
-      </p>
-    </section>
-
-    <section :class="card">
-      <h2 class="mb-2 font-semibold">The board in the room: gravity held still</h2>
-      <AttitudeViews :x="a?.x ?? 0" :y="a?.y ?? 0" :z="a?.z ?? 1" />
-      <p class="mt-3 leading-relaxed">
-        The other way round: gravity stays put, pointing down, and the board turns as the reading says. From its right side you see the pitch (nose up or down), from behind the roll (a side down). From above you'd see the yaw, the heading, but an accelerometer can't: turning the board about the vertical changes nothing in how gravity falls on its axes. So here it always points straight ahead; a gyro or a compass (the HMC5883L) is what tells the heading. Held still, that's all exact; shaken, the pushes get mistaken for tilt.
-      </p>
-    </section>
-
-    <section :class="card">
-      <LiveChart title="Acceleration" unit="g" :series="SERIES" :values="a ? [a.x, a.y, a.z] : []" :source="adxl.source" :window-ms="WINDOW_MS" :floor="FLOOR_G" :digits="3" />
-    </section>
+      </template>
+    </AccelerometerViews>
 
     <section :class="card">
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
