@@ -26,7 +26,7 @@ const fmt = (n) => (n === undefined || n === null ? '—' : n.toFixed(props.digi
 </script>
 
 <template>
-  <section class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
+  <section class="flex flex-col rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
       <h2 class="text-lg font-semibold">Live</h2>
       <template v-if="hasWebUsb">
@@ -58,7 +58,10 @@ const fmt = (n) => (n === undefined || n === null ? '—' : n.toFixed(props.digi
         <p class="font-mono text-2xl tabular-nums">{{ fmt(size) }} <span class="text-sm">{{ src.unit }}</span></p>
       </div>
     </div>
-    <slot :v="v" :size="size" />
+    <!-- the slot (a note, more readings) at the card's foot when the card is taller than its content -->
+    <div class="mt-auto">
+      <slot :v="v" :size="size" />
+    </div>
     <div v-if="chart" class="mt-3">
       <LiveChart :title="title" :unit="src.unit" :series="SERIES" :values="v ?? []" :source="src.source" :window-ms="10000" :floor="floor" :digits="digits" />
     </div>
