@@ -39,12 +39,16 @@ onMounted(() => {
 });
 onBeforeUnmount(() => cancelAnimationFrame(frame));
 
-// the contents, part by part
+// the contents, part by part, a card a page: its kind, title, what it's
+// about, and a foot line
+const physicsTitle = (slug) => PHYSICS.find((p) => p.slug === slug)?.title ?? slug;
 const PARTS = [
-  { n: 'I', title: 'Physics', note: 'what is measured', items: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title })) },
-  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind })) },
-  { n: 'III', title: 'Algorithms', note: 'the maths that joins them', items: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title })) },
+  { n: 'I', title: 'Physics', note: 'what is measured', items: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, kind: 'Physics', label: p.title, text: p.blurb, foot: `with ${p.devices.map((d) => d.label).join(', ')}` })) },
+  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: DEVICES.map((d) => ({ to: d.to, kind: d.kind, label: d.name, sub: d.maker, text: d.measures, foot: d.bus, mono: true })) },
+  { n: 'III', title: 'Algorithms', note: 'the maths that joins them', items: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, kind: 'Algorithm', label: p.title, text: p.blurb, foot: `combines ${p.combines.map(physicsTitle).join(' + ')}` })) },
+  { n: '', title: 'Learn', lead: 'Course', note: 'the parts in order, step by step', items: GUIDES.map((g) => ({ to: g.to, kind: g.kind, label: g.name, text: g.measures })) },
 ];
+const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 const button = 'rounded-lg px-4 py-2 font-medium';
 </script>
 
@@ -72,7 +76,7 @@ const button = 'rounded-lg px-4 py-2 font-medium';
     </p>
 
     <!-- the contents -->
-    <section class="mx-auto w-full max-w-2xl">
+    <section class="w-full">
       <div v-if="recent.length" class="mb-8 text-sm">
         <span class="text-slate-500 dark:text-slate-400">Where you were:</span>
         <template v-for="(r, i) in withLabels(recent)" :key="r.to">{{ i ? ' · ' : ' ' }}<RouterLink :to="r.to" class="text-emerald-700 underline dark:text-emerald-400">{{ r.label }}</RouterLink> <span class="text-xs text-slate-400">{{ ago(r.at) }}</span></template>
@@ -80,30 +84,17 @@ const button = 'rounded-lg px-4 py-2 font-medium';
       </div>
 
       <h2 class="mb-6 text-center font-serif text-2xl tracking-wide">Contents</h2>
-      <div v-for="p in PARTS" :key="p.n" class="mb-8">
-        <p class="font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">Part {{ p.n }}</span>{{ p.title }} <span class="text-sm text-slate-500 italic dark:text-slate-400">· {{ p.note }}</span></p>
-        <ol class="mt-2">
-          <li v-for="(it, i) in p.items" :key="it.to">
-            <RouterLink :to="it.to" class="group flex items-baseline gap-2 py-1">
-              <span class="w-6 shrink-0 text-right text-sm text-slate-400 tabular-nums">{{ i + 1 }}</span>
-              <span class="group-hover:text-emerald-600">{{ it.label }}</span>
-              <span class="flex-1 border-b border-dotted border-slate-300 dark:border-slate-600" />
-              <span v-if="it.note" class="text-sm text-slate-500 dark:text-slate-400">{{ it.note }}</span>
-            </RouterLink>
-          </li>
-        </ol>
-      </div>
-      <div class="mb-4">
-        <p class="font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">Course</span>Learn <span class="text-sm text-slate-500 italic dark:text-slate-400">· the parts in order, step by step</span></p>
-        <ol class="mt-2">
-          <li v-for="g in GUIDES" :key="g.to">
-            <RouterLink :to="g.to" class="group flex items-baseline gap-2 py-1">
-              <span class="w-6 shrink-0" />
-              <span class="group-hover:text-emerald-600">{{ g.name }}</span>
-              <span class="flex-1 border-b border-dotted border-slate-300 dark:border-slate-600" />
-            </RouterLink>
-          </li>
-        </ol>
+      <div v-for="p in PARTS" :key="p.title" class="mb-10">
+        <p class="mb-3 font-serif text-lg"><span class="mr-2 text-emerald-700 dark:text-emerald-400">{{ p.lead ?? `Part ${p.n}` }}</span>{{ p.title }} <span class="text-sm text-slate-500 italic dark:text-slate-400">· {{ p.note }}</span></p>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <RouterLink v-for="it in p.items" :key="it.to" :to="it.to" :class="card">
+            <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ it.kind }}</span>
+            <span class="mt-1 text-lg font-semibold">{{ it.label }}</span>
+            <span v-if="it.sub" class="text-sm text-slate-500 dark:text-slate-400">{{ it.sub }}</span>
+            <span class="mt-2 flex-1 leading-relaxed">{{ it.text }}</span>
+            <span v-if="it.foot" class="mt-3 text-xs text-slate-500 dark:text-slate-400" :class="it.mono && 'font-mono'">{{ it.foot }}</span>
+          </RouterLink>
+        </div>
       </div>
       <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">More devices join one at a time, each once its driver and its page have run on a real one.</p>
     </section>
