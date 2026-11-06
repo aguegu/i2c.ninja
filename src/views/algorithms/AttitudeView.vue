@@ -42,6 +42,7 @@ const READING = [
     { href: `${WIKI}Attitude_and_heading_reference_system`, title: 'Attitude and heading reference system', note: 'Wikipedia: with a compass too, a full attitude' },
   ] },
 ];
+const FRAMES = String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}, \qquad \mathbf{v}_b = \mathbf{q}^{*} \otimes (0,\ \mathbf{v}_W) \otimes \mathbf{q}`;
 const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omega_x\,\Delta t) + (1 - \alpha)\,\varphi_g, \qquad \alpha = \frac{\tau}{\tau + \Delta t}`;
 </script>
 
@@ -70,6 +71,23 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
     </section>
 
     <FusionViews :fusion="fusion" :running="src.state === 'running'" :window-ms="WINDOW_MS" />
+
+    <section :class="[card, 'leading-relaxed']">
+      <h2 class="mb-2 text-lg font-semibold">Two sets of axes, and what q is for</h2>
+      <p class="mb-2">
+        <b>The board's own axes</b>, the x, y and z printed on the chip, turn with it: the body frame. Every reading is in them: a and ω say how the board feels gravity and turning, from where it sits. <b>The world's axes</b>, X, Y and Z, stay put: the room, with Z straight up, here X and Y where the board's x and y pointed at the start (or at Start again). The glass box above is drawn in them.
+      </p>
+      <p class="mb-2">
+        <b>q links the two.</b> It is how the board is turned in the world, and it turns any direction from one set into the other:
+      </p>
+      <TexMath class="mb-2 block" display :expr="FRAMES" />
+      <p class="mb-2">
+        The board's nose, x in its own axes, goes through q to where it points in the room: the arrow on the floor's shadow. The other way, the world's up, Z, goes through q's conjugate q* to the board's axes: that's v̂, "up as q says", which the filter holds against â, the accelerometer's up, in the same axes. Each reading the gyro turns q a little, and gravity steers it.
+      </p>
+      <p>
+        <b>Why four numbers, not three angles?</b> φ, θ and ψ are easier to read, so the gauges show them. But three turns in a row get stuck when the nose points straight up or down (θ = ±90°: roll and yaw become the same turn, gimbal lock). q turns smoothly through any attitude, so the filter keeps q and reads the angles off it only to show them.
+      </p>
+    </section>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">Each alone falls short</h2>

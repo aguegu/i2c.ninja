@@ -4,7 +4,7 @@
 // roll and pitch three ways (gravity's, the gyro alone, fused) and yaw two
 // ways (the gyro alone, fused) on charts, then the result on a pilot's
 // instruments: the attitude indicator (φ, θ) and the heading indicator (ψ),
-// and each angle on its own in three flat views. A
+// the board in a glass box and its three walls unfolded. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
 import { computed } from 'vue';
@@ -12,7 +12,7 @@ import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
-import TurnViews from './TurnViews.vue';
+import ProjectionViews from './ProjectionViews.vue';
 import ProjectionBox from './ProjectionBox.vue';
 
 const props = defineProps({
@@ -53,19 +53,13 @@ const turnOf = (q) => {
 };
 const turn = computed(() => turnOf(props.fusion.fused?.held?.q));
 const fusionAngles = (u) => (u.fused ? `(${f(u.fused.roll, 1)}, ${f(u.fused.pitch, 1)}, ${f(u.fused.yaw, 1)})°` : '—');
-// the fused angles as turns about the board's axes, for the flat views:
-// roll about +x; pitch nose up, about -y; yaw turning right, about -z
-const flatAngles = computed(() => {
-  const u = props.fusion.fused;
-  return u ? { x: u.roll, y: -u.pitch, z: -u.yaw } : { x: 0, y: 0, z: 0 };
-});
 const flatCaptions = computed(() => {
   const u = props.fusion.fused;
   const deg = (v) => (u ? `${f(v, 0)}°` : '—');
   return {
-    x: { sym: 'φ', sub: 'q', value: deg(u?.roll), name: 'roll' },
-    y: { sym: 'θ', sub: 'q', value: deg(u?.pitch), name: 'pitch' },
-    z: { sym: 'ψ', sub: 'q', value: deg(u?.yaw), name: 'yaw' },
+    ahead: { sym: 'φ', sub: 'q', value: deg(u?.roll), name: 'roll' },
+    left: { sym: 'θ', sub: 'q', value: deg(u?.pitch), name: 'pitch' },
+    floor: { sym: 'ψ', sub: 'q', value: deg(u?.yaw), name: 'yaw' },
   };
 });
 // each block: a formula a row (LaTeX), its result with the latest numbers
@@ -90,6 +84,7 @@ const blocks = computed(() => {
     { title: 'The attitude, q: a quaternion, four numbers for how the board sits in the room', rows: [
       { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s roll and pitch above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
       { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'then, each reading: the q the filter made the reading before (the last line below)' },
+      { tex: String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}`, value: '', note: 'what q is for: it turns a direction in the board\'s axes (b, the body frame) into the world\'s (W); q*, its conjugate, turns back' },
       { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', note: 'how far the board has turned from the start, all in one turn' },
       { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), note: 'the axis of that turn (none while β is 0): so q = (cos β/2, n sin β/2)' },
     ] },
@@ -98,7 +93,7 @@ const blocks = computed(() => {
       { tex: String.raw`k_i =`, value: `${u.ki} /s²`, note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki = 10 s (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others on Learn the IMU, step 4' },
       { tex: String.raw`k_d =`, value: '0', note: 'no D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
-      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says' },
+      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says: the world\'s Z, in the board\'s own axes' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, note: 'b̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
@@ -159,11 +154,11 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </div>
     <figure class="mt-4 flex flex-col items-center">
       <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
-      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: its true projection on the floor (from above), the wall ahead (from its nose) and the wall to its left (from its right side); the dashed lines drop its nose onto each</figcaption>
+      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: its true projection on the floor (from above), the wall to its left (from its right side) and the wall ahead (from behind); the dashed lines drop its nose onto each. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
     </figure>
     <div class="mt-4">
-      <TurnViews :angles="flatAngles" :captions="flatCaptions" />
-      <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">each angle on its own, seen along its axis: exact for one turn at a time, a sketch when they mix</p>
+      <ProjectionViews :q="fusion.fused?.q ?? [1, 0, 0, 0]" :captions="flatCaptions" />
+      <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">the three walls unfolded: the board seen straight along the world's Z, Y and X. The world's axes in capitals, the board's own in lowercase</p>
     </div>
     <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
       In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
