@@ -5,6 +5,7 @@
 import { DEVICES } from './devices.js';
 import { IMU_STEPS } from '../views/learn/imuSteps.js';
 import { PHYSICS } from './physics.js';
+import { ALGORITHMS } from './algorithms.js';
 
 export const SITE = 'i2c.ninja';
 export const ORIGIN = 'https://i2c.ninja';
@@ -55,6 +56,11 @@ export const PAGES = [
     path: `/physics/${p.slug}`,
     title: `${p.title}: how sensors measure it`,
     description: `${p.blurb} With the sensors that measure it live in the browser, and things to try in class.`,
+  })),
+  ...ALGORITHMS.filter((p) => p.component).map((p) => ({
+    path: `/algorithms/${p.slug}`,
+    title: `${p.title}: combining sensors`,
+    description: `${p.blurb} Live in the browser, with things to try in class.`,
   })),
   {
     path: '/about',

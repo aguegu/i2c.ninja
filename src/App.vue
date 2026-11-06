@@ -9,7 +9,7 @@ import SiteFooter from './components/SiteFooter.vue';
 import { useTheme } from './lib/theme.js';
 import { updateReady, applyUpdate } from './lib/pwa.js';
 import { recent, withLabels } from './lib/recent.js';
-import { DEVICE_LINKS, GUIDE_LINKS, PHYSICS_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
+import { DEVICE_LINKS, GUIDE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
 
 const { dark, toggle } = useTheme();
@@ -31,6 +31,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
           <RouterLink to="/about#releases" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}: the releases`">{{ version }}</RouterLink>
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
+          <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'algorithm') : []" />
           <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'physics') : []" />
           <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent, 'device')" wide />
           <NavMenu label="Learn" :links="GUIDE_LINKS" />
@@ -53,7 +54,9 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         </button>
       </div>
       <nav v-if="mobile" class="border-t border-slate-200 px-4 py-3 text-sm sm:hidden dark:border-slate-700" aria-label="Main">
-        <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
+        <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
+        <RouterLink v-for="l in ALGORITHM_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
+        <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
         <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Devices</p>
         <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>

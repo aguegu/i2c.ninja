@@ -3,6 +3,7 @@
 // by itself
 import { DEVICES, GUIDES } from './devices.js';
 export { PHYSICS_LINKS } from './physics.js';
+export { ALGORITHM_LINKS } from './algorithms.js';
 
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';

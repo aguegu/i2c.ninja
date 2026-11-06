@@ -1,7 +1,10 @@
 // The sensors a physics page can read, by what they measure: for each chip,
 // its page (its wiring is there), the addresses to look at, how to know it
 // there (its own ID register), and how to read it, in the physics' unit, as
-// [x, y, z] (readMs: how often, when slower than the page's pace). A page's Live card
+// [x, y, z] (readMs: how often, when slower than the page's pace). family: the
+// module a chip shares with chips of other quantities (an MPU's two halves
+// at one address), so a page needing two quantities takes them from one board when
+// it can (lib/useSources.js). A page's Live card
 // scans for every chip of its quantity (lib/useSource.js).
 import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l } from 'atiic';
 
@@ -13,6 +16,8 @@ const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1
 const mpu = (Driver, name, to, part = 'accelerometers') => ({
   name,
   to,
+  family: name,
+  sameAddress: true,
   addresses: Driver.addresses,
   detect: async (bus, a) => (await idAt(bus, a, 0x75)) === Driver.chip.whoAmI,
   open: async (bus, a) => {

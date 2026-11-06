@@ -1,10 +1,10 @@
-// The device and physics pages this browser opened last, newest first, kept in
+// The device, physics and algorithm pages this browser opened last, newest first, kept in
 // localStorage: on this device only, nothing sent anywhere (the site has no
 // backend), offline too. Storage may be blocked (a private window, site data
 // cleared or refused): then the list just stays empty. Other tabs follow
 // through the storage event.
 import { ref } from 'vue';
-import { DEVICE_LINKS, PHYSICS_LINKS } from './nav.js';
+import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS } from './nav.js';
 
 const KEY = 'i2c.ninja/recent';
 const MAX = 4;
@@ -12,6 +12,7 @@ const MAX = 4;
 const PAGES = new Map([
   ...DEVICE_LINKS.map((l) => [l.to, { ...l, kind: 'device' }]),
   ...PHYSICS_LINKS.map((l) => [l.to, { ...l, note: 'Physics', kind: 'physics' }]),
+  ...ALGORITHM_LINKS.map((l) => [l.to, { ...l, note: 'Algorithm', kind: 'algorithm' }]),
 ]);
 
 function load() {
@@ -34,7 +35,7 @@ function save() {
   }
 }
 
-// a page opened: to the top if it's a device or physics page (its own path,
+// a page opened: to the top if it's a device, physics or algorithm page (its own path,
 // as the router matched it, so an alias counts as its page)
 export function record(path) {
   if (!PAGES.has(path)) return;
@@ -55,7 +56,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => { if (e.key === KEY) recent.value = load(); });
 }
 
-// the recent list with each page's label, note and kind ('device', 'physics');
+// the recent list with each page's label, note and kind ('device', 'physics', 'algorithm');
 // kind given: only those
 export const withLabels = (list, kind) => list.map((r) => ({ ...PAGES.get(r.to), at: r.at })).filter((r) => !kind || r.kind === kind);
 

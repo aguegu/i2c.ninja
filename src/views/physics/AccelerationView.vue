@@ -67,5 +67,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Shake and slide.</b> Shake it and |a| jumps past 1 g; slide it across the desk and the push shows on x or y, on top of gravity's share. A push and a tilt look alike to it.</li>
       </ol>
     </section>
+    <p class="text-sm">
+      <b>See also:</b> <RouterLink to="/algorithms/attitude" class="text-emerald-700 underline dark:text-emerald-400">Attitude from accel and gyro</RouterLink>, the two combined.
+    </p>
   </main>
 </template>

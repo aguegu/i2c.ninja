@@ -72,5 +72,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Spin it.</b> Lay it flat and give it a spin, wires permitting: the rate about z jumps; divide by 6 for revolutions a minute.</li>
       </ol>
     </section>
+    <p class="text-sm">
+      <b>See also:</b> <RouterLink to="/algorithms/attitude" class="text-emerald-700 underline dark:text-emerald-400">Attitude from accel and gyro</RouterLink>, the two combined.
+    </p>
   </main>
 </template>

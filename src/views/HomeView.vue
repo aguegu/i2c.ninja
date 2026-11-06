@@ -3,8 +3,10 @@
 import { DEVICES, GUIDES } from '../lib/devices.js';
 import HomeCarousel from '../components/HomeCarousel.vue';
 import { PHYSICS } from '../lib/physics.js';
+import { ALGORITHMS } from '../lib/algorithms.js';
 import { recent, withLabels, ago, clearRecent } from '../lib/recent.js';
 
+const physicsTitle = (slug) => PHYSICS.find((p) => p.slug === slug)?.title ?? slug;
 const hasWebUsb = 'usb' in navigator;
 // what it's for
 const USES = [
@@ -48,6 +50,18 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
         <RouterLink v-for="r in withLabels(recent)" :key="r.to" :to="r.to" class="flex items-baseline justify-between gap-2 rounded-xl bg-white px-4 py-3 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 dark:bg-slate-800">
           <span><span class="font-semibold">{{ r.label }}</span> <span class="text-xs text-slate-500 dark:text-slate-400">{{ r.note }}</span></span>
           <span class="shrink-0 text-xs text-slate-400">{{ ago(r.at) }}</span>
+        </RouterLink>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-lg font-semibold">By algorithm</h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <RouterLink v-for="p in ALGORITHMS.filter((t) => t.component)" :key="p.slug" :to="`/algorithms/${p.slug}`" :class="card">
+          <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Algorithm</span>
+          <span class="mt-1 text-lg font-semibold">{{ p.title }}</span>
+          <span class="mt-2 flex-1 leading-relaxed">{{ p.blurb }}</span>
+          <span class="mt-3 text-xs text-slate-500 dark:text-slate-400">combines {{ p.combines.map(physicsTitle).join(' + ') }}</span>
         </RouterLink>
       </div>
     </section>

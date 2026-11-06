@@ -3,7 +3,7 @@
 // Kept short as the devices grow: they fill rows across the full width
 // first; Learn (its index; the steps are linked from there), Get started
 // and Elsewhere share the row under them.
-import { DEVICE_LINKS, PHYSICS_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
+import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
@@ -19,7 +19,13 @@ const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
           <li v-for="l in DEVICE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
         </ul>
       </div>
-      <div class="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-4">
+      <div class="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-5">
+        <div>
+          <p :class="head">Algorithms</p>
+          <ul>
+            <li v-for="l in ALGORITHM_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
+          </ul>
+        </div>
         <div>
           <p :class="head">Physics</p>
           <ul>
