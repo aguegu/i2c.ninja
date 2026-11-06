@@ -76,7 +76,7 @@ const projectors = computed(() => {
 // the room's axes (the board's at the start), as a tripod at the floor's
 // near corner, along the box's edges, clear of the board
 const ORIGIN = [-D, -D, -D];
-const AXIS_LEN = 0.9 * D;
+const AXIS_LEN = 0.55 * D; // short: z stays clear of the board
 const AXES = [
   { key: 'x', to: [AXIS_LEN, 0, 0], color: 'var(--series-1)' },
   { key: 'y', to: [0, AXIS_LEN, 0], color: 'var(--series-2)' },
