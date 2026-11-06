@@ -11,15 +11,19 @@ import { makeSeries } from './series.js';
 
 const MAX_STEP_S = 0.1; // a longer gap between readings: not integrated
 
+// an angle in -180..180, as the fused yaw
+const wrap180 = (d) => ((((d + 180) % 360) + 360) % 360) - 180;
+
 export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const mahony = new Mahony();
   const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s }
   const fused = ref(null); // { q, held: { q, up } from the reading before (up: the room's z in the board's axes), roll, pitch, yaw } degrees
   const gravity = ref(null); // { roll, pitch }
-  const gyroAlone = ref(null); // { roll, pitch }
+  const gyroAlone = ref(null); // { roll, pitch, yaw }
   const learned = ref(null); // the gyro offset Mahony's integral learned, deg/s [x y z]
   const rollSeries = makeSeries(3, windowMs); // gravity's, the gyro alone, fused: the formulas' order
   const pitchSeries = makeSeries(3, windowMs);
+  const yawSeries = makeSeries(2, windowMs); // the gyro alone, fused: gravity can't see yaw
   let lastT = null;
   let alone = null;
 
@@ -31,9 +35,10 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     const held = mahony.q ? { q: mahony.q, up: mahony.up() } : null;
     mahony.update(accel, gyro, step);
     const g = { roll: rollOf(...accel), pitch: pitchOf(...accel) };
-    if (!alone) alone = { ...g };
+    if (!alone) alone = { ...g, yaw: 0 };
     alone.roll += gyro[0] * step; // roll turns about +x
     alone.pitch -= gyro[1] * step; // nose up is about -y
+    alone.yaw = wrap180(alone.yaw - gyro[2] * step); // turning right is about -z
     const m = mahony.angles();
     input.value = { accel, gyro, dt: step };
     fused.value = { q: mahony.q, held, ...m };
@@ -42,6 +47,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     learned.value = mahony.learnedOffset();
     rollSeries.push(t, [g.roll, alone.roll, m.roll]);
     pitchSeries.push(t, [g.pitch, alone.pitch, m.pitch]);
+    yawSeries.push(t, [alone.yaw, m.yaw]);
   });
   onBeforeUnmount(off);
 
@@ -53,7 +59,8 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     alone = null;
     rollSeries.clear();
     pitchSeries.clear();
+    yawSeries.clear();
   }
 
-  return { input, kp: mahony.kp, ki: mahony.ki, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, restart };
+  return { input, kp: mahony.kp, ki: mahony.ki, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
 }

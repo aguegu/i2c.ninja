@@ -1,7 +1,8 @@
 <script setup>
 // Two sensors fused, every way the site shows it: the numbers in and the
 // formulas they go through (each with the latest values; Start again), then
-// roll and pitch three ways (fused, gravity's, the gyro alone) on charts. A
+// roll and pitch three ways (gravity's, the gyro alone, fused) and yaw two
+// ways (the gyro alone, fused) on charts. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
 import { computed } from 'vue';
@@ -23,6 +24,7 @@ const threeOf = (sym) => [
 ];
 const PHI = threeOf('φ');
 const THETA = threeOf('θ');
+const PSI = threeOf('ψ').slice(1); // no ψ_g: gravity can't see yaw
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
 // the latest numbers, as they go into the formulas
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
@@ -60,6 +62,7 @@ const blocks = computed(() => {
     { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
       { tex: String.raw`\varphi_\omega \leftarrow \varphi_\omega + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: 'ω: the gyro\'s alone, started from gravity\'s' },
       { tex: String.raw`\theta_\omega \leftarrow \theta_\omega - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: 'started from gravity\'s; nose up is a turn about −y' },
+      { tex: String.raw`\psi_\omega \leftarrow \psi_\omega - \omega_z\,\Delta t =`, value: `${f(u.gyroAlone?.yaw, 1)}°`, note: 'started from 0: gravity can\'t see yaw; turning right is a turn about −z' },
     ] },
     { title: 'The attitude, q: a quaternion, four numbers for how the board sits in the room', rows: [
       { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s roll and pitch above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
@@ -107,5 +110,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   </section>
   <section :class="card">
     <LiveChart title="θ, the pitch" unit="°" :series="THETA" :values="fusion.fused ? [fusion.gravity.pitch, fusion.gyroAlone.pitch, fusion.fused.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
+  </section>
+  <section :class="card">
+    <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="fusion.fused ? [fusion.gyroAlone.yaw, fusion.fused.yaw] : []" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
 </template>
