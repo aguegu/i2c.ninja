@@ -66,15 +66,17 @@ const projectors = computed(() => {
 // the world's axes, capitals (the board's at the start, Z up), each along
 // the edge where two walls meet: X between the floor and the left wall, Y
 // between the floor and the wall ahead, Z up the corner of the two walls.
-// A stretch of each edge, its head at the positive end
-const EDGE_FROM = -0.35 * D;
-const EDGE_TO = 0.55 * D;
+// A stretch of each edge, its head at the positive end: X and Y on their
+// edges' outer halves (the corner they point to is behind the board), Z up
+// the corner's top half
+const STRETCH = { X: [-0.95 * D, -0.15 * D], Y: [-0.95 * D, -0.15 * D], Z: [0.1 * D, 0.9 * D] };
 const AXES = [
   { key: 'X', on: [0, D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
   { key: 'Y', on: [D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
   { key: 'Z', on: [D, D, 0], dir: [0, 0, 1], color: 'var(--series-3)' },
 ].map((a) => {
-  const o = at(a.on.map((c, k) => c + EDGE_FROM * a.dir[k])), e = at(a.on.map((c, k) => c + EDGE_TO * a.dir[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
+  const [from, to] = STRETCH[a.key];
+  const o = at(a.on.map((c, k) => c + from * a.dir[k])), e = at(a.on.map((c, k) => c + to * a.dir[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
   const ux = dx / n, uy = dy / n; // the arrow's way on screen
   const head = [[e[0], e[1]], [e[0] - 9 * ux - 4 * uy, e[1] - 9 * uy + 4 * ux], [e[0] - 9 * ux + 4 * uy, e[1] - 9 * uy - 4 * ux]];
   return { ...a, o, e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 10 * ux, e[1] + 10 * uy] };
