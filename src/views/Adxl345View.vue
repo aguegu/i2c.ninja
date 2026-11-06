@@ -91,9 +91,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">Its settings</h2>
       <SpecTable :rows="SPECS" />
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">What it offers: Analog Devices' datasheet (Rev. G).</p>
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>: how a mass on springs inside a chip like this feels gravity and a push, with drawings.
+        <b>See also:</b> <RouterLink to="/physics/acceleration" class="text-emerald-700 underline dark:text-emerald-400">Acceleration and gravity</RouterLink>: how a mass on springs inside a chip like this feels gravity and a push, with drawings. And <a href="https://www.analog.com/en/products/adxl345.html" class="text-emerald-700 underline dark:text-emerald-400">the ADXL345 at Analog Devices</a>, its maker: the datasheet and more.
       </p>
     </section>
   </main>
