@@ -43,6 +43,11 @@ export const PAGES = [
     description: `${d.maker} ${d.name}: ${d.measures} ${HOW[0].toUpperCase()}${HOW.slice(1)}`,
   })),
   {
+    path: '/devices',
+    title: 'Devices: I2C sensors live in the browser',
+    description: 'The sensors i2c.ninja reads live over a CH341 dongle: motion, magnetism, humidity, temperature, distance, pulse, power. Each with its wiring, its readings explained and its settings.',
+  },
+  {
     path: '/learn',
     title: 'Learn: courses through the physics, the sensors and the maths',
     description: 'Step-by-step courses through this site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, with sensors live in the browser.',

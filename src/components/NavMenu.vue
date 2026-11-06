@@ -9,12 +9,13 @@ const props = defineProps({
   links: { type: Array, required: true }, // [{ to, label, note }]
   wide: { type: Boolean, default: false },
   recent: { type: Array, default: () => [] }, // [{ to, label, note }]: shown on top, under "Recent"
+  all: { type: Object, default: null }, // { to, label }: a page listing them all, at the foot
 });
 
 const open = ref(false);
 const root = ref(null);
 const route = useRoute();
-const active = () => props.links.some((l) => route.path === l.to || route.path.startsWith(`${l.to}/`));
+const active = () => props.links.some((l) => route.path === l.to || route.path.startsWith(`${l.to}/`)) || (props.all && route.path === props.all.to);
 
 watch(() => route.fullPath, () => { open.value = false; });
 const onDoc = (e) => { if (open.value && root.value && !root.value.contains(e.target)) open.value = false; };
@@ -40,6 +41,7 @@ onBeforeUnmount(() => { document.removeEventListener('click', onDoc); document.r
       <RouterLink v-for="l in links" :key="l.to" :to="l.to" class="block rounded-lg px-3 py-1.5 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700" exact-active-class="bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
         {{ l.label }}<span v-if="l.note" class="ml-1.5 text-xs text-slate-400">{{ l.note }}</span>
       </RouterLink>
+      <RouterLink v-if="all" :to="all.to" class="col-span-full mt-1 block rounded-lg border-t border-slate-200 px-3 pt-2 pb-1.5 text-sm font-medium text-emerald-700 hover:bg-slate-100 dark:border-slate-700 dark:text-emerald-400 dark:hover:bg-slate-700">{{ all.label }} →</RouterLink>
     </div>
   </div>
 </template>

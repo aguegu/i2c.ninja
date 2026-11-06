@@ -15,7 +15,7 @@ const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
   <footer class="mt-12 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
     <nav class="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 text-sm leading-6" aria-label="Site map">
       <div>
-        <p :class="head">Devices</p>
+        <RouterLink to="/devices" :class="[head, 'block hover:text-emerald-600']">Devices</RouterLink>
         <ul class="grid grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] gap-x-4">
           <li v-for="l in DEVICE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
         </ul>

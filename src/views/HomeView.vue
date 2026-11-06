@@ -44,7 +44,7 @@ onBeforeUnmount(() => cancelAnimationFrame(frame));
 const physicsTitle = (slug) => PHYSICS.find((p) => p.slug === slug)?.title ?? slug;
 const PARTS = [
   { n: 'I', title: 'Physics', note: 'what is measured', items: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, kind: 'Physics', label: p.title, text: p.blurb, foot: `with ${p.devices.map((d) => d.label).join(', ')}` })) },
-  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: DEVICES.map((d) => ({ to: d.to, kind: d.kind, label: d.name, sub: d.maker, text: d.measures, foot: d.bus, mono: true })) },
+  { n: 'II', title: 'Devices', note: 'the sensors that measure it', items: [{ to: '/devices', kind: 'Devices', label: `${DEVICES.length} sensors, live`, text: DEVICES.map((d) => d.name).join(' · '), foot: 'All devices →' }] },
   { n: 'III', title: 'Algorithms', note: 'the maths that joins them', items: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, kind: 'Algorithm', label: p.title, text: p.blurb, foot: `combines ${p.combines.map(physicsTitle).join(' + ')}` })) },
   { n: '', title: 'Learn', lead: 'Course', note: 'the parts in order, step by step', items: GUIDES.map((g) => ({ to: g.to, kind: g.kind, label: g.name, text: g.measures })) },
 ];
