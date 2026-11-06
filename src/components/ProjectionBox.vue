@@ -3,8 +3,8 @@
 // drawing: its true orthographic projection on the floor (seen from above),
 // on the far wall ahead of its nose (seen along x) and on the wall to its
 // left (seen from its right side, along y), with dashed projector lines
-// from its nose to each. The world's axes X, Y, Z (capitals) as a tripod
-// at the floor's near corner; the board's own x, y, z (lowercase) from its
+// from its nose to each. The world's axes X, Y, Z (capitals) along the
+// edges where two walls meet; the board's own x, y, z (lowercase) from its
 // centre, turned with it. Turned by q (the board's axes into the room's),
 // seen as lib/view.js does: behind it and to its right. The walls take the
 // axes' chart colours (x blue, y orange, z green). A button takes it full
@@ -63,16 +63,18 @@ const projectors = computed(() => {
   const tip = rotate(props.q, NOSE_TIP);
   return WALLS.map((w) => ({ key: w.key, color: w.color, a: at(tip), b: at(onWall(w, tip)) }));
 });
-// the world's axes, capitals (the board's at the start, Z up), as a tripod
-// at the floor's near corner, along the box's edges, clear of the board
-const ORIGIN = [-D, -D, -D];
-const AXIS_LEN = 0.55 * D; // short: z stays clear of the board
+// the world's axes, capitals (the board's at the start, Z up), each along
+// the edge where two walls meet: X between the floor and the left wall, Y
+// between the floor and the wall ahead, Z up the corner of the two walls.
+// A stretch of each edge, its head at the positive end
+const EDGE_FROM = -0.35 * D;
+const EDGE_TO = 0.55 * D;
 const AXES = [
-  { key: 'X', to: [AXIS_LEN, 0, 0], color: 'var(--series-1)' },
-  { key: 'Y', to: [0, AXIS_LEN, 0], color: 'var(--series-2)' },
-  { key: 'Z', to: [0, 0, AXIS_LEN], color: 'var(--series-3)' },
+  { key: 'X', on: [0, D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
+  { key: 'Y', on: [D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
+  { key: 'Z', on: [D, D, 0], dir: [0, 0, 1], color: 'var(--series-3)' },
 ].map((a) => {
-  const o = at(ORIGIN), e = at(ORIGIN.map((c, k) => c + a.to[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
+  const o = at(a.on.map((c, k) => c + EDGE_FROM * a.dir[k])), e = at(a.on.map((c, k) => c + EDGE_TO * a.dir[k])), dx = e[0] - o[0], dy = e[1] - o[1], n = Math.hypot(dx, dy);
   const ux = dx / n, uy = dy / n; // the arrow's way on screen
   const head = [[e[0], e[1]], [e[0] - 9 * ux - 4 * uy, e[1] - 9 * uy + 4 * ux], [e[0] - 9 * ux + 4 * uy, e[1] - 9 * uy - 4 * ux]];
   return { ...a, o, e, head: head.map((p) => p.map((c) => c.toFixed(1)).join(',')).join(' '), tag: [e[0] + 10 * ux, e[1] + 10 * uy] };
@@ -102,7 +104,7 @@ const { full, toggle } = useFullscreen(box);
         <polyline v-if="s.arrow" :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </g>
       <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
-        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2" />
+        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2.5" />
         <polygon :points="a.head" stroke="none" />
         <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
       </g>
