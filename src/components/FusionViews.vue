@@ -36,6 +36,14 @@ const aHat = computed(() => {
   return m ? a.map((c) => c / m) : null;
 });
 const err = computed(() => (aHat.value && props.fusion.fused?.held ? cross(aHat.value, props.fusion.fused.held.up) : null));
+// q as one turn: its angle beta (degrees) and axis n
+const turn = computed(() => {
+  const q = props.fusion.fused?.held?.q;
+  if (!q) return null;
+  const w = Math.min(1, Math.abs(q[0])), sgn = q[0] < 0 ? -1 : 1; // q and -q are the same turn: the short way
+  const beta = 2 * Math.acos(w) * (180 / Math.PI), s2 = Math.sqrt(1 - w * w);
+  return { beta, n: s2 > 1e-6 ? q.slice(1).map((c) => (sgn * c) / s2) : null };
+});
 // each block: a formula a row (LaTeX), its result with the latest numbers
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
@@ -57,6 +65,8 @@ const blocks = computed(() => {
       { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) = \bigl(\cos\tfrac{\beta}{2},\ \mathbf{n}\sin\tfrac{\beta}{2}\bigr)`, value: '', note: 'a turn by an angle β about an axis n (a unit vector): how the board sits in the room; flat and facing the start, (1, 0, 0, 0)' },
       { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \cos\tfrac{\theta}{2}\sin\tfrac{\varphi}{2},\ -\sin\tfrac{\theta}{2}\cos\tfrac{\varphi}{2},\ \sin\tfrac{\theta}{2}\sin\tfrac{\varphi}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s φ and θ above, the yaw ψ (psi) 0' },
       { tex: String.raw`\mathbf{q} =`, value: vec(u.fused?.held?.q, 3), note: 'then, each reading: the q the filter made the reading before (the last line below)' },
+      { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', note: 'how far the board has turned from the start, all in one turn' },
+      { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), note: 'the axis of that turn (none while β is 0)' },
     ] },
     { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki}), each reading`, rows: [
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says (a unit vector)' },
