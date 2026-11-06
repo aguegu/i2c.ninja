@@ -41,6 +41,8 @@ const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const pts = (ps) => ps.map((p) => at(p).slice(0, 2).map((c) => c.toFixed(1)).join(',')).join(' ');
 const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point dropped straight onto a wall
 
+// where each wall's label sits: inside it, near an outer corner
+const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
 // the walls' squares, faint grids on them
 const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
@@ -74,8 +76,6 @@ const projectors = computed(() => {
 // the two walls' corner
 const CORNER = -D;
 const AXIS_TO = 0.2 * D; // how far along: past the walls' middle
-// where each wall's label sits: inside it, near an outer corner
-const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
 const AXES = [
   { key: 'X', on: [0, -D, -D], dir: [1, 0, 0], color: 'var(--series-1)' },
   { key: 'Y', on: [-D, 0, -D], dir: [0, 1, 0], color: 'var(--series-2)' },
