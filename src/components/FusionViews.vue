@@ -34,8 +34,8 @@ const blocks = computed(() => {
   const u = props.fusion, i = u.input;
   return [
     { title: 'From the sensors, every reading', rows: [
-      { lhs: 'a', rhs: '=', value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer' },
-      { lhs: 'ω', rhs: '=', value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro' },
+      { lhs: 'a', rhs: '=', value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer: (ax, ay, az)' },
+      { lhs: 'ω', rhs: '=', value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro, the rates about x, y and z: (ωx, ωy, ωz)' },
       { lhs: 'Δt', rhs: '=', value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
     ] },
     { title: 'Gravity\'s tilt, from a alone', rows: [
@@ -46,11 +46,11 @@ const blocks = computed(() => {
       { lhs: 'roll', rhs: '← roll + ωx × Δt =', value: `${f(u.gyroAlone?.roll, 1)}°`, note: '' },
       { lhs: 'pitch', rhs: '← pitch − ωy × Δt =', value: `${f(u.gyroAlone?.pitch, 1)}°`, note: '' },
     ] },
-    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, wide: true, rows: [
-      { lhs: 'e', rhs: '= â × v̂', value: '', note: 'up measured × up the filter holds' },
-      { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity' },
-      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: 'turned, then made unit length' },
-      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'roll, pitch and yaw come from it' },
+    { title: `Fused: Mahony's filter (kp ${u.kp}, ki ${u.ki})`, rows: [
+      { lhs: 'e', rhs: '= â × v̂', value: '', note: 'â = a / |a|, up as gravity says; v̂, up as q says; e, how far apart (a cross product)' },
+      { lhs: 'ω′', rhs: '= ω + kp e + ki ∫e dt', value: '', note: 'the gyro, steered toward gravity: kp, a spring; ki, what adds up over time' },
+      { lhs: 'q', rhs: '← q + ½ q ⊗ (0, ω′) Δt', value: '', note: '⊗, the quaternion product: q turned by ω′ over Δt, then made unit length' },
+      { lhs: 'q', rhs: '=', value: vec(u.fused?.q, 3), note: 'the attitude, a quaternion (w, x, y, z): roll, pitch and yaw come from it' },
     ] },
   ];
 });
@@ -61,12 +61,12 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
 <template>
   <section :class="card">
     <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
-    <div class="grid gap-3 lg:grid-cols-2">
-      <div v-for="b in blocks" :key="b.title" :class="b.wide && 'lg:col-span-2'">
+    <div class="flex flex-col gap-3">
+      <div v-for="b in blocks" :key="b.title">
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.lhs + r.rhs">
-            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="font-sans text-xs text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+            <span>{{ r.lhs }}</span><span>{{ r.rhs }}</span><span :class="value">{{ r.value }}</span><span class="font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
       </div>
