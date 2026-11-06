@@ -1,5 +1,13 @@
 # Releases
 
+## 1.3.4
+
+- Link previews: each blog post shares as its own card (its comic strip and
+  title, as an article with its date); the site's card says what the site
+  is now (the I2C name, by physics, by device, field-tested, by
+  algorithm).
+- Two comic bubbles widened, so their words fit wider fonts too.
+
 ## 1.3.3
 
 - Share this page without Instagram: it takes no link from a web page, so
