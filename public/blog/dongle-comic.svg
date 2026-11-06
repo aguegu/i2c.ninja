@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. The probe: the little robot asks a CH341T dongle Can you speak I2C?, and an MPU behind it answers 0x68!. Linux, on every plug: a purple spi-ch341 gremlin hugs the dongle, Mine!, while the maker says Let go!. One at a time: sensors (SHT20, VL53L1X, INA231, MAX30102) march across the desk: Field-tested, then the next!">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
+<rect width="1200" height="420" fill="#fffdf7"/>
+<rect x="14" y="14" width="380" height="392" fill="#dbeafe"/>
+<rect x="14" y="14" width="380" height="392" fill="url(#dots)"/>
+<rect x="406" y="14" width="390" height="392" fill="#f3e8ff"/>
+<rect x="406" y="14" width="390" height="392" fill="url(#dots)"/>
+<rect x="808" y="14" width="378" height="392" fill="#dcfce7"/>
+<rect x="808" y="14" width="378" height="392" fill="url(#dots)"/>
+<rect x="28" y="28" width="134" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="95.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THE PROBE</text>
+<rect x="34" y="300" width="340" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<line x1="94" y1="206" x2="94" y2="228" stroke="#1e1b18" stroke-width="3.5"/><circle cx="94" cy="202" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="54" y="228" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="66" y="242" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="82" cy="257" r="5" fill="#1e1b18"/><circle cx="106" cy="257" r="5" fill="#1e1b18"/>
+<path d="M86 280 Q94 286 102 280" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<rect x="204" y="250" width="120" height="50" rx="7" fill="#2563eb" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="170" y="262" width="36" height="26" rx="3" fill="#cbd5e1" stroke="#1e1b18" stroke-width="3"/>
+<rect x="248" y="262" width="28" height="26" rx="2" fill="#1e1b18"/>
+<rect x="290" y="258" width="14" height="10" fill="#facc15" stroke="#1e1b18" stroke-width="2"/>
+<circle cx="314" cy="262" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="314" cy="271" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="314" cy="280" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="314" cy="289" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="264" y="318" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CH341T</text>
+<path d="M324 262 q30 0 40 -20" fill="none" stroke="#1e1b18" stroke-width="3" stroke-dasharray="4 4"/>
+<rect x="306" y="196" width="80" height="48" rx="6" fill="#2563eb" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="331.0" y="208" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="318.0" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="336.6666666666667" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="355.3333333333333" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="374.0" cy="235" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="346.0" y="188" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MPU</text>
+<path d="M52 74 H206 Q224 74 224 92 V130 Q224 148 206 148 H98 L84 184 L78 148 H52 Q34 148 34 130 V92 Q34 74 52 74 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="129.0" y="106.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CAN YOU</text>
+<text x="129.0" y="127.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SPEAK I²C?</text>
+<path d="M264 92 H348 Q366 92 366 110 V126 Q366 144 348 144 H340 L344 190 L320 144 H264 Q246 144 246 126 V110 Q246 92 264 92 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="306.0" y="125.2" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">0x68!</text>
+<rect x="420" y="28" width="266" height="32" fill="#e9d5ff" stroke="#1e1b18" stroke-width="3"/>
+<text x="553.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LINUX, ON EVERY PLUG</text>
+<rect x="426" y="318" width="350" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<rect x="592" y="262" width="120" height="50" rx="7" fill="#2563eb" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="558" y="274" width="36" height="26" rx="3" fill="#cbd5e1" stroke="#1e1b18" stroke-width="3"/>
+<rect x="636" y="274" width="28" height="26" rx="2" fill="#1e1b18"/>
+<rect x="678" y="270" width="14" height="10" fill="#facc15" stroke="#1e1b18" stroke-width="2"/>
+<circle cx="702" cy="274" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="702" cy="283" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="702" cy="292" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="702" cy="301" r="3" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="652" y="330" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CH341T</text>
+<path d="M626 274 Q622 226 656 224 Q690 226 686 274 Z" fill="#a855f7" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M634 230 l-10 -18 l18 10 M678 230 l10 -18 l-18 10" fill="#a855f7" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="646" cy="242" r="6" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/><circle cx="666" cy="242" r="6" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/><circle cx="647" cy="243" r="2.5" fill="#1e1b18"/><circle cx="667" cy="243" r="2.5" fill="#1e1b18"/>
+<path d="M646 260 q10 -8 20 0" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<text x="656" y="300" font-size="13" text-anchor="middle" fill="#6b21a8" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">spi-ch341</text>
+<path d="M446 336 Q448 236 492 232 Q536 236 538 336 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="492" cy="186" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M454 180 Q456 142 492 144 Q530 142 530 176 Q512 162 492 164 Q474 160 454 180 Z" fill="#1e1b18"/>
+<circle cx="478" cy="188" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="506" cy="188" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M488 188h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="478" cy="189" r="2.6" fill="#1e1b18"/><circle cx="506" cy="189" r="2.6" fill="#1e1b18"/>
+<path d="M644 96 H728 Q746 96 746 114 V134 Q746 152 728 152 H680 L666 212 L660 152 H644 Q626 152 626 134 V114 Q626 96 644 96 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="686.0" y="131.2" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MINE!</text>
+<path d="M440 74 H554 Q572 74 572 92 V112 Q572 130 554 130 H500 L486 154 L480 130 H440 Q422 130 422 112 V92 Q422 74 440 74 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="497.0" y="108.84" font-size="19" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LET GO!</text>
+<rect x="822" y="28" width="182" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="913.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">ONE AT A TIME</text>
+<rect x="824" y="318" width="346" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<rect x="832" y="262" width="72" height="46" rx="6" fill="#0891b2" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="853.0" y="274" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="844.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="860.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="876.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="892.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="868" y="254" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SHT20</text>
+<path d="M850 308 l-4 12 M886 308 l4 12" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<rect x="918" y="254" width="72" height="46" rx="6" fill="#7c3aed" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="939.0" y="266" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="930.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="946.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="962.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="978.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="954" y="246" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">VL53L1X</text>
+<path d="M936 300 l-4 12 M972 300 l4 12" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<rect x="1004" y="262" width="72" height="46" rx="6" fill="#db2777" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="1025.0" y="274" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="1016.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1032.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1048.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1064.0" cy="299" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="1040" y="254" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">INA231</text>
+<path d="M1022 308 l-4 12 M1058 308 l4 12" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<rect x="1090" y="254" width="72" height="46" rx="6" fill="#16a34a" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="1111.0" y="266" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="1102.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1118.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1134.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1150.0" cy="291" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<text x="1126" y="246" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MAX30102</text>
+<path d="M1108 300 l-4 12 M1144 300 l4 12" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<path d="M886 70 H1090 Q1108 70 1108 88 V132 Q1108 150 1090 150 H952 L938 230 L932 150 H886 Q868 150 868 132 V88 Q868 70 886 70 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="988.0" y="104.98" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">FIELD-TESTED,</text>
+<text x="988.0" y="127.98" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THEN THE NEXT!</text>
+<rect x="14" y="14" width="380" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="406" y="14" width="390" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+</svg>

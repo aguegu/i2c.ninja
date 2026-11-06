@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. 2013: the maker at an old terminal full of green rain: Just for the joy of it. 2026: the little robot makes the rain on a laptop in a flash, Done!, while the maker wonders ...the last generation?. The questions are yours: at the bench the maker asks Where do the vars in v-hat come from?, and the robot, wide-eyed, says Good question!">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
+<rect width="1200" height="420" fill="#fffdf7"/>
+<rect x="14" y="14" width="380" height="392" fill="#e7e5e4"/>
+<rect x="14" y="14" width="380" height="392" fill="url(#dots)"/>
+<rect x="406" y="14" width="390" height="392" fill="#dcfce7"/>
+<rect x="406" y="14" width="390" height="392" fill="url(#hot)"/>
+<rect x="808" y="14" width="378" height="392" fill="#fef9c3"/>
+<rect x="808" y="14" width="378" height="392" fill="url(#dots)"/>
+<rect x="28" y="28" width="74" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="65.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">2013</text>
+<rect x="34" y="318" width="350" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<rect x="214" y="184" width="150" height="112" rx="14" fill="#d6d3d1" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="226" y="196" width="126" height="84" rx="10" fill="#052e16"/>
+<path d="M264 296 h50 l12 22 h-74 z" fill="#a8a29e" stroke="#1e1b18" stroke-width="3.5"/>
+<clipPath id="rain3"><rect x="226" y="196" width="126" height="84"/></clipPath>
+<g clip-path="url(#rain3)" font-family="ui-monospace, Menlo, monospace" font-size="10">
+<text x="231.0" y="253" fill="#f0fdf4" fill-opacity="1.00">b</text>
+<text x="231.0" y="243" fill="#22c55e" fill-opacity="0.86">4</text>
+<text x="231.0" y="233" fill="#22c55e" fill-opacity="0.77">B</text>
+<text x="231.0" y="223" fill="#22c55e" fill-opacity="0.68">d</text>
+<text x="231.0" y="213" fill="#22c55e" fill-opacity="0.59">F</text>
+<text x="231.0" y="203" fill="#22c55e" fill-opacity="0.50">e</text>
+<text x="242.5" y="275" fill="#f0fdf4" fill-opacity="1.00">d</text>
+<text x="242.5" y="265" fill="#22c55e" fill-opacity="0.86">0</text>
+<text x="242.5" y="255" fill="#22c55e" fill-opacity="0.77">+</text>
+<text x="242.5" y="245" fill="#22c55e" fill-opacity="0.68">F</text>
+<text x="242.5" y="235" fill="#22c55e" fill-opacity="0.59">8</text>
+<text x="242.5" y="225" fill="#22c55e" fill-opacity="0.50">b</text>
+<text x="254.0" y="252" fill="#f0fdf4" fill-opacity="1.00">#</text>
+<text x="254.0" y="242" fill="#22c55e" fill-opacity="0.86">F</text>
+<text x="254.0" y="232" fill="#22c55e" fill-opacity="0.77">b</text>
+<text x="254.0" y="222" fill="#22c55e" fill-opacity="0.68">+</text>
+<text x="254.0" y="212" fill="#22c55e" fill-opacity="0.59">b</text>
+<text x="254.0" y="202" fill="#22c55e" fill-opacity="0.50">F</text>
+<text x="265.5" y="263" fill="#f0fdf4" fill-opacity="1.00">7</text>
+<text x="265.5" y="253" fill="#22c55e" fill-opacity="0.86">e</text>
+<text x="265.5" y="243" fill="#22c55e" fill-opacity="0.77">4</text>
+<text x="265.5" y="233" fill="#22c55e" fill-opacity="0.68">=</text>
+<text x="265.5" y="223" fill="#22c55e" fill-opacity="0.59">a</text>
+<text x="265.5" y="213" fill="#22c55e" fill-opacity="0.50">C</text>
+<text x="265.5" y="203" fill="#22c55e" fill-opacity="0.41">$</text>
+<text x="277.0" y="238" fill="#f0fdf4" fill-opacity="1.00">5</text>
+<text x="277.0" y="228" fill="#22c55e" fill-opacity="0.86">%</text>
+<text x="277.0" y="218" fill="#22c55e" fill-opacity="0.77">c</text>
+<text x="277.0" y="208" fill="#22c55e" fill-opacity="0.68">1</text>
+<text x="288.5" y="257" fill="#f0fdf4" fill-opacity="1.00">+</text>
+<text x="288.5" y="247" fill="#22c55e" fill-opacity="0.86">=</text>
+<text x="288.5" y="237" fill="#22c55e" fill-opacity="0.77">8</text>
+<text x="288.5" y="227" fill="#22c55e" fill-opacity="0.68">F</text>
+<text x="288.5" y="217" fill="#22c55e" fill-opacity="0.59">d</text>
+<text x="288.5" y="207" fill="#22c55e" fill-opacity="0.50">$</text>
+<text x="300.0" y="262" fill="#f0fdf4" fill-opacity="1.00">C</text>
+<text x="300.0" y="252" fill="#22c55e" fill-opacity="0.86">$</text>
+<text x="300.0" y="242" fill="#22c55e" fill-opacity="0.77">*</text>
+<text x="300.0" y="232" fill="#22c55e" fill-opacity="0.68">c</text>
+<text x="300.0" y="222" fill="#22c55e" fill-opacity="0.59">E</text>
+<text x="300.0" y="212" fill="#22c55e" fill-opacity="0.50">4</text>
+<text x="300.0" y="202" fill="#22c55e" fill-opacity="0.41">:</text>
+<text x="311.5" y="261" fill="#f0fdf4" fill-opacity="1.00">1</text>
+<text x="311.5" y="251" fill="#22c55e" fill-opacity="0.86">4</text>
+<text x="311.5" y="241" fill="#22c55e" fill-opacity="0.77">F</text>
+<text x="311.5" y="231" fill="#22c55e" fill-opacity="0.68">6</text>
+<text x="311.5" y="221" fill="#22c55e" fill-opacity="0.59">8</text>
+<text x="311.5" y="211" fill="#22c55e" fill-opacity="0.50">f</text>
+<text x="323.0" y="265" fill="#f0fdf4" fill-opacity="1.00">D</text>
+<text x="323.0" y="255" fill="#22c55e" fill-opacity="0.86">a</text>
+<text x="323.0" y="245" fill="#22c55e" fill-opacity="0.77">+</text>
+<text x="323.0" y="235" fill="#22c55e" fill-opacity="0.68">C</text>
+<text x="323.0" y="225" fill="#22c55e" fill-opacity="0.59">c</text>
+<text x="323.0" y="215" fill="#22c55e" fill-opacity="0.50">B</text>
+<text x="323.0" y="205" fill="#22c55e" fill-opacity="0.41">b</text>
+<text x="334.5" y="275" fill="#f0fdf4" fill-opacity="1.00">c</text>
+<text x="334.5" y="265" fill="#22c55e" fill-opacity="0.86">7</text>
+<text x="334.5" y="255" fill="#22c55e" fill-opacity="0.77">:</text>
+<text x="334.5" y="245" fill="#22c55e" fill-opacity="0.68">A</text>
+<text x="334.5" y="235" fill="#22c55e" fill-opacity="0.59">f</text>
+<text x="334.5" y="225" fill="#22c55e" fill-opacity="0.50">0</text>
+<text x="334.5" y="215" fill="#22c55e" fill-opacity="0.41">=</text>
+<text x="334.5" y="205" fill="#22c55e" fill-opacity="0.32">8</text>
+<text x="346.0" y="276" fill="#f0fdf4" fill-opacity="1.00">#</text>
+<text x="346.0" y="266" fill="#22c55e" fill-opacity="0.86">=</text>
+<text x="346.0" y="256" fill="#22c55e" fill-opacity="0.77">A</text>
+<text x="346.0" y="246" fill="#22c55e" fill-opacity="0.68">b</text>
+<text x="346.0" y="236" fill="#22c55e" fill-opacity="0.59">:</text>
+<text x="346.0" y="226" fill="#22c55e" fill-opacity="0.50">c</text>
+<text x="346.0" y="216" fill="#22c55e" fill-opacity="0.41">c</text>
+</g>
+<path d="M64 338 Q66 238 110 234 Q154 238 156 338 Z" fill="#57534e" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="110" cy="188" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M72 182 Q74 144 110 146 Q148 144 148 178 Q130 164 110 166 Q92 162 72 182 Z" fill="#1e1b18"/>
+<circle cx="96" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="124" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M106 190h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="96" cy="191" r="2.6" fill="#1e1b18"/><circle cx="124" cy="191" r="2.6" fill="#1e1b18"/>
+<path d="M182 70 H366 Q384 70 384 88 V126 Q384 144 366 144 H218 L134 154 L198 144 H182 Q164 144 164 126 V88 Q164 70 182 70 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="274.0" y="102.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">JUST FOR THE</text>
+<text x="274.0" y="124.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">JOY OF IT.</text>
+<rect x="420" y="28" width="74" height="32" fill="#bbf7d0" stroke="#1e1b18" stroke-width="3"/>
+<text x="457.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">2026</text>
+<rect x="426" y="318" width="350" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<polygon points="798,250 769,263 783,286 749,286 744,310 715,297 693,316 679,293 646,300 650,276 618,269 640,250 618,231 650,224 646,200 679,207 693,184 715,203 744,190 749,214 783,214 769,237" fill="#fde047" stroke="#1e1b18" stroke-width="4" stroke-linejoin="round"/>
+<path d="M632 216 h150 v96 h-150 z" fill="#cbd5e1" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="642" y="226" width="130" height="76" fill="#1e293b"/>
+<path d="M616 312 h182 l-10 16 h-162 z" fill="#94a3b8" stroke="#1e1b18" stroke-width="3.5"/>
+<clipPath id="rain9"><rect x="642" y="226" width="130" height="76"/></clipPath>
+<g clip-path="url(#rain9)" font-family="ui-monospace, Menlo, monospace" font-size="10">
+<text x="647.0" y="293" fill="#f0fdf4" fill-opacity="1.00">B</text>
+<text x="647.0" y="283" fill="#22c55e" fill-opacity="0.86">8</text>
+<text x="647.0" y="273" fill="#22c55e" fill-opacity="0.77">4</text>
+<text x="647.0" y="263" fill="#22c55e" fill-opacity="0.68">5</text>
+<text x="647.0" y="253" fill="#22c55e" fill-opacity="0.59">=</text>
+<text x="647.0" y="243" fill="#22c55e" fill-opacity="0.50">f</text>
+<text x="647.0" y="233" fill="#22c55e" fill-opacity="0.41">0</text>
+<text x="658.5" y="285" fill="#f0fdf4" fill-opacity="1.00">E</text>
+<text x="658.5" y="275" fill="#22c55e" fill-opacity="0.86">:</text>
+<text x="658.5" y="265" fill="#22c55e" fill-opacity="0.77">d</text>
+<text x="658.5" y="255" fill="#22c55e" fill-opacity="0.68">2</text>
+<text x="658.5" y="245" fill="#22c55e" fill-opacity="0.59">A</text>
+<text x="658.5" y="235" fill="#22c55e" fill-opacity="0.50">b</text>
+<text x="670.0" y="266" fill="#f0fdf4" fill-opacity="1.00">5</text>
+<text x="670.0" y="256" fill="#22c55e" fill-opacity="0.86">#</text>
+<text x="670.0" y="246" fill="#22c55e" fill-opacity="0.77">E</text>
+<text x="670.0" y="236" fill="#22c55e" fill-opacity="0.68">$</text>
+<text x="681.5" y="291" fill="#f0fdf4" fill-opacity="1.00">5</text>
+<text x="681.5" y="281" fill="#22c55e" fill-opacity="0.86">7</text>
+<text x="681.5" y="271" fill="#22c55e" fill-opacity="0.77">1</text>
+<text x="681.5" y="261" fill="#22c55e" fill-opacity="0.68">3</text>
+<text x="681.5" y="251" fill="#22c55e" fill-opacity="0.59">4</text>
+<text x="681.5" y="241" fill="#22c55e" fill-opacity="0.50">a</text>
+<text x="681.5" y="231" fill="#22c55e" fill-opacity="0.41">=</text>
+<text x="693.0" y="301" fill="#f0fdf4" fill-opacity="1.00">%</text>
+<text x="693.0" y="291" fill="#22c55e" fill-opacity="0.86">#</text>
+<text x="693.0" y="281" fill="#22c55e" fill-opacity="0.77">C</text>
+<text x="693.0" y="271" fill="#22c55e" fill-opacity="0.68">*</text>
+<text x="693.0" y="261" fill="#22c55e" fill-opacity="0.59">$</text>
+<text x="693.0" y="251" fill="#22c55e" fill-opacity="0.50">:</text>
+<text x="704.5" y="270" fill="#f0fdf4" fill-opacity="1.00">6</text>
+<text x="704.5" y="260" fill="#22c55e" fill-opacity="0.86">f</text>
+<text x="704.5" y="250" fill="#22c55e" fill-opacity="0.77">7</text>
+<text x="704.5" y="240" fill="#22c55e" fill-opacity="0.68">$</text>
+<text x="704.5" y="230" fill="#22c55e" fill-opacity="0.59">*</text>
+<text x="716.0" y="290" fill="#f0fdf4" fill-opacity="1.00">%</text>
+<text x="716.0" y="280" fill="#22c55e" fill-opacity="0.86">8</text>
+<text x="716.0" y="270" fill="#22c55e" fill-opacity="0.77">6</text>
+<text x="716.0" y="260" fill="#22c55e" fill-opacity="0.68">C</text>
+<text x="716.0" y="250" fill="#22c55e" fill-opacity="0.59">8</text>
+<text x="716.0" y="240" fill="#22c55e" fill-opacity="0.50">A</text>
+<text x="727.5" y="266" fill="#f0fdf4" fill-opacity="1.00">#</text>
+<text x="727.5" y="256" fill="#22c55e" fill-opacity="0.86">:</text>
+<text x="727.5" y="246" fill="#22c55e" fill-opacity="0.77">0</text>
+<text x="727.5" y="236" fill="#22c55e" fill-opacity="0.68">:</text>
+<text x="739.0" y="290" fill="#f0fdf4" fill-opacity="1.00">:</text>
+<text x="739.0" y="280" fill="#22c55e" fill-opacity="0.86">C</text>
+<text x="739.0" y="270" fill="#22c55e" fill-opacity="0.77">=</text>
+<text x="739.0" y="260" fill="#22c55e" fill-opacity="0.68">F</text>
+<text x="739.0" y="250" fill="#22c55e" fill-opacity="0.59">4</text>
+<text x="739.0" y="240" fill="#22c55e" fill-opacity="0.50">0</text>
+<text x="750.5" y="279" fill="#f0fdf4" fill-opacity="1.00">$</text>
+<text x="750.5" y="269" fill="#22c55e" fill-opacity="0.86">=</text>
+<text x="750.5" y="259" fill="#22c55e" fill-opacity="0.77">3</text>
+<text x="750.5" y="249" fill="#22c55e" fill-opacity="0.68">d</text>
+<text x="750.5" y="239" fill="#22c55e" fill-opacity="0.59">0</text>
+<text x="762.0" y="271" fill="#f0fdf4" fill-opacity="1.00">6</text>
+<text x="762.0" y="261" fill="#22c55e" fill-opacity="0.86">:</text>
+<text x="762.0" y="251" fill="#22c55e" fill-opacity="0.77">=</text>
+<text x="762.0" y="241" fill="#22c55e" fill-opacity="0.68">6</text>
+<text x="762.0" y="231" fill="#22c55e" fill-opacity="0.59">A</text>
+</g>
+<line x1="706" y1="90" x2="706" y2="112" stroke="#1e1b18" stroke-width="3.5"/><circle cx="706" cy="86" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="666" y="112" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="678" y="126" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="694" cy="141" r="5" fill="#1e1b18"/><circle cx="718" cy="141" r="5" fill="#1e1b18"/>
+<path d="M698 164 Q706 170 714 164" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<path d="M624 40 H764 Q782 40 782 58 V68 Q782 86 764 86 H710 L696 84 L690 86 H624 Q606 86 606 68 V58 Q606 40 624 40 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="694.0" y="69.48" font-size="18" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">DONE!</text>
+<path d="M450 340 Q452 240 496 236 Q540 240 542 340 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="496" cy="190" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M458 184 Q460 146 496 148 Q534 146 534 180 Q516 166 496 168 Q478 164 458 184 Z" fill="#1e1b18"/>
+<circle cx="482" cy="192" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="510" cy="192" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M492 192h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="482" cy="193" r="2.6" fill="#1e1b18"/><circle cx="510" cy="193" r="2.6" fill="#1e1b18"/>
+<ellipse cx="509.0" cy="101.0" rx="85.0" ry="37.0" fill="#fff" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="496.35" cy="147.9" r="7" fill="#fff" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="490.6" cy="152.4" r="4" fill="#fff" stroke="#1e1b18" stroke-width="3"/>
+<text x="509.0" y="96.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">...THE LAST</text>
+<text x="509.0" y="116.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">GENERATION?</text>
+<rect x="822" y="28" width="302" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="973.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THE QUESTIONS ARE YOURS</text>
+<rect x="824" y="318" width="350" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<rect x="958" y="262" width="90" height="56" rx="6" fill="#2563eb" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="988.0" y="274" width="30" height="30" rx="3" fill="#1e1b18"/>
+<circle cx="970.0" cy="309" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="986.5" cy="309" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1003.0" cy="309" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1019.5" cy="309" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<circle cx="1036.0" cy="309" r="4" fill="#fbbf24" stroke="#1e1b18" stroke-width="1.5"/>
+<path d="M842 338 Q844 238 888 234 Q932 238 934 338 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="888" cy="188" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M850 182 Q852 144 888 146 Q926 144 926 178 Q908 164 888 166 Q870 162 850 182 Z" fill="#1e1b18"/>
+<circle cx="874" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="902" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M884 190h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="874" cy="191" r="2.6" fill="#1e1b18"/><circle cx="902" cy="191" r="2.6" fill="#1e1b18"/>
+<line x1="1108" y1="226" x2="1108" y2="248" stroke="#1e1b18" stroke-width="3.5"/><circle cx="1108" cy="222" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="1068" y="248" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="1080" y="262" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="1096" cy="277" r="6" fill="none" stroke="#1e1b18" stroke-width="3"/><circle cx="1120" cy="277" r="6" fill="none" stroke="#1e1b18" stroke-width="3"/>
+<ellipse cx="1108" cy="302" rx="5" ry="4" fill="#1e1b18"/>
+<path d="M842 58 H1026 Q1044 58 1044 76 V132 Q1044 150 1026 150 H902 L888 156 L882 150 H842 Q824 150 824 132 V76 Q824 58 842 58 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="934.0" y="99.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WHERE DO THE VARS</text>
+<text x="934.0" y="119.4" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">IN V̂ COME FROM?</text>
+<path d="M1052 150 H1156 Q1174 150 1174 168 V188 Q1174 206 1156 206 H1118 L1104 226 L1098 206 H1052 Q1034 206 1034 188 V168 Q1034 150 1052 150 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1104.0" y="183.04" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">GOOD QUESTION!</text>
+<rect x="14" y="14" width="380" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="406" y="14" width="390" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+</svg>

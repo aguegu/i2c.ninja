@@ -8,6 +8,7 @@ export const POSTS = [
     title: 'The last generation?',
     date: '2026-11-06',
     version: null, // a note, not a release's story: named by its date
+    banner: { src: '/blog/last-generation-comic.svg', alt: 'A comic in three panels: in 2013 the maker at an old terminal of green rain, "Just for the joy of it."; in 2026 the robot makes the rain in a flash, "Done!", while the maker wonders "...the last generation?"; at the bench the maker asks "Where do the vars in v-hat come from?" and the robot says "Good question!"' },
     summary: 'greenrain, a terminal Matrix rain from 2013, can be made in seconds now. Is this the last generation of human coders? What an agent makes, what it didn\'t make here, and why the passion is back.',
     markdown: () => import('../blog/2026-11-06-the-last-generation.md?raw'),
   },
@@ -16,6 +17,7 @@ export const POSTS = [
     title: 'Three sensors from 2012',
     date: '2026-11-06',
     version: '1.3.0',
+    banner: { src: '/blog/sensors-comic.svg', alt: 'A comic in three panels: in 2012 the maker eyes a little quadcopter, "Too dangerous to fly...", and the sensors go into a drawer; in 2026 the drawer opens in a cloud of dust and the three boards are "Still working!"; the maker and the robot stand on a tower of Devices, Physics and Algorithms: "Level up!"' },
     summary: 'An accelerometer, a compass and a gyro bought for a first drone, fourteen years in a drawer, and the device pages, the physics and the first algorithm page they led to.',
     markdown: () => import('../blog/1.3.00-three-sensors-from-2012.md?raw'),
   },
@@ -24,6 +26,7 @@ export const POSTS = [
     title: 'A dongle for a bridge',
     date: '2026-11-04',
     version: '1.0.2',
+    banner: { src: '/blog/dongle-comic.svg', alt: 'A comic in three panels: a little robot asks a CH341T dongle "Can you speak I2C?" and an MPU answers "0x68!"; a purple spi-ch341 gremlin hugs the dongle, "Mine!", while the maker says "Let go!"; sensors march across the desk, "Field-tested, then the next!"' },
     summary: 'A homemade bridge replaced by a cheap CH341T USB dongle, opened straight from the browser over WebUSB; getting Linux, Windows and Android to let it through; and the sensors coming back one at a time.',
     markdown: () => import('../blog/1.0.02-a-dongle-for-a-bridge.md?raw'),
   },
