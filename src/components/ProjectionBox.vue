@@ -81,7 +81,7 @@ const { full, toggle } = useFullscreen(box);
       <g v-for="w in walls" :key="w.key">
         <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
         <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
-        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :fill="w.color">{{ w.label }}</text>
+        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.axis === 1 ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
       </g>
       <g v-for="s in shadows" :key="s.key">
         <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
