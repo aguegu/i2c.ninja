@@ -49,7 +49,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h2 class="text-lg font-semibold">{{ d.name }}</h2>
         <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.kind }}</span>
-        <span class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/40 dark:text-amber-300" :title="`Setting up: ${d.effortWhy}`">
+        <span class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/40 dark:text-amber-300" :title="`Difficulty: ${d.effortWhy}`">
           <span aria-hidden="true">{{ STARS(d.effort) }}</span> {{ EFFORT[d.effort] }}
         </span>
         <span v-if="d.recommended" class="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">recommended</span>
@@ -70,7 +70,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
             </ul>
           </div>
           <p class="text-sm">
-            <span class="font-medium">Setting up:</span> {{ STARS(d.effort) }} {{ EFFORT[d.effort] }}, {{ d.effortWhy }}.
+            <span class="font-medium">Difficulty:</span> {{ STARS(d.effort) }} {{ EFFORT[d.effort] }}, {{ d.effortWhy }}.
           </p>
           <p class="text-sm">
             <span class="font-medium">Search for:</span>

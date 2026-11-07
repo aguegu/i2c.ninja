@@ -1,7 +1,8 @@
 // The USB dongles we know, the recommended one first: each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
-// site: whether this site runs on it; effort: setting it up for this site,
-// 1 (easy) to 3 stars, and why (Get started's steps); look: how to recognise one; search:
+// site: whether this site runs on it; effort: how hard the board is to find
+// your way on, by its pins, 1 (easy) to 3 stars, and why; look: how to
+// recognise one; search:
 // the words that find it in a shop. No shop links: the boards come from
 // many sellers under many names.
 export const ATIIC_DOCS = 'https://github.com/aguegu/atiic/blob/main/docs';
@@ -15,8 +16,8 @@ export const DONGLES = [
     alt: 'The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin\'s silkscreen, back label and role in mode 1, the mode switch',
     site: true,
     recommended: true,
-    effort: 1,
-    effortWhy: 'one switch; on Linux, only the udev rule',
+    effort: 3,
+    effortWhy: '32 pins named for every mode at once, several on the same chip pin (the UART0 and JTAG headers repeat SPI and I2C), and a mode switch',
     look: [
       'A purple board with a USB-C socket',
       'Two rows of 16 pins, in groups printed UART1, UART0, SPI, JTAG, I2C',
@@ -34,8 +35,8 @@ export const DONGLES = [
     sheet: '/dongles/ch341t-2in1.svg',
     alt: 'The CH341T 2-in-1 dongle drawn to scale, USB down: its 6-pin header with each pin in I2C and TTL mode, the two jumpers, the crystal and LEDs',
     site: true,
-    effort: 2,
-    effortWhy: 'two jumpers; on Linux, spi-ch341 released after each plug-in (or blocked once)',
+    effort: 1,
+    effortWhy: '6 pins: the four wires are the header\'s SDA, SCL, GND and VCC',
     look: [
       'A small blue board, about 35 x 18 mm, a USB-A plug on one end',
       'A 6-pin header on the other: RXD, TXD, SDA, SCL, GND, VCC',
@@ -53,8 +54,8 @@ export const DONGLES = [
     sheet: '/dongles/ch341a-v357.svg',
     alt: 'The CH341A V357 dongle, USB down: its 2x8 header and two 10-hole rows, each hole\'s chip pin and role, the jumpers, the crystal and regulator',
     site: true,
-    effort: 3,
-    effortWhy: 'two jumpers; on Linux, spi-ch341 as on the CH341T; I2C on a 2x8 header among many pins',
+    effort: 2,
+    effortWhy: '36 holes, a 2x8 header and two rows of 10; I2C on the header among them',
     look: [
       'A blue board with a USB-A plug, "V357" printed by the chip, "LC Technology" on the back',
       'A 2x8 header: GND, RXD, TXD, VCC, GND, SCL, SDA, VCC beside MISO, MOSI, SCK, CS2, CS1, CS0, GND, VCC',
@@ -69,10 +70,10 @@ export const DONGLES = [
 
 // side by side; a row's cells in DONGLES' order
 export const STARS = (n) => '\u2605'.repeat(n) + '\u2606'.repeat(3 - n);
-export const EFFORT = ['', 'easy', 'some steps', 'more steps'];
+export const EFFORT = ['', 'easy', 'moderate', 'harder'];
 
 export const COMPARE = [
-  { label: 'Setting up', cells: DONGLES.map((d) => `${STARS(d.effort)} ${EFFORT[d.effort]}`) },
+  { label: 'Difficulty', cells: DONGLES.map((d) => `${STARS(d.effort)} ${EFFORT[d.effort]}`) },
   { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page'] },
   { label: 'USB', cells: ['high speed (480 Mbit/s), USB-C', 'full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A'] },
   { label: 'I2C', cells: ['20, 100, 400, 750 kHz; every byte\'s ack read back', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
