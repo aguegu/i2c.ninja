@@ -1,5 +1,16 @@
 # Releases
 
+## 1.4.1
+
+- **The CH347T recommended** (the user): first on Dongles (a badge, the
+  table's first column), first in Get started's step 2 (its switch, S1 on
+  and S2 off; its four wires; its sheet), the CH341T 2-in-1 after it; the
+  CH347 named first wherever the pages name the dongle.
+- Get started, Linux: the kernel's spi-ch341 steps for a CH341 only; a
+  CH347 needs just the udev rule (the kernel takes its serial port and
+  leaves the rest to the browser).
+- Dongles out of the header: the footer and Get started link it.
+
 ## 1.4.0
 
 1.3.x closed (Algorithms, the home page, the blog, the licenses); 1.4.x
