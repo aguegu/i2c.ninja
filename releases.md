@@ -1,5 +1,29 @@
 # Releases
 
+## 1.4.0
+
+1.3.x closed (Algorithms, the home page, the blog, the licenses); 1.4.x
+opens with a second dongle.
+
+- **The CH347** (the user, on the bench: "wow, it works"): the browser's
+  chooser lists CH341s and CH347s, a CH347T in mode 1 (1A86 55DB) or a
+  CH347F (55DE), and the one picked opens through atiic's CH347 adapter
+  (atiic 1.4.33). Both give every page the same I2C bus; on the CH347 every
+  written byte's ack comes back, so a refused write is caught. Tried on a
+  CH347T (LXC-CH347) with an MPU-6050: the setup check found it, its page
+  ran live.
+- **Dongles** (/dongles, in the header and the footer): the three we
+  tested side by side (on this site, USB, I2C, SPI, digital I/O lines, the
+  serial port, voltage), then each with its cheatsheet (atiic's, drawn from
+  the board and its datasheet), how to recognise it and the words that
+  find it in a shop: the CH341T 2-in-1, the CH341A V357, the CH347T
+  (LXC-CH347). Get started points to it.
+- Get started for the CH347: the Linux udev rule takes 5512, 55DB and 55DE;
+  Windows names the CH347T's Interface 2 for Zadig (not tried); a CH347T's
+  mode switch in step 2 and in the chooser's hint.
+- "The USB dongle (a CH341 or a CH347)" where the pages said the CH341
+  dongle, the search descriptions too.
+
 ## 1.3.5
 
 - Two licenses for two kinds of work: the code stays under PolyForm
