@@ -88,8 +88,8 @@ const QUOTES = [
           <span class="font-semibold">Common hardware, no lock-in</span>
           <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             No board of ours to buy, and no vendor driver: the page talks to the chip itself over WebUSB, through open drivers (atiic, MIT).
-            It runs on WCH's everyday USB bridges, a CH341T stick, a CH347T minimum-system board, WCH's own CH347 evaluation kits (their designs published, KiCad included, to build your own);
-            any CH341 or CH347 set for I²C should do. The {{ DONGLES.length }} we tested, side by side →
+            It runs on WCH's everyday USB bridges, a CH341T stick or a CH347T minimum-system board, and any CH341 or CH347 set for I²C should do:
+            WCH's own evaluation kits too, their designs published (KiCad included) to build your own. The {{ DONGLES.length }} we tested, side by side →
           </span>
         </span>
       </RouterLink>
