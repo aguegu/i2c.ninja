@@ -90,8 +90,7 @@ const QUOTES = [
           <span class="font-semibold">Common hardware, no lock-in</span>
           <p class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             No board of ours to buy, and no vendor driver: the page talks to the chip itself over WebUSB, through open drivers (atiic, MIT).
-            It runs on WCH's everyday USB bridges, a CH341T stick or a CH347T minimum-system board, and any CH341 or CH347 set for I²C should do:
-            WCH's own evaluation kits too, their designs published (KiCad included) to build your own.
+            It runs on WCH's everyday USB bridges, a CH341T stick or a CH347T minimum-system board, and any CH341 or CH347 set for I²C should do.
             The sensors are the common modules any seller has. One we don't read yet? Ask for it.
           </p>
           <p class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium">
