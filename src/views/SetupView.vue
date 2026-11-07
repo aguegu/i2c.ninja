@@ -60,8 +60,12 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
             I2C header, <b>GND</b>, and <b>3V3</b> for the device's VCC (3.3 V;
             the 5V pins are USB's own 5 V).
           </p>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Every pin of the board: its
+            <a href="/dongles/ch347t-lxc.svg" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
+          </p>
         </div>
-        <SvgDrawing src="/dongles/ch347t-lxc.svg" alt="The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin's silkscreen, back label and role in mode 1, the mode switch" class="mx-auto w-full max-w-md lg:w-3/5" />
+        <SvgDrawing src="/setup-ch347t.svg" alt="A CH347T board (LXC-CH347), USB-C down, its switch S1 on and S2 off, wired from its right-hand row to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 to VCC" class="mx-auto w-full lg:w-3/5" />
       </div>
 
       <h3 class="mt-6 mb-2 font-semibold">Or a CH341T "2-in-1"</h3>
