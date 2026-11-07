@@ -38,6 +38,11 @@ export const PAGES = [
     title: 'Get started: set up the CH341 USB to I2C dongle',
     description: 'The CH341 dongle in I2C mode: the jumpers, the browser (Chrome, Edge, Firefox) and what Linux, Windows, macOS and Android need for WebUSB.',
   },
+  {
+    path: '/dongles',
+    title: 'Dongles: the USB to I2C bridges we tested (CH341T, CH341A, CH347T)',
+    description: 'The USB dongles we ran on our bench, side by side: the CH341T 2-in-1, the CH341A V357 and the CH347T (LXC-CH347). Each with its cheatsheet, how to recognise it and the words that find it.',
+  },
   ...DEVICES.map((d) => ({
     path: d.to,
     title: deviceTitle(d),

@@ -22,39 +22,6 @@ const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
 sudo rmmod spi_ch341`;
 
-// the dongles this site has run on, so a reader can find the same board:
-// what to look for on it, the words that find it in a shop's search. The
-// sheets are atiic's (docs/ch341t-board.svg, docs/ch341a-board.svg), drawn
-// from the boards' own photos
-const DONGLES = [
-  {
-    name: 'CH341T "2-in-1" (USB to I2C / TTL)',
-    sheet: '/dongles/ch341t-2in1.svg',
-    alt: 'The CH341T 2-in-1 dongle drawn to scale, USB down: its 6-pin header with each pin in I2C and TTL mode, the two jumpers, the crystal and LEDs',
-    look: [
-      'A small blue board, about 35 x 18 mm, a USB-A plug on one end',
-      'A 6-pin header on the other: RXD, TXD, SDA, SCL, GND, VCC',
-      'A yellow jumper marked TTL / I2C and a green one marked 3.3 / 5V',
-      'A CH341T chip (20 pins), a 12.000 crystal, two LEDs marked TNOW and RDY',
-    ],
-    search: 'CH341T 2-in-1 module USB to I2C TTL',
-    note: 'The one this site is built on: every sensor page runs on it.',
-  },
-  {
-    name: 'CH341A "V357" (USB to UART / I2C / SPI)',
-    sheet: '/dongles/ch341a-v357.svg',
-    alt: 'The CH341A V357 dongle, USB down: its 2x8 header and two 10-hole rows, each hole\'s chip pin and role, the jumpers, the crystal and regulator',
-    look: [
-      'A blue board with a USB-A plug, "V357" printed by the chip, "LC Technology" on the back',
-      'A 2x8 header: GND, RXD, TXD, VCC, GND, SCL, SDA, VCC beside MISO, MOSI, SCK, CS2, CS1, CS0, GND, VCC',
-      'Two rows of 10 holes along its sides, named on the back (D0-D7, WR, VCC; SLCT ... WAIT, GND, 3V3)',
-      'A CH341A chip (28 pins), a 12.0M crystal, an AMS1117 3.3 V regulator, jumpers marked 3V3 and I2C/SPI / UART',
-    ],
-    search: 'CH341A V357 USB to UART IIC SPI TTL',
-    note: 'Set its jumpers to 3V3 and I2C/SPI; I2C is on the header\'s SCL and SDA. It also brings out SPI and more lines, which atiic uses for displays.',
-  },
-];
-
 const TAB_ON = 'border-emerald-600 bg-emerald-600 text-white';
 const TAB_OFF = 'border-slate-300 dark:border-slate-600';
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -90,33 +57,10 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         <SvgDrawing src="/setup.svg" alt="A CH341T dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050) board" class="mx-auto w-full lg:w-3/5" />
       </div>
 
-      <h3 class="mt-6 mb-1 font-semibold">The ones we tested</h3>
-      <p class="mb-3 max-w-3xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        CH341 dongles come in many boards under many names. These two ran
-        this site on our bench; any CH341 that shows up as USB ID 1A86 5512
-        in I2C mode should do, but these are the ones we know.
-      </p>
-      <div class="grid gap-4 md:grid-cols-2">
-        <article v-for="d in DONGLES" :key="d.name" class="flex flex-col gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
-          <h4 class="font-semibold">{{ d.name }}</h4>
-          <SvgDrawing :src="d.sheet" :alt="d.alt" class="mx-auto w-full max-w-xs" />
-          <a :href="d.sheet" target="_blank" rel="noopener" class="text-center text-sm text-emerald-600 underline">Open the full cheatsheet</a>
-          <div>
-            <p class="text-sm font-medium">How to recognise it</p>
-            <ul class="list-disc pl-5 text-sm leading-relaxed">
-              <li v-for="l in d.look" :key="l">{{ l }}</li>
-            </ul>
-          </div>
-          <p class="text-sm">
-            <span class="font-medium">Search for:</span>
-            <code class="rounded bg-slate-100 px-1.5 py-0.5 dark:bg-slate-900">{{ d.search }}</code>
-          </p>
-          <p class="text-sm text-slate-500 dark:text-slate-400">{{ d.note }}</p>
-        </article>
-      </div>
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-        A CH347T board (LXC-CH347, in its mode 1) runs atiic too, faster, but
-        not this site yet.
+      <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        Another board, or not sure which you have?
+        <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>:
+        the ones we tested side by side, how to recognise each and what to search for.
       </p>
     </section>
 

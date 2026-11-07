@@ -15,6 +15,7 @@ export const GUIDE_LINKS = GUIDES.map((g) => ({ to: g.to, label: g.name, note: g
 export const START_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/get-started', label: 'Set up the dongle' },
+  { to: '/dongles', label: 'Dongles' },
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },
 ];

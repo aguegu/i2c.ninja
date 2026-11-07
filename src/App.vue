@@ -34,6 +34,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
           <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'physics') : []" />
           <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent, 'device')" :all="{ to: '/devices', label: 'All devices' }" wide />
           <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'algorithm') : []" />
+          <RouterLink to="/dongles" :class="navLink" active-class="text-emerald-600">Dongles</RouterLink>
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
         </nav>
         <a :href="ATIIC" class="hidden rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 sm:block dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" title="atiic on GitHub: the drivers" aria-label="atiic on GitHub">
@@ -61,6 +62,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
         <RouterLink v-for="l in ALGORITHM_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
         <RouterLink to="/get-started" :class="mobileLink">Set up the dongle</RouterLink>
+        <RouterLink to="/dongles" :class="mobileLink">Dongles <span class="text-xs text-slate-400">the ones we tested</span></RouterLink>
         <a :href="DISCUSSIONS" :class="mobileLink">Discussions <span class="text-xs text-slate-400">questions, ideas, what you built</span></a>
         <a :href="ATIIC" :class="mobileLink">atiic on GitHub <span class="text-xs text-slate-400">the drivers</span></a>
       </nav>
