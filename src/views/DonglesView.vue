@@ -12,7 +12,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <h1 class="mt-2 text-2xl font-bold">Dongles</h1>
-    <p class="max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
+    <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       The USB dongle is the bridge between the computer and the I2C bus. They
       come as many boards under many names; these are the ones we ran on our
       bench, the CH347T first, the one we recommend (high-speed USB, and every
