@@ -57,7 +57,7 @@ const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
     </nav>
     <div class="mx-auto max-w-5xl px-4 pb-4"><ShareRow /></div>
     <p class="mx-auto max-w-5xl px-4 pb-5 text-xs text-slate-400">
-      i2c.ninja · free for noncommercial use: the code under <a href="https://github.com/aguegu/i2c.ninja/blob/main/LICENSE" class="underline hover:text-emerald-600">PolyForm Noncommercial 1.0.0</a>, the text and drawings under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="underline hover:text-emerald-600">CC BY-NC-SA 4.0</a>; the drivers, atiic, MIT.
+      i2c.ninja · free for noncommercial use: the code under <a href="https://github.com/aguegu/i2c.ninja/blob/main/LICENSE" class="underline hover:text-emerald-600">PolyForm Noncommercial 1.0.0</a>, the text and drawings under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="underline hover:text-emerald-600">CC BY-NC-SA 4.0</a>; the drivers, atiic, MIT. The readings are the sensors' own, as their datasheets describe, shown as is: see the <RouterLink to="/about" class="underline hover:text-emerald-600">disclaimer</RouterLink>.
     </p>
   </footer>
 </template>

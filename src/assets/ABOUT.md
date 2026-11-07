@@ -30,7 +30,9 @@ Write to [support@meshmass.com](mailto:support@meshmass.com), or see [Fuzhou Sou
 Legal disclaimer
 ---
 
-This site talks, from your browser, to USB devices you choose: a CH341 dongle and the I2C devices wired to it. Wiring, powering and driving such hardware can damage it, the computer it is plugged into, or anything it controls. The setup steps change your system's settings (udev rules, kernel modules, USB drivers); you apply them at your own risk.
+This site talks, from your browser, to USB devices you choose: a USB dongle (a CH347 or a CH341) and the I2C devices wired to it. Wiring, powering and driving such hardware can damage it, the computer it is plugged into, or anything it controls. The setup steps change your system's settings (udev rules, kernel modules, USB drivers); you apply them at your own risk.
+
+**The readings are the sensor's, not ours.** i2c.ninja presents what each sensor offers, read and converted as its datasheet describes, and nothing more. It doesn't certify or endorse them, and a calibration a page offers is one you run yourself: a reading is only as good as the module it comes from, its wiring and its surroundings. The code and the drivers are open source, so how every number is made can be checked.
 
 The site, its device pages and the drivers behind them are experimental. They are provided **as is**, without warranty of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, correctness, or safety. They are intended for hobby, educational, and prototyping use only and are **not** suitable for life-critical, medical, or otherwise safety-critical applications.
 
