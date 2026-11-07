@@ -8,7 +8,7 @@ export const POSTS = [
     title: 'Built in public, under three licenses',
     date: '2026-11-07',
     version: '1.3.5',
-    banner: { src: '/blog/licenses-comic.svg', alt: 'A comic in three panels: the robot sorts the project into three boxes, MIT for the drivers, PolyForm for the code, CC BY-NC-SA for the content; the maker asks "The visuals: code or content?"; a teacher shows an i2c.ninja drawing on a classroom screen: "With credit!"' },
+    banner: { src: '/blog/licenses-comic.svg', alt: 'A comic in three panels: the maker and the robot at work behind a shop window with an Open sign, two visitors looking in, "Can we watch?", "Come in!"; the robot sorts the project into three crates, MIT for the drivers, PolyForm for the code, CC BY-NC-SA for the content, "Three boxes, one project."; a teacher shows an i2c.ninja drawing in class: "With credit!"' },
     summary: 'Everything here is out in the open; the licenses say what anyone may do with it. MIT for the drivers, noncommercial for the site\'s code, CC BY-NC-SA for its content, and what each means for a teacher, a maker or a company.',
     markdown: () => import('../blog/1.3.05-three-licenses.md?raw'),
   },
