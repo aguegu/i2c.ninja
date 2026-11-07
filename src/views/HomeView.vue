@@ -42,7 +42,7 @@ const FEATURES = [
   { icon: 'M4 18l5-6 4 3 7-9M4 6h4M16 18h4', title: 'Algorithms', to: `/algorithms/${ALGORITHMS[0].slug}`, text: 'The maths that turns readings into understanding, worked out step by step, every formula with its live numbers: attitude from an accelerometer and a gyro.' },
   { icon: 'M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7 15h10', title: 'Smoke-test a module', to: '/devices', text: 'Got a module? Plug it in and see it answer: found by its ID, its self test run where it has one, its readings sane. Before it goes into a project, or back to the seller.' },
   { icon: 'M4 5h16v11H4zM9 20h6M12 16v4', title: 'Nothing to install', to: '/get-started', text: 'Wire the sensor to a CH341 USB dongle, four wires, and open a Chromium browser: WebUSB reads it, the page charts it live, full screen for the class. Works offline once visited.' },
-  { icon: 'M4 20h4L19 9l-4-4L4 16zM13 7l4 4M4 4h7', title: 'Open learning, built in public', to: '/blog', text: 'How it is made, told as it happens: the stories behind the site and its drivers, the ideas and the questions, in the blog. Free for STEM lessons and digital experiments; the drivers, atiic, are MIT.' },
+  { icon: 'M4 20h4L19 9l-4-4L4 16zM13 7l4 4M4 4h7', title: 'Open learning, built in public', to: '/blog', text: 'Every step told as it happens: the sensors, the ideas and the questions along the way. The stories behind the scenes, in the blog.' },
 ];
 
 // on measuring and understanding, with their sources
