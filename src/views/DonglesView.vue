@@ -2,7 +2,7 @@
 // The dongles we know: side by side, then each with its cheatsheet, how to
 // recognise it and the words that find it (lib/dongles.js)
 import SvgDrawing from '../components/SvgDrawing.vue';
-import { DONGLES, COMPARE } from '../lib/dongles.js';
+import { DONGLES, COMPARE, STARS, EFFORT } from '../lib/dongles.js';
 import { NEW_ISSUE } from '../lib/nav.js';
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -49,6 +49,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h2 class="text-lg font-semibold">{{ d.name }}</h2>
         <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.kind }}</span>
+        <span class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/40 dark:text-amber-300" :title="`Setting up: ${d.effortWhy}`">
+          <span aria-hidden="true">{{ STARS(d.effort) }}</span> {{ EFFORT[d.effort] }}
+        </span>
         <span v-if="d.recommended" class="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">recommended</span>
         <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="d.site ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'">
           {{ d.site ? 'runs this site' : 'not on this site yet' }}
@@ -66,6 +69,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
               <li v-for="l in d.look" :key="l">{{ l }}</li>
             </ul>
           </div>
+          <p class="text-sm">
+            <span class="font-medium">Setting up:</span> {{ STARS(d.effort) }} {{ EFFORT[d.effort] }}, {{ d.effortWhy }}.
+          </p>
           <p class="text-sm">
             <span class="font-medium">Search for:</span>
             <code class="rounded bg-slate-100 px-1.5 py-0.5 dark:bg-slate-900">{{ d.search }}</code>
