@@ -1,7 +1,7 @@
 // The USB dongles we know, the recommended one first: each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
 // site: whether this site runs on it; effort: how hard the board is to find
-// your way on, by its pins, 1 (easy) to 3 stars, and why; look: how to
+// your way on, by its pins, 1 (easy) to 5 stars, and why; look: how to
 // recognise one; search:
 // the words that find it in a shop. No shop links: the boards come from
 // many sellers under many names.
@@ -69,8 +69,10 @@ export const DONGLES = [
 ];
 
 // side by side; a row's cells in DONGLES' order
-export const STARS = (n) => '\u2605'.repeat(n) + '\u2606'.repeat(3 - n);
-export const EFFORT = ['', 'easy', 'moderate', 'harder'];
+// out of five: room above the CH347T for boards with more on them (WCH's
+// evaluation kits, the most powerful and the most to find your way on)
+export const STARS = (n) => '\u2605'.repeat(n) + '\u2606'.repeat(5 - n);
+export const EFFORT = ['', 'easy', 'moderate', 'harder', 'hard', 'hardest'];
 
 export const COMPARE = [
   { label: 'Difficulty', cells: DONGLES.map((d) => `${STARS(d.effort)} ${EFFORT[d.effort]}`) },
