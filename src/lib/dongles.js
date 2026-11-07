@@ -46,7 +46,7 @@ export const DONGLES = [
     kind: 'USB to UART / I2C / SPI / JTAG, high speed',
     sheet: '/dongles/ch347t-lxc.svg',
     alt: 'The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin\'s silkscreen, back label and role in mode 1, the mode switch',
-    site: false,
+    site: true,
     look: [
       'A purple board with a USB-C socket',
       'Two rows of 16 pins, in groups printed UART1, UART0, SPI, JTAG, I2C',
@@ -54,14 +54,14 @@ export const DONGLES = [
       'A CH347T chip (20 pins), an 8 MHz crystal, IO0 to IO7 printed on the back',
     ],
     search: 'CH347T USB to UART I2C SPI JTAG module',
-    note: 'Mode 1 (S1 on, S2 off) for I2C and SPI. Runs atiic, faster than a CH341 (high-speed USB, SPI to 60 MHz), but not this site yet.',
+    note: 'Mode 1 (S1 on, S2 off). Faster than a CH341 (high-speed USB), and every byte\'s ack comes back, so a refused write is caught. Its SPI (to 60 MHz) and I/O lines drive displays in atiic.',
     doc: `${ATIIC_DOCS}/ch347.md`,
   },
 ];
 
 // side by side; a row's cells in DONGLES' order
 export const COMPARE = [
-  { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'not yet (atiic only)'] },
+  { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page'] },
   { label: 'USB', cells: ['full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A', 'high speed (480 Mbit/s), USB-C'] },
   { label: 'I2C', cells: ['20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz; every byte\'s ack read back'] },
   { label: 'SPI', cells: ['no', 'yes', 'yes, up to 60 MHz'] },

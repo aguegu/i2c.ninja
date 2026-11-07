@@ -15,7 +15,8 @@ const PLATFORMS = [
 ];
 const platform = ref(detectPlatform());
 
-const UDEV_RULE = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512", TAG+="uaccess"';
+// the CH341 in I2C mode (5512), the CH347T in mode 1 (55db), the CH347F (55de)
+const UDEV_RULE = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512|55db|55de", TAG+="uaccess"';
 const UDEV_COMMANDS = `echo '${UDEV_RULE}' | sudo tee /etc/udev/rules.d/70-ch341.rules
 sudo udevadm control --reload`;
 const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*; do [ -e "$i" ] && echo "\${i##*/}" && echo -n "\${i##*/}" > /sys/bus/usb/drivers/spi-ch341/unbind; done'`;
@@ -32,7 +33,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <h1 class="mt-2 text-2xl font-bold">Get started</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
-      What a CH341 dongle needs before this site can use it: a browser with
+      What a USB dongle (a CH341 or a CH347) needs before this site can use it: a browser with
       WebUSB, the dongle's jumpers, once per computer a permission, then a
       check.
     </p>
@@ -58,7 +59,8 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       </div>
 
       <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        Another board, or not sure which you have?
+        A CH347T board instead: its switch on mode 1 (S1 on, S2 off), its
+        SCL and SDA pins to the device's. Another board, or not sure which you have?
         <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>:
         the ones we tested side by side, how to recognise each and what to search for.
       </p>
@@ -115,13 +117,13 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <div v-else-if="platform === 'windows'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           Windows lets a browser open only devices on its WinUSB driver, and
-          the CH341 doesn't ask for it by itself. Bind it with
+          the CH341 and CH347 don't ask for it by themselves. Bind it with
           <a href="https://zadig.akeo.ie" class="text-emerald-600 underline">Zadig</a>:
         </p>
         <ol class="list-decimal pl-6">
           <li>Plug the dongle in and start Zadig.</li>
           <li>Options, List All Devices.</li>
-          <li>Pick the device whose USB ID reads 1A86 5512.</li>
+          <li>Pick the device whose USB ID reads 1A86 5512 (a CH347T: 1A86 55DB, its Interface 2).</li>
           <li>Choose WinUSB as the driver, then Install (or Replace) Driver.</li>
         </ol>
         <p>

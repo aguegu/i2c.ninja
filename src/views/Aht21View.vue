@@ -11,7 +11,7 @@ import HumidityPage from '../components/HumidityPage.vue';
     drawing-caption="Aosong's own small green AHT21B module (its datasheet's Figure 1): pads 1 VDD, 2 SDA, 3 GND, 4 SCL, so three wires cross. Keep it away from warm parts."
   >
     <template #intro>
-      Aosong's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over the CH341 dongle; beside an SHT20, two makers' answers to the same air.
+      Aosong's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over the USB dongle; beside an SHT20, two makers' answers to the same air.
     </template>
     <template #measures="{ readMs }">
       <p class="mb-2">

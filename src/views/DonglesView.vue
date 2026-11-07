@@ -15,8 +15,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       The USB dongle is the bridge between the computer and the I2C bus. They
       come as many boards under many names; these are the ones we ran on our
       bench, each drawn from the board itself and its chip's datasheet. Any
-      CH341 that shows up as USB ID 1A86 5512 in I2C mode should run this
-      site, but these are the ones we know. Setting one up:
+      CH341 that shows up as USB ID 1A86 5512 in I2C mode, or a CH347 as 1A86
+      55DB (a CH347T in mode 1) or 55DE (a CH347F), should run this site, but
+      these are the ones we know. Setting one up:
       <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
     </p>
 

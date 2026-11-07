@@ -33,7 +33,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">HMC5883L</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Honeywell's 3-axis magnetometer: Earth's magnetic field, in microtesla, along three axes, so a compass. Live over the CH341 dongle, 15 readings a second.
+        Honeywell's 3-axis magnetometer: Earth's magnetic field, in microtesla, along three axes, so a compass. Live over the USB dongle, 15 readings a second.
       </p>
     </div>
 

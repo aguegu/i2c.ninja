@@ -1,5 +1,5 @@
 <script setup>
-// Test the setup: pick the CH341 in the browser's chooser, open it, scan
+// Test the setup: pick the dongle in the browser's chooser, open it, scan
 // the I2C bus. Each way it can fail says what's likely missing.
 import { ref } from 'vue';
 import { hasWebUsb, openDongle, explain, hex } from '../lib/dongle.js';
