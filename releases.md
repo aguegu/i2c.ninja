@@ -1,5 +1,19 @@
 # Releases
 
+## 1.3.5
+
+- Two licenses for two kinds of work: the code stays under PolyForm
+  Noncommercial 1.0.0 (LICENSE); the content (the text of the pages, the
+  drawings and images, the blog and the courses) is now under CC BY-NC-SA
+  4.0 (LICENSE-CONTENT.md), a class's slides and handouts welcome with
+  credit. atiic stays MIT. The README, About and the footer say both.
+- Blog: Built in public, under three licenses (why the drivers, the site's
+  code and its content are licensed apart; yes, it can be copied, and why
+  build in public anyway), with its comic and link preview.
+- Home: Open learning, built in public, to the blog, in place of Open for
+  learning.
+- Tables in blog posts styled.
+
 ## 1.3.4
 
 - Link previews: each blog post shares as its own card (its comic strip and
