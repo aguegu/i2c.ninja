@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. Sorting it out: the robot fills three crates, MIT for the drivers, PolyForm for the code, CC BY-NC-SA for the content: Three boxes, one project. The question: the maker wonders The visuals: code or content?, beside a drawing. In class: a teacher points at an i2c.ninja drawing on a classroom screen, marked CC BY-NC-SA: With credit!">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
+<rect width="1200" height="420" fill="#fffdf7"/>
+<rect x="14" y="14" width="400" height="392" fill="#e0f2fe"/>
+<rect x="14" y="14" width="400" height="392" fill="url(#dots)"/>
+<rect x="426" y="14" width="370" height="392" fill="#fef3c7"/>
+<rect x="426" y="14" width="370" height="392" fill="url(#dots)"/>
+<rect x="808" y="14" width="378" height="392" fill="#dcfce7"/>
+<rect x="808" y="14" width="378" height="392" fill="url(#hot)"/>
+<rect x="28" y="28" width="194" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="125.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SORTING IT OUT</text>
+<rect x="30" y="326" width="368" height="14" fill="#a8a29e" stroke="#1e1b18" stroke-width="3"/>
+<path d="M38 256 h110 l-8 70 h-94 z" fill="#bfdbfe" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="93" y="300" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MIT</text>
+<rect x="52" y="230" width="26" height="30" rx="3" fill="#64748b" stroke="#1e1b18" stroke-width="2.5"/>
+<rect x="82" y="236" width="26" height="30" rx="3" fill="#64748b" stroke="#1e1b18" stroke-width="2.5"/>
+<text x="93" y="362" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">the drivers</text>
+<path d="M162 256 h110 l-8 70 h-94 z" fill="#fde68a" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="217" y="300" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">POLYFORM</text>
+<rect x="176" y="230" width="26" height="30" rx="3" fill="#1e293b" stroke="#1e1b18" stroke-width="2.5"/>
+<rect x="206" y="236" width="26" height="30" rx="3" fill="#1e293b" stroke="#1e1b18" stroke-width="2.5"/>
+<text x="217" y="362" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">the code</text>
+<path d="M286 256 h110 l-8 70 h-94 z" fill="#bbf7d0" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="341" y="300" font-size="11" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CC BY-NC-SA</text>
+<rect x="300" y="230" width="26" height="30" rx="3" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/>
+<rect x="330" y="236" width="26" height="30" rx="3" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/>
+<text x="341" y="362" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">the content</text>
+<line x1="344" y1="120" x2="344" y2="142" stroke="#1e1b18" stroke-width="3.5"/><circle cx="344" cy="116" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="304" y="142" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="316" y="156" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="332" cy="171" r="5" fill="#1e1b18"/><circle cx="356" cy="171" r="5" fill="#1e1b18"/>
+<path d="M336 194 Q344 200 352 194" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+<path d="M56 70 H256 Q274 70 274 88 V116 Q274 134 256 134 H248 L314 146 L228 134 H56 Q38 134 38 116 V88 Q38 70 56 70 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="156.0" y="97.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THREE BOXES,</text>
+<text x="156.0" y="118.26" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">ONE PROJECT.</text>
+<rect x="440" y="28" width="170" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="525.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THE QUESTION</text>
+<path d="M480 338 Q482 238 526 234 Q570 238 572 338 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="526" cy="188" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M488 182 Q490 144 526 146 Q564 144 564 178 Q546 164 526 166 Q508 162 488 182 Z" fill="#1e1b18"/>
+<circle cx="512" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="540" cy="190" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M522 190h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="512" cy="191" r="2.6" fill="#1e1b18"/><circle cx="540" cy="191" r="2.6" fill="#1e1b18"/>
+<ellipse cx="679.0" cy="108.0" rx="103.0" ry="48.0" fill="#fff" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="611.35" cy="152.7" r="7" fill="#fff" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="580.6" cy="151.2" r="4" fill="#fff" stroke="#1e1b18" stroke-width="3"/>
+<text x="679.0" y="92.76" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">THE VISUALS:</text>
+<text x="679.0" y="113.76" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CODE OR</text>
+<text x="679.0" y="134.76" font-size="16" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CONTENT?</text>
+<rect x="616" y="250" width="150" height="96" rx="6" fill="#fff" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M630 330 l30 -40 l26 22 l30 -46 l36 50" fill="none" stroke="#059669" stroke-width="3.5"/>
+<text x="691" y="372" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">a drawing</text>
+<rect x="822" y="28" width="122" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="883.0" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">IN CLASS</text>
+<rect x="908" y="70" width="250" height="150" rx="6" fill="#fff" stroke="#1e1b18" stroke-width="4"/>
+<rect x="938" y="96" width="76" height="46" rx="5" fill="#64748b" stroke="#1e1b18" stroke-width="2.5"/><rect x="965" y="106" width="22" height="22" fill="#1e1b18"/>
+<path d="M1022 120 h50" stroke="#1e1b18" stroke-width="3" stroke-dasharray="5 4"/>
+<rect x="1076" y="100" width="60" height="40" rx="5" fill="#2563eb" stroke="#1e1b18" stroke-width="2.5"/>
+<text x="1033" y="190" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">from i2c.ninja</text>
+<text x="1033" y="208" font-size="11" text-anchor="middle" fill="#059669" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">CC BY-NC-SA</text>
+<path d="M832 360 Q834 260 878 256 Q922 260 924 360 Z" fill="#7c3aed" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="878" cy="210" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M840 204 Q842 166 878 168 Q916 166 916 200 Q898 186 878 188 Q860 184 840 204 Z" fill="#1e1b18"/>
+<circle cx="864" cy="212" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="892" cy="212" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M874 212h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="864" cy="213" r="2.6" fill="#1e1b18"/><circle cx="892" cy="213" r="2.6" fill="#1e1b18"/>
+<path d="M996 250 H1130 Q1148 250 1148 268 V288 Q1148 306 1130 306 H1032 L926 236 L1012 306 H996 Q978 306 978 288 V268 Q978 250 996 250 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1063.0" y="284.12" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WITH CREDIT!</text>
+<rect x="14" y="14" width="400" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="426" y="14" width="370" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+</svg>

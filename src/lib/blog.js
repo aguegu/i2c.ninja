@@ -4,6 +4,15 @@
 // (2026-11-06-..., version null). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
   {
+    slug: 'three-licenses',
+    title: 'Three licenses',
+    date: '2026-11-07',
+    version: '1.3.5',
+    banner: { src: '/blog/licenses-comic.svg', alt: 'A comic in three panels: the robot sorts the project into three boxes, MIT for the drivers, PolyForm for the code, CC BY-NC-SA for the content; the maker asks "The visuals: code or content?"; a teacher shows an i2c.ninja drawing on a classroom screen: "With credit!"' },
+    summary: 'MIT for the drivers, noncommercial for the site\'s code, CC BY-NC-SA for its content: how a few short questions split one project into three licenses, and what each means for a teacher, a maker or a company.',
+    markdown: () => import('../blog/1.3.05-three-licenses.md?raw'),
+  },
+  {
     slug: 'the-last-generation',
     title: 'The last generation?',
     date: '2026-11-06',
