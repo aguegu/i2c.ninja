@@ -33,9 +33,9 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <h1 class="mt-2 text-2xl font-bold">Get started</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
-      What a USB dongle (a CH341 or a CH347) needs before this site can use it: a browser with
-      WebUSB, the dongle's jumpers, once per computer a permission, then a
-      check.
+      What a USB dongle (a CH347, or a CH341) needs before this site can use
+      it: a browser with WebUSB, the dongle set for I2C, once per computer a
+      permission, then a check.
     </p>
 
     <section :class="card">
@@ -49,6 +49,23 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">2. The dongle</h2>
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+        <div class="flex flex-col gap-2 leading-relaxed lg:w-2/5">
+          <p>
+            <b>Recommended: a CH347T board</b> (LXC-CH347; USB to UART, I2C,
+            SPI, high speed). Set its switch with it unplugged:
+            <b>S1 on, S2 off</b> (mode 1: I2C and SPI beside a serial port).
+          </p>
+          <p>
+            Then four wires to the device: <b>SDA</b> and <b>SCL</b> from its
+            I2C header, <b>GND</b>, and <b>3V3</b> for the device's VCC (3.3 V;
+            the 5V pins are USB's own 5 V).
+          </p>
+        </div>
+        <SvgDrawing src="/dongles/ch347t-lxc.svg" alt="The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin's silkscreen, back label and role in mode 1, the mode switch" class="mx-auto w-full max-w-md lg:w-3/5" />
+      </div>
+
+      <h3 class="mt-6 mb-2 font-semibold">Or a CH341T "2-in-1"</h3>
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
         <p class="leading-relaxed lg:w-2/5">
           A CH341T "2-in-1" dongle (USB to I2C / TTL). Set its jumpers with it
           unplugged: <b>yellow on I2C</b> (on TTL it's a serial port instead),
@@ -59,8 +76,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       </div>
 
       <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        A CH347T board instead: its switch on mode 1 (S1 on, S2 off), its
-        SCL and SDA pins to the device's. Another board, or not sure which you have?
+        Another board, or not sure which you have?
         <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>:
         the ones we tested side by side, how to recognise each and what to search for.
       </p>
@@ -90,11 +106,16 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <code>uaccess</code> tag into your access: <code>70-ch341.rules</code>
           does.
         </p>
+        <h3 class="mt-2 font-semibold">A CH341 only: the kernel's spi-ch341</h3>
         <p>
-          Recent kernels also have <code>spi-ch341</code>, a driver for the
-          CH341 as an SPI master. It takes the dongle each time it's plugged in,
-          and the browser can't take it back. Release the dongle from it, each
-          time after plugging it in:
+          A CH347 needs nothing more: the kernel takes only its serial port and
+          leaves the rest to the browser. Skip to step 4.
+        </p>
+        <p>
+          A CH341: recent kernels also have <code>spi-ch341</code>, a driver
+          for the CH341 as an SPI master. It takes the dongle each time it's
+          plugged in, and the browser can't take it back. Release the dongle
+          from it, each time after plugging it in:
         </p>
         <pre :class="code">{{ RELEASE_COMMAND }}</pre>
         <p>
@@ -123,7 +144,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         <ol class="list-decimal pl-6">
           <li>Plug the dongle in and start Zadig.</li>
           <li>Options, List All Devices.</li>
-          <li>Pick the device whose USB ID reads 1A86 5512 (a CH347T: 1A86 55DB, its Interface 2).</li>
+          <li>Pick the device whose USB ID reads 1A86 55DB, Interface 2 (a CH347T in mode 1), or 1A86 5512 (a CH341).</li>
           <li>Choose WinUSB as the driver, then Install (or Replace) Driver.</li>
         </ol>
         <p>

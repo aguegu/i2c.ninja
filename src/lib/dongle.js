@@ -67,7 +67,7 @@ export function explain(e, platform) {
     if (cause.name === 'NotFoundError') {
       return {
         title: 'No dongle chosen',
-        detail: 'If the dongle wasn\'t in the list: check it\'s plugged in, and set for I2C: a CH341T\'s yellow jumper on I2C (on TTL it\'s a serial port, which WebUSB doesn\'t list), a CH347T in mode 1 (S1 on, S2 off).',
+        detail: 'If the dongle wasn\'t in the list: check it\'s plugged in, and set for I2C: a CH347T in mode 1 (S1 on, S2 off), a CH341T\'s yellow jumper on I2C (on TTL it\'s a serial port, which WebUSB doesn\'t list).',
       };
     }
     return { title: 'The chooser failed', detail: '' };

@@ -14,7 +14,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <p class="max-w-3xl leading-relaxed text-slate-500 dark:text-slate-400">
       The USB dongle is the bridge between the computer and the I2C bus. They
       come as many boards under many names; these are the ones we ran on our
-      bench, each drawn from the board itself and its chip's datasheet. Any
+      bench, the CH347T first, the one we recommend (high-speed USB, and every
+      byte's ack comes back), each drawn from the board itself and its chip's datasheet. Any
       CH341 that shows up as USB ID 1A86 5512 in I2C mode, or a CH347 as 1A86
       55DB (a CH347T in mode 1) or 55DE (a CH347F), should run this site, but
       these are the ones we know. Setting one up:
@@ -47,6 +48,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <div class="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h2 class="text-lg font-semibold">{{ d.name }}</h2>
         <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.kind }}</span>
+        <span v-if="d.recommended" class="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">recommended</span>
         <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="d.site ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'">
           {{ d.site ? 'runs this site' : 'not on this site yet' }}
         </span>

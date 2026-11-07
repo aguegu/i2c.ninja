@@ -10,7 +10,7 @@ import { ALGORITHMS } from './algorithms.js';
 
 export const SITE = 'i2c.ninja';
 export const ORIGIN = 'https://i2c.ninja';
-const HOW = 'live in the browser over a CH341 or CH347 USB dongle (WebUSB): nothing to install.';
+const HOW = 'live in the browser over a CH347 or CH341 USB dongle (WebUSB): nothing to install.';
 
 // what each device page is, as someone searching would put it
 const WHAT = {
@@ -35,13 +35,13 @@ export const PAGES = [
   },
   {
     path: '/get-started',
-    title: 'Get started: set up the USB to I2C dongle (CH341, CH347)',
-    description: 'The CH341 or CH347 dongle set for I2C: the jumpers or the mode switch, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
+    title: 'Get started: set up the USB to I2C dongle (CH347, CH341)',
+    description: 'The CH347 or CH341 dongle set for I2C: the mode switch or the jumpers, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
   },
   {
     path: '/dongles',
-    title: 'Dongles: the USB to I2C bridges we tested (CH341T, CH341A, CH347T)',
-    description: 'The USB dongles we ran on our bench, side by side: the CH341T 2-in-1, the CH341A V357 and the CH347T (LXC-CH347). Each with its cheatsheet, how to recognise it and the words that find it.',
+    title: 'Dongles: the USB to I2C bridges we tested (CH347T, CH341T, CH341A)',
+    description: 'The USB dongles we ran on our bench, side by side: the CH347T (LXC-CH347), recommended, the CH341T 2-in-1 and the CH341A V357. Each with its cheatsheet, how to recognise it and the words that find it.',
   },
   ...DEVICES.map((d) => ({
     path: d.to,
@@ -58,7 +58,7 @@ export const PAGES = [
   {
     path: '/devices',
     title: 'Devices: I2C sensors live in the browser',
-    description: 'The sensors i2c.ninja reads live over a USB dongle (CH341, CH347): motion, magnetism, humidity, temperature, distance, pulse, power. Each with its wiring, its readings explained and its settings.',
+    description: 'The sensors i2c.ninja reads live over a USB dongle (CH347, CH341): motion, magnetism, humidity, temperature, distance, pulse, power. Each with its wiring, its readings explained and its settings.',
   },
   {
     path: '/learn',
@@ -83,7 +83,7 @@ export const PAGES = [
   {
     path: '/about',
     title: 'About',
-    description: 'What i2c.ninja is: I2C sensors visualised in the browser, built on atiic\'s drivers, a CH341 or CH347 dongle and WebUSB.',
+    description: 'What i2c.ninja is: I2C sensors visualised in the browser, built on atiic\'s drivers, a CH347 or CH341 dongle and WebUSB.',
   },
 ];
 

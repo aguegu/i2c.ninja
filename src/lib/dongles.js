@@ -1,4 +1,4 @@
-// The USB dongles we know: each one run on our bench, drawn from the board
+// The USB dongles we know, the recommended one first: each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
 // site: whether this site runs on it; look: how to recognise one; search:
 // the words that find it in a shop. No shop links: the boards come from
@@ -6,6 +6,24 @@
 export const ATIIC_DOCS = 'https://github.com/aguegu/atiic/blob/main/docs';
 
 export const DONGLES = [
+  {
+    id: 'ch347t',
+    name: 'LXC-CH347 (CH347T)',
+    kind: 'USB to UART / I2C / SPI / JTAG, high speed',
+    sheet: '/dongles/ch347t-lxc.svg',
+    alt: 'The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin\'s silkscreen, back label and role in mode 1, the mode switch',
+    site: true,
+    recommended: true,
+    look: [
+      'A purple board with a USB-C socket',
+      'Two rows of 16 pins, in groups printed UART1, UART0, SPI, JTAG, I2C',
+      'A two-way switch, S1 and S2, that picks the mode',
+      'A CH347T chip (20 pins), an 8 MHz crystal, IO0 to IO7 printed on the back',
+    ],
+    search: 'CH347T USB to UART I2C SPI JTAG module',
+    note: 'Mode 1 (S1 on, S2 off). Faster than a CH341 (high-speed USB), and every byte\'s ack comes back, so a refused write is caught. Its SPI (to 60 MHz) and I/O lines drive displays in atiic.',
+    doc: `${ATIIC_DOCS}/ch347.md`,
+  },
   {
     id: 'ch341t',
     name: 'CH341T "2-in-1"',
@@ -20,7 +38,7 @@ export const DONGLES = [
       'A CH341T chip (20 pins), a 12.000 crystal, two LEDs marked TNOW and RDY',
     ],
     search: 'CH341T 2-in-1 module USB to I2C TTL',
-    note: 'The one this site is built on: every sensor page runs on it. Jumpers: yellow on I2C, green on 3.3.',
+    note: 'The one this site was built on: the sensor pages\' wiring drawings show it. Jumpers: yellow on I2C, green on 3.3.',
     doc: `${ATIIC_DOCS}/ch341.md`,
   },
   {
@@ -40,32 +58,15 @@ export const DONGLES = [
     note: 'Jumpers on 3V3 and I2C/SPI; I2C is on the header\'s SCL and SDA. Its SPI and D0 to D7 drive displays in atiic.',
     doc: `${ATIIC_DOCS}/ch341.md`,
   },
-  {
-    id: 'ch347t',
-    name: 'LXC-CH347 (CH347T)',
-    kind: 'USB to UART / I2C / SPI / JTAG, high speed',
-    sheet: '/dongles/ch347t-lxc.svg',
-    alt: 'The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin\'s silkscreen, back label and role in mode 1, the mode switch',
-    site: true,
-    look: [
-      'A purple board with a USB-C socket',
-      'Two rows of 16 pins, in groups printed UART1, UART0, SPI, JTAG, I2C',
-      'A two-way switch, S1 and S2, that picks the mode',
-      'A CH347T chip (20 pins), an 8 MHz crystal, IO0 to IO7 printed on the back',
-    ],
-    search: 'CH347T USB to UART I2C SPI JTAG module',
-    note: 'Mode 1 (S1 on, S2 off). Faster than a CH341 (high-speed USB), and every byte\'s ack comes back, so a refused write is caught. Its SPI (to 60 MHz) and I/O lines drive displays in atiic.',
-    doc: `${ATIIC_DOCS}/ch347.md`,
-  },
 ];
 
 // side by side; a row's cells in DONGLES' order
 export const COMPARE = [
   { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page'] },
-  { label: 'USB', cells: ['full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A', 'high speed (480 Mbit/s), USB-C'] },
-  { label: 'I2C', cells: ['20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz; every byte\'s ack read back'] },
-  { label: 'SPI', cells: ['no', 'yes', 'yes, up to 60 MHz'] },
-  { label: 'Digital I/O lines', cells: ['none', '8: D0 to D5 in and out, D6 and D7 in', '5: IO2, IO4, IO5, IO6, IO7'] },
-  { label: 'Serial port', cells: ['instead of I2C (yellow jumper on TTL)', 'instead of I2C/SPI (jumper on UART)', 'beside I2C and SPI, always'] },
-  { label: 'Voltage', cells: ['3.3 or 5 V (green jumper)', '3.3 or 5 V (jumper)', '3.3 V'] },
+  { label: 'USB', cells: ['high speed (480 Mbit/s), USB-C', 'full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A'] },
+  { label: 'I2C', cells: ['20, 100, 400, 750 kHz; every byte\'s ack read back', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
+  { label: 'SPI', cells: ['yes, up to 60 MHz', 'no', 'yes'] },
+  { label: 'Digital I/O lines', cells: ['5: IO2, IO4, IO5, IO6, IO7', 'none', '8: D0 to D5 in and out, D6 and D7 in'] },
+  { label: 'Serial port', cells: ['beside I2C and SPI, always', 'instead of I2C (yellow jumper on TTL)', 'instead of I2C/SPI (jumper on UART)'] },
+  { label: 'Voltage', cells: ['3.3 V', '3.3 or 5 V (green jumper)', '3.3 or 5 V (jumper)'] },
 ];
