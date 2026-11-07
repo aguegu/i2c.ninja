@@ -2,6 +2,7 @@
 // All the device pages, a card each: its kind, name, maker, what it
 // measures, its address on the bus
 import { DEVICES } from '../lib/devices.js';
+import { NEW_ISSUE } from '../lib/nav.js';
 
 const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 </script>
@@ -27,6 +28,11 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
         <span class="mt-2 flex-1 leading-relaxed">{{ d.measures }}</span>
         <span class="mt-3 font-mono text-xs text-slate-500 dark:text-slate-400">{{ d.bus }}</span>
       </RouterLink>
+      <a :href="NEW_ISSUE" class="flex flex-col justify-center rounded-xl border-2 border-dashed border-slate-300 p-4 text-slate-600 transition hover:border-emerald-600 hover:text-emerald-700 dark:border-slate-600 dark:text-slate-300 dark:hover:text-emerald-400">
+        <span class="text-lg font-semibold">Your sensor isn't here?</span>
+        <span class="mt-2 leading-relaxed">Ask for it: open an issue on GitHub with its name and module (a photo or the listing helps). It joins the way the others did, field-tested on a real module first.</span>
+        <span class="mt-3 text-sm font-medium">Open an issue →</span>
+      </a>
     </div>
   </main>
 </template>

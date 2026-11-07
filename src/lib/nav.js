@@ -8,6 +8,8 @@ export { ALGORITHM_LINKS } from './algorithms.js';
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';
 export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
+// a sensor or a dongle the site doesn't know yet: asked for here
+export const NEW_ISSUE = 'https://github.com/aguegu/i2c.ninja/issues/new';
 
 export const DEVICE_LINKS = DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind }));
 // the guides, each by its index page (its chapters are linked from there)

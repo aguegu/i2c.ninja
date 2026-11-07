@@ -3,6 +3,7 @@
 // recognise it and the words that find it (lib/dongles.js)
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { DONGLES, COMPARE } from '../lib/dongles.js';
+import { NEW_ISSUE } from '../lib/nav.js';
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -76,5 +77,11 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         </div>
       </div>
     </section>
+
+    <p class="text-sm text-slate-500 dark:text-slate-400">
+      A dongle we haven't tried?
+      <a :href="NEW_ISSUE" :class="link">Open an issue</a>
+      with its name and a photo or the listing.
+    </p>
   </main>
 </template>

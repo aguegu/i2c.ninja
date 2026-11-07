@@ -2,8 +2,9 @@
 // The home page, a simple landing page: the hero (what it is, the glass box
 // with the board swaying in it, still for reduced motion, and the way in),
 // what's inside as six cards, the hardware it asks for (no board of ours:
-// the common WCH bridges, lib/dongles.js), and three quotes on measuring
-// and understanding.
+// the common WCH bridges, lib/dongles.js, and common modules; a sensor it
+// lacks asked for in an issue), and three quotes on measuring and
+// understanding.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from '../components/ProjectionBox.vue';
 import { DEVICES } from '../lib/devices.js';
@@ -11,6 +12,7 @@ import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
 import { DONGLES } from '../lib/dongles.js';
+import { NEW_ISSUE } from '../lib/nav.js';
 
 const hasWebUsb = 'usb' in navigator;
 
@@ -80,19 +82,24 @@ const QUOTES = [
       </RouterLink>
     </section>
 
-    <!-- the hardware: no board of ours, the common WCH bridges -->
+    <!-- the hardware: no board of ours, common dongles and common modules -->
     <section class="mx-auto w-full max-w-5xl px-4 pb-12">
-      <RouterLink to="/dongles" class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 sm:flex-row sm:items-center dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
+      <div class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 sm:flex-row sm:items-center dark:bg-emerald-400/5">
         <svg viewBox="0 0 24 24" class="h-10 w-10 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v4M15 2v4M7 6h10v5a5 5 0 0 1-10 0zM12 16v6" /></svg>
-        <span class="flex flex-col">
+        <div class="flex flex-col">
           <span class="font-semibold">Common hardware, no lock-in</span>
-          <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <p class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             No board of ours to buy, and no vendor driver: the page talks to the chip itself over WebUSB, through open drivers (atiic, MIT).
             It runs on WCH's everyday USB bridges, a CH341T stick or a CH347T minimum-system board, and any CH341 or CH347 set for I²C should do:
-            WCH's own evaluation kits too, their designs published (KiCad included) to build your own. The {{ DONGLES.length }} we tested, side by side →
-          </span>
-        </span>
-      </RouterLink>
+            WCH's own evaluation kits too, their designs published (KiCad included) to build your own.
+            The sensors are the common modules any seller has. One we don't read yet? Ask for it.
+          </p>
+          <p class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm font-medium">
+            <RouterLink to="/dongles" class="text-emerald-700 hover:underline dark:text-emerald-400">The {{ DONGLES.length }} dongles we tested →</RouterLink>
+            <a :href="NEW_ISSUE" class="text-emerald-700 hover:underline dark:text-emerald-400">Ask for a sensor: open an issue →</a>
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- quotes -->
