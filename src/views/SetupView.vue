@@ -106,33 +106,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <code>uaccess</code> tag into your access: <code>70-ch341.rules</code>
           does.
         </p>
-        <h3 class="mt-2 font-semibold">A CH341 only: the kernel's spi-ch341</h3>
-        <p>
-          A CH347 needs nothing more: the kernel takes only its serial port and
-          leaves the rest to the browser. Skip to step 4.
-        </p>
-        <p>
-          A CH341: recent kernels also have <code>spi-ch341</code>, a driver
-          for the CH341 as an SPI master. It takes the dongle each time it's
-          plugged in, and the browser can't take it back. Release the dongle
-          from it, each time after plugging it in:
-        </p>
-        <pre :class="code">{{ RELEASE_COMMAND }}</pre>
-        <p>
-          It prints the interface it released (as <code>1-2:1.0</code>);
-          nothing printed, nothing was held.
-        </p>
-        <p>
-          Or, if you never use a CH341 through the kernel's SPI
-          (<code>spidev</code>, an SPI flash as an MTD device), keep the driver
-          from loading at all, once:
-        </p>
-        <pre :class="code">{{ BLOCK_COMMANDS }}</pre>
-        <p>
-          This doesn't stop SPI through WebUSB or programs on libusb
-          (flashrom, ch341prog): they talk to the chip themselves. Undo it by
-          deleting <code>/etc/modprobe.d/ch341-no-spi.conf</code>.
-        </p>
+        <p>A CH347 is ready then. A CH341 has step 3.1 too.</p>
       </div>
 
       <div v-else-if="platform === 'windows'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
@@ -171,6 +145,35 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
 
       <div v-else class="max-w-3xl leading-relaxed">
         <p>Nothing to do: Chrome asks once whether this site may use the dongle.</p>
+      </div>
+    </section>
+
+    <section v-if="platform === 'linux'" :class="card">
+      <h2 class="mb-1 text-lg font-semibold">3.1 Optional, a CH341 on Linux: the kernel's spi-ch341</h2>
+      <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">A CH347 skips this: the kernel takes only its serial port and leaves the rest to the browser.</p>
+      <div class="flex max-w-3xl flex-col gap-3 leading-relaxed">
+        <p>
+          Recent kernels have <code>spi-ch341</code>, a driver
+          for the CH341 as an SPI master. It takes the dongle each time it's
+          plugged in, and the browser can't take it back. Release the dongle
+          from it, each time after plugging it in:
+        </p>
+        <pre :class="code">{{ RELEASE_COMMAND }}</pre>
+        <p>
+          It prints the interface it released (as <code>1-2:1.0</code>);
+          nothing printed, nothing was held.
+        </p>
+        <p>
+          Or, if you never use a CH341 through the kernel's SPI
+          (<code>spidev</code>, an SPI flash as an MTD device), keep the driver
+          from loading at all, once:
+        </p>
+        <pre :class="code">{{ BLOCK_COMMANDS }}</pre>
+        <p>
+          This doesn't stop SPI through WebUSB or programs on libusb
+          (flashrom, ch341prog): they talk to the chip themselves. Undo it by
+          deleting <code>/etc/modprobe.d/ch341-no-spi.conf</code>.
+        </p>
       </div>
     </section>
 
