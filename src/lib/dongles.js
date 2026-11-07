@@ -78,7 +78,7 @@ export const COMPARE = [
   { label: 'Difficulty', cells: DONGLES.map((d) => `${STARS(d.effort)} ${EFFORT[d.effort]}`) },
   { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page'] },
   { label: 'USB', cells: ['high speed (480 Mbit/s), USB-C', 'full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A'] },
-  { label: 'I2C', cells: ['20, 100, 400, 750 kHz; every byte\'s ack read back', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
+  { label: 'I2C', cells: ['20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
   { label: 'SPI', cells: ['yes, up to 60 MHz', 'no', 'yes'] },
   { label: 'Digital I/O lines', cells: ['5: IO2, IO4, IO5, IO6, IO7', 'none', '8: D0 to D5 in and out, D6 and D7 in'] },
   { label: 'Serial port', cells: ['beside I2C and SPI, always', 'instead of I2C (yellow jumper on TTL)', 'instead of I2C/SPI (jumper on UART)'] },
