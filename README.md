@@ -59,12 +59,20 @@ Releases: [releases.md](releases.md).
 
 ## License
 
-[PolyForm Noncommercial 1.0.0](LICENSE): free for any noncommercial use:
-personal study, hobby projects, research, and use by schools, universities
-and other educational institutions, charities and public bodies, with the
-copyright notice kept. Commercial use (selling it, building it into a
-product or a paid service) needs a commercial license: write to
-<support@meshmass.com>.
+Two licenses, one for the code and one for the content, both free for any
+noncommercial use: personal study, hobby projects, research, and use by
+schools, universities and other educational institutions, charities and
+public bodies.
+
+- **The code** (everything that runs): [PolyForm Noncommercial 1.0.0](LICENSE),
+  the copyright notice kept.
+- **The content** (the text of the pages, the drawings and images in
+  `public/`, the blog and the courses): [CC BY-NC-SA 4.0](LICENSE-CONTENT.md),
+  with credit, adaptations shared under the same license: a classroom's
+  slides or handouts welcome.
+
+Commercial use (selling it, building it into a product or a paid service)
+needs a commercial license: write to <support@meshmass.com>.
 
 Releases up to 1.0.22 were published under the MIT license, and stay so for
 copies taken from them. [atiic](https://github.com/aguegu/atiic), the
