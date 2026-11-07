@@ -1,5 +1,29 @@
 # Releases
 
+## 1.4.2
+
+- **Get started, the wiring drawn for each dongle**: the CH347T's own
+  (setup-ch347t.svg: the board USB-C down, S1 on and S2 off, SDA, SCL, GND
+  and 3V3 to a GY-521), its cheatsheet linked beside; the CH341T's redrawn
+  the same way (setup.svg is now setup-ch341t.svg): lying, as before, its
+  parts placed from its cheatsheet, the LEDs where they are (TNOW, RDY),
+  four straight wires.
+- Get started, Linux: the CH341's spi-ch341 steps as their own card, 3.1
+  Optional; a CH347 is ready after the udev rule.
+- **Home: Common hardware, no lock-in**, a band under the cards, to
+  Dongles: no board of ours to buy, WCH's everyday bridges through open
+  drivers, the sensors the common modules any seller has. Nothing to
+  install now about the browser alone.
+- **Ask for a sensor**: Devices ends with "Your sensor isn't here?", an
+  issue on GitHub; Dongles the same for a dongle.
+- **Dongles: Difficulty**, out of five stars, by the board's pins (the
+  user): the CH341T easy (6 pins), the CH341A moderate (36 holes), the
+  CH347T harder (32 pins named for every mode, a mode switch). The
+  description the page's width; the I2C row the speeds alone.
+- **The disclaimer: the readings are the sensor's, not ours**: what each
+  sensor offers, as its datasheet describes, not certified or endorsed,
+  the code open to check. The footer points to it.
+
 ## 1.4.1
 
 - **The CH347T recommended** (the user): first on Dongles (a badge, the
