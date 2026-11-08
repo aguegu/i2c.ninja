@@ -37,6 +37,13 @@ export class DongleError extends Error {
 // the chooser (CH341s and CH347s), then the one picked opened as an I2C bus
 // at sclHz
 export async function openDongle(sclHz) {
+  // ?fake / ?fake=kid: no hardware, an MPU-6050 in motion (lib/fakeDongle.js),
+  // for measuring the pages; never on i2c.ninja itself
+  const fake = new URLSearchParams(location.search).get('fake');
+  if (fake !== null && !/(^|\.)i2c\.ninja$/.test(location.hostname)) {
+    const { FakeDongle } = await import('./fakeDongle.js');
+    return new FakeDongle(fake || 'calm');
+  }
   let device;
   try {
     device = await navigator.usb.requestDevice({ filters: FILTERS });

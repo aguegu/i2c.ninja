@@ -4,10 +4,15 @@
 // readings in one frame then cost one update, not two (bench/ and the ?perf
 // meter showed a reading's update is most of a slow frame). The readings
 // themselves (filters, chart buffers) are still taken every one.
+// ?every: every reading straight to Vue, as before, to measure the
+// difference (bench/live.mjs)
+const EVERY = typeof location !== 'undefined' && new URLSearchParams(location.search).has('every');
+
 export function perFrame(apply) {
   let pending, has = false, raf = 0;
   return {
     push(v) {
+      if (EVERY) { apply(v); return; }
       pending = v;
       has = true;
       if (!raf) {

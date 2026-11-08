@@ -97,7 +97,7 @@ function draw() {
   });
 }
 
-onMounted(() => { perf.on = true; frame = requestAnimationFrame(tick); watchSlowFrames(); });
+onMounted(() => { perf.on = true; window.i2cnPerf = perf; frame = requestAnimationFrame(tick); watchSlowFrames(); }); // i2cnPerf: for bench/live.mjs
 onBeforeUnmount(() => { perf.on = false; perf.readings.length = 0; cancelAnimationFrame(frame); loaf?.disconnect(); });
 const f1 = (v) => v.toFixed(1);
 </script>
