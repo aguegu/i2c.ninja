@@ -32,7 +32,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   const platform = detectPlatform();
   const state = ref('idle'); // idle, connecting, running
   const failure = ref(null);
-  const found = ref(Object.fromEntries(keys.map((k) => [k, []]))); // key: [{ name, address, chip }]
+  const found = ref(Object.fromEntries(keys.map((k) => [k, []]))); // key: [{ name, address, chip, ci (its index in the kind) }]
   const chosen = ref(Object.fromEntries(keys.map((k) => [k, -1])));
   const latest = ref(null); // { key: [x, y, z] }
   const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
@@ -86,7 +86,8 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     publish.cancel();
     latest.value = null;
     const readMs = Math.max(...keys.map((k) => pick(k).chip.readMs ?? READ_MS));
-    const chosenChips = Object.fromEntries(keys.map((k) => [k, { ci: kinds[k].chips.indexOf(pick(k).chip), address: pick(k).address }]));
+    // by the worker's index (found is reactive: its chips are proxies, not the objects)
+    const chosenChips = Object.fromEntries(keys.map((k) => [k, { ci: pick(k).ci, address: pick(k).address }]));
     worker.postMessage({ type: 'start', chosen: chosenChips, readMs });
   }
 
@@ -134,7 +135,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
       await disconnect();
       return;
     }
-    const all = Object.fromEntries(keys.map((k) => [k, a.found[k].map(({ ci, address }) => ({ name: kinds[k].chips[ci].name, address, chip: kinds[k].chips[ci] }))]));
+    const all = Object.fromEntries(keys.map((k) => [k, a.found[k].map(({ ci, address }) => ({ name: kinds[k].chips[ci].name, address, chip: kinds[k].chips[ci], ci }))]));
     found.value = all;
     const missing = parts.filter((p) => !all[p.key].length);
     if (missing.length) {
