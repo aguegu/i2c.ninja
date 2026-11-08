@@ -4,7 +4,9 @@
 // percentile, worst; over 33 ms is a dropped frame), and when a sensor is
 // reading, readings a second and the longest gap between two. A strip of the
 // last frame times, lines at 16.7 and 33 ms. To tell a slow frame (drawing)
-// from an uneven reading (data) when the motion isn't smooth.
+// from an uneven reading (data) when the motion isn't smooth. Served by our
+// dev or preview server (not i2c.ninja), the numbers are posted to it every
+// two seconds too (/__perf, vite.config.js), to be read off that machine.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { perf } from '../lib/perf.js';
 
@@ -14,11 +16,13 @@ const DROP_FRAME_MS = 33.4; // two frames at 60 Hz
 const SHOW_EVERY_MS = 500;
 const STRIP = 120; // frames in the strip
 const STRIP_W = 240, STRIP_H = 48, STRIP_TOP_MS = 50;
+const POST_EVERY_MS = 2000;
+const POSTS = !/(^|\.)i2c\.ninja$/.test(location.hostname); // our dev or preview server
 
 const stats = ref(null);
 const strip = ref(null);
 const frames = []; // [t, ms]
-let frame = 0, last = 0, shownAt = 0;
+let frame = 0, last = 0, shownAt = 0, postedAt = 0;
 
 const pct = (sorted, p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))] ?? 0;
 
@@ -41,6 +45,12 @@ function tick(t) {
     readings: rs.length * (1000 / WINDOW_MS), gap,
   };
   draw();
+  if (POSTS && t - postedAt >= POST_EVERY_MS) {
+    postedAt = t;
+    const r1 = (v) => Math.round(v * 10) / 10;
+    const body = JSON.stringify({ path: location.pathname, ...Object.fromEntries(Object.entries(stats.value).map(([k, v]) => [k, r1(v)])) });
+    fetch('/__perf', { method: 'POST', body, keepalive: true }).catch(() => {});
+  }
 }
 
 function draw() {
