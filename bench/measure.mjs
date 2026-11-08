@@ -3,7 +3,8 @@
 // bench (bench/BenchViews.vue, the Attitude page's views fed a made-up motion)
 // and the home page (its swaying board). Per page and rate: frames a
 // second, the frame-time median and 95th/99th percentiles, frames over
-// 33 ms, and the main thread's script, layout and style time a second.
+// 33 ms, and the main thread's script, layout and style time a second, its
+// whole task time, and the rest of it (painting mostly).
 //
 // Serve the site's dist/ with bench/dist/ as its bench/, then
 //   node measure.mjs http://localhost:8765 [seconds]
@@ -27,7 +28,7 @@ const pct = (a, p) => a[Math.min(a.length - 1, Math.floor((p / 100) * a.length))
 const metric = (m, name) => m.metrics.find((x) => x.name === name).value;
 
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
-console.log(`page   rate   fps   p50ms  p95ms  p99ms  >33ms  script/s  layout/s  style/s`);
+console.log(`page   rate   fps   p50ms  p95ms  p99ms  >33ms  script/s  layout/s  style/s  task/s  other/s`);
 for (const [name, path, height] of PAGES) {
   for (const rate of RATES) {
     const page = await browser.newPage();
@@ -54,7 +55,7 @@ for (const [name, path, height] of PAGES) {
     const sorted = [...gaps].sort((a, b) => a - b);
     const fps = (gaps.length / SECONDS).toFixed(1);
     const jank = gaps.filter((g) => g > JANK_MS).length;
-    console.log(`${name.padEnd(6)} ${String(rate).padStart(2)}x  ${fps.padStart(5)}  ${pct(sorted, 50).toFixed(1).padStart(5)}  ${pct(sorted, 95).toFixed(1).padStart(5)}  ${pct(sorted, 99).toFixed(1).padStart(5)}  ${String(jank).padStart(5)}  ${per('ScriptDuration').padStart(6)}ms  ${per('LayoutDuration').padStart(6)}ms  ${per('RecalcStyleDuration').padStart(5)}ms`);
+    console.log(`${name.padEnd(6)} ${String(rate).padStart(2)}x  ${fps.padStart(5)}  ${pct(sorted, 50).toFixed(1).padStart(5)}  ${pct(sorted, 95).toFixed(1).padStart(5)}  ${pct(sorted, 99).toFixed(1).padStart(5)}  ${String(jank).padStart(5)}  ${per('ScriptDuration').padStart(6)}ms  ${per('LayoutDuration').padStart(6)}ms  ${per('RecalcStyleDuration').padStart(5)}ms  ${per('TaskDuration').padStart(5)}ms  ${String(per('TaskDuration') - per('ScriptDuration') - per('LayoutDuration') - per('RecalcStyleDuration')).padStart(5)}ms`);
     await page.close();
   }
 }
