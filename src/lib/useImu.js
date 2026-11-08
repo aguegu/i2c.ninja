@@ -140,7 +140,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     try {
       found.value = (await bus.scan()).filter((a) => ADDRESSES.includes(a));
       if (!found.value.length) {
-        failure.value = { title: 'No MPU-6050 or MPU-6500 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the dongle\'s green jumper on 3.3).', error: '' };
+        failure.value = { title: 'No MPU-6050 or MPU-6500 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the dongle\'s green jumper on 3V3).', error: '' };
         await disconnect();
         return;
       }

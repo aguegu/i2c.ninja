@@ -44,7 +44,7 @@ export const DONGLES = [
       'A CH341T chip (20 pins), a 12.000 crystal, two LEDs marked TNOW and RDY',
     ],
     search: 'CH341T 2-in-1 module USB to I2C TTL',
-    note: 'The one this site was built on: the sensor pages\' wiring drawings show it. Jumpers: yellow on I2C, green on 3.3.',
+    note: 'The one this site was built on: the sensor pages\' wiring drawings show it. Jumpers: yellow on I2C, green on 3V3.',
     doc: `${ATIIC_DOCS}/ch341.md`,
   },
   {

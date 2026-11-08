@@ -77,7 +77,7 @@
   <circle cx="334.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
   <circle cx="358.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
   <text x="382.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="334.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
-  <text x="382.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="334.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3.3</text>
+  <text x="382.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="334.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
   <rect x="234.66141732283467" y="143.6692913385827" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="244.66141732283467" y="159.6692913385827" font-size="9" fill="#fff">TNOW</text>
   <rect x="234.66141732283467" y="267.8267716535433" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
@@ -145,7 +145,7 @@
 
   <!-- notes -->
   <g font-size="12" fill="#333">
-    <text x="20" y="488">Jumpers as for any I2C device: yellow on I2C, green on 3.3. Four wires as usual: SDA, SCL, GND, Vdd to VCC (3.3 V).</text>
+    <text x="20" y="488">Jumpers as for any I2C device: yellow on I2C, green on 3V3. Four wires as usual: SDA, SCL, GND, Vdd to VCC (3.3 V).</text>
     <text x="20" y="508">The current to measure runs through the shunt: supply + to IN+, IN− to the load. Bus to IN− reads the load’s voltage;</text>
     <text x="20" y="528">the supply’s − joined to Gnd gives that voltage its reference. ALE (alert) stays free; A0, A1 open: address 0x40.</text>
   </g>

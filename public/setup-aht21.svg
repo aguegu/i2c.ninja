@@ -77,7 +77,7 @@
   <circle cx="334.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
   <circle cx="358.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
   <text x="382.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="334.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
-  <text x="382.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="334.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3.3</text>
+  <text x="382.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="334.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
   <rect x="234.66141732283467" y="143.6692913385827" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="244.66141732283467" y="159.6692913385827" font-size="9" fill="#fff">TNOW</text>
   <rect x="234.66141732283467" y="267.8267716535433" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
@@ -115,7 +115,7 @@
 
   <!-- notes -->
   <g font-size="12" fill="#333">
-    <text x="20" y="350">Yellow jumper on I2C, green on 3.3, both before plugging in USB. Its pads run VDD, SDA, GND, SCL: VCC (3.3 V) to 1,</text>
+    <text x="20" y="350">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Its pads run VDD, SDA, GND, SCL: VCC (3.3 V) to 1,</text>
     <text x="20" y="370">SDA to 2, GND to 3, SCL to 4 (three wires cross). It takes 2.2-5.5 V. Keep it away from warm parts.</text>
   </g>
   </g>

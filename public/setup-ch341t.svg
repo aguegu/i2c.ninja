@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 430" width="860" height="430" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
-  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3.3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050)</title>
+  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired SDA, SCL, GND and VCC to a GY-521 (MPU-6050)</title>
   <defs>
     <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f3d77a"/>
@@ -70,7 +70,7 @@
   <circle cx="363.5748031496063" cy="303.07086614173227" r="1.8" fill="#7a5b10"/>
   <circle cx="387.5748031496063" cy="303.07086614173227" r="1.8" fill="#7a5b10"/>
   <text x="411.5748031496063" y="185.00787401574803" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="363.5748031496063" y="185.00787401574803" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
-  <text x="411.5748031496063" y="292.07086614173227" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="363.5748031496063" y="292.07086614173227" text-anchor="middle" font-size="9" fill="#fff">3.3</text>
+  <text x="411.5748031496063" y="292.07086614173227" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="363.5748031496063" y="292.07086614173227" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
   <rect x="263.37007874015745" y="168.70866141732284" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="273.37007874015745" y="184.70866141732284" font-size="9" fill="#fff">TNOW</text>
   <rect x="263.37007874015745" y="292.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
@@ -113,7 +113,7 @@
   <use href="#dupont" x="536.7086614173228" y="271.03937007874015"/><use href="#dupont" x="590" y="271.03937007874015"/>
   <use href="#dupont" x="536.7086614173228" y="295.03937007874015"/><use href="#dupont" x="590" y="295.03937007874015"/>
   <g font-size="12" fill="#333">
-    <text x="20" y="390">Yellow jumper on I2C, green on 3.3, both before plugging in USB. Four wires: SDA, SCL, GND, VCC (3.3V).</text>
+    <text x="20" y="390">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: SDA, SCL, GND, VCC (3.3V).</text>
     <text x="20" y="410">TXD and RXD stay free in I2C mode. AD0, INT, XDA, XCL stay free: AD0 low on the GY-521 makes the address 0x68.</text>
   </g>
 </svg>
