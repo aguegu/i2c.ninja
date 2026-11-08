@@ -29,10 +29,6 @@ const ANGLE_FLOOR_DEG = 45; // the charts' least half-range
 // measure what each costs on the live page (bench/live.mjs); off on i2c.ninja
 const HIDE = /(^|\.)i2c\.ninja$/.test(location.hostname) ? [] : (new URLSearchParams(location.search).get('hide') ?? '').split(',');
 const shown = (part) => !HIDE.includes(part);
-// ?probe=plain (the formulas as plain text, no KaTeX) or contain (each value
-// a box of its own size, not measured again): measuring variants, likewise
-const PROBE = /(^|\.)i2c\.ninja$/.test(location.hostname) ? '' : (new URLSearchParams(location.search).get('probe') ?? '');
-const valueBox = PROBE === 'contain' ? 'inline-block h-6 overflow-hidden align-baseline [contain:strict]' : '';
 // each angle three ways, named as in the formulas (g gravity's, ω the gyro alone, q fused), in their order
 const threeOf = (sym) => [
   { label: sym, sub: 'g', color: '--series-1' },
@@ -181,9 +177,9 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
           <template v-for="r in b.rows" :key="r.tex">
             <!-- a row without a value: its formula across both columns; a
                  wide one (a long formula): its value after it, both across -->
-            <span v-if="r.wide" class="col-span-2"><TexMath v-if="PROBE !== 'plain'" :expr="r.tex" /><span v-else>{{ r.tex }}</span> <span class="inline-block" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
+            <span v-if="r.wide" class="col-span-2"><TexMath :expr="r.tex" /> <span class="inline-block" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
             <template v-else>
-              <TexMath v-if="PROBE !== 'plain'" :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-else :class="r.value === '' && 'col-span-2'">{{ r.tex }}</span><span v-if="r.value !== ''" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
+              <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
             </template>
             <!-- the term, its explanation in a tooltip (hover, focus or a tap) -->
             <InfoTip :text="r.note" class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400">{{ r.term }}</InfoTip>
