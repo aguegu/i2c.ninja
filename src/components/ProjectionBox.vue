@@ -49,8 +49,18 @@ const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point 
 // where each wall's label sits: inside it, near its outer edge on screen
 // (the right wall's at its left, reading inward; the others' at their right)
 const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
-// and nudged on screen, in the drawing's units: the floor's right, clear of its frame
-const TAG_NUDGE = { floor: [28, -2] };
+// the floor's label centred across the floor at its height: the same room
+// to the frame's edge on each side (FLOOR_TAG_UP: a little above its anchor)
+const FLOOR_TAG_UP = 2;
+// where a horizontal line at y crosses a polygon's edges: [leftmost, rightmost] x
+function across(poly, y) {
+  const xs = [];
+  poly.forEach((a, i) => {
+    const b = poly[(i + 1) % poly.length];
+    if ((a[1] - y) * (b[1] - y) <= 0 && a[1] !== b[1]) xs.push(a[0] + ((y - a[1]) / (b[1] - a[1])) * (b[0] - a[0]));
+  });
+  return [Math.min(...xs), Math.max(...xs)];
+}
 // the walls' squares, faint grids on them
 const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
@@ -140,8 +150,11 @@ function makeLayers(w, h) {
     g.globalAlpha = 0.2;
     for (const [p0, p1] of wall.grid) { path(g, [p0, p1]); g.stroke(); }
     g.globalAlpha = 1;
-    const [nx, ny] = TAG_NUDGE[wall.key] ?? [0, 0];
-    text(g, wall.label, wall.tag[0] + nx, wall.tag[1] + ny, 10, wall.key === 'side' ? 'left' : 'right', c);
+    if (wall.key === 'floor') {
+      const y = wall.tag[1] - FLOOR_TAG_UP;
+      const [l, r] = across(wall.square, y);
+      text(g, wall.label, (l + r) / 2, y, 10, 'center', c);
+    } else text(g, wall.label, wall.tag[0], wall.tag[1], 10, wall.key === 'side' ? 'left' : 'right', c);
   }
   g = la.getContext('2d');
   place(g);
