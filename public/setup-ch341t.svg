@@ -19,25 +19,23 @@
   <rect x="79.4488188976378" y="247.32283464566927" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
   <rect x="190.0" y="150.0" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <text x="190.0" y="338.0787401574803" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
-  <rect x="520.7086614173228" y="163.03937007874015" width="14" height="144.0" fill="#151515"/>
-  <circle cx="500.86614173228344" cy="175.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="173.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="178.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">RXD</text>
-  <circle cx="500.86614173228344" cy="199.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="197.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="202.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">TXD</text>
-  <circle cx="500.86614173228344" cy="223.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="221.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="226.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">SDA</text>
-  <circle cx="500.86614173228344" cy="247.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="245.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="250.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">SCL</text>
-  <circle cx="500.86614173228344" cy="271.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="269.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="274.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">GND</text>
-  <circle cx="500.86614173228344" cy="295.03937007874015" r="7" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="500.86614173228344" y="293.03937007874015" width="55.84251968503935" height="4" fill="url(#pin)"/>
-  <text x="488.86614173228344" y="298.53937007874015" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">VCC</text>
+  <rect x="494.7086614173228" y="161.03937007874015" width="22" height="148.0" fill="#161616"/>
+  <g fill="url(#pin)">
+    <rect x="505.7086614173228" y="173.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="197.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="221.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="245.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="269.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="293.03937007874015" width="41.0" height="4"/>
+  </g>
+  <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace" text-anchor="end">
+    <text x="488.7086614173228" y="179.03937007874015">RXD</text>
+    <text x="488.7086614173228" y="203.03937007874015">TXD</text>
+    <text x="488.7086614173228" y="227.03937007874015">SDA</text>
+    <text x="488.7086614173228" y="251.03937007874015">SCL</text>
+    <text x="488.7086614173228" y="275.03937007874015">GND</text>
+    <text x="488.7086614173228" y="299.03937007874015">VCC</text>
+  </g>
   <rect x="363.3858267716535" y="203.1968503937008" width="68.03149606299212" height="50.07874015748031" rx="2" fill="#1d1d1d"/>
   <rect x="365.28740157480314" y="198.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="365.28740157480314" y="253.2755905511811" width="3" height="5" fill="#c9ccd1"/>
   <rect x="372.09055118110234" y="198.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="372.09055118110234" y="253.2755905511811" width="3" height="5" fill="#c9ccd1"/>
@@ -75,9 +73,9 @@
   <text x="273.37007874015745" y="184.70866141732284" font-size="9" fill="#fff">TNOW</text>
   <rect x="263.37007874015745" y="292.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="273.37007874015745" y="300.86614173228344" font-size="9" fill="#fff">RDY</text>
-  <rect x="650" y="101.03937007874015" width="150" height="220.0" rx="8" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
+  <rect x="629" y="101.03937007874015" width="171" height="220.0" rx="8" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <circle cx="786" cy="115.03937007874015" r="7" fill="#fff" stroke="#999"/><circle cx="786" cy="307.03937007874015" r="7" fill="#fff" stroke="#999"/>
-  <rect x="628" y="115.03937007874015" width="16" height="192.0" fill="#151515"/>
+  <rect x="633" y="113.03937007874015" width="22" height="196.0" fill="#161616"/>
   <g fill="url(#pin)">
     <rect x="610" y="125.03937007874015" width="34" height="4"/>
     <rect x="610" y="149.03937007874015" width="34" height="4"/>
@@ -101,17 +99,17 @@
   <rect x="712" y="187.03937007874015" width="54" height="54" rx="2" fill="#1d1d1d"/>
   <circle cx="720" cy="195.03937007874015" r="2.5" fill="#555"/>
   <text x="739" y="257.03937007874015" text-anchor="middle" font-size="9" fill="#fff">MPU-6050</text>
-  <text x="725" y="339.03937007874015" text-anchor="middle" font-size="12" fill="#555">GY-521</text>
+  <text x="714.5" y="339.03937007874015" text-anchor="middle" font-size="12" fill="#555">GY-521</text>
   <g stroke-linecap="round" fill="none">
-    <path d="M556.7086614173228 223.03937007874015 H590" stroke="#0d4f8c" stroke-width="7"/><path d="M556.7086614173228 223.03937007874015 H590" stroke="#1e88e5" stroke-width="5"/>
-    <path d="M556.7086614173228 247.03937007874015 H590" stroke="#a88600" stroke-width="7"/><path d="M556.7086614173228 247.03937007874015 H590" stroke="#f2c200" stroke-width="5"/>
-    <path d="M556.7086614173228 271.03937007874015 H590" stroke="#000" stroke-width="7"/><path d="M556.7086614173228 271.03937007874015 H590" stroke="#3a3a3a" stroke-width="5"/>
-    <path d="M556.7086614173228 295.03937007874015 H590" stroke="#8e1c1c" stroke-width="7"/><path d="M556.7086614173228 295.03937007874015 H590" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M546.7086614173228 223.03937007874015 H590" stroke="#0d4f8c" stroke-width="7"/><path d="M546.7086614173228 223.03937007874015 H590" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M546.7086614173228 247.03937007874015 H590" stroke="#a88600" stroke-width="7"/><path d="M546.7086614173228 247.03937007874015 H590" stroke="#f2c200" stroke-width="5"/>
+    <path d="M546.7086614173228 271.03937007874015 H590" stroke="#000" stroke-width="7"/><path d="M546.7086614173228 271.03937007874015 H590" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M546.7086614173228 295.03937007874015 H590" stroke="#8e1c1c" stroke-width="7"/><path d="M546.7086614173228 295.03937007874015 H590" stroke="#d32f2f" stroke-width="5"/>
   </g>
-  <use href="#dupont" x="536.7086614173228" y="223.03937007874015"/><use href="#dupont" x="590" y="223.03937007874015"/>
-  <use href="#dupont" x="536.7086614173228" y="247.03937007874015"/><use href="#dupont" x="590" y="247.03937007874015"/>
-  <use href="#dupont" x="536.7086614173228" y="271.03937007874015"/><use href="#dupont" x="590" y="271.03937007874015"/>
-  <use href="#dupont" x="536.7086614173228" y="295.03937007874015"/><use href="#dupont" x="590" y="295.03937007874015"/>
+  <use href="#dupont" x="526.7086614173228" y="223.03937007874015"/><use href="#dupont" x="590" y="223.03937007874015"/>
+  <use href="#dupont" x="526.7086614173228" y="247.03937007874015"/><use href="#dupont" x="590" y="247.03937007874015"/>
+  <use href="#dupont" x="526.7086614173228" y="271.03937007874015"/><use href="#dupont" x="590" y="271.03937007874015"/>
+  <use href="#dupont" x="526.7086614173228" y="295.03937007874015"/><use href="#dupont" x="590" y="295.03937007874015"/>
   <g font-size="12" fill="#333">
     <text x="20" y="390">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: SDA, SCL, GND, VCC (3.3V).</text>
     <text x="20" y="410">TXD and RXD stay free in I2C mode. AD0, INT, XDA, XCL stay free: AD0 low on the GY-521 makes the address 0x68.</text>
