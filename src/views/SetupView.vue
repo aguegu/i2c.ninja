@@ -8,7 +8,7 @@ import { detectPlatform } from '../lib/dongle.js';
 // platforms document, waiting for a bench to try them
 const PLATFORMS = [
   { id: 'linux', label: 'Linux', tried: true }, // r8845: Manjaro 7.2.9, Chromium, 2026-11-04
-  { id: 'windows', label: 'Windows', tried: true }, // the user, 2026-11-08: works once the dongle is on WinUSB (Zadig)
+  { id: 'windows', label: 'Windows', tried: true }, // the user, 2026-11-08: a CH347T, once on WinUSB (Zadig); a CH341 not tried
   { id: 'macos', label: 'macOS', tried: false },
   { id: 'android', label: 'Android', tried: true }, // the user's phone, Chrome over an OTG adapter, 2026-11-05
   { id: 'chromeos', label: 'ChromeOS', tried: false },
@@ -128,6 +128,10 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         <p>
           WCH's own CH341 driver and tools then no longer see this dongle,
           until its driver is switched back.
+        </p>
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+          Tried on our bench with a CH347T (its Interface 2 on WinUSB); a CH341
+          the same way, not tried yet.
         </p>
       </div>
 
