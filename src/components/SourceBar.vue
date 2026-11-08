@@ -5,6 +5,7 @@
 // is there). src: a useSources() or useSource() (reactive).
 import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
+import LiveSettings from './LiveSettings.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 
 defineProps({ src: { type: Object, required: true } });
@@ -42,6 +43,7 @@ const note = (parts) => [
       </template>
     </template>
     <span v-else class="text-sm text-amber-700 dark:text-amber-400">This browser has no WebUSB: open the page in Chrome, Edge or another Chromium.</span>
+    <LiveSettings class="ml-auto" />
     <div v-if="src.failure" class="w-full rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ src.failure.title }}</p>
       <p v-if="src.failure.detail" class="mt-1">{{ src.failure.detail }}</p>

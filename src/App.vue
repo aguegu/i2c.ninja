@@ -2,11 +2,12 @@
 // The frame round every page: the header (the devices and Learn as menus,
 // Setup, About, the theme; folded into one menu on a narrow screen) and the
 // footer's site map
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import PerfMeter from './components/PerfMeter.vue';
+import { meterOn, setMeter } from './lib/perf.js';
 import { useTheme } from './lib/theme.js';
 import { updateReady, applyUpdate } from './lib/pwa.js';
 import { recent, withLabels } from './lib/recent.js';
@@ -20,16 +21,7 @@ const mobile = ref(false);
 const route = useRoute();
 watch(() => route.fullPath, () => { mobile.value = false; });
 // the timing meter: ?perf on, ?perf=0 off, remembered for the tab
-const PERF_KEY = 'i2c.ninja.perf';
-const perfOn = computed(() => {
-  const q = route.query.perf;
-  try {
-    if (q !== undefined) sessionStorage.setItem(PERF_KEY, q === '0' ? '' : '1');
-    return sessionStorage.getItem(PERF_KEY) === '1';
-  } catch {
-    return q !== undefined && q !== '0';
-  }
-});
+watch(() => route.query.perf, (q) => { if (q !== undefined) setMeter(q !== '0'); }, { immediate: true });
 const navLink = 'hover:text-emerald-600';
 const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700';
 </script>
@@ -81,7 +73,7 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
       <RouterView />
     </div>
     <SiteFooter />
-    <PerfMeter v-if="perfOn" />
+    <PerfMeter v-if="meterOn" />
     <!-- a new release downloaded: reload when it suits (lib/pwa.js) -->
     <div v-if="updateReady" class="fixed right-4 bottom-4 z-30 flex items-center gap-3 rounded-xl bg-slate-800 px-4 py-3 text-sm text-white shadow-lg" role="status">
       A new version of i2c.ninja is ready.
