@@ -10,7 +10,7 @@
 // screen. Drawn as four stacked layers in their order: the walls, the
 // shadows, the world's axes, the board with its axes; the moving two on
 // their own GPU layers, so the walls and axes are painted once, not every
-// frame.
+// frame; Vue renders the fixed two once (v-once).
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -98,8 +98,8 @@ const { full, toggle } = useFullscreen(box);
 <template>
   <div ref="box" class="relative flex justify-center live-view" :class="full && 'h-full! w-full! items-center bg-white p-4 dark:bg-slate-900'">
     <div class="relative" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
-      <!-- the walls: fixed -->
-      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
+      <!-- the walls: fixed, rendered once (v-once: Vue skips them after) -->
+      <svg v-once viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
         <g v-for="w in walls" :key="w.key">
           <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
           <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
@@ -113,8 +113,8 @@ const { full, toggle } = useFullscreen(box);
           <polyline v-if="s.arrow" :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </g>
       </svg>
-      <!-- the world's axes: fixed -->
-      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
+      <!-- the world's axes: fixed, rendered once -->
+      <svg v-once viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
         <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
           <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2.5" />
           <polygon :points="a.head" stroke="none" />

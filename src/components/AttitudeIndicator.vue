@@ -5,7 +5,8 @@
 // button takes it full screen, its roll and pitch written under it there.
 // Drawn as layers: the horizon and the roll pointer each move by a CSS
 // transform (the GPU turns them, nothing repaints), the rim and the
-// aircraft painted once over them.
+// aircraft painted once over them; Vue renders what doesn't move once
+// (v-once), only the transforms change.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -39,20 +40,22 @@ const { full, toggle } = useFullscreen(box);
       <div class="absolute overflow-hidden rounded-full" :style="{ inset: `${((R - FACE) / SIZE) * 100}%` }">
         <div class="absolute" :style="{ inset: `${-((R - FACE) / (2 * FACE)) * 100}%` }">
           <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
-            <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
-            <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
-            <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
-            <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
-              <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
-              <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+            <g v-once>
+              <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
+              <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
+              <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
+              <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
+                <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
+                <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+              </g>
             </g>
           </svg>
           <!-- the roll pointer on the rim turns with the horizon -->
           <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path d="M 0 -94 L -6 -82 L 6 -82 Z" fill="white" /></svg>
         </div>
       </div>
-      <!-- the rim and the aircraft: fixed, painted once -->
-      <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
+      <!-- the rim and the aircraft: fixed, painted and rendered once -->
+      <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
         <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
         <circle r="3" fill="#f59e0b" />
