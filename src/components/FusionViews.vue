@@ -75,6 +75,7 @@ const flatCaptions = computed(() => {
   };
 });
 // each block: a formula a row (LaTeX), its result with the latest numbers
+// (wide: a long formula, its result after it on the line)
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
   return [
@@ -105,7 +106,7 @@ const blocks = computed(() => {
       { tex: String.raw`k_i =`, value: `${u.ki} /s²`, note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki (10 s at 1 and 0.1) (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others with the sliders under Mahony\'s filter, below' },
       { tex: String.raw`k_d =`, value: '0', note: 'no D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
-      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), note: 'up, as q says: the world\'s Z, in the board\'s own axes' },
+      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), wide: true, note: 'up, as q says: the world\'s Z, in the board\'s own axes' },
       { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
       { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, note: 'b̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
@@ -129,8 +130,13 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.tex">
-            <!-- a row without a value: its formula across both columns -->
-            <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+            <!-- a row without a value: its formula across both columns; a
+                 wide one (a long formula): its value after it, both across -->
+            <span v-if="r.wide" class="col-span-2"><TexMath :expr="r.tex" /> <span :class="value">{{ r.value }}</span></span>
+            <template v-else>
+              <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
+            </template>
+            <span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
       </div>
