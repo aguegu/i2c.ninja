@@ -9,6 +9,7 @@
 // two seconds too (/__perf, vite.config.js), to be read off that machine.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { perf } from '../lib/perf.js';
+import { cadence } from '../lib/frame.js';
 
 const WINDOW_MS = 1000; // the numbers: over the last second
 const DROPS_MS = 10000; // dropped frames: over the last ten seconds
@@ -67,7 +68,7 @@ function tick(t) {
     fps: recent.length * (1000 / WINDOW_MS),
     p50: pct(sorted, 0.5), p95: pct(sorted, 0.95), worst: sorted.at(-1) ?? 0,
     drops: frames.filter(([, ms]) => ms > DROP_FRAME_MS).length,
-    readings: rs.length * (1000 / WINDOW_MS), gap,
+    readings: rs.length * (1000 / WINDOW_MS), gap, cadence: cadence(),
   };
   draw();
   if (POSTS && t - postedAt >= POST_EVERY_MS) {
@@ -106,7 +107,7 @@ const f1 = (v) => v.toFixed(1);
   <aside class="pointer-events-none fixed bottom-3 left-3 z-40 rounded-lg bg-slate-900/85 p-2 font-mono text-[11px] leading-4 text-slate-100 shadow-lg tabular-nums" aria-label="Timing meter">
     <template v-if="stats">
       <div>{{ f1(stats.fps) }} fps · frame {{ f1(stats.p50) }} / {{ f1(stats.p95) }} / {{ f1(stats.worst) }} ms</div>
-      <div :class="stats.drops ? 'text-red-300' : ''">dropped (&gt;33 ms, 10 s): {{ stats.drops }}</div>
+      <div :class="stats.drops ? 'text-red-300' : ''">dropped (&gt;33 ms, 10 s): {{ stats.drops }} · views every {{ stats.cadence === 1 ? 'frame' : `${stats.cadence} frames` }}</div>
       <div v-if="stats.readings">readings {{ f1(stats.readings) }}/s · longest gap {{ f1(stats.gap) }} ms</div>
       <div v-else class="text-slate-400">readings: none (not connected)</div>
     </template>

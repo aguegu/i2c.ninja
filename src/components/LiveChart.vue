@@ -9,6 +9,7 @@
 // the page lay out; no frames at all while it's off screen.
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
+import { frameDue } from '../lib/frame.js';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
@@ -70,7 +71,7 @@ function firstFrom(t, ms) {
 function draw() {
   frame = requestAnimationFrame(draw);
   const c = canvas.value;
-  if (!c || !size.w || !size.h) return;
+  if (!c || !size.w || !size.h || !frameDue()) return; // the views' cadence (lib/frame.js)
   const dpr = devicePixelRatio || 1;
   const { w, h } = size;
   if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
