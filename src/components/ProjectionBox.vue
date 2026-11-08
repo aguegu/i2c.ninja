@@ -49,6 +49,8 @@ const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point 
 // where each wall's label sits: inside it, near its outer edge on screen
 // (the right wall's at its left, reading inward; the others' at their right)
 const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
+// and nudged on screen, in the drawing's units: the floor's right, clear of its frame
+const TAG_NUDGE = { floor: [10, 0] };
 // the walls' squares, faint grids on them
 const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
@@ -138,7 +140,8 @@ function makeLayers(w, h) {
     g.globalAlpha = 0.2;
     for (const [p0, p1] of wall.grid) { path(g, [p0, p1]); g.stroke(); }
     g.globalAlpha = 1;
-    text(g, wall.label, wall.tag[0], wall.tag[1], 10, wall.key === 'side' ? 'left' : 'right', c);
+    const [nx, ny] = TAG_NUDGE[wall.key] ?? [0, 0];
+    text(g, wall.label, wall.tag[0] + nx, wall.tag[1] + ny, 10, wall.key === 'side' ? 'left' : 'right', c);
   }
   g = la.getContext('2d');
   place(g);
