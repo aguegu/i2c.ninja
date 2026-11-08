@@ -22,6 +22,9 @@ const GROUPS = ['none', 'charts', 'gauges', 'box', 'flat', 'board', 'ball']; // 
 const PAGES = process.env.BENCH_GROUPS
   ? GROUPS.map((g) => [g, `/bench/?only=${g}`, 2600])
   : [['bench', '/bench/', 2600], ['home', '/', 900]];
+// BENCH_HEIGHT=900: every page in a window that tall (a laptop's), the views
+// below it off screen
+if (process.env.BENCH_HEIGHT) for (const p of PAGES) p[2] = Number(process.env.BENCH_HEIGHT);
 const RATES = (process.env.BENCH_RATES || '1,4,6').split(',').map(Number);
 
 const pct = (a, p) => a[Math.min(a.length - 1, Math.floor((p / 100) * a.length))];
