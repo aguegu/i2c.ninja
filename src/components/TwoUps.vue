@@ -70,6 +70,8 @@ const drawn = computed(() => {
     e: arrow(scale(e, E_SCALE), E_COLOR, `e ×${E_SCALE}`),
     arc,
     deg: (Math.atan2(norm(e), cos) * DEG).toFixed(1),
+    // the caption's: at a fixed width (0.0 to 180.0 apart), so it keeps its length
+    degFixed: (Math.atan2(norm(e), cos) * DEG).toFixed(1).padStart(5),
     size: norm(e).toFixed(3),
   };
 });
@@ -98,7 +100,7 @@ const drawn = computed(() => {
       <span :style="{ color: A_COLOR }" class="font-semibold">â</span> up as gravity says ·
       <span :style="{ color: V_COLOR }" class="font-semibold">v̂</span> up as q says ·
       <span :style="{ color: E_COLOR }" class="font-semibold">e</span> = â × v̂, at right angles to both
-      <span class="block font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">{{ drawn ? `${drawn.deg}° apart, |e| = ${drawn.size}` : '—' }}</span>
+      <span class="block font-mono text-xs whitespace-pre-wrap text-slate-500 tabular-nums dark:text-slate-400">{{ drawn ? `${drawn.degFixed}° apart, |e| = ${drawn.size}` : '—' }}</span>
     </figcaption>
   </figure>
 </template>

@@ -23,6 +23,13 @@ const V_COLOR = '#7c3aed';
 const GAP_ARC = 40; // the gap's arc radius, px
 
 const n = (v) => v.toFixed(2);
+// a caption's number at a fixed width: always signed (ASCII + and -, as wide
+// as the digits in a monospaced font), padded to its widest, so a live line
+// keeps its length and the text under it doesn't move (whitespace-pre-wrap
+// keeps the padding, and any wrap in the same place)
+const fixed = (v, digits, width) => ((v < 0 ? '-' : '+') + Math.abs(v).toFixed(digits)).padStart(width);
+const G_WIDTH = 6; // +16.00 g, the most at the widest range
+const DEG_WIDTH = 6; // +180.0
 // one triangle: across (h) and up (v) in g, their names (parts [text, sub?]) and colours
 function triangle(h, v, hName, vName, hColor, vColor, sym) {
   const angle = Math.atan2(v, h);
@@ -35,7 +42,7 @@ function triangle(h, v, hName, vName, hColor, vColor, sym) {
   const mid = angle / 2;
   return {
     P, hName, vName, hColor, vColor, sym,
-    hValue: n(h), vValue: n(v), deg: (angle * DEG).toFixed(1),
+    hValue: n(h), vValue: n(v), deg: (angle * DEG).toFixed(1), h, v, angleDeg: angle * DEG,
     arc, tag: [(ARC + 14) * Math.cos(mid), -(ARC + 14) * Math.sin(mid) + 4],
   };
 }
@@ -51,7 +58,7 @@ function qLine(t, h, v) {
     const a = from + (d * i) / steps;
     return `${(GAP_ARC * Math.cos(a)).toFixed(1)},${(-GAP_ARC * Math.sin(a)).toFixed(1)}`;
   }).join(' ');
-  return { Q: [len * Math.cos(angle), -len * Math.sin(angle)], deg: (angle * DEG).toFixed(1), gap: (d * DEG).toFixed(1), arc };
+  return { Q: [len * Math.cos(angle), -len * Math.sin(angle)], deg: (angle * DEG).toFixed(1), gap: (d * DEG).toFixed(1), angleDeg: angle * DEG, gapDeg: d * DEG, arc };
 }
 
 const views = computed(() => {
@@ -97,8 +104,8 @@ const views = computed(() => {
       </svg>
       <figcaption class="text-center text-sm">
         <TexMath :expr="w.tex" />
-        <span class="block font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">across {{ w.t.hValue }} g, up {{ w.t.vValue }} g: {{ w.t.sym }} = {{ w.t.deg }}°</span>
-        <span v-if="w.q" class="block font-mono text-xs tabular-nums"><span :style="{ color: A_COLOR }">â {{ w.t.deg }}°</span> · <span :style="{ color: V_COLOR }">v̂ {{ w.q.deg }}°</span> · gap {{ w.q.gap }}°</span>
+        <span class="block font-mono text-xs whitespace-pre-wrap text-slate-500 tabular-nums dark:text-slate-400">across {{ fixed(w.t.h, 2, G_WIDTH) }} g, up {{ fixed(w.t.v, 2, G_WIDTH) }} g: {{ w.t.sym }} = {{ fixed(w.t.angleDeg, 1, DEG_WIDTH) }}°</span>
+        <span v-if="w.q" class="block font-mono text-xs whitespace-pre-wrap tabular-nums"><span :style="{ color: A_COLOR }">â {{ fixed(w.t.angleDeg, 1, DEG_WIDTH) }}°</span> · <span :style="{ color: V_COLOR }">v̂ {{ fixed(w.q.angleDeg, 1, DEG_WIDTH) }}°</span> · gap {{ fixed(w.q.gapDeg, 1, DEG_WIDTH) }}°</span>
       </figcaption>
     </figure>
   </div>
