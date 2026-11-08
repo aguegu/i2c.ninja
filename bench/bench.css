@@ -1,0 +1,3 @@
+/* the site's styles, Tailwind told to look in src/ too (the bench's root is bench/) */
+@import '../src/style.css';
+@source '../src';

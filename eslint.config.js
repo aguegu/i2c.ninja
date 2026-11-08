@@ -6,7 +6,7 @@ import stylistic from '@stylistic/eslint-plugin';
 
 // iap.meshmass.com's SPA's (its spa/eslint.config.js), as it is
 export default defineConfig([
-  { ignores: ['dist', 'node_modules', 'public'] },
+  { ignores: ['dist', 'bench/dist', 'node_modules', 'public'] },
   ...pluginVue.configs['flat/strongly-recommended'],
   {
     files: ['*.config.js'],
