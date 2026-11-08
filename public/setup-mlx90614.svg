@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="860" height="400" font-family="Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 893 400" width="893" height="400" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>A CH341T dongle in I2C mode at 3.3V wired to an MLX90614 module with a black tube: VCC to VIN, GND, SCL, SDA</title>
   <defs>
@@ -17,65 +17,73 @@
     </g>
   </defs>
 
-  <rect class="bg" width="860" height="400" fill="#ffffff"/>
-  <text x="430" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + MLX90614 module</text>
+  <rect class="bg" width="893" height="400" fill="#ffffff"/>
+  <text x="446" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + MLX90614 module</text>
 
-  <!-- USB-A plug -->
-  <text x="70" y="160" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
-  <rect x="20" y="170" width="100" height="90" rx="3" fill="url(#metal)" stroke="#8a9096"/>
-  <rect x="38" y="190" width="16" height="12" fill="#6b7178"/>
-  <rect x="38" y="228" width="16" height="12" fill="#6b7178"/>
+  <text x="90.42519685039376" y="138.58267716535434" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
+  <rect x="19.559055118110308" y="148.58267716535434" width="179.52755905511808" height="122.83464566929133" rx="4" fill="#cfd4da" stroke="#8a9096"/>
+  <rect x="50.74015748031503" y="176.83464566929135" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <rect x="50.74015748031503" y="222.28346456692913" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <rect x="161.2913385826772" y="124.96062992125985" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
+  <text x="161.2913385826772" y="313.03937007874015" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
+  <rect x="492.0" y="138.0" width="14" height="144.0" fill="#151515"/>
+  <circle cx="472.15748031496065" cy="150.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="148.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="153.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">RXD</text>
+  <circle cx="472.15748031496065" cy="174.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="172.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="177.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">TXD</text>
+  <circle cx="472.15748031496065" cy="198.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="196.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="201.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">SDA</text>
+  <circle cx="472.15748031496065" cy="222.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="220.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="225.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">SCL</text>
+  <circle cx="472.15748031496065" cy="246.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="244.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="249.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">GND</text>
+  <circle cx="472.15748031496065" cy="270.0" r="7" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="472.15748031496065" y="268.0" width="55.84251968503935" height="4" fill="url(#pin)"/>
+  <text x="460.15748031496065" y="273.5" text-anchor="end" font-size="9.5" font-weight="bold" fill="#fff">VCC</text>
+  <rect x="334.6771653543307" y="178.15748031496065" width="68.03149606299212" height="50.07874015748031" rx="2" fill="#1d1d1d"/>
+  <rect x="336.57874015748035" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="336.57874015748035" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="343.38188976377955" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="343.38188976377955" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="350.18503937007875" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="350.18503937007875" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="356.98818897637796" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="356.98818897637796" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="363.79133858267716" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="363.79133858267716" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="370.5944881889764" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="370.5944881889764" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="377.3976377952756" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="377.3976377952756" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="384.2007874015748" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="384.2007874015748" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="391.003937007874" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="391.003937007874" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="397.8070866141733" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="397.8070866141733" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <text x="368.6929133858268" y="206.1968503937008" text-anchor="middle" font-size="9" font-weight="bold" fill="#e5e5e5">CH341T</text>
+  <rect x="265.70078740157476" y="155.5748031496063" width="44.40944881889764" height="101.1023622047244" rx="21.732283464566926" fill="#e9ecef" stroke="#8a9096"/>
+  <text transform="translate(290.9055118110236 206.1259842519685) rotate(-90)" text-anchor="middle" font-size="8" fill="#555">12.000</text>
+  <rect x="250.19685039370086" y="199.79527559055117" width="7" height="11" rx="1" fill="#b45309"/>
+  <rect x="326.8661417322835" y="133.96850393700788" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="378.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="354.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="330.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="351.8661417322835" y="134.96850393700788" width="38" height="14" rx="2.5" fill="#f2c200" fill-opacity="0.45" stroke="#f2c200" stroke-width="1.5"/>
+  <rect x="354.8661417322835" y="138.46850393700788" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="358.8661417322835" cy="141.96850393700788" r="1.8" fill="#7a5b10"/>
+  <circle cx="382.8661417322835" cy="141.96850393700788" r="1.8" fill="#7a5b10"/>
+  <rect x="326.8661417322835" y="270.0314960629921" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="378.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="354.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="330.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="327.8661417322835" y="271.0314960629921" width="38" height="14" rx="2.5" fill="#22a34a" fill-opacity="0.45" stroke="#22a34a" stroke-width="1.5"/>
+  <rect x="330.8661417322835" y="274.5314960629921" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="334.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
+  <circle cx="358.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
+  <text x="382.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="334.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
+  <text x="382.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="334.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3.3</text>
+  <rect x="234.66141732283467" y="143.6692913385827" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="244.66141732283467" y="159.6692913385827" font-size="9" fill="#fff">TNOW</text>
+  <rect x="234.66141732283467" y="267.8267716535433" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="244.66141732283467" y="275.8267716535433" font-size="9" fill="#fff">RDY</text>
 
-  <!-- the dongle's PCB -->
-  <rect x="118" y="125" width="340" height="180" rx="8" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
-  <text x="130" y="318" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
-
-  <!-- LEDs -->
-  <rect x="134" y="140" width="10" height="7" fill="#f1f1f1" stroke="#999"/>
-  <text x="150" y="147" font-size="9" fill="#fff">RDY</text>
-  <rect x="134" y="282" width="10" height="7" fill="#f1f1f1" stroke="#999"/>
-  <text x="150" y="289" font-size="9" fill="#fff">TNOW</text>
-
-  <!-- crystal, chip -->
-  <rect x="160" y="196" width="72" height="30" rx="14" fill="url(#metal)" stroke="#8a9096"/>
-  <text x="196" y="215" text-anchor="middle" font-size="8" fill="#555">12.000</text>
-  <g fill="#c9ccd1">
-    <rect x="252" y="176" width="3" height="8"/><rect x="259" y="176" width="3" height="8"/><rect x="266" y="176" width="3" height="8"/><rect x="273" y="176" width="3" height="8"/><rect x="280" y="176" width="3" height="8"/>
-    <rect x="287" y="176" width="3" height="8"/><rect x="294" y="176" width="3" height="8"/><rect x="301" y="176" width="3" height="8"/><rect x="308" y="176" width="3" height="8"/><rect x="315" y="176" width="3" height="8"/>
-    <rect x="252" y="236" width="3" height="8"/><rect x="259" y="236" width="3" height="8"/><rect x="266" y="236" width="3" height="8"/><rect x="273" y="236" width="3" height="8"/><rect x="280" y="236" width="3" height="8"/>
-    <rect x="287" y="236" width="3" height="8"/><rect x="294" y="236" width="3" height="8"/><rect x="301" y="236" width="3" height="8"/><rect x="308" y="236" width="3" height="8"/><rect x="315" y="236" width="3" height="8"/>
-  </g>
-  <rect x="248" y="183" width="74" height="54" rx="2" fill="#1d1d1d"/>
-  <text x="285" y="214" text-anchor="middle" font-size="10" fill="#ccc">CH341T</text>
-
-  <!-- mode jumper (yellow): TTL | I2C, the cap on I2C -->
-  <text x="340" y="141" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
-  <text x="380" y="141" text-anchor="middle" font-size="9" fill="#fff">I2C</text>
-  <g fill="#111"><rect x="333" y="147" width="14" height="14"/><rect x="353" y="147" width="14" height="14"/><rect x="373" y="147" width="14" height="14"/></g>
-  <circle cx="340" cy="154" r="3" fill="url(#pin)"/>
-  <rect x="351" y="144" width="38" height="20" rx="3" fill="#f2c200" stroke="#a88600"/>
-  <rect x="361" y="150" width="18" height="8" rx="2" fill="#d8ac00"/>
-
-  <!-- voltage jumper (green): 3V3 | 5V, the cap on 3V3 -->
-  <g fill="#111"><rect x="333" y="262" width="14" height="14"/><rect x="353" y="262" width="14" height="14"/><rect x="373" y="262" width="14" height="14"/></g>
-  <circle cx="380" cy="269" r="3" fill="url(#pin)"/>
-  <rect x="331" y="259" width="38" height="20" rx="3" fill="#2fa36b" stroke="#1d6e47"/>
-  <rect x="341" y="265" width="18" height="8" rx="2" fill="#268a5a"/>
-  <text x="340" y="293" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
-  <text x="380" y="293" text-anchor="middle" font-size="9" fill="#fff">5V</text>
-
-  <!-- the dongle's header: top to bottom RXD TXD SDA SCL GND VCC -->
-  <rect x="432" y="138" width="22" height="144" fill="#161616"/>
-  <g font-size="11" fill="#fff" text-anchor="end" font-family="Menlo, Consolas, monospace">
-    <text x="426" y="154">RXD</text><text x="426" y="178">TXD</text><text x="426" y="202">SDA</text>
-    <text x="426" y="226">SCL</text><text x="426" y="250">GND</text><text x="426" y="274">VCC</text>
-  </g>
-  <g fill="url(#pin)">
-    <rect x="443" y="148" width="34" height="4"/><rect x="443" y="172" width="34" height="4"/><rect x="443" y="196" width="34" height="4"/>
-    <rect x="443" y="220" width="34" height="4"/><rect x="443" y="244" width="34" height="4"/><rect x="443" y="268" width="34" height="4"/>
-  </g>
-
-
+  <g transform="translate(33 0)">
   <!-- the MLX90614 module (the blue board: pins VIN GND SCL SDA, the sensor under a black tube, a mounting hole), turned so its pins face the dongle -->
   <rect x="612" y="150" width="180" height="150" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <circle cx="770" cy="172" r="9" fill="#fff" stroke="#d9b44a" stroke-width="4"/>
@@ -105,7 +113,8 @@
 
   <!-- notes -->
   <g font-size="12" fill="#333">
-    <text x="20" y="350">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Its pins run VIN, GND, SCL, SDA, the dongle's the other way:</text>
+    <text x="20" y="350">Yellow jumper on I2C, green on 3.3, both before plugging in USB. Its pins run VIN, GND, SCL, SDA, the dongle's the other way:</text>
     <text x="20" y="370">VCC (3.3 V) to VIN, GND to GND, SCL to SCL, SDA to SDA, all four crossing. Point the tube at what to measure.</text>
+  </g>
   </g>
 </svg>
