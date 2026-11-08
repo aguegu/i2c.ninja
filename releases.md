@@ -1,5 +1,21 @@
 # Releases
 
+## 1.5.1
+
+- **The glass box and the flat views drawn on canvases** (lib/canvas.js):
+  their walls, grids and axes drawn once, the board and its axes over them
+  each frame. Each view about half its cost; on the Pi 5 the Attitude page
+  holds 60 frames a second under a child's shaking.
+- **The numbers card rests while scrolled away**: no refresh and no layout
+  off screen, catching up as it comes back (a slower machine, at the
+  gauges: views updated twice as often).
+- **The math, drawn, holds still**: the live captions' numbers at a fixed
+  width, the triangle's caption in two lines, so the text under them no
+  longer jumps.
+- For measuring: the timing meter says which server and build each entry
+  came from; ?hide= leaves parts of the Attitude page out (not on
+  i2c.ninja); bench/live.mjs sweeps them.
+
 ## 1.5.0
 
 1.4.x closed (the CH347, Dongles, the wiring drawings); 1.5.x opens with
