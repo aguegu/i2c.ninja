@@ -90,20 +90,21 @@ const snap = () => {
   const u = props.fusion;
   return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned, steps: u.steps(), at: performance.now() };
 };
-const slow = shallowRef(snap());
+let slow = snap();
 // how fast the filter computes: its readings a second over the last second,
 // and how many so far (the card shows 8 a second; this says what's behind it)
 const RATE_MS = 1000;
 const pace = shallowRef({ perSecond: 0, total: 0 });
-let paceFrom = slow.value;
+let paceFrom = slow;
 // while on screen only (the card scrolled away refreshes nothing, and
 // catches up as it comes back)
 const numbersCard = ref(null);
 let numbersSeen = true;
 const numbersTimer = setInterval(() => {
   if (!numbersSeen) return;
-  slow.value = snap();
-  const s = slow.value;
+  slow = snap();
+  const s = slow;
+  refreshNumbers(s);
   if (s.steps < paceFrom.steps) paceFrom = s; // Start again
   if (s.at - paceFrom.at >= RATE_MS) {
     pace.value = { perSecond: Math.round(((s.steps - paceFrom.steps) * 1000) / (s.at - paceFrom.at)), total: s.steps };
@@ -119,8 +120,8 @@ onBeforeUnmount(() => { clearInterval(numbersTimer); numbersIo?.disconnect(); })
 // each block: a formula a row (LaTeX), its result with the latest numbers
 // (wide: a long formula, its result after it on the line); term: the short
 // name shown beside it, note: the explanation, in its tooltip
-const blocks = computed(() => {
-  const u = slow.value, i = u.input;
+function buildBlocks(u) {
+  const i = u.input;
   // the card's own â, e and turn, from the snapshot
   const am = i?.accel && Math.hypot(...i.accel);
   const ah = am ? i.accel.map((c) => c / am) : null;
@@ -162,7 +163,31 @@ const blocks = computed(() => {
       { tex: String.raw`(\varphi_q,\ \theta_q,\ \psi_q) =`, value: fusionAngles(u), term: 'the fused angles', note: 'Roll, pitch and yaw read back from the new q: the attitude fused, steady like gravity\'s and quick like the gyro\'s. The gauges below show them' },
     ] },
   ];
-});
+}
+// the card: rendered by Vue only when its rows change (Zero swaps a note),
+// else each refresh writes the values straight into their cells, so Vue
+// neither rebuilds nor compares the 24 rows, nor touches the formulas
+const layout = shallowRef(buildBlocks(slow));
+let layoutZeroed = slow.zeroed;
+const cells = new Map(); // a row's formula -> its value's cell
+const cell = (tex) => (el) => { if (el) cells.set(tex, el); else cells.delete(tex); };
+function refreshNumbers(u) {
+  const blocks = buildBlocks(u);
+  if (u.zeroed !== layoutZeroed) {
+    layoutZeroed = u.zeroed;
+    layout.value = blocks;
+    return;
+  }
+  for (const b of blocks) {
+    for (const r of b.rows) {
+      const el = cells.get(r.tex);
+      if (!el || r.value === '') continue;
+      if (el.textContent !== r.value) el.textContent = r.value;
+      const w = `${widest(r.tex, r.value)}ch`;
+      if (el.style.minWidth !== w) el.style.minWidth = w;
+    }
+  }
+}
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 </script>
@@ -175,15 +200,15 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <button :class="button" :disabled="!running" @click="fusion.restart">Start again</button>
     </div>
     <div class="flex flex-col gap-3">
-      <div v-for="b in blocks" :key="b.title">
+      <div v-for="b in layout" :key="b.title">
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.tex">
             <!-- a row without a value: its formula across both columns; a
                  wide one (a long formula): its value after it, both across -->
-            <span v-if="r.wide" class="col-span-2"><TexMath v-if="PROBE !== 'plain'" :expr="r.tex" /><span v-else>{{ r.tex }}</span> <span class="inline-block" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
+            <span v-if="r.wide" class="col-span-2"><TexMath v-if="PROBE !== 'plain'" :expr="r.tex" /><span v-else>{{ r.tex }}</span> <span :ref="cell(r.tex)" class="inline-block" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
             <template v-else>
-              <TexMath v-if="PROBE !== 'plain'" :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-else :class="r.value === '' && 'col-span-2'">{{ r.tex }}</span><span v-if="r.value !== ''" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
+              <TexMath v-if="PROBE !== 'plain'" :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-else :class="r.value === '' && 'col-span-2'">{{ r.tex }}</span><span v-if="r.value !== ''" :ref="cell(r.tex)" :class="[value, valueBox]" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
             </template>
             <!-- the term, its explanation in a tooltip (hover, focus or a tap) -->
             <InfoTip :text="r.note" class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400">{{ r.term }}</InfoTip>
