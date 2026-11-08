@@ -80,10 +80,23 @@ const flatCaptions = computed(() => {
 const NUMBERS_MS = 125;
 const snap = () => {
   const u = props.fusion;
-  return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned };
+  return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned, steps: u.steps(), at: performance.now() };
 };
 const slow = shallowRef(snap());
-const numbersTimer = setInterval(() => { slow.value = snap(); }, NUMBERS_MS);
+// how fast the filter computes: its readings a second over the last second,
+// and how many so far (the card shows 8 a second; this says what's behind it)
+const RATE_MS = 1000;
+const pace = shallowRef({ perSecond: 0, total: 0 });
+let paceFrom = slow.value;
+const numbersTimer = setInterval(() => {
+  slow.value = snap();
+  const s = slow.value;
+  if (s.steps < paceFrom.steps) paceFrom = s; // Start again
+  if (s.at - paceFrom.at >= RATE_MS) {
+    pace.value = { perSecond: Math.round(((s.steps - paceFrom.steps) * 1000) / (s.at - paceFrom.at)), total: s.steps };
+    paceFrom = s;
+  } else pace.value = { ...pace.value, total: s.steps };
+}, NUMBERS_MS);
 onBeforeUnmount(() => clearInterval(numbersTimer));
 // each block: a formula a row (LaTeX), its result with the latest numbers
 // (wide: a long formula, its result after it on the line); term: the short
@@ -140,6 +153,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   <section :class="card">
     <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
       <h2 class="text-lg font-semibold">The numbers, and what's done with them</h2>
+      <span v-if="running && pace.total" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">computed <b class="text-emerald-700 dark:text-emerald-400">{{ pace.perSecond }}</b> times a second · shown {{ 1000 / NUMBERS_MS }} · <b class="text-emerald-700 dark:text-emerald-400">{{ pace.total.toLocaleString('en') }}</b> readings so far</span>
       <button :class="button" :disabled="!running" @click="fusion.restart">Start again</button>
     </div>
     <div class="flex flex-col gap-3">

@@ -38,6 +38,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const yawSeries = makeSeries(2, windowMs); // the gyro alone, fused: gravity can't see yaw
   let lastT = null;
   let alone = null;
+  let steps = 0; // readings the filter has taken since the start (or Start again): plain, read by the numbers card
   // the views' state, written once a frame from the newest reading
   const publish = perFrame((s) => {
     input.value = s.input;
@@ -61,6 +62,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
         return;
       }
     }
+    steps++;
     const gyro = raw.map((g, k) => g - b0.value[k]);
     const dt = lastT === null ? 0 : (t - lastT) / 1000;
     lastT = t;
@@ -84,6 +86,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   // start again: level by gravity, heading 0 (the nose's way now)
   function restart() {
     publish.cancel();
+    steps = 0;
     mahony.q = null;
     mahony.integral = [0, 0, 0];
     lastT = null;
@@ -100,5 +103,5 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     zeroing.value = true;
   }
 
-  return { b0, zeroing, zeroed, zero, input, kp, ki, defaults: { kp: mahony.kp, ki: mahony.ki }, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
+  return { steps: () => steps, b0, zeroing, zeroed, zero, input, kp, ki, defaults: { kp: mahony.kp, ki: mahony.ki }, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
 }
