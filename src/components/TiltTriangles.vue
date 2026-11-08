@@ -104,7 +104,8 @@ const views = computed(() => {
       </svg>
       <figcaption class="text-center text-sm">
         <TexMath :expr="w.tex" />
-        <span class="block font-mono text-xs whitespace-pre-wrap text-slate-500 tabular-nums dark:text-slate-400">across {{ fixed(w.t.h, 2, G_WIDTH) }} g, up {{ fixed(w.t.v, 2, G_WIDTH) }} g: {{ w.t.sym }} = {{ fixed(w.t.angleDeg, 1, DEG_WIDTH) }}°</span>
+        <span class="block font-mono text-xs whitespace-pre-wrap text-slate-500 tabular-nums dark:text-slate-400">across {{ fixed(w.t.h, 2, G_WIDTH) }} g, up {{ fixed(w.t.v, 2, G_WIDTH) }} g</span>
+        <span class="block font-mono text-xs whitespace-pre-wrap text-slate-500 tabular-nums dark:text-slate-400">{{ w.t.sym }} = {{ fixed(w.t.angleDeg, 1, DEG_WIDTH) }}°</span>
         <span v-if="w.q" class="block font-mono text-xs whitespace-pre-wrap tabular-nums"><span :style="{ color: A_COLOR }">â {{ fixed(w.t.angleDeg, 1, DEG_WIDTH) }}°</span> · <span :style="{ color: V_COLOR }">v̂ {{ fixed(w.q.angleDeg, 1, DEG_WIDTH) }}°</span> · gap {{ fixed(w.q.gapDeg, 1, DEG_WIDTH) }}°</span>
       </figcaption>
     </figure>
