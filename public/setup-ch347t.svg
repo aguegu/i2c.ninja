@@ -90,8 +90,26 @@
   <text transform="translate(337 267) rotate(-90)" text-anchor="middle" font-size="9" fill="#ccc">CH347T</text>
   <rect x="318" y="185.0" width="30" height="16" rx="3" fill="url(#metal)" stroke="#8a9096"/>
   <text x="333" y="196.0" text-anchor="middle" font-size="7.5" fill="#555">8 MHz</text>
-  <rect x="287.76377952755905" y="430.2204724409449" width="84.47244094488188" height="69.44881889763779" rx="2" fill="url(#metal)" stroke="#8a9096"/>
-  <text x="330.0" y="517.6692913385828" text-anchor="middle" font-size="12" fill="#555">USB-C, to the PC</text>
+  <rect x="289.7834645669291" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="296.8228346456693" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="303.8622047244094" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="310.90157480314963" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="317.9409448818898" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="324.9803149606299" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="332.0196850393701" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="339.0590551181102" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="346.09842519685037" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="353.1377952755905" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="360.17716535433067" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="367.2165354330709" y="431.1653543307086" width="3" height="10.503937007874015" fill="#c9ccd1"/>
+  <rect x="281.1496062992126" y="469.43307086614175" width="9.448818897637794" height="18.89763779527559" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="369.40157480314963" y="469.43307086614175" width="9.448818897637794" height="18.89763779527559" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="287.76377952755905" y="439.66929133858264" width="84.47244094488188" height="69.44881889763779" rx="3" fill="url(#metal)" stroke="#8a9096"/>
+  <line x1="290.76377952755905" y1="500.61417322834643" x2="369.23622047244095" y2="500.61417322834643" stroke="#8a9096" stroke-width="1"/>
+  <circle cx="319.86330708661416" cy="474.39370078740154" r="10.393700787401574" fill="#d9dde1" stroke="#8a9096"/>
+  <circle cx="317.86330708661416" cy="472.39370078740154" r="3.779527559055118" fill="#f8f9fa"/>
+  <rect x="345.20503937007874" y="451.007874015748" width="13.228346456692911" height="20.787401574803148" rx="1" fill="#6b7178"/>
+  <text x="330.0" y="525.1181102362204" text-anchor="middle" font-size="12" fill="#555">USB-C, to the PC</text>
   <rect x="559" y="298" width="171" height="220" rx="8" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <circle cx="716" cy="312" r="7" fill="#fff" stroke="#999"/><circle cx="716" cy="504" r="7" fill="#fff" stroke="#999"/>
   <rect x="563" y="310" width="22" height="196" fill="#161616"/>
