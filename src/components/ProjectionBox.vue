@@ -50,7 +50,7 @@ const onWall = (w, v) => v.map((c, k) => (k === w.axis ? w.at : c)); // a point 
 // (the right wall's at its left, reading inward; the others' at their right)
 const TAGS = { floor: [0.9 * D, 0.55 * D, -D], back: [-D, 0.9 * D, 0.85 * D], side: [0.9 * D, -D, 0.85 * D] };
 // and nudged on screen, in the drawing's units: the floor's right, clear of its frame
-const TAG_NUDGE = { floor: [10, 0] };
+const TAG_NUDGE = { floor: [28, -2] };
 // the walls' squares, faint grids on them
 const walls = WALLS.map((w) => {
   const [a, b] = [0, 1, 2].filter((k) => k !== w.axis);
