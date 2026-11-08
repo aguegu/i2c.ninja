@@ -7,6 +7,8 @@
 //
 // Serve the site's dist/ with bench/dist/ as its bench/, then
 //   node measure.mjs http://localhost:8765 [seconds]
+// BENCH_RATES=4 (the rates, comma-separated), BENCH_GROUPS=1 (the bench's
+// groups one at a time)
 // (puppeteer-core beside it; Chromium at /usr/bin/chromium)
 import puppeteer from 'puppeteer-core';
 
@@ -14,8 +16,12 @@ const BASE = process.argv[2] || 'http://localhost:8765';
 const SECONDS = Number(process.argv[3]) || 10;
 const WARM_MS = 2000;
 const JANK_MS = 33.4; // two frames at 60 Hz
-const PAGES = [['bench', '/bench/', 2600], ['home', '/', 900]]; // name, path, viewport height
-const RATES = [1, 4, 6];
+// name, path, viewport height; BENCH_GROUPS=1: each group of the bench alone
+const GROUPS = ['charts', 'gauges', 'box', 'flat', 'board', 'ball'];
+const PAGES = process.env.BENCH_GROUPS
+  ? GROUPS.map((g) => [g, `/bench/?only=${g}`, 2600])
+  : [['bench', '/bench/', 2600], ['home', '/', 900]];
+const RATES = (process.env.BENCH_RATES || '1,4,6').split(',').map(Number);
 
 const pct = (a, p) => a[Math.min(a.length - 1, Math.floor((p / 100) * a.length))];
 const metric = (m, name) => m.metrics.find((x) => x.name === name).value;
@@ -29,7 +35,7 @@ for (const [name, path, height] of PAGES) {
     const cdp = await page.createCDPSession();
     await cdp.send('Emulation.setCPUThrottlingRate', { rate });
     await cdp.send('Performance.enable');
-    await page.goto(BASE + path, { waitUntil: 'networkidle0' });
+    await page.goto(BASE + path, { waitUntil: 'load', timeout: 120000 });
     await new Promise((r) => setTimeout(r, WARM_MS));
     const m0 = await cdp.send('Performance.getMetrics');
     const gaps = await page.evaluate((ms) => new Promise((resolve) => {

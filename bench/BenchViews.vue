@@ -20,6 +20,10 @@ const WINDOW_MS = 10000;
 const mul = ([a, b, c, d], [e, f, g, h]) => [a * e - b * f - c * g - d * h, a * f + b * e + c * h - d * g, a * g - b * h + c * e + d * f, a * h + b * g - c * f + d * e];
 const SERIES3 = [{ label: 'g', color: '--series-1' }, { label: 'ω', color: '--series-2' }, { label: 'q', color: '--series-3' }];
 
+// ?only=charts|gauges|box|flat|board|ball: one group alone, to find the costly one
+const only = new URLSearchParams(location.search).get('only');
+const show = (g) => !only || only === g;
+
 const q = ref([1, 0, 0, 0]);
 const roll = ref(0), pitch = ref(0), yaw = ref(0);
 const rates = ref([0, 0, 0]), phases = ref([0, 0, 0]);
@@ -48,18 +52,20 @@ onBeforeUnmount(() => clearTimeout(timer));
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <LiveChart title="φ" unit="°" :series="SERIES3" :values="[roll, roll, roll]" :source="charts[0].source" :window-ms="WINDOW_MS" />
+    <template v-if="show('charts')">
+      <LiveChart title="φ" unit="°" :series="SERIES3" :values="[roll, roll, roll]" :source="charts[0].source" :window-ms="WINDOW_MS" />
     <LiveChart title="θ" unit="°" :series="SERIES3" :values="[pitch, pitch, pitch]" :source="charts[1].source" :window-ms="WINDOW_MS" />
     <LiveChart title="ψ" unit="°" :series="SERIES3.slice(1)" :values="[yaw, yaw]" :source="charts[2].source" :window-ms="WINDOW_MS" />
-    <div class="grid gap-4 sm:grid-cols-2">
+    </template>
+    <div v-if="show('gauges')" class="grid gap-4 sm:grid-cols-2">
       <AttitudeIndicator :roll="roll" :pitch="pitch" />
       <HeadingIndicator :heading="yaw" />
     </div>
-    <ProjectionBox :q="q" />
-    <ProjectionViews :q="q" />
+    <ProjectionBox v-if="show('box')" :q="q" />
+    <ProjectionViews v-if="show('flat')" :q="q" />
     <div class="grid gap-4 sm:grid-cols-2">
-      <Board3D :q="q" />
-      <GyroBall :rates="rates" :phases="phases" />
+      <Board3D v-if="show('board')" :q="q" />
+      <GyroBall v-if="show('ball')" :rates="rates" :phases="phases" />
     </div>
   </main>
 </template>
