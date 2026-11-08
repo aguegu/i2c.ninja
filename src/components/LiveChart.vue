@@ -7,7 +7,7 @@
 // Cheap per frame (bench/ measures it): its size from a ResizeObserver and
 // its colours read once (again on a theme change), so a frame never makes
 // the page lay out; no frames at all while it's off screen.
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
@@ -33,6 +33,17 @@ let frame = 0;
 let size = { w: 0, h: 0 }; // device pixels, from the ResizeObserver
 let colors = null; // the tokens' values, read once, cleared on a theme change
 let observers = [];
+
+// the legend's numbers, 8 times a second: readable, and the caption isn't
+// laid out again on every reading (the lines still move every frame)
+const LEGEND_MS = 125;
+const shown = ref(props.values);
+let legendAt = 0, legendTimer = 0;
+watch(() => props.values, (v) => {
+  const wait = legendAt + LEGEND_MS - performance.now();
+  if (wait <= 0) { shown.value = v; legendAt = performance.now(); return; }
+  if (!legendTimer) legendTimer = setTimeout(() => { legendTimer = 0; shown.value = props.values; legendAt = performance.now(); }, wait);
+});
 
 const LINE_PX = 2;
 const LABEL_PX = 11;
@@ -157,6 +168,7 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
   stop();
+  clearTimeout(legendTimer);
   for (const o of observers) o.disconnect();
 });
 
@@ -169,7 +181,7 @@ const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(p
       <span class="font-semibold">{{ title }} <span class="font-normal text-slate-500 dark:text-slate-400">{{ unit }}</span></span>
       <span v-for="(s, k) in series" :key="s.label + (s.sub ?? '')" class="flex items-center gap-1.5 font-mono text-sm tabular-nums">
         <span class="inline-block h-0.5 w-4 rounded" :style="{ background: `var(${s.color})` }" />
-        <span>{{ s.label }}<sub v-if="s.sub">{{ s.sub }}</sub></span> {{ fmt(values[k]) }}
+        <span>{{ s.label }}<sub v-if="s.sub">{{ s.sub }}</sub></span> {{ fmt(shown[k]) }}
       </span>
       <FullscreenButton v-if="canFullscreen" :full="full" class="ml-auto self-center" @toggle="toggleFull" />
     </figcaption>
