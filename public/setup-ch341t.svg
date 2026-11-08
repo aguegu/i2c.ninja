@@ -21,12 +21,12 @@
   <text x="190.0" y="338.0787401574803" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
   <rect x="494.7086614173228" y="161.03937007874015" width="22" height="148.0" fill="#161616"/>
   <g fill="url(#pin)">
-    <rect x="505.7086614173228" y="173.03937007874015" width="41.0" height="4"/>
-    <rect x="505.7086614173228" y="197.03937007874015" width="41.0" height="4"/>
-    <rect x="505.7086614173228" y="221.03937007874015" width="41.0" height="4"/>
-    <rect x="505.7086614173228" y="245.03937007874015" width="41.0" height="4"/>
-    <rect x="505.7086614173228" y="269.03937007874015" width="41.0" height="4"/>
-    <rect x="505.7086614173228" y="293.03937007874015" width="41.0" height="4"/>
+    <rect x="505.7086614173228" y="173.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="197.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="221.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="245.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="269.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="293.03937007874015" width="34.0" height="4"/>
   </g>
   <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace" text-anchor="end">
     <text x="488.7086614173228" y="179.03937007874015">RXD</text>
@@ -101,15 +101,15 @@
   <text x="739" y="257.03937007874015" text-anchor="middle" font-size="9" fill="#fff">MPU-6050</text>
   <text x="714.5" y="339.03937007874015" text-anchor="middle" font-size="12" fill="#555">GY-521</text>
   <g stroke-linecap="round" fill="none">
-    <path d="M546.7086614173228 223.03937007874015 H590" stroke="#0d4f8c" stroke-width="7"/><path d="M546.7086614173228 223.03937007874015 H590" stroke="#1e88e5" stroke-width="5"/>
-    <path d="M546.7086614173228 247.03937007874015 H590" stroke="#a88600" stroke-width="7"/><path d="M546.7086614173228 247.03937007874015 H590" stroke="#f2c200" stroke-width="5"/>
-    <path d="M546.7086614173228 271.03937007874015 H590" stroke="#000" stroke-width="7"/><path d="M546.7086614173228 271.03937007874015 H590" stroke="#3a3a3a" stroke-width="5"/>
-    <path d="M546.7086614173228 295.03937007874015 H590" stroke="#8e1c1c" stroke-width="7"/><path d="M546.7086614173228 295.03937007874015 H590" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M539.7086614173228 223.03937007874015 H590" stroke="#0d4f8c" stroke-width="7"/><path d="M539.7086614173228 223.03937007874015 H590" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M539.7086614173228 247.03937007874015 H590" stroke="#a88600" stroke-width="7"/><path d="M539.7086614173228 247.03937007874015 H590" stroke="#f2c200" stroke-width="5"/>
+    <path d="M539.7086614173228 271.03937007874015 H590" stroke="#000" stroke-width="7"/><path d="M539.7086614173228 271.03937007874015 H590" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M539.7086614173228 295.03937007874015 H590" stroke="#8e1c1c" stroke-width="7"/><path d="M539.7086614173228 295.03937007874015 H590" stroke="#d32f2f" stroke-width="5"/>
   </g>
-  <use href="#dupont" x="526.7086614173228" y="223.03937007874015"/><use href="#dupont" x="590" y="223.03937007874015"/>
-  <use href="#dupont" x="526.7086614173228" y="247.03937007874015"/><use href="#dupont" x="590" y="247.03937007874015"/>
-  <use href="#dupont" x="526.7086614173228" y="271.03937007874015"/><use href="#dupont" x="590" y="271.03937007874015"/>
-  <use href="#dupont" x="526.7086614173228" y="295.03937007874015"/><use href="#dupont" x="590" y="295.03937007874015"/>
+  <use href="#dupont" x="519.7086614173228" y="223.03937007874015"/><use href="#dupont" x="590" y="223.03937007874015"/>
+  <use href="#dupont" x="519.7086614173228" y="247.03937007874015"/><use href="#dupont" x="590" y="247.03937007874015"/>
+  <use href="#dupont" x="519.7086614173228" y="271.03937007874015"/><use href="#dupont" x="590" y="271.03937007874015"/>
+  <use href="#dupont" x="519.7086614173228" y="295.03937007874015"/><use href="#dupont" x="590" y="295.03937007874015"/>
   <g font-size="12" fill="#333">
     <text x="20" y="390">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: SDA, SCL, GND, VCC (3.3V).</text>
     <text x="20" y="410">TXD and RXD stay free in I2C mode. AD0, INT, XDA, XCL stay free: AD0 low on the GY-521 makes the address 0x68.</text>
