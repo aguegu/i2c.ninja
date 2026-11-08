@@ -55,8 +55,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <ConnectButton v-if="gyro.state !== 'running'" :busy="gyro.state === 'connecting'" @click="gyro.connect">{{ gyro.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="gyro.disconnect" />
       <span v-if="gyro.state === 'running'" class="font-mono text-sm tabular-nums">itself {{ gyro.temperature?.toFixed(1) ?? '—' }} °C</span>
-      <span v-if="gyro.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(gyro.address) }} · 400 kHz · ±2000 °/s · 98 Hz filter</span>
-      <LiveSettings />
+      <span v-if="gyro.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(gyro.address) }} · 400 kHz · ±2000 °/s · 98 Hz filter</span>
+      <LiveSettings class="ml-auto" />
     </section>
     <div v-if="gyro.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ gyro.failure.title }}</p>

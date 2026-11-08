@@ -44,8 +44,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="m.state !== 'running'" :busy="m.state === 'connecting'" @click="m.connect">{{ m.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="m.disconnect" />
-      <span v-if="m.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x57 · 100 samples/s</span>
-      <LiveSettings />
+      <span v-if="m.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">0x57 · 100 samples/s</span>
+      <LiveSettings class="ml-auto" />
     </section>
     <div v-if="m.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ m.failure.title }}</p>

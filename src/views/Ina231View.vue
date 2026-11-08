@@ -82,10 +82,10 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
           <option v-for="s in SHUNTS" :key="s.ohms" :value="s.ohms">{{ s.mark }} ({{ s.ohms }} Ω)</option>
         </select>
       </label>
-      <span v-if="ina.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
+      <span v-if="ina.state === 'running'" class=" font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
         {{ hex(ina.address) }} · {{ ina.rate.toFixed(0) }} readings/s
       </span>
-      <LiveSettings />
+      <LiveSettings class="ml-auto" />
     </section>
     <div v-if="ina.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ ina.failure.title }}</p>

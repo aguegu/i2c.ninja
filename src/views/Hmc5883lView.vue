@@ -53,8 +53,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="mag.state === 'idle' || mag.state === 'connecting'" :busy="mag.state === 'connecting'" @click="mag.connect">{{ mag.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="mag.disconnect" />
-      <span v-if="mag.state !== 'idle' && mag.state !== 'connecting'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x1E · 400 kHz · ±1.3 gauss · 15 Hz</span>
-      <LiveSettings />
+      <span v-if="mag.state !== 'idle' && mag.state !== 'connecting'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">0x1E · 400 kHz · ±1.3 gauss · 15 Hz</span>
+      <LiveSettings class="ml-auto" />
     </section>
     <div v-if="mag.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ mag.failure.title }}</p>
