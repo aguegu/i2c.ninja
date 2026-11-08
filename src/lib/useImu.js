@@ -7,6 +7,7 @@
 // Read once a sample period: the chip refreshes its data registers at its
 // sample rate (62.5 Hz with atiic's settings), so reading faster only
 // repeats the last sample.
+import { noteReading } from './perf.js';
 import { ref, onBeforeUnmount } from 'vue';
 import { Mpu6050, Mpu6500 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
@@ -77,6 +78,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
       for (const y of [...buf.accel, ...buf.gyro]) y.splice(0, old);
     }
     for (const fn of listeners) fn(now, accel, gyro);
+    noteReading();
     latest.value = {
       bytes, counts, accel, gyro, temperature: mpu.temperature(counts[3]),
       accelLsb: mpu.accelerometerSensitivity, gyroLsb: mpu.gyroscopeSensitivity,

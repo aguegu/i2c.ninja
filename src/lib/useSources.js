@@ -5,6 +5,7 @@
 // { key: ACCELEROMETERS, ... }. Several found for a quantity: choose(key, i).
 // Two quantities found on one module (lib/sources.js family) are taken
 // together first, their axes being the same.
+import { noteReading } from './perf.js';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
 import { makeSeries } from './series.js';
@@ -52,6 +53,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
         const v = {};
         for (const k of keys) v[k] = await sensors[k].read();
         latest.value = v;
+        noteReading();
         for (const k of keys) series[k].push(t0, v[k]);
         for (const fn of listeners) fn(t0, v);
         await delay(Math.max(0, readMs - (performance.now() - t0)));
