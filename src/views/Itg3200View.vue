@@ -1,6 +1,7 @@
 <script setup>
 // The ITG-3200 live on the CH341 dongle: its three rates, the turn they
 // add up to, its bias zeroed out, and how a vibrating mass feels a turn
+import LiveSettings from '../components/LiveSettings.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import { reactive, computed } from 'vue';
@@ -55,6 +56,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <StopButton v-else @click="gyro.disconnect" />
       <span v-if="gyro.state === 'running'" class="font-mono text-sm tabular-nums">itself {{ gyro.temperature?.toFixed(1) ?? '—' }} °C</span>
       <span v-if="gyro.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(gyro.address) }} · 400 kHz · ±2000 °/s · 98 Hz filter</span>
+      <LiveSettings />
     </section>
     <div v-if="gyro.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ gyro.failure.title }}</p>

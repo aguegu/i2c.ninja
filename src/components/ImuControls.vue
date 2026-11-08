@@ -1,6 +1,7 @@
 <script setup>
 // connect / stop, the address and the scales, the temperature and the
 // reading rate, for a page with useImu (passed reactive: its refs unwrapped)
+import LiveSettings from './LiveSettings.vue';
 import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
@@ -43,6 +44,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     <span v-if="imu.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
       {{ imu.chipName }} · {{ imu.latest ? `${imu.latest.temperature.toFixed(1)} °C · ` : '' }}{{ imu.rate.toFixed(0) }} readings/s
     </span>
+    <LiveSettings />
   </section>
   <div v-if="imu.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
     <p class="font-semibold">{{ imu.failure.title }}</p>

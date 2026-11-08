@@ -4,6 +4,7 @@
 // calibration, the field three ways, the board against the field line, and
 // the chart. A page brings a useHardIron() (reactive) fed by its readings;
 // running enables the buttons.
+import CollapsibleCard from './CollapsibleCard.vue';
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import CompassRose from './CompassRose.vue';
@@ -82,23 +83,23 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </table>
   </section>
 
-  <section :class="card">
+  <CollapsibleCard id="what-the-chip-feels-three-ways" title="What the chip feels, three ways">
     <h2 class="mb-2 font-semibold">What the chip feels, three ways</h2>
     <VectorViews :x="b?.x ?? 0" :y="b?.y ?? 0" :z="b?.z ?? 0" unit="µT" :scale="SCALE_UT" :digits="1" :color="FIELD_COLOR" />
     <p class="mt-3 leading-relaxed">
       The field as an arrow, seen from three sides, the board (its outline) still, in its own axes as printed{{ cal.calibrated ? '' : ' (calibrate first: the board\'s own field shifts it)' }}. Lying level it points north and down into the ground: from above you see only its level part, pointing north; from the side, how steeply it dips. Turn the board and the arrow swings the other way on the screen, still pointing the same way in the room.
     </p>
-  </section>
+  </CollapsibleCard>
 
-  <section :class="card">
+  <CollapsibleCard id="the-board-against-the-field-the-field-he" title="The board against the field: the field held still">
     <h2 class="mb-2 font-semibold">The board against the field: the field held still</h2>
     <AttitudeViews :x="b?.x ?? 0" :y="b?.y ?? 0" :z="b?.z ?? -1" field="magnetic" />
     <p class="mt-3 leading-relaxed">
       As with gravity for an accelerometer, but the field line held still instead, drawn down the page, and the board turned against it. The side views show how the board's nose and side tilt against the field; along the field line, a turn about it can't be seen, just as an accelerometer can't see a turn about the vertical. The field line isn't vertical (it dips into the ground at an angle) and the two together, gravity and the field, are what fix every turn: that's a tilt-compensated compass.
     </p>
-  </section>
+  </CollapsibleCard>
 
-  <section :class="card">
+  <CollapsibleCard id="magnetic-field" title="Magnetic field">
     <LiveChart title="Magnetic field" unit="µT" :series="SERIES" :values="b ? [b.x, b.y, b.z] : []" :source="cal.source" :window-ms="windowMs" :floor="FLOOR_UT" :digits="1" />
-  </section>
+  </CollapsibleCard>
 </template>

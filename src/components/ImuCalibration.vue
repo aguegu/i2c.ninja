@@ -6,6 +6,7 @@
 // board's face told live, each recorded by itself after a second still. The
 // page's calibration is switched off while here (raw readings), and its
 // saved one read again after a save or a forget.
+import CollapsibleCard from './CollapsibleCard.vue';
 import { reactive, ref, computed, onBeforeUnmount } from 'vue';
 import Board3D from './Board3D.vue';
 import AxisCalLine from './AxisCalLine.vue';
@@ -143,7 +144,6 @@ const savedParts = computed(() => {
 });
 
 const f = (v, n = 3) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n);
-const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const prose = 'max-w-3xl leading-relaxed';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 const primary = 'rounded-lg bg-emerald-600 px-3 py-1.5 text-sm text-white hover:bg-emerald-700 disabled:opacity-50';
@@ -155,7 +155,7 @@ const td = 'px-2 py-1';
 <template>
   <div class="flex flex-col gap-4">
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">No two chips read alike: a gyro's offset turns into drift, an accelerometer never reads exactly 1 g. Calibration measures this chip's errors once, so they can be taken off every reading after. Here are the values a flight controller keeps, measured on the chip in your hand. While this tab is open the readings are raw.</p>
-    <section :class="card">
+    <CollapsibleCard id="1-the-gyro-s-offset" title="1. The gyro's offset">
       <h2 class="mb-2 text-lg font-semibold">1. The gyro's offset</h2>
       <p :class="['mb-3', prose]">
         At rest a gyro should read 0 deg/s; it reads its offset. Added up for a minute, an offset of 1 deg/s is 60° of
@@ -181,9 +181,9 @@ const td = 'px-2 py-1';
           </tbody>
         </table>
       </div>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="card">
+    <CollapsibleCard id="2-the-accelerometer-six-positions" title="2. The accelerometer: six positions">
       <h2 class="mb-2 text-lg font-semibold">2. The accelerometer: six positions</h2>
       <p :class="['mb-4', prose]">
         Each axis can be off two ways: a little <b>offset</b> (it reads slightly more or less than it should) and a
@@ -226,9 +226,9 @@ const td = 'px-2 py-1';
           And left in, the x or y offset would lean gravity's level by up to <b>{{ check.tilt.toFixed(1) }}°</b>.
         </p>
       </div>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="card">
+    <CollapsibleCard id="3-the-values-to-keep" title="3. The values to keep">
       <h2 class="mb-2 text-lg font-semibold">3. The values to keep</h2>
       <p :class="['mb-3', prose]">
         This is what a flight controller stores after its calibration, and applies to every reading: the gyro's offset
@@ -250,6 +250,6 @@ const td = 'px-2 py-1';
         offset's whole curve over temperature, and a compass's own calibration for yaw. The same idea each time: a known
         reference, the errors measured against it, taken off after.
       </p>
-    </section>
+    </CollapsibleCard>
   </div>
 </template>

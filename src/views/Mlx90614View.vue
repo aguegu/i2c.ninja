@@ -1,6 +1,8 @@
 <script setup>
 // The MLX90614 live on the CH341 dongle: what it's pointed at, its own
 // temperature, and how a thermometer reads heat without touching
+import LiveSettings from '../components/LiveSettings.vue';
+import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
@@ -45,6 +47,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <ConnectButton v-if="mlx.state !== 'running'" :busy="mlx.state === 'connecting'" @click="mlx.connect">{{ mlx.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="mlx.disconnect" />
       <span v-if="mlx.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x5A · SMBus 100 kHz</span>
+      <LiveSettings />
     </section>
     <div v-if="mlx.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ mlx.failure.title }}</p>
@@ -63,12 +66,12 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </section>
     </div>
 
-    <section :class="card">
+    <CollapsibleCard id="temperature" title="Temperature">
       <LiveChart title="Temperature" unit="°C" :series="series" :values="r ? [r.object, r.ambient] : []" :source="mlx.source" :window-ms="WINDOW_MS" :floor="SPAN_C" :digits="2" fit />
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Point it at your hand, a cup of hot tea, a cold drink, a window: the object line moves at once, its own barely.</p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="how-it-reads-heat-without-touching" title="How it reads heat without touching" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How it reads heat without touching</h2>
       <p class="mb-2">
         <b>Everything warm glows,</b> in infrared, invisible to us: the warmer, the brighter. The sensor is a thermopile, a stack of tiny junctions that warm up a little in that glow; their voltage says how much infrared comes in. Its chip compares that with its own temperature (the second reading) and works out the object's.
@@ -83,6 +86,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p>
         <b>The numbers:</b> objects from −70 to +380 °C, itself from −40 to +125 °C, in steps of 0.02 °C, accurate to ±0.5 °C between 0 and 50 °C. Each reading comes back with a checksum (a PEC), which atiic checks; its bus runs at 100 kHz at most.
       </p>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

@@ -5,6 +5,7 @@
 // ({ x, y, z } deg/s, or null), the chart's buffers (source()) and a
 // useTurned() (reactive) fed by its readings; running enables the buttons.
 // tiles=false leaves out the rates and the ball, chart=false the chart.
+import CollapsibleCard from './CollapsibleCard.vue';
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import GyroBall from './GyroBall.vue';
@@ -71,7 +72,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     </p>
   </section>
 
-  <section v-if="chart && source" :class="card">
+  <CollapsibleCard v-if="chart && source" id="turning-rate" title="Turning rate">
     <LiveChart title="Turning rate" unit="°/s" :series="SERIES" :values="g ? [g.x, g.y, g.z] : []" :source="source" :window-ms="windowMs" :floor="FLOOR_DPS" :digits="1" />
-  </section>
+  </CollapsibleCard>
 </template>

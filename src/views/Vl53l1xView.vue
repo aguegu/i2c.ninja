@@ -1,6 +1,8 @@
 <script setup>
 // The VL53L1X live on the CH341 dongle: the distance to what it faces, a
 // gauge, the readings in time, each one's status, and how light measures it
+import LiveSettings from '../components/LiveSettings.vue';
+import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
@@ -47,6 +49,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <ConnectButton v-if="tof.state !== 'running'" :busy="tof.state === 'connecting'" @click="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="tof.disconnect" />
       <span v-if="tof.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">0x29 · {{ tof.rate.toFixed(1) }} readings/s</span>
+      <LiveSettings />
     </section>
     <div v-if="tof.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ tof.failure.title }}</p>
@@ -72,11 +75,11 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </p>
     </section>
 
-    <section :class="card">
+    <CollapsibleCard id="distance" title="Distance">
       <LiveChart title="Distance" unit="mm" :series="SERIES" :values="r?.valid ? [r.distance] : []" :source="tof.source" :window-ms="WINDOW_MS" :floor="DISTANCE_SPAN_MM" :digits="0" fit />
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="how-it-measures" title="How it measures" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
       <SvgDrawing src="/time-of-flight.svg" alt="Time of flight: the sensor sends a pulse of light to a wall and its detector catches the weaker echo a time Δt later; the distance d is the speed of light times Δt, halved; 1 m away the echo comes back after 6.67 ns" class="mx-auto mb-3 w-full max-w-xl" />
       <p class="mb-2">
@@ -93,6 +96,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p>
         <b>Under the hood,</b> ST publishes no register map for it, only their "Ultra Lite Driver": atiic follows it, loading its 91 bytes of default configuration and reading two result registers.
       </p>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

@@ -2,6 +2,8 @@
 // A humidity sensor's page: its drawing, connect, temperature, relative
 // humidity and the dew point as tiles and charts, what the numbers mean;
 // the sensor's own intro (slot intro) and how it measures (slot measures)
+import LiveSettings from './LiveSettings.vue';
+import CollapsibleCard from './CollapsibleCard.vue';
 import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
 import SvgDrawing from './SvgDrawing.vue';
@@ -52,6 +54,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @click="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="s.disconnect" />
       <span v-if="s.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(s.address) }} · a reading every {{ s.readMs / 1000 }} s</span>
+      <LiveSettings />
     </section>
     <div v-if="s.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ s.failure.title }}</p>
@@ -74,14 +77,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </section>
     </div>
 
-    <section :class="card">
+    <CollapsibleCard id="temperature-and-dew-point" title="Temperature and dew point">
       <LiveChart title="Temperature and dew point" unit="°C" :series="TEMPERATURE" :values="r ? [r.temperature, r.dewPoint] : []" :source="s.temperatureSource" :window-ms="WINDOW_MS" :floor="TEMPERATURE_SPAN_C" :digits="2" fit />
-    </section>
-    <section :class="card">
+    </CollapsibleCard>
+    <CollapsibleCard id="relative-humidity" title="Relative humidity">
       <LiveChart title="Relative humidity" unit="%" :series="HUMIDITY" :values="r ? [r.humidity] : []" :source="s.humiditySource" :window-ms="WINDOW_MS" :floor="HUMIDITY_SPAN" :digits="1" fit />
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="what-the-numbers-mean" title="What the numbers mean" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">What the numbers mean</h2>
       <p class="mb-2">
         <b>Relative humidity</b> is how much water vapour the air holds, against the most it could hold at its temperature. Warm air holds more: the same moisture reads lower as the air warms. Breathe near the sensor and watch it jump; then it comes back down, over seconds (its response time is about {{ responseS }} s).
@@ -91,11 +94,11 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         Worked out here from the two readings with the Magnus formula (over water: β = 17.62, λ = 243.12 °C, as Sensirion's SHT20 datasheet gives them):
         <span class="font-mono">{{ r ? `${fmt(r.temperature, 2)} °C, ${fmt(r.humidity, 1)} % → ${fmt(r.dewPoint, 1)} °C` : '—' }}</span>.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="how-it-measures" title="How it measures" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
       <slot name="measures" :read-ms="s.readMs" />
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

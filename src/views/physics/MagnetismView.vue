@@ -4,6 +4,7 @@
 // magneto-resistance, set/reset), a compass from it and declination, the
 // board's own field (hard iron); a Live card scanning for any magnetometer,
 // the magnetometer's views, and things to try
+import CollapsibleCard from '../../components/CollapsibleCard.vue';
 import { reactive } from 'vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import SourceBar from '../../components/SourceBar.vue';
@@ -35,7 +36,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
     <MagnetometerViews :cal="cal" :running="src.state === 'running'" :window-ms="WINDOW_MS" />
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="earth-s-field-isn-t-level" title="Earth's field isn't level" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Earth's field isn't level</h2>
       <p class="mb-2">
         The Earth behaves roughly like a big bar magnet, its field lines leaving the southern hemisphere and diving back in the northern one. Only near the magnetic equator do they run along the ground. Everywhere else they tilt: in the northern hemisphere the field points north and down into the ground, in the southern north and up, and at the magnetic poles straight down or up. That tilt is the dip, or inclination; across China, for instance, it runs from roughly 30° in the south to 60° in the north.
@@ -44,9 +45,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p>
         Its strength varies too, from about 25 µT over South America to 65 µT near the poles. A fridge magnet is a thousand times stronger close up, which is why one held near the sensor swamps everything.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="resistors-that-feel-a-field" title="Resistors that feel a field" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Resistors that feel a field</h2>
       <p class="mb-2">
         Inside a magnetometer like the HMC5883L, each axis is a bridge of thin strips of permalloy, a nickel-iron alloy, whose resistance changes with a magnetic field along the strip's direction: anisotropic magneto-resistance. A field along the axis unbalances the bridge into a small voltage, which a 12-bit converter reads.
@@ -55,9 +56,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p>
         <b>Set and reset.</b> Before each reading the chip sends a brief, strong current pulse through a strap beside the strips one way ("set"), measures, pulses it the other way ("reset"), measures again, and reports half the difference. The sensor's own offset, and its drift with temperature, cancel; the pulses also wipe out any magnetism the strips picked up.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="a-compass-and-where-north-is" title="A compass, and where north is" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">A compass, and where north is</h2>
       <p class="mb-2">
         Held level, the part of the field along the ground points to magnetic north: the heading is the angle from the board's nose (x) to it, the compass rose above. Tilted, some of the vertical field leaks into x and y and the heading drifts; an accelerometer telling the tilt fixes that (see <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink>, and sensor fusion in <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>).
@@ -65,16 +66,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p>
         Magnetic north isn't true north: the gap, the declination, depends on where you are and creeps year by year as the field moves. Your own declination and dip are on NOAA's <a href="https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml" :class="link">magnetic field calculator</a>; compare its dip with the one measured above, once calibrated.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="the-board-s-own-field" title="The board's own field" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">The board's own field</h2>
       <p>
         Screws, pin headers, a battery, magnetised a little, ride along with the sensor and add their own field: the same, in the board's axes, whichever way it turns. That's hard iron. Turned all the way round, each axis then swings from its least to its most around a middle that isn't zero; the middle is the hard iron, and Calibrate takes it off. Nearby iron that only bends Earth's field (soft iron) stretches those swings unevenly instead, and needs more than an offset to correct.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="try-this" title="Try this" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Try this</h2>
       <ol class="list-decimal space-y-2 pl-5">
         <li><b>Calibrate.</b> Press Start in the Calibrate card, turn the board slowly round flat, then over and round again, so each axis sees its least and its most; press Done. The span table shows each axis's swing, about twice the field along it.</li>
@@ -82,6 +83,6 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Measure your dip.</b> Calibrated and level, read the dip; look up yours on NOAA's calculator. Tip the board until x points along the field: |B| all lands on x.</li>
         <li><b>Bring iron near.</b> Move a screwdriver, a phone or a magnet toward it and watch the field bend; see how far away it must be before the heading stops moving.</li>
       </ol>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

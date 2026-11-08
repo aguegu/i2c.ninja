@@ -1,6 +1,8 @@
 <script setup>
 // The MAX30102 live on the CH341 dongle: a fingertip's light, its heartbeat
 // worked out, and how a pulse oximeter starts from two colours of light
+import LiveSettings from '../components/LiveSettings.vue';
+import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
@@ -43,6 +45,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <ConnectButton v-if="m.state !== 'running'" :busy="m.state === 'connecting'" @click="m.connect">{{ m.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="m.disconnect" />
       <span v-if="m.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x57 · 100 samples/s</span>
+      <LiveSettings />
     </section>
     <div v-if="m.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ m.failure.title }}</p>
@@ -69,14 +72,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </section>
     </div>
 
-    <section :class="card">
+    <CollapsibleCard id="the-heartbeat" title="The heartbeat">
       <LiveChart title="The heartbeat" unit="counts" :series="BEAT" :values="[]" :source="m.beatSource" :window-ms="WINDOW_MS" :floor="BEAT_SPAN" :digits="0" fit />
-    </section>
-    <section :class="card">
+    </CollapsibleCard>
+    <CollapsibleCard id="the-light-it-reads" title="The light it reads">
       <LiveChart title="The light it reads" unit="counts" :series="RAW" :values="r ? [r.red, r.ir] : []" :source="m.rawSource" :window-ms="WINDOW_MS" :floor="RAW_SPAN" :digits="0" fit />
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="what-it-sees" title="What it sees" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">What it sees</h2>
       <SvgDrawing src="/ppg-sensing.svg" alt="A fingertip over the sensor: the red and infrared LEDs shine into the skin, light scatters through tissue and blood, and what isn't absorbed comes back to the photodiode" class="mx-auto mb-3 w-full max-w-xl" />
       <p class="mb-2">
@@ -93,6 +96,6 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         More on the module and the principle: Last Minute Engineers' <a href="https://lastminuteengineers.com/max30102-pulse-oximeter-heart-rate-sensor-arduino-tutorial/" class="underline">MAX30102 tutorial</a>.
       </p>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

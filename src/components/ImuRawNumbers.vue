@@ -2,6 +2,7 @@
 // The MPU's raw numbers, a tab of its page: what the chip sends. One I2C
 // read of 14 bytes, pairs of bytes into signed counts, counts into g, deg/s
 // and degrees C by the scale chosen. Every stage live from the page's imu.
+import CollapsibleCard from './CollapsibleCard.vue';
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import { REG_DATA, DATA_BYTES } from '../lib/useImu.js';
@@ -40,7 +41,6 @@ const rows = computed(() => {
 const accelLsb = computed(() => FULL_SCALE_COUNTS / Number(imu.accelerometerScale));
 const accelStepMg = computed(() => (1000 / accelLsb.value).toFixed(3));
 
-const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const prose = 'max-w-3xl leading-relaxed';
 const th = 'px-2 py-1 text-left font-semibold';
 const td = 'px-2 py-1';
@@ -49,7 +49,7 @@ const td = 'px-2 py-1';
 <template>
   <div class="flex flex-col gap-4">
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">The chip doesn't send "1 g". It sends bytes; everything else is arithmetic. Connect, hold the board, and watch each stage below change as you move it.</p>
-    <section :class="card">
+    <CollapsibleCard id="1-one-read-14-bytes" title="1. One read, 14 bytes">
       <h2 class="mb-2 text-lg font-semibold">1. One read, 14 bytes</h2>
       <p :class="prose">
         Sixty-odd times a second the page asks the chip over I2C: <i>write</i> the register number
@@ -60,9 +60,9 @@ const td = 'px-2 py-1';
       <p v-if="imu.latest" class="mt-3 font-mono text-sm break-all">
         <span v-for="(r, i) in rows" :key="r.name" class="mr-3 inline-block"><span :class="i < 3 ? 'text-[var(--series-1)]' : i === 3 ? 'text-slate-500' : 'text-[var(--series-2)]'">{{ r.hi }} {{ r.lo }}</span></span>
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="card">
+    <CollapsibleCard id="2-two-bytes-one-number" title="2. Two bytes, one number">
       <h2 class="mb-2 text-lg font-semibold">2. Two bytes, one number</h2>
       <p :class="prose">
         Each pair is one 16-bit number, the <b>high byte first</b>: high × 256 + low. It's <b>signed</b>: a high
@@ -89,9 +89,9 @@ const td = 'px-2 py-1';
         </table>
         <p v-if="!imu.latest" class="mt-2 text-sm text-slate-500 dark:text-slate-400">Connect to fill the table.</p>
       </div>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="card">
+    <CollapsibleCard id="3-counts-to-units-the-scale" title="3. Counts to units: the scale">
       <h2 class="mb-2 text-lg font-semibold">3. Counts to units: the scale</h2>
       <p :class="prose">
         The counts mean nothing until you know the <b>scale</b> the chip was set to. Set to ±{{ imu.accelerometerScale }} g,
@@ -104,9 +104,9 @@ const td = 'px-2 py-1';
       <div class="mt-4">
         <LiveChart title="Accelerometer" unit="g" :series="SERIES" :values="imu.latest?.accel" :source="imu.accelSource" :window-ms="WINDOW_MS" :floor="ACCEL_FLOOR_G" :digits="3" />
       </div>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="card">
+    <CollapsibleCard id="try-this" title="Try this">
       <h2 class="mb-2 text-lg font-semibold">Try this</h2>
       <ol :class="['list-decimal pl-6', prose]">
         <li class="mb-2">
@@ -127,6 +127,6 @@ const td = 'px-2 py-1';
           drop the board to check.)
         </li>
       </ol>
-    </section>
+    </CollapsibleCard>
   </div>
 </template>

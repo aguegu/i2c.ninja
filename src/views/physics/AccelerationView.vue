@@ -3,6 +3,7 @@
 // sensor reads 1 g upward, how a MEMS accelerometer feels it (the ADXL345's
 // datasheet: a polysilicon proof mass on springs, a differential
 // capacitor), tilt from gravity; the devices that measure it; things to try
+import CollapsibleCard from '../../components/CollapsibleCard.vue';
 import { reactive } from 'vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import AccelerometerViews from '../../components/AccelerometerViews.vue';
@@ -33,7 +34,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <AccelerometerViews :a="src.latest ? { x: src.latest[0], y: src.latest[1], z: src.latest[2] } : null" :source="src.source" />
 
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="a-mass-on-springs" title="A mass on springs" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">A mass on springs</h2>
       <p class="mb-2">
         Inside an accelerometer chip is a tiny mass hung on springs (in the ADXL345, a polysilicon proof mass on polysilicon springs, over the silicon). Push the chip and the mass lags behind until the springs pull it along: the reading points with the push.
@@ -46,9 +47,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <b>Read by capacitors.</b> Plates on the mass sit between fixed plates: a differential capacitor. Centred, both gaps and both capacitances are equal; when the mass moves, one gap narrows and the other widens. How much tells the size of the acceleration; which side, its direction. A chip has such a sensor for each of its three axes.
       </p>
       <SvgDrawing src="/adxl345-capacitor.svg" alt="A finger on the mass between two fixed plates, C1 and C2: centred, equal gaps, C1 equals C2 and it reads 0; moved toward C1, C1 grows and C2 shrinks: the difference is how much, the bigger one which way" class="mx-auto w-full max-w-2xl" />
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="tilt-from-gravity" title="Tilt from gravity" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Tilt from gravity</h2>
       <p class="mb-2">
         Held still, the 1 g is shared among the three axes by how the chip is tilted. Flat, it is all on z. Tip the nose up by an angle θ and x reads 1 g × sin θ while z reads 1 g × cos θ: at 30°, x reads 0.5 g. From the shares the tilt comes back: roll and pitch, the way a phone knows which way is up.
@@ -56,9 +57,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p>
         It works only while the sensor is still: a push adds to gravity and reads as a tilt. And it can't tell the heading (a turn about the vertical changes nothing in how gravity falls on the axes). A gyroscope covers both, which is why phones and drones carry both. Step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
       </p>
-    </section>
+    </CollapsibleCard>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="try-this" title="Try this" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Try this</h2>
       <ol class="list-decimal space-y-2 pl-5">
         <li><b>Flat and upside down.</b> Lay the board flat: z reads about +1 g, x and y near 0. Turn it over: z reads −1 g. Gravity didn't change; which way the chip faces did.</li>
@@ -66,7 +67,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Drop it.</b> Hold it over a cushion and let go: for that moment |a| falls toward 0 g. In free fall, an accelerometer feels nothing.</li>
         <li><b>Shake and slide.</b> Shake it and |a| jumps past 1 g; slide it across the desk and the push shows on x or y, on top of gravity's share. A push and a tilt look alike to it.</li>
       </ol>
-    </section>
+    </CollapsibleCard>
     <p class="text-sm">
       <b>See also:</b> <RouterLink to="/algorithms/attitude" class="text-emerald-700 underline dark:text-emerald-400">Attitude from accel and gyro</RouterLink>, the two combined.
     </p>

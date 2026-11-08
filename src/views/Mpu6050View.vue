@@ -5,6 +5,7 @@
 // #calibration): the accelerometer's views and the gyro's, the same as the
 // ADXL345's and the ITG-3200's pages; the raw bytes to physics; the chip's
 // own calibration, kept for these pages. Both fused on the algorithm page.
+import CollapsibleCard from '../components/CollapsibleCard.vue';
 import { reactive, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ImuControls from '../components/ImuControls.vue';
@@ -72,7 +73,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <ImuCalibration v-if="tab === 'calibration'" :imu="imu" />
     <GyroViews v-if="tab === 'gyro'" :g="g" :turned="turned" :source="imu.gyroSource" :running="imu.state === 'running'" :window-ms="WINDOW_MS" />
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="both-together" title="Both together" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Both together</h2>
       <p>
         Each sensor alone falls short: the accelerometer knows which way is down but jumps at every push; the gyro follows every turn but drifts. Fused, they give an attitude steady and quick at once, the trick inside every phone and drone. See it live with this board, every formula with its numbers: <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>.
@@ -80,6 +81,6 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p class="mt-3 text-sm">
         <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
       </p>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>

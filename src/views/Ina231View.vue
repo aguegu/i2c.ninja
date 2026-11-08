@@ -1,6 +1,8 @@
 <script setup>
 // The INA231 live on the CH341 dongle: the voltage, current and power
 // through its shunt, an energy meter, and how the chip measures
+import LiveSettings from '../components/LiveSettings.vue';
+import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
@@ -83,6 +85,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <span v-if="ina.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
         {{ hex(ina.address) }} · {{ ina.rate.toFixed(0) }} readings/s
       </span>
+      <LiveSettings />
     </section>
     <div v-if="ina.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ ina.failure.title }}</p>
@@ -113,15 +116,15 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       </section>
     </div>
 
-    <section :class="card">
+    <CollapsibleCard id="current" title="Current">
       <LiveChart title="Current" unit="mA" :series="CURRENT" :values="r ? [r.current * 1000] : []" :source="ina.currentSource" :window-ms="WINDOW_MS" :floor="CURRENT_SPAN_MA" :digits="1" fit />
-    </section>
-    <section :class="card">
+    </CollapsibleCard>
+    <CollapsibleCard id="bus-voltage" title="Bus voltage">
       <LiveChart title="Bus voltage" unit="V" :series="BUS" :values="r ? [r.bus] : []" :source="ina.busSource" :window-ms="WINDOW_MS" :floor="BUS_SPAN_V" :digits="3" fit />
-    </section>
-    <section :class="card">
+    </CollapsibleCard>
+    <CollapsibleCard id="power" title="Power">
       <LiveChart title="Power" unit="mW" :series="POWER" :values="r ? [r.power * 1000] : []" :source="ina.powerSource" :window-ms="WINDOW_MS" :floor="POWER_SPAN_MW" :digits="1" fit />
-    </section>
+    </CollapsibleCard>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it can measure, with the {{ SHUNTS.find((x) => x.ohms === Number(ina.shunt))?.mark }} shunt</h2>
@@ -140,7 +143,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       </p>
     </section>
 
-    <section :class="[card, 'leading-relaxed']">
+    <CollapsibleCard id="how-it-measures" title="How it measures" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
       <p class="mb-2">
         <b>Ohm's law across the shunt.</b> The current flows through a small, precise resistor, the shunt. The chip measures the tiny voltage across it, and current is that voltage over the resistance:
@@ -161,6 +164,6 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <p>
         <b>The energy meter</b> adds up power × time between readings: what a battery would have given to the load since you connected (or reset). mAh is the same for charge, the figure on battery labels.
       </p>
-    </section>
+    </CollapsibleCard>
   </main>
 </template>
