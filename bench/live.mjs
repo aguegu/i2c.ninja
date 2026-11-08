@@ -21,7 +21,7 @@ const pct = (a, p) => a[Math.min(a.length - 1, Math.floor(p * a.length))] ?? 0;
 
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', ...GPU] });
 console.log(`motion ${MOTION}${EXTRA}  ${GPU.length ? 'GPU raster' : 'software raster'}`);
-console.log('where     rate   fps  p50ms  p95ms  worst  >33ms  readings/s  slow: n  script  style  render ms (means)');
+console.log('where     rate   fps  p50ms  p95ms  worst  >33ms  readings/s  updates/s  upd p95  upd max  slow: n  script  style  render ms (means)');
 for (const rate of RATES) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 900 });
@@ -41,14 +41,14 @@ for (const rate of RATES) {
       const gaps = [], slow = [];
       const obs = new PerformanceObserver((l) => { for (const e of l.getEntries()) slow.push({ ms: e.duration, script: e.scripts.reduce((n, x) => n + x.duration, 0), style: e.styleAndLayoutStart ? e.startTime + e.duration - e.styleAndLayoutStart : 0, render: e.renderStart ? e.startTime + e.duration - e.renderStart : 0 }); });
       obs.observe({ type: 'long-animation-frame' });
-      const n0 = window.i2cnPerf.readings.length, t0 = performance.now();
+      const t0 = performance.now();
       let last = t0;
-      const step = (t) => { gaps.push(t - last); last = t; if (t - t0 < ms) requestAnimationFrame(step); else { obs.disconnect(); resolve({ gaps, slow, reads: window.i2cnPerf.readings.filter((x) => x >= t0).length }); } };
+      const step = (t) => { gaps.push(t - last); last = t; if (t - t0 < ms) requestAnimationFrame(step); else { obs.disconnect(); const ups = window.i2cnPerf.updates.filter((x) => x >= t0); const ug = ups.slice(1).map((x, i) => x - ups[i]).sort((a, b) => a - b); resolve({ gaps, slow, reads: window.i2cnPerf.readings.filter((x) => x >= t0).length, ups: ups.length, ug }); } };
       requestAnimationFrame(step);
     }), SECONDS * 1000);
     const s = [...r.gaps].sort((a, b) => a - b);
     const mean = (k) => (r.slow.length ? r.slow.reduce((n, x) => n + x[k], 0) / r.slow.length : 0).toFixed(0);
-    console.log(`${where.padEnd(8)} ${String(rate).padStart(2)}x  ${(r.gaps.length / SECONDS).toFixed(1).padStart(5)}  ${pct(s, 0.5).toFixed(1).padStart(5)}  ${pct(s, 0.95).toFixed(1).padStart(5)}  ${s.at(-1).toFixed(1).padStart(5)}  ${String(r.gaps.filter((g) => g > JANK_MS).length).padStart(5)}  ${(r.reads / SECONDS).toFixed(1).padStart(10)}  ${String(r.slow.length).padStart(7)}  ${mean('script').padStart(6)}  ${mean('style').padStart(5)}  ${mean('render').padStart(6)}`);
+    console.log(`${where.padEnd(8)} ${String(rate).padStart(2)}x  ${(r.gaps.length / SECONDS).toFixed(1).padStart(5)}  ${pct(s, 0.5).toFixed(1).padStart(5)}  ${pct(s, 0.95).toFixed(1).padStart(5)}  ${s.at(-1).toFixed(1).padStart(5)}  ${String(r.gaps.filter((g) => g > JANK_MS).length).padStart(5)}  ${(r.reads / SECONDS).toFixed(1).padStart(10)}  ${(r.ups / SECONDS).toFixed(1).padStart(9)}  ${pct(r.ug, 0.95).toFixed(1).padStart(7)}  ${(r.ug.at(-1) ?? 0).toFixed(1).padStart(7)}  ${String(r.slow.length).padStart(7)}  ${mean('script').padStart(6)}  ${mean('style').padStart(5)}  ${mean('render').padStart(6)}`);
   }
   await page.close();
 }

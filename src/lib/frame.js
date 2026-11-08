@@ -13,6 +13,8 @@
 
 // ?every: every reading straight to Vue, as before, to measure the
 // difference (bench/live.mjs)
+import { noteUpdate } from './perf.js';
+
 const EVERY = typeof location !== 'undefined' && new URLSearchParams(location.search).has('every');
 
 const SLOW_MS = 25; // a smoothed frame time over this: every second frame
@@ -62,6 +64,7 @@ export function perFrame(apply) {
     if (!frameDue()) { raf = requestAnimationFrame(fire); return; }
     has = false;
     apply(pending);
+    noteUpdate(frameNo);
   };
   return {
     push(v) {
