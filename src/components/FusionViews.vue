@@ -7,7 +7,7 @@
 // the board in a glass box and its three walls unfolded. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
-import { computed, shallowRef, onBeforeUnmount } from 'vue';
+import { ref, computed, shallowRef, onMounted, onBeforeUnmount } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
 import InfoTip from './InfoTip.vue';
@@ -96,7 +96,12 @@ const slow = shallowRef(snap());
 const RATE_MS = 1000;
 const pace = shallowRef({ perSecond: 0, total: 0 });
 let paceFrom = slow.value;
+// while on screen only (the card scrolled away refreshes nothing, and
+// catches up as it comes back)
+const numbersCard = ref(null);
+let numbersSeen = true;
 const numbersTimer = setInterval(() => {
+  if (!numbersSeen) return;
   slow.value = snap();
   const s = slow.value;
   if (s.steps < paceFrom.steps) paceFrom = s; // Start again
@@ -105,7 +110,12 @@ const numbersTimer = setInterval(() => {
     paceFrom = s;
   } else pace.value = { ...pace.value, total: s.steps };
 }, NUMBERS_MS);
-onBeforeUnmount(() => clearInterval(numbersTimer));
+let numbersIo = null;
+onMounted(() => {
+  numbersIo = new IntersectionObserver(([e]) => { numbersSeen = e.isIntersecting; });
+  if (numbersCard.value) numbersIo.observe(numbersCard.value);
+});
+onBeforeUnmount(() => { clearInterval(numbersTimer); numbersIo?.disconnect(); });
 // each block: a formula a row (LaTeX), its result with the latest numbers
 // (wide: a long formula, its result after it on the line); term: the short
 // name shown beside it, note: the explanation, in its tooltip
@@ -158,7 +168,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
 </script>
 
 <template>
-  <section v-if="shown('numbers')" :class="card">
+  <section v-if="shown('numbers')" ref="numbersCard" class="live-view" :class="card">
     <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
       <h2 class="text-lg font-semibold">The numbers, and what's done with them</h2>
       <span v-if="running && pace.total" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">computed <b class="text-emerald-700 dark:text-emerald-400">{{ pace.perSecond }}</b> times a second · shown {{ 1000 / NUMBERS_MS }} · <b class="text-emerald-700 dark:text-emerald-400">{{ pace.total.toLocaleString('en') }}</b> readings so far</span>
