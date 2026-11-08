@@ -26,7 +26,10 @@ for (const rate of RATES) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 900 });
   const cdp = await page.createCDPSession();
-  await page.goto(`${BASE}/algorithms/attitude?perf&fake=${MOTION}${EXTRA}`, { waitUntil: 'load', timeout: 120000 });
+  // networkidle and a moment: the page is prerendered, its first button a
+  // static copy until the app takes it over
+  await page.goto(`${BASE}/algorithms/attitude?perf&fake=${MOTION}${EXTRA}`, { waitUntil: 'networkidle0', timeout: 120000 });
+  await new Promise((r) => setTimeout(r, 1500));
   await cdp.send('Emulation.setCPUThrottlingRate', { rate });
   const button = await page.waitForSelector('xpath/.//button[contains(., "Connect")]');
   await button.click();
