@@ -10,6 +10,7 @@
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
+import InfoTip from './InfoTip.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
 import ProjectionViews from './ProjectionViews.vue';
@@ -137,8 +138,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
             <template v-else>
               <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
             </template>
-            <!-- the term, its explanation in a tooltip (hover, or focus by keyboard) -->
-            <span class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400" :title="r.note" tabindex="0">{{ r.term }}</span>
+            <!-- the term, its explanation in a tooltip (hover, focus or a tap) -->
+            <InfoTip :text="r.note" class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400">{{ r.term }}</InfoTip>
           </template>
         </div>
       </div>
