@@ -1,5 +1,17 @@
 # Releases
 
+## 1.5.2
+
+- **Cards that fold** (the Attitude page): a chevron in each card's corner
+  minimises it to its title and back; folded, its charts and drawings stop
+  (their data kept), so a lesson keeps only what it needs and the page gets
+  lighter. Remembered per page in this browser.
+- The pilot's gauges in a card of their own; the glass box with its walls
+  unfolded in another.
+- **Live card settings**: a cog with a Timing meter switch (the frames and
+  readings in a corner; the same setting as ?perf, for this tab).
+- The glass box's floor label centred across the floor, clear of its frame.
+
 ## 1.5.1
 
 - **The glass box and the flat views drawn on canvases** (lib/canvas.js):
