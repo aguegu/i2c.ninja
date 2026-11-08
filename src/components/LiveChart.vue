@@ -164,7 +164,7 @@ const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(p
 </script>
 
 <template>
-  <figure ref="figure" class="flex flex-col gap-2" :class="full && 'h-full bg-white p-6 dark:bg-slate-800'">
+  <figure ref="figure" class="flex flex-col gap-2 live-view" :class="full && 'h-full bg-white p-6 dark:bg-slate-800'">
     <figcaption class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
       <span class="font-semibold">{{ title }} <span class="font-normal text-slate-500 dark:text-slate-400">{{ unit }}</span></span>
       <span v-for="(s, k) in series" :key="s.label + (s.sub ?? '')" class="flex items-center gap-1.5 font-mono text-sm tabular-nums">

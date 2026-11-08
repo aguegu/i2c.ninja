@@ -25,6 +25,15 @@
 }
 
 /* markdown rendered into the page (the About page's) */
+/* a live view (a chart, a gauge, the board in 3D): while it's off screen
+   the browser skips its style, layout and paint, the costly part of each
+   frame (bench/ measures it); it catches up as it scrolls back. auto: the
+   size it last had held meanwhile, 320px before it's first drawn */
+@utility live-view {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+}
+
 @layer components {
   .md {
     @apply max-w-3xl leading-relaxed;

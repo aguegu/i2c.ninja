@@ -70,7 +70,7 @@ const views = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 live-view">
     <figure v-for="w in views" :key="w.key" class="flex flex-col items-center">
       <svg :viewBox="`${-R} ${-R} ${2 * R} ${2 * R}`" class="h-48 w-full max-w-56" role="img" :aria-label="`${w.t.sym} = ${w.t.deg} degrees: across ${w.t.hValue} g, up ${w.t.vValue} g`">
         <!-- the axes, a 1 g circle -->

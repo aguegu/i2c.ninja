@@ -31,7 +31,7 @@ const { full, toggle } = useFullscreen(box);
 </script>
 
 <template>
-  <div ref="box" class="relative flex flex-col items-center" :class="full && 'h-full! w-full! justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
+  <div ref="box" class="relative flex flex-col items-center live-view" :class="full && 'h-full! w-full! justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
     <svg :viewBox="`${-R - LABEL_ROOM} ${-R - LABEL_ROOM} ${2 * (R + LABEL_ROOM)} ${2 * (R + LABEL_ROOM)}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
       <circle :r="RING + 10" fill="#f8fafc" stroke="#334155" stroke-width="4" />
       <g :transform="turn">

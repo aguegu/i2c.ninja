@@ -33,7 +33,7 @@ const { full, toggle } = useFullscreen(box);
 </script>
 
 <template>
-  <div ref="box" class="relative" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
+  <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
     <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="heading === null ? 'Heading: none yet' : `Heading: ${shown.toFixed(0)} degrees from the start`">
       <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><circle :r="FACE" :fill="FACE_FILL" /></svg>
       <!-- the card: turns -->

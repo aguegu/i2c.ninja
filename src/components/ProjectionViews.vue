@@ -81,7 +81,7 @@ const { full, toggle } = useFullscreen(box);
 </script>
 
 <template>
-  <div ref="box" class="relative" :class="full && 'flex! h-full! w-full! items-center justify-center bg-white p-4 dark:bg-slate-900'">
+  <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! items-center justify-center bg-white p-4 dark:bg-slate-900'">
     <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-3">
       <figure v-for="w in views" :key="w.key" class="flex flex-col items-center">
         <figcaption class="mb-1 text-center text-sm font-semibold">{{ w.title }}</figcaption>

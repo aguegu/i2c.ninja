@@ -52,7 +52,7 @@ const axisLine = computed(() => {
 </script>
 
 <template>
-  <svg viewBox="-150 -120 300 240" class="h-72 w-full max-w-sm" role="img" aria-label="The board in 3D, as the filter has it">
+  <svg viewBox="-150 -120 300 240" class="h-72 w-full max-w-sm live-view" role="img" aria-label="The board in 3D, as the filter has it">
     <line v-if="axisLine" :x1="axisLine.b[0]" :y1="axisLine.b[1]" :x2="axisLine.a[0]" :y2="axisLine.a[1]" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 4" />
     <g v-for="f in faces" :key="f.name">
       <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />

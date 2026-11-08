@@ -97,7 +97,7 @@ const arrow = computed(() => {
 </script>
 
 <template>
-  <svg viewBox="-130 -125 260 245" class="h-80 w-80" role="img" :aria-label="`Angular velocity: ${arrow ? arrow.m.toFixed(0) : 0} degrees a second`">
+  <svg viewBox="-130 -125 260 245" class="h-80 w-80 live-view" role="img" :aria-label="`Angular velocity: ${arrow ? arrow.m.toFixed(0) : 0} degrees a second`">
     <circle r="80" fill="none" stroke="var(--chart-grid)" stroke-dasharray="3 4" />
     <g v-for="(n, k) in NAMES" :key="n">
       <polyline :points="rings[k]" fill="none" :stroke="COLOR[k]" stroke-width="2" opacity="0.55" />
