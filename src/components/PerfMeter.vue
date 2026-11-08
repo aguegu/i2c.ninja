@@ -74,7 +74,8 @@ function tick(t) {
   if (POSTS && t - postedAt >= POST_EVERY_MS) {
     postedAt = t;
     const r1 = (v) => Math.round(v * 10) / 10;
-    const body = JSON.stringify({ path: location.pathname, y: Math.round(scrollY), ...Object.fromEntries(Object.entries(stats.value).map(([k, v]) => [k, r1(v)])), ...(slow.length ? { slow } : {}) });
+    // where from: the server (5173 dev, 4173 preview) and the build, so runs don't mix
+    const body = JSON.stringify({ host: location.host, build: import.meta.env.DEV ? 'dev' : 'prod', path: location.pathname, y: Math.round(scrollY), ...Object.fromEntries(Object.entries(stats.value).map(([k, v]) => [k, r1(v)])), ...(slow.length ? { slow } : {}) });
     slow = [];
     fetch('/__perf', { method: 'POST', body, keepalive: true }).catch(() => {});
   }
