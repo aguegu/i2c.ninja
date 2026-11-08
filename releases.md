@@ -1,5 +1,20 @@
 # Releases
 
+## 1.5.4
+
+- **Wiring drawings redrawn**: every sensor page and Get started show the
+  CH341T as on its cheatsheet (its USB-A over the board's edge with its four
+  leads, its jumpers on I2C and 3V3, its LEDs where they are) and the CH347T
+  as on its board (the mode switch black with white caps, marked ON OFF; the
+  crystal between the switch and the chip; the USB-C socket seen from
+  above). Both dongles' headers are right-angle pins like the modules', and
+  the wire ends sit alike off both boards.
+- **Dongle cheatsheets in step**: the same USB sockets, switch and crystal;
+  the CH341T's sheet in I2C mode alone, its TXD and RXD shown as digital I/O
+  (measured: the datasheet gives them no job in I2C mode).
+- **Why up, not down?**: a note under the accelerometer views: the chip
+  feels what holds it up, not gravity (free fall reads 0 g).
+
 ## 1.5.3
 
 - **Cards that fold on every live page**: the device pages (the IMU's raw
