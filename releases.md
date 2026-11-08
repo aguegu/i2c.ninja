@@ -1,5 +1,38 @@
 # Releases
 
+## 1.5.0
+
+1.4.x closed (the CH347, Dongles, the wiring drawings); 1.5.x opens with
+smoothness: the live pages measured on a Raspberry Pi 5 (the user: a fair
+low-end computer) and made to hold up when a child shakes the board.
+
+- **Readings in a background thread** (a worker, for the Attitude and
+  physics pages): the page shows the dongle's chooser, the worker opens it
+  and reads on its own timer, so a busy page no longer delays a reading.
+  With a hard shake on a machine four times slower than the Pi, readings
+  held 51 a second (were 10 to 12); the filter integrates each at its
+  own time.
+- **An adaptive frame rate**: when frames run long, the views update on
+  every second frame (or every third), all together, so the motion stays
+  even instead of stuttering; every frame again once there's time.
+- **Cheaper frames**: charts with their size and colours cached, their
+  legend 8 times a second, nothing drawn off screen; the attitude and
+  heading gauges turned by the GPU (CSS transforms), their fixed parts
+  painted once; every live view skips its style, layout and paint while
+  scrolled away; readings reach the views once a frame.
+- **The Attitude page's numbers, tidy**: a short term on each row, its
+  explanation in a tooltip; values hold their width, so the page no longer
+  jumps; the card refreshes 8 times a second and says how fast the filter
+  computes (computed 51 times a second · shown 8 · readings so far).
+- **Tooltips of our own** (InfoTip): wrapped, kept on screen, shown on
+  hover, focus or a tap (phones too).
+- **Connect and Stop** with icons, Stop in its own colour.
+- Get started: **Windows tried** (a CH347T on WinUSB through Zadig).
+- For measuring (not on the site's pages): **?perf**, a timing meter
+  (frames, readings, slow frames' anatomy); a **fake dongle** for our own
+  servers (?fake, ?fake=kid); bench/ in the repo (the views' frame times in
+  headless Chromium, the live page driven by the fake dongle).
+
 ## 1.4.2
 
 - **Get started, the wiring drawn for each dongle**: the CH347T's own
