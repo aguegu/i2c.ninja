@@ -97,7 +97,9 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex justify-center live-view" :class="full && 'h-full! w-full! items-center bg-white p-4 dark:bg-slate-900'">
-    <div class="relative" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
+    <!-- its own shape, the drawing's (the layers in it are absolute): a flex
+         parent sizing it to its content still gets the whole drawing -->
+    <div class="relative aspect-[340/312] max-w-full" :class="full ? 'h-[85vh]' : 'h-80'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
       <!-- the walls: fixed, rendered once (v-once: Vue skips them after) -->
       <svg v-once viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
         <g v-for="w in walls" :key="w.key">
