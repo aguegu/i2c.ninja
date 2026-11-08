@@ -132,7 +132,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
           <template v-for="r in b.rows" :key="r.tex">
             <!-- a row without a value: its formula across both columns; a
                  wide one (a long formula): its value after it, both across -->
-            <span v-if="r.wide" class="col-span-2"><TexMath :expr="r.tex" /> <span :class="value">{{ r.value }}</span></span>
+            <span v-if="r.wide" class="col-span-2"><TexMath :expr="r.tex" /> <span class="inline-block" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
             <template v-else>
               <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
             </template>
