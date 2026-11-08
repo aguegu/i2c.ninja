@@ -1,6 +1,7 @@
 <script setup>
 // Test the setup: pick the dongle in the browser's chooser, open it, scan
 // the I2C bus. Each way it can fail says what's likely missing.
+import ConnectButton from './ConnectButton.vue';
 import { ref } from 'vue';
 import { hasWebUsb, openDongle, explain, hex } from '../lib/dongle.js';
 
@@ -42,9 +43,7 @@ async function check() {
       This browser has no WebUSB. Open this page in Chrome, Edge or another
       Chromium.
     </p>
-    <button v-else class="self-start rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="busy" @click="check">
-      {{ busy ? 'Checking…' : 'Connect and scan' }}
-    </button>
+    <ConnectButton v-else class="self-start" :busy="busy" @click="check">{{ busy ? 'Checking…' : 'Connect and scan' }}</ConnectButton>
     <div v-if="result" class="rounded-lg border p-3" :class="result.ok ? OK_BOX : FAIL_BOX">
       <p class="font-semibold">{{ result.title }}</p>
       <p v-if="result.detail" class="mt-1">{{ result.detail }}</p>

@@ -1,6 +1,8 @@
 <script setup>
 // connect / stop, the address and the scales, the temperature and the
 // reading rate, for a page with useImu (passed reactive: its refs unwrapped)
+import ConnectButton from './ConnectButton.vue';
+import StopButton from './StopButton.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { ADDRESSES, SCALES } from '../lib/useImu.js';
 
@@ -15,10 +17,8 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
   </p>
   <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-    <button v-if="imu.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="imu.state === 'connecting'" @click="imu.connect">
-      {{ imu.state === 'connecting' ? 'Connecting…' : 'Connect' }}
-    </button>
-    <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="imu.disconnect">Stop</button>
+    <ConnectButton v-if="imu.state !== 'running'" :busy="imu.state === 'connecting'" @click="imu.connect">{{ imu.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+    <StopButton v-else @click="imu.disconnect" />
     <label :class="field">Address
       <select :value="imu.address" :class="select" @change="imu.configure({ address: Number($event.target.value) })">
         <option v-for="a in ADDRESSES" :key="a" :value="a" :disabled="imu.state === 'running' && !imu.found.includes(a)">{{ hex(a) }}</option>

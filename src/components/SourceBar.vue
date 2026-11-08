@@ -3,6 +3,8 @@
 // quantity (choose one when there are several), a failure if any, and a
 // note naming the chips it looks for, each linked to its page (its wiring
 // is there). src: a useSources() or useSource() (reactive).
+import ConnectButton from './ConnectButton.vue';
+import StopButton from './StopButton.vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 
 defineProps({ src: { type: Object, required: true } });
@@ -26,10 +28,8 @@ const note = (parts) => [
   <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
     <h2 class="text-lg font-semibold">Live</h2>
     <template v-if="hasWebUsb">
-      <button v-if="src.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 disabled:opacity-50" :disabled="src.state === 'connecting'" @click="src.connect">
-        {{ src.state === 'connecting' ? 'Looking…' : 'Connect and find a sensor' }}
-      </button>
-      <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="src.disconnect">Stop</button>
+      <ConnectButton v-if="src.state !== 'running'" :busy="src.state === 'connecting'" @click="src.connect">{{ src.state === 'connecting' ? 'Looking…' : 'Connect and find a sensor' }}</ConnectButton>
+      <StopButton v-else @click="src.disconnect" />
       <template v-if="src.state === 'running'">
         <template v-for="p in src.parts" :key="p.key">
           <label v-if="src.found[p.key].length > 1" class="flex items-center gap-2 text-sm">{{ src.parts.length > 1 ? cap(p.noun) : 'Sensor' }}

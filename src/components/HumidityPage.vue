@@ -2,6 +2,8 @@
 // A humidity sensor's page: its drawing, connect, temperature, relative
 // humidity and the dew point as tiles and charts, what the numbers mean;
 // the sensor's own intro (slot intro) and how it measures (slot measures)
+import ConnectButton from './ConnectButton.vue';
+import StopButton from './StopButton.vue';
 import SvgDrawing from './SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from './LiveChart.vue';
@@ -47,10 +49,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <button v-if="s.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="s.state === 'connecting'" @click="s.connect">
-        {{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}
-      </button>
-      <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="s.disconnect">Stop</button>
+      <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @click="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <StopButton v-else @click="s.disconnect" />
       <span v-if="s.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(s.address) }} · a reading every {{ s.readMs / 1000 }} s</span>
     </section>
     <div v-if="s.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">

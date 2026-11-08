@@ -1,6 +1,8 @@
 <script setup>
 // The INA231 live on the CH341 dongle: the voltage, current and power
 // through its shunt, an energy meter, and how the chip measures
+import ConnectButton from '../components/ConnectButton.vue';
+import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
@@ -71,10 +73,8 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <button v-if="ina.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="ina.state === 'connecting'" @click="ina.connect">
-        {{ ina.state === 'connecting' ? 'Connecting…' : 'Connect' }}
-      </button>
-      <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="ina.disconnect">Stop</button>
+      <ConnectButton v-if="ina.state !== 'running'" :busy="ina.state === 'connecting'" @click="ina.connect">{{ ina.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <StopButton v-else @click="ina.disconnect" />
       <label :class="field">Shunt
         <select :value="ina.shunt" :class="select" @change="ina.setShunt(Number($event.target.value))">
           <option v-for="s in SHUNTS" :key="s.ohms" :value="s.ohms">{{ s.mark }} ({{ s.ohms }} Ω)</option>

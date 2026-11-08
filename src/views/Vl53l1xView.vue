@@ -1,6 +1,8 @@
 <script setup>
 // The VL53L1X live on the CH341 dongle: the distance to what it faces, a
 // gauge, the readings in time, each one's status, and how light measures it
+import ConnectButton from '../components/ConnectButton.vue';
+import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
@@ -42,10 +44,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <button v-if="tof.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="tof.state === 'connecting'" @click="tof.connect">
-        {{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}
-      </button>
-      <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="tof.disconnect">Stop</button>
+      <ConnectButton v-if="tof.state !== 'running'" :busy="tof.state === 'connecting'" @click="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <StopButton v-else @click="tof.disconnect" />
       <span v-if="tof.state === 'running'" class="ml-auto font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">0x29 · {{ tof.rate.toFixed(1) }} readings/s</span>
     </section>
     <div v-if="tof.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">

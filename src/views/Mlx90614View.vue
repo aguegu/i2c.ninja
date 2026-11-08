@@ -1,6 +1,8 @@
 <script setup>
 // The MLX90614 live on the CH341 dongle: what it's pointed at, its own
 // temperature, and how a thermometer reads heat without touching
+import ConnectButton from '../components/ConnectButton.vue';
+import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
@@ -40,10 +42,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <button v-if="mlx.state !== 'running'" class="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="mlx.state === 'connecting'" @click="mlx.connect">
-        {{ mlx.state === 'connecting' ? 'Connecting…' : 'Connect' }}
-      </button>
-      <button v-else class="rounded-lg border border-slate-300 px-4 py-2 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700" @click="mlx.disconnect">Stop</button>
+      <ConnectButton v-if="mlx.state !== 'running'" :busy="mlx.state === 'connecting'" @click="mlx.connect">{{ mlx.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <StopButton v-else @click="mlx.disconnect" />
       <span v-if="mlx.state === 'running'" class="ml-auto font-mono text-sm text-slate-500 dark:text-slate-400">0x5A · SMBus 100 kHz</span>
     </section>
     <div v-if="mlx.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
