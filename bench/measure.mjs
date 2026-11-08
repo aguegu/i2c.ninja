@@ -18,7 +18,7 @@ const SECONDS = Number(process.argv[3]) || 10;
 const WARM_MS = 2000;
 const JANK_MS = 33.4; // two frames at 60 Hz
 // name, path, viewport height; BENCH_GROUPS=1: each group of the bench alone
-const GROUPS = ['charts', 'gauges', 'box', 'flat', 'board', 'ball'];
+const GROUPS = ['none', 'charts', 'gauges', 'box', 'flat', 'board', 'ball']; // none: the floor (the made-up motion, the measuring)
 const PAGES = process.env.BENCH_GROUPS
   ? GROUPS.map((g) => [g, `/bench/?only=${g}`, 2600])
   : [['bench', '/bench/', 2600], ['home', '/', 900]];

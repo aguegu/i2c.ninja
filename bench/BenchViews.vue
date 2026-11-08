@@ -21,6 +21,7 @@ const mul = ([a, b, c, d], [e, f, g, h]) => [a * e - b * f - c * g - d * h, a * 
 const SERIES3 = [{ label: 'g', color: '--series-1' }, { label: 'ω', color: '--series-2' }, { label: 'q', color: '--series-3' }];
 
 // ?only=charts|gauges|box|flat|board|ball: one group alone, to find the costly one
+// (?only=none: nothing shown, the floor)
 const only = new URLSearchParams(location.search).get('only');
 const show = (g) => !only || only === g;
 
