@@ -68,13 +68,13 @@
   <text transform="translate(374 336.0) rotate(-90)" text-anchor="middle" font-size="9" font-weight="bold" fill="#ddd6fe">JTAG</text>
   <line x1="362" y1="387" x2="362" y2="429" stroke="#fde68a" stroke-width="2.5"/>
   <text transform="translate(374 408.0) rotate(-90)" text-anchor="middle" font-size="9" font-weight="bold" fill="#fde68a">I2C</text>
-  <rect x="310" y="98" width="40" height="44" rx="3" fill="#f2c200" stroke="#a88600"/>
-  <rect x="315" y="104" width="24" height="13" rx="2" fill="#fff7cc" stroke="#a88600"/>
-  <rect x="327" y="105" width="11" height="11" fill="#5c4a00"/>
-  <text x="345" y="114" text-anchor="middle" font-size="8" fill="#5c4a00">S2</text>
-  <rect x="315" y="123" width="24" height="13" rx="2" fill="#fff7cc" stroke="#a88600"/>
-  <rect x="316" y="124" width="11" height="11" fill="#5c4a00"/>
-  <text x="345" y="133" text-anchor="middle" font-size="8" fill="#5c4a00">S1</text>
+  <rect x="310" y="98" width="40" height="44" rx="3" fill="#1b1b1b" stroke="#000"/>
+  <rect x="315" y="104" width="24" height="13" rx="2" fill="#3a3a3a" stroke="#555"/>
+  <rect x="327" y="105" width="11" height="11" rx="1" fill="#ffffff"/>
+  <text x="345" y="114" text-anchor="middle" font-size="8" fill="#e5e5e5">S2</text>
+  <rect x="315" y="123" width="24" height="13" rx="2" fill="#3a3a3a" stroke="#555"/>
+  <rect x="316" y="124" width="11" height="11" rx="1" fill="#ffffff"/>
+  <text x="345" y="133" text-anchor="middle" font-size="8" fill="#e5e5e5">S1</text>
   <text x="330" y="154" text-anchor="middle" font-size="8.5" fill="#f5f3ff">← ON</text>
   <rect x="318" y="234" width="6" height="3" fill="#c9ccd1"/><rect x="342" y="234" width="6" height="3" fill="#c9ccd1"/>
   <rect x="318" y="241" width="6" height="3" fill="#c9ccd1"/><rect x="342" y="241" width="6" height="3" fill="#c9ccd1"/>
