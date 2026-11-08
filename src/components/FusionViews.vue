@@ -25,6 +25,10 @@ const props = defineProps({
 });
 
 const ANGLE_FLOOR_DEG = 45; // the charts' least half-range
+// ?hide=numbers,math,charts,gauges,box,flat: those parts left out, to
+// measure what each costs on the live page (bench/live.mjs); off on i2c.ninja
+const HIDE = /(^|\.)i2c\.ninja$/.test(location.hostname) ? [] : (new URLSearchParams(location.search).get('hide') ?? '').split(',');
+const shown = (part) => !HIDE.includes(part);
 // each angle three ways, named as in the formulas (g gravity's, ω the gyro alone, q fused), in their order
 const threeOf = (sym) => [
   { label: sym, sub: 'g', color: '--series-1' },
@@ -150,7 +154,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
 </script>
 
 <template>
-  <section :class="card">
+  <section v-if="shown('numbers')" :class="card">
     <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
       <h2 class="text-lg font-semibold">The numbers, and what's done with them</h2>
       <span v-if="running && pace.total" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">computed <b class="text-emerald-700 dark:text-emerald-400">{{ pace.perSecond }}</b> times a second · shown {{ 1000 / NUMBERS_MS }} · <b class="text-emerald-700 dark:text-emerald-400">{{ pace.total.toLocaleString('en') }}</b> readings so far</span>
@@ -174,7 +178,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       </div>
     </div>
   </section>
-  <section :class="card">
+  <section v-if="shown('math')" :class="card">
     <h2 class="mb-2 text-lg font-semibold">The math, drawn</h2>
     <div class="grid items-start gap-6 lg:grid-cols-[3fr_2fr]">
       <div>
@@ -189,19 +193,19 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       </div>
     </div>
   </section>
-  <section :class="card">
+  <section v-if="shown('charts')" :class="card">
     <LiveChart title="φ, the roll" unit="°" :series="PHI" :values="fusion.fused ? [fusion.gravity.roll, fusion.gyroAlone.roll, fusion.fused.roll] : []" :source="fusion.rollSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
-  <section :class="card">
+  <section v-if="shown('charts')" :class="card">
     <LiveChart title="θ, the pitch" unit="°" :series="THETA" :values="fusion.fused ? [fusion.gravity.pitch, fusion.gyroAlone.pitch, fusion.fused.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
-  <section :class="card">
+  <section v-if="shown('charts')" :class="card">
     <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="fusion.fused ? [fusion.gyroAlone.yaw, fusion.fused.yaw] : []" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </section>
   <section :class="card">
     <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
     <div class="flex flex-wrap justify-center gap-x-10 gap-y-4">
-      <figure class="flex flex-col items-center gap-1">
+      <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
         <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\varphi_q,\ \theta_q =`" />
@@ -209,7 +213,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
           <span class="block text-xs text-slate-500 dark:text-slate-400">the attitude indicator: the horizon tilts with φ, drops as the nose comes up with θ</span>
         </figcaption>
       </figure>
-      <figure class="flex flex-col items-center gap-1">
+      <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
         <HeadingIndicator :heading="fusion.fused?.yaw ?? null" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\psi_q =`" />
@@ -218,11 +222,11 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         </figcaption>
       </figure>
     </div>
-    <figure class="mt-4 flex flex-col items-center">
+    <figure v-if="shown('box')" class="mt-4 flex flex-col items-center">
       <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
       <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: seen from in front, its true projection on the floor (from above), the wall to its right (from its left side) and the wall behind it (from its nose). The world's axes leave the walls' corner. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
     </figure>
-    <div class="mt-4">
+    <div v-if="shown('flat')" class="mt-4">
       <ProjectionViews :q="fusion.fused?.q ?? [1, 0, 0, 0]" :captions="flatCaptions" />
       <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">the three walls unfolded: the board seen straight along the world's Z, Y and X. The world's axes in capitals, the board's own in lowercase</p>
     </div>
