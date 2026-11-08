@@ -38,6 +38,16 @@ const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' :
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
 const formula = 'grid grid-cols-[auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
 const value = 'text-emerald-700 dark:text-emerald-400';
+// each value's widest so far, in characters (the font is monospaced): its
+// cell keeps that width, so a number growing a digit or a sign doesn't
+// resize the column, re-wrap the notes and move the page under it each
+// reading; it only grows, a few times after a start
+const widths = new Map();
+const widest = (key, text) => {
+  const n = Math.max(widths.get(key) ?? 0, [...text].length);
+  widths.set(key, n);
+  return n;
+};
 const vec = (v, d) => (v ? `(${v.map((c) => n(c, d)).join(', ')})` : '—');
 const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 const aHat = computed(() => {
@@ -119,7 +129,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <p class="mb-1 text-sm font-semibold">{{ b.title }}</p>
         <div :class="formula">
           <template v-for="r in b.rows" :key="r.tex">
-            <TexMath :expr="r.tex" /><span :class="value">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+            <!-- a row without a value: its formula across both columns -->
+            <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span><span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
           </template>
         </div>
       </div>
