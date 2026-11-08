@@ -237,16 +237,13 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
     </p>
   </CollapsibleCard>
-  <CollapsibleCard v-if="shown('box')" id="box" title="The board in a glass box">
+  <CollapsibleCard v-if="shown('box') || shown('flat')" id="box" title="The board in a glass box">
     <h2 class="mb-2 text-lg font-semibold">The board in a glass box</h2>
-    <figure class="flex flex-col items-center">
+    <figure v-if="shown('box')" class="flex flex-col items-center">
       <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
       <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: seen from in front, its true projection on the floor (from above), the wall to its right (from its left side) and the wall behind it (from its nose). The world's axes leave the walls' corner. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
     </figure>
-  </CollapsibleCard>
-  <CollapsibleCard v-if="shown('flat')" id="flat" title="The walls unfolded">
-    <h2 class="mb-2 text-lg font-semibold">The walls unfolded</h2>
-    <div>
+    <div v-if="shown('flat')" class="mt-4">
       <ProjectionViews :q="fusion.fused?.q ?? [1, 0, 0, 0]" :captions="flatCaptions" />
       <p class="mt-1 text-center text-xs text-slate-500 dark:text-slate-400">the three walls unfolded: the board seen straight along the world's Z, Y and X. The world's axes in capitals, the board's own in lowercase</p>
     </div>
