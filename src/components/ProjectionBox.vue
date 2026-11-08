@@ -7,7 +7,10 @@
 // its centre, turned with it. Turned by q (the board's axes into the
 // world's), seen from in front of it and to its left. The walls take the
 // axes' chart colours (x blue, y orange, z green). A button takes it full
-// screen.
+// screen. Drawn as four stacked layers in their order: the walls, the
+// shadows, the world's axes, the board with its axes; the moving two on
+// their own GPU layers, so the walls and axes are painted once, not every
+// frame.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -94,31 +97,43 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex justify-center live-view" :class="full && 'h-full! w-full! items-center bg-white p-4 dark:bg-slate-900'">
-    <svg viewBox="-170 -172 340 312" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
-      <g v-for="w in walls" :key="w.key">
-        <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
-        <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
-        <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.key === 'side' ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
-      </g>
-      <g v-for="s in shadows" :key="s.key">
-        <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
-        <polyline v-if="s.arrow" :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      </g>
-      <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
-        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2.5" />
-        <polygon :points="a.head" stroke="none" />
-        <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
-      </g>
-      <g v-for="f in board" :key="f.name">
-        <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
-        <polyline v-if="f.name === 'top'" :points="arrow" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      </g>
-      <g v-for="a in body" :key="`body${a.key}`" :stroke="a.color" :fill="a.color">
-        <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="1.5" />
-        <polygon :points="a.head" stroke="none" />
-        <text :x="a.tag[0]" :y="a.tag[1]" font-size="11" text-anchor="middle" stroke="none">{{ a.key }}</text>
-      </g>
-    </svg>
+    <div class="relative" :class="full ? 'h-[85vh] w-full' : 'h-80 w-full max-w-md'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side">
+      <!-- the walls: fixed -->
+      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
+        <g v-for="w in walls" :key="w.key">
+          <polygon :points="w.square" :fill="w.color" fill-opacity="0.08" :stroke="w.color" stroke-opacity="0.6" />
+          <line v-for="(g, i) in w.grid" :key="i" :x1="g[0][0]" :y1="g[0][1]" :x2="g[1][0]" :y2="g[1][1]" :stroke="w.color" stroke-opacity="0.2" />
+          <text :x="w.tag[0]" :y="w.tag[1]" font-size="10" :text-anchor="w.key === 'side' ? 'start' : 'end'" :fill="w.color">{{ w.label }}</text>
+        </g>
+      </svg>
+      <!-- the shadows: move -->
+      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full will-change-transform" aria-hidden="true">
+        <g v-for="s in shadows" :key="s.key">
+          <polygon v-for="(f, i) in s.faces" :key="i" :points="f" :fill="s.color" fill-opacity="0.3" stroke="none" />
+          <polyline v-if="s.arrow" :points="s.arrow" fill="none" :stroke="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </svg>
+      <!-- the world's axes: fixed -->
+      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full" aria-hidden="true">
+        <g v-for="a in AXES" :key="`axis${a.key}`" :stroke="a.color" :fill="a.color">
+          <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="2.5" />
+          <polygon :points="a.head" stroke="none" />
+          <text :x="a.tag[0]" :y="a.tag[1] + 4" font-size="12" font-weight="bold" text-anchor="middle" stroke="none">{{ a.key }}</text>
+        </g>
+      </svg>
+      <!-- the board and its own axes: move -->
+      <svg viewBox="-170 -172 340 312" class="absolute inset-0 h-full w-full will-change-transform" aria-hidden="true">
+        <g v-for="f in board" :key="f.name">
+          <polygon :points="f.points" :fill="f.fill" :stroke="BOARD.edge" stroke-width="1" stroke-linejoin="round" />
+          <polyline v-if="f.name === 'top'" :points="arrow" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <g v-for="a in body" :key="`body${a.key}`" :stroke="a.color" :fill="a.color">
+          <line :x1="a.o[0]" :y1="a.o[1]" :x2="a.e[0]" :y2="a.e[1]" stroke-width="1.5" />
+          <polygon :points="a.head" stroke="none" />
+          <text :x="a.tag[0]" :y="a.tag[1]" font-size="11" text-anchor="middle" stroke="none">{{ a.key }}</text>
+        </g>
+      </svg>
+    </div>
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
   </div>
 </template>
