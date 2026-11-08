@@ -90,12 +90,11 @@
   <text transform="translate(337 267) rotate(-90)" text-anchor="middle" font-size="9" fill="#ccc">CH347T</text>
   <rect x="318" y="185.0" width="30" height="16" rx="3" fill="url(#metal)" stroke="#8a9096"/>
   <text x="333" y="196.0" text-anchor="middle" font-size="7.5" fill="#555">8 MHz</text>
-  <rect x="271.4173228346457" y="509.40157480314963" width="117.16535433070865" height="70.86614173228345" rx="10" fill="#2b2b2b" stroke="#111"/>
-  <rect x="306.46456692913387" y="576.2677165354331" width="47.07086614173228" height="26" rx="4" fill="#2b2b2b"/>
-  <rect x="313.46456692913387" y="602.2677165354331" width="33.07086614173228" height="26" fill="#2b2b2b"/>
-  <rect x="287.76377952755905" y="478.59842519685037" width="84.47244094488188" height="30.803149606299208" rx="15.401574803149604" fill="url(#metal)" stroke="#8a9096"/>
-  <rect x="294.76377952755905" y="485.59842519685037" width="70.47244094488188" height="16.803149606299208" rx="8.401574803149604" fill="#3b3b3b"/>
-  <text x="400.5826771653543" y="548.8346456692914" font-size="12" fill="#555">to the PC</text>
+  <rect x="271.4173228346457" y="499.6692913385827" width="117.16535433070865" height="70.86614173228345" rx="10" fill="#2b2b2b" stroke="#111"/>
+  <rect x="306.46456692913387" y="566.5354330708661" width="47.07086614173228" height="26" rx="4" fill="#2b2b2b"/>
+  <rect x="313.46456692913387" y="592.5354330708661" width="33.07086614173228" height="26" fill="#2b2b2b"/>
+  <rect x="287.76377952755905" y="430.2204724409449" width="84.47244094488188" height="69.44881889763779" rx="2" fill="url(#metal)" stroke="#8a9096"/>
+  <text x="400.5826771653543" y="539.1023622047244" font-size="12" fill="#555">to the PC</text>
   <rect x="559" y="298" width="171" height="220" rx="8" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <circle cx="716" cy="312" r="7" fill="#fff" stroke="#999"/><circle cx="716" cy="504" r="7" fill="#fff" stroke="#999"/>
   <rect x="563" y="310" width="22" height="196" fill="#161616"/>
