@@ -9,7 +9,7 @@
 // Serve the site's dist/ with bench/dist/ as its bench/, then
 //   node measure.mjs http://localhost:8765 [seconds]
 // BENCH_RATES=4 (the rates, comma-separated), BENCH_GROUPS=1 (the bench's
-// groups one at a time)
+// groups one at a time), BENCH_GPU=1 (the GPU's raster, below)
 // (puppeteer-core beside it; Chromium at /usr/bin/chromium)
 import puppeteer from 'puppeteer-core';
 
@@ -27,7 +27,13 @@ const RATES = (process.env.BENCH_RATES || '1,4,6').split(',').map(Number);
 const pct = (a, p) => a[Math.min(a.length - 1, Math.floor((p / 100) * a.length))];
 const metric = (m, name) => m.metrics.find((x) => x.name === name).value;
 
-const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+// BENCH_GPU=1: the GPU for compositing, raster and canvas, as a desktop
+// browser has it (headless rasters in software otherwise); on the Pi 5 its
+// V3D through ANGLE on GLES
+const GPU = process.env.BENCH_GPU ? ['--enable-gpu', '--use-angle=gles-egl', '--ignore-gpu-blocklist', '--enable-gpu-rasterization'] : [];
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox', ...GPU] });
+const { gpu } = await (await browser.target().createCDPSession()).send('SystemInfo.getInfo');
+console.log(`raster: ${gpu.featureStatus.rasterization}${gpu.auxAttributes?.glRenderer ? `, ${gpu.auxAttributes.glRenderer}` : ''}`);
 console.log(`page   rate   fps   p50ms  p95ms  p99ms  >33ms  script/s  layout/s  style/s  task/s  other/s`);
 for (const [name, path, height] of PAGES) {
   for (const rate of RATES) {
