@@ -10,6 +10,7 @@
 import { ref, computed, shallowRef, onMounted, onBeforeUnmount } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
+import CollapsibleCard from './CollapsibleCard.vue';
 import InfoTip from './InfoTip.vue';
 import AttitudeIndicator from './AttitudeIndicator.vue';
 import HeadingIndicator from './HeadingIndicator.vue';
@@ -109,7 +110,8 @@ const numbersTimer = setInterval(() => {
 let numbersIo = null;
 onMounted(() => {
   numbersIo = new IntersectionObserver(([e]) => { numbersSeen = e.isIntersecting; });
-  if (numbersCard.value) numbersIo.observe(numbersCard.value);
+  const el = numbersCard.value?.$el;
+  if (el) numbersIo.observe(el);
 });
 onBeforeUnmount(() => { clearInterval(numbersTimer); numbersIo?.disconnect(); });
 // each block: a formula a row (LaTeX), its result with the latest numbers
@@ -159,12 +161,11 @@ const blocks = computed(() => {
     ] },
   ];
 });
-const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 </script>
 
 <template>
-  <section v-if="shown('numbers')" ref="numbersCard" class="live-view" :class="card">
+  <CollapsibleCard v-if="shown('numbers')" id="numbers" ref="numbersCard" title="The numbers, and what's done with them" class="live-view">
     <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
       <h2 class="text-lg font-semibold">The numbers, and what's done with them</h2>
       <span v-if="running && pace.total" class="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">computed <b class="text-emerald-700 dark:text-emerald-400">{{ pace.perSecond }}</b> times a second · shown {{ 1000 / NUMBERS_MS }} · <b class="text-emerald-700 dark:text-emerald-400">{{ pace.total.toLocaleString('en') }}</b> readings so far</span>
@@ -187,8 +188,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         </div>
       </div>
     </div>
-  </section>
-  <section v-if="shown('math')" :class="card">
+  </CollapsibleCard>
+  <CollapsibleCard v-if="shown('math')" id="math" title="The math, drawn">
     <h2 class="mb-2 text-lg font-semibold">The math, drawn</h2>
     <div class="grid items-start gap-6 lg:grid-cols-[3fr_2fr]">
       <div>
@@ -202,17 +203,17 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">In the board's own axes. Held still they lie together; shake it and â swings away while v̂ hardly moves; e is the axis the filter turns q about to bring them back.</p>
       </div>
     </div>
-  </section>
-  <section v-if="shown('charts')" :class="card">
+  </CollapsibleCard>
+  <CollapsibleCard v-if="shown('charts')" id="roll" title="φ, the roll">
     <LiveChart title="φ, the roll" unit="°" :series="PHI" :values="fusion.fused ? [fusion.gravity.roll, fusion.gyroAlone.roll, fusion.fused.roll] : []" :source="fusion.rollSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
-  </section>
-  <section v-if="shown('charts')" :class="card">
+  </CollapsibleCard>
+  <CollapsibleCard v-if="shown('charts')" id="pitch" title="θ, the pitch">
     <LiveChart title="θ, the pitch" unit="°" :series="THETA" :values="fusion.fused ? [fusion.gravity.pitch, fusion.gyroAlone.pitch, fusion.fused.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
-  </section>
-  <section v-if="shown('charts')" :class="card">
+  </CollapsibleCard>
+  <CollapsibleCard v-if="shown('charts')" id="yaw" title="ψ, the yaw">
     <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="fusion.fused ? [fusion.gyroAlone.yaw, fusion.fused.yaw] : []" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
-  </section>
-  <section :class="card">
+  </CollapsibleCard>
+  <CollapsibleCard id="result" title="The result, as a pilot reads it">
     <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
     <div class="flex flex-wrap justify-center gap-x-10 gap-y-4">
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
@@ -243,5 +244,5 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
       In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
     </p>
-  </section>
+  </CollapsibleCard>
 </template>
