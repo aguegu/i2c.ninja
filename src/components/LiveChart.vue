@@ -4,6 +4,9 @@
 // [[...], ...] }). The y range is symmetric around 0, never below floor, so
 // the noise at rest isn't blown up; ticks at 1-2-5 steps. A button takes it
 // full screen (the Fullscreen API, where the browser has it; Esc leaves).
+// Cheap per frame (bench/ measures it): its size from a ResizeObserver and
+// its colours read once (again on a theme change), so a frame never makes
+// the page lay out; no frames at all while it's off screen.
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -27,6 +30,9 @@ const canvas = ref(null);
 const figure = ref(null);
 const { full, toggle: toggleFull } = useFullscreen(figure);
 let frame = 0;
+let size = { w: 0, h: 0 }; // device pixels, from the ResizeObserver
+let colors = null; // the tokens' values, read once, cleared on a theme change
+let observers = [];
 
 const LINE_PX = 2;
 const LABEL_PX = 11;
@@ -40,25 +46,38 @@ function niceStep(span, n) {
   return [1, 2, 5, 10].map((m) => m * p).find((s) => s >= raw);
 }
 
+// the first index at or after ms (t ascending)
+function firstFrom(t, ms) {
+  let a = 0, b = t.length;
+  while (a < b) {
+    const m = (a + b) >> 1;
+    if (t[m] < ms) a = m + 1; else b = m;
+  }
+  return a;
+}
+
 function draw() {
   frame = requestAnimationFrame(draw);
   const c = canvas.value;
-  if (!c) return;
+  if (!c || !size.w || !size.h) return;
   const dpr = devicePixelRatio || 1;
-  const w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
+  const { w, h } = size;
   if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
   const g = c.getContext('2d');
-  const css = getComputedStyle(c);
-  const color = (name) => css.getPropertyValue(name).trim();
+  if (!colors) {
+    const css = getComputedStyle(c);
+    colors = Object.fromEntries(['--chart-grid', '--chart-text', ...props.series.map((x) => x.color)].map((n) => [n, css.getPropertyValue(n).trim()]));
+  }
+  const color = (name) => colors[name];
   g.clearRect(0, 0, w, h);
 
   const { t, ys } = props.source();
   const now = performance.now();
   const from = now - props.windowMs;
+  const i0 = firstFrom(t, from);
   let lo = Infinity, hi = -Infinity;
   for (const y of ys) {
-    for (let i = 0; i < y.length; i++) {
-      if (t[i] < from) continue;
+    for (let i = i0; i < y.length; i++) {
       lo = Math.min(lo, y[i]);
       hi = Math.max(hi, y[i]);
     }
@@ -105,8 +124,7 @@ function draw() {
     g.strokeStyle = color(s.color);
     g.beginPath();
     let started = false;
-    for (let i = 0; i < y.length; i++) {
-      if (t[i] < from) continue;
+    for (let i = i0; i < y.length; i++) {
       if (started) g.lineTo(xOf(t[i]), yOf(y[i]));
       else { g.moveTo(xOf(t[i]), yOf(y[i])); started = true; }
     }
@@ -114,8 +132,33 @@ function draw() {
   });
 }
 
-onMounted(() => { frame = requestAnimationFrame(draw); });
-onBeforeUnmount(() => cancelAnimationFrame(frame));
+const start = () => { if (!frame) frame = requestAnimationFrame(draw); };
+const stop = () => { cancelAnimationFrame(frame); frame = 0; };
+
+onMounted(() => {
+  const c = canvas.value;
+  const resize = new ResizeObserver(([e]) => {
+    const dpr = devicePixelRatio || 1;
+    const box = e.devicePixelContentBoxSize?.[0];
+    size = box ? { w: box.inlineSize, h: box.blockSize } : { w: Math.round(e.contentRect.width * dpr), h: Math.round(e.contentRect.height * dpr) };
+  });
+  resize.observe(c);
+  // drawn only while on screen (or full screen)
+  const seen = new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop()));
+  seen.observe(c);
+  // the colours read again when the theme changes: the header's switch
+  // (data-theme on <html>) or the device's own setting
+  const theme = new MutationObserver(() => { colors = null; });
+  theme.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+  const media = matchMedia('(prefers-color-scheme: dark)');
+  const onMedia = () => { colors = null; };
+  media.addEventListener('change', onMedia);
+  observers = [resize, seen, theme, { disconnect: () => media.removeEventListener('change', onMedia) }];
+});
+onBeforeUnmount(() => {
+  stop();
+  for (const o of observers) o.disconnect();
+});
 
 const fmt = (v) => (v === undefined ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(props.digits)}`);
 </script>

@@ -54,8 +54,8 @@ onBeforeUnmount(() => clearTimeout(timer));
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <template v-if="show('charts')">
       <LiveChart title="φ" unit="°" :series="SERIES3" :values="[roll, roll, roll]" :source="charts[0].source" :window-ms="WINDOW_MS" />
-    <LiveChart title="θ" unit="°" :series="SERIES3" :values="[pitch, pitch, pitch]" :source="charts[1].source" :window-ms="WINDOW_MS" />
-    <LiveChart title="ψ" unit="°" :series="SERIES3.slice(1)" :values="[yaw, yaw]" :source="charts[2].source" :window-ms="WINDOW_MS" />
+      <LiveChart title="θ" unit="°" :series="SERIES3" :values="[pitch, pitch, pitch]" :source="charts[1].source" :window-ms="WINDOW_MS" />
+      <LiveChart title="ψ" unit="°" :series="SERIES3.slice(1)" :values="[yaw, yaw]" :source="charts[2].source" :window-ms="WINDOW_MS" />
     </template>
     <div v-if="show('gauges')" class="grid gap-4 sm:grid-cols-2">
       <AttitudeIndicator :roll="roll" :pitch="pitch" />
