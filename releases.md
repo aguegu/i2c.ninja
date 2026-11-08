@@ -1,5 +1,18 @@
 # Releases
 
+## 1.5.3
+
+- **Cards that fold on every live page**: the device pages (the IMU's raw
+  numbers and calibration, the humidity, power, pulse, distance and
+  thermometer pages) and the physics pages, 42 cards, each by its own
+  heading; the control rows stay.
+- **The settings cog on every Live control row**, the device pages' too,
+  at its right edge: the timing meter switch.
+- The offline copy (service worker) on i2c.ninja only: a build previewed on
+  our own machines always runs fresh.
+- bench/live.mjs measures any live page (BENCH_PATH): the MPU-6050 page holds
+  60 frames a second even on a machine four times slower than the Pi.
+
 ## 1.5.2
 
 - **Cards that fold** (the Attitude page): a chevron in each card's corner
