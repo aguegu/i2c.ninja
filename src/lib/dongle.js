@@ -11,7 +11,7 @@ const ADAPTERS = [
   { filters: CH347_FILTERS, Adapter: Ch347 },
 ];
 const FILTERS = ADAPTERS.flatMap((a) => a.filters);
-const adapterFor = (device) => ADAPTERS.find((a) => a.filters.some((f) => f.vendorId === device.vendorId && f.productId === device.productId)).Adapter;
+export const adapterFor = (device) => ADAPTERS.find((a) => a.filters.some((f) => f.vendorId === device.vendorId && f.productId === device.productId)).Adapter;
 
 export const hasWebUsb = typeof navigator !== 'undefined' && 'usb' in navigator;
 
@@ -34,15 +34,35 @@ export class DongleError extends Error {
   }
 }
 
+// ?fake / ?fake=kid on our own servers: the fake dongle's motion, else null
+export function fakeMode() {
+  const fake = new URLSearchParams(location.search).get('fake');
+  return fake !== null && !/(^|\.)i2c\.ninja$/.test(location.hostname) ? fake || 'calm' : null;
+}
+
+// the chooser only, for a dongle opened elsewhere (lib/sampler.worker.js: a
+// worker can't show the chooser, but can open a device the page was given):
+// { device, match } to find it there again, or { fake } for the fake one
+export async function chooseDongle() {
+  const fake = fakeMode();
+  if (fake) return { fake };
+  try {
+    const device = await navigator.usb.requestDevice({ filters: FILTERS });
+    return { device, match: { vendorId: device.vendorId, productId: device.productId, serialNumber: device.serialNumber } };
+  } catch (e) {
+    throw new DongleError('choose', e);
+  }
+}
+
 // the chooser (CH341s and CH347s), then the one picked opened as an I2C bus
 // at sclHz
 export async function openDongle(sclHz) {
   // ?fake / ?fake=kid: no hardware, an MPU-6050 in motion (lib/fakeDongle.js),
   // for measuring the pages; never on i2c.ninja itself
-  const fake = new URLSearchParams(location.search).get('fake');
-  if (fake !== null && !/(^|\.)i2c\.ninja$/.test(location.hostname)) {
+  const fake = fakeMode();
+  if (fake) {
     const { FakeDongle } = await import('./fakeDongle.js');
-    return new FakeDongle(fake || 'calm');
+    return new FakeDongle(fake);
   }
   let device;
   try {
