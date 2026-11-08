@@ -3,6 +3,7 @@
 // deg/s, a 98 Hz filter at 1 kHz), read every READ_MS; each reading to
 // onReading's listeners (a page adds them up: lib/useTurned.js). The last
 // windowMs kept for the chart.
+import { perFrame } from './frame.js';
 import { ref, onBeforeUnmount } from 'vue';
 import { Itg3200 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
@@ -19,6 +20,7 @@ export function useItg3200({ windowMs = 10000 } = {}) {
   const failure = ref(null);
   const address = ref(null);
   const latest = ref(null); // { x, y, z } deg/s
+  const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
   const temperature = ref(null); // C
   const series = makeSeries(3, windowMs);
   const listeners = new Set();
@@ -36,7 +38,7 @@ export function useItg3200({ windowMs = 10000 } = {}) {
         const m = await gyro.measure();
         const g = m.gyroscopes;
         temperature.value = m.temperature;
-        latest.value = g;
+        publish.push(g);
         series.push(t0, [g.x, g.y, g.z]);
         for (const fn of listeners) fn(t0, [g.x, g.y, g.z]);
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));

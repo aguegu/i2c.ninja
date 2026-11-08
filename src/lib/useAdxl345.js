@@ -2,6 +2,7 @@
 // DEVID, set up by atiic's driver (full resolution, +/-16 g, 100 Hz), read
 // once a sample period; its self test run on request, the reading paused
 // meanwhile. The last windowMs kept for the chart.
+import { perFrame } from './frame.js';
 import { ref, onBeforeUnmount } from 'vue';
 import { Adxl345 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
@@ -19,6 +20,7 @@ export function useAdxl345({ windowMs = 10000 } = {}) {
   const failure = ref(null);
   const address = ref(null);
   const latest = ref(null); // { x, y, z } g
+  const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
   const selfTest = ref(null); // atiic's result: { change, limits, pass }
   const series = makeSeries(3, windowMs);
 
@@ -33,7 +35,7 @@ export function useAdxl345({ windowMs = 10000 } = {}) {
         const t0 = performance.now();
         const { accelerometers: a } = await adxl.measure();
         series.push(t0, [a.x, a.y, a.z]);
-        latest.value = a;
+        publish.push(a);
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));
       }
     } catch (e) {

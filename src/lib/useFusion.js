@@ -6,6 +6,7 @@
 // average (b0) taken off every reading from then on, and the filter started
 // again. The last windowMs of roll and pitch, three ways each, and yaw two
 // ways, kept for charts.
+import { perFrame } from './frame.js';
 import { ref, watch, onBeforeUnmount } from 'vue';
 import { Mahony } from './fusion.js';
 import { rollOf, pitchOf } from './tilt.js';
@@ -37,6 +38,14 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const yawSeries = makeSeries(2, windowMs); // the gyro alone, fused: gravity can't see yaw
   let lastT = null;
   let alone = null;
+  // the views' state, written once a frame from the newest reading
+  const publish = perFrame((s) => {
+    input.value = s.input;
+    fused.value = s.fused;
+    gravity.value = s.gravity;
+    gyroAlone.value = s.gyroAlone;
+    learned.value = s.learned;
+  });
 
   const off = subscribe((t, accel, raw) => {
     if (zeroing.value) {
@@ -65,19 +74,16 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     alone.pitch -= gyro[1] * step; // nose up is about -y
     alone.yaw = wrap180(alone.yaw - gyro[2] * step); // turning right is about -z
     const m = mahony.angles();
-    input.value = { accel, gyro, dt: step };
-    fused.value = { q: mahony.q, held, ...m };
-    gravity.value = g;
-    gyroAlone.value = { ...alone };
-    learned.value = mahony.learnedOffset();
+    publish.push({ input: { accel, gyro, dt: step }, fused: { q: mahony.q, held, ...m }, gravity: g, gyroAlone: { ...alone }, learned: mahony.learnedOffset() });
     rollSeries.push(t, [g.roll, alone.roll, m.roll]);
     pitchSeries.push(t, [g.pitch, alone.pitch, m.pitch]);
     yawSeries.push(t, [alone.yaw, m.yaw]);
   });
-  onBeforeUnmount(off);
+  onBeforeUnmount(() => { off(); publish.cancel(); });
 
   // start again: level by gravity, heading 0 (the nose's way now)
   function restart() {
+    publish.cancel();
     mahony.q = null;
     mahony.integral = [0, 0, 0];
     lastT = null;

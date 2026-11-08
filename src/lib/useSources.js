@@ -5,6 +5,7 @@
 // { key: ACCELEROMETERS, ... }. Several found for a quantity: choose(key, i).
 // Two quantities found on one module (lib/sources.js family) are taken
 // together first, their axes being the same.
+import { perFrame } from './frame.js';
 import { noteReading } from './perf.js';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
@@ -28,6 +29,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   const found = ref(Object.fromEntries(keys.map((k) => [k, []]))); // key: [{ name, address, chip }]
   const chosen = ref(Object.fromEntries(keys.map((k) => [k, -1])));
   const latest = ref(null); // { key: [x, y, z] }
+  const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
   const series = Object.fromEntries(keys.map((k) => [k, makeSeries(3, windowMs)]));
   const sources = Object.fromEntries(keys.map((k) => [k, series[k].source]));
   const pick = (k) => found.value[k][chosen.value[k]];
@@ -52,7 +54,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
         const t0 = performance.now();
         const v = {};
         for (const k of keys) v[k] = await sensors[k].read();
-        latest.value = v;
+        publish.push(v);
         noteReading();
         for (const k of keys) series[k].push(t0, v[k]);
         for (const fn of listeners) fn(t0, v);
@@ -70,6 +72,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     generation++;
     await running;
     for (const k of keys) series[k].clear();
+    publish.cancel();
     latest.value = null;
     try {
       sensors = {};

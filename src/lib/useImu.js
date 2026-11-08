@@ -7,6 +7,7 @@
 // Read once a sample period: the chip refreshes its data registers at its
 // sample rate (62.5 Hz with atiic's settings), so reading faster only
 // repeats the last sample.
+import { perFrame } from './frame.js';
 import { noteReading } from './perf.js';
 import { ref, onBeforeUnmount } from 'vue';
 import { Mpu6050, Mpu6500 } from 'atiic';
@@ -58,6 +59,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const buf = { t: [], accel: [[], [], []], gyro: [[], [], []] };
   // called on each reading as it comes, (t ms, accel g, gyro deg/s): for a
   // page that works per reading (integrating, filtering), not per frame
+  const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
   const listeners = new Set();
   const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
@@ -79,10 +81,10 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     }
     for (const fn of listeners) fn(now, accel, gyro);
     noteReading();
-    latest.value = {
+    publish.push({
       bytes, counts, accel, gyro, temperature: mpu.temperature(counts[3]),
       accelLsb: mpu.accelerometerSensitivity, gyroLsb: mpu.gyroscopeSensitivity,
-    };
+    });
     reads++;
     if (now - rateFrom >= RATE_EVERY_MS) {
       rate.value = (reads * 1000) / (now - rateFrom);
