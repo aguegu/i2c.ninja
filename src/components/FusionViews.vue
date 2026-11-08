@@ -7,7 +7,7 @@
 // the board in a glass box and its three walls unfolded. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
 // the button.
-import { computed } from 'vue';
+import { computed, shallowRef, onBeforeUnmount } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
 import InfoTip from './InfoTip.vue';
@@ -64,7 +64,6 @@ const turnOf = (q) => {
   const beta = 2 * Math.acos(w) * (180 / Math.PI), s2 = Math.sqrt(1 - w * w);
   return { beta, n: s2 > 1e-6 ? q.slice(1).map((c) => (sgn * c) / s2) : null };
 };
-const turn = computed(() => turnOf(props.fusion.fused?.held?.q));
 const fusionAngles = (u) => (u.fused ? `(${f(u.fused.roll, 1)}, ${f(u.fused.pitch, 1)}, ${f(u.fused.yaw, 1)})°` : '—');
 const flatCaptions = computed(() => {
   const u = props.fusion.fused;
@@ -75,11 +74,27 @@ const flatCaptions = computed(() => {
     floor: { sym: 'ψ', sub: 'q', value: deg(u?.yaw), name: 'yaw' },
   };
 });
+// the numbers card 8 times a second, from a snapshot of the fusion taken
+// outside Vue's tracking: readable, and its 24 values no longer laid out
+// again every frame (the drawings below still follow every frame)
+const NUMBERS_MS = 125;
+const snap = () => {
+  const u = props.fusion;
+  return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned };
+};
+const slow = shallowRef(snap());
+const numbersTimer = setInterval(() => { slow.value = snap(); }, NUMBERS_MS);
+onBeforeUnmount(() => clearInterval(numbersTimer));
 // each block: a formula a row (LaTeX), its result with the latest numbers
 // (wide: a long formula, its result after it on the line); term: the short
 // name shown beside it, note: the explanation, in its tooltip
 const blocks = computed(() => {
-  const u = props.fusion, i = u.input;
+  const u = slow.value, i = u.input;
+  // the card's own â, e and turn, from the snapshot
+  const am = i?.accel && Math.hypot(...i.accel);
+  const ah = am ? i.accel.map((c) => c / am) : null;
+  const e = ah && u.fused?.held ? cross(ah, u.fused.held.up) : null;
+  const t = turnOf(u.fused?.held?.q);
   return [
     { title: 'From the sensors, every reading', rows: [
       { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, term: 'the accelerometer', note: 'The accelerometer\'s raw reading, in g, along the board\'s x, y and z: gravity\'s pull (about 1 g up at rest) plus every push and shake' },
@@ -100,16 +115,16 @@ const blocks = computed(() => {
       { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', term: 'the start', note: 'Where q starts (and Start again): built from gravity\'s roll and pitch above, the yaw 0. Lying flat it\'s (1, 0, 0, 0), no turn at all' },
       { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), term: 'the attitude', note: 'The attitude as four numbers, a quaternion: how the board is turned in the room. Each reading starts from the q the filter made the reading before (the last lines below)' },
       { tex: String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}`, value: '', term: 'what q does', note: 'What q is for: it turns a direction in the board\'s axes (b, the body frame) into the world\'s (W); q*, its conjugate, turns back' },
-      { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', term: 'the turn angle', note: 'How far the board has turned from the start, as one single turn about one axis: any attitude can be reached that way' },
-      { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), term: 'the turn axis', note: 'The axis of that one turn, a unit direction (none while β is 0). Together: q = (cos β/2, n sin β/2)' },
+      { tex: String.raw`\beta = 2 \arccos q_w =`, value: t ? `${t.beta.toFixed(1)}°` : '—', term: 'the turn angle', note: 'How far the board has turned from the start, as one single turn about one axis: any attitude can be reached that way' },
+      { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(t?.n, 3), term: 'the turn axis', note: 'The axis of that one turn, a unit direction (none while β is 0). Together: q = (cos β/2, n sin β/2)' },
     ] },
     { title: 'Fused: Mahony\'s filter, each reading', rows: [
       { tex: String.raw`k_p =`, value: `${u.kp} /s`, term: 'proportional gain', note: 'The spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
       { tex: String.raw`k_i =`, value: `${u.ki} /s²`, term: 'integral gain', note: 'The memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki (10 s at 1 and 0.1) (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others with the sliders under Mahony\'s filter, below' },
       { tex: String.raw`k_d =`, value: '0', term: 'derivative gain', note: 'No D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
-      { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), term: 'up, from gravity', note: 'Up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
+      { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(ah, 3), term: 'up, from gravity', note: 'Up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), wide: true, term: 'up, from q', note: 'Up, as q says it: the world\'s Z turned into the board\'s own axes. With q right and the board still, v̂ and â match' },
-      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), term: 'the error', note: 'The error, a cross product: its length says how far apart the two ups are, its direction is the axis to turn q about to bring them together' },
+      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(e, 3), term: 'the error', note: 'The error, a cross product: its length says how far apart the two ups are, its direction is the axis to turn q about to bring them together' },
       { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, term: 'the bias estimate', note: 'B̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', term: 'the steered gyro', note: 'The gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
       { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), term: 'the update', note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; the fused angles come from it (the last line)' },
