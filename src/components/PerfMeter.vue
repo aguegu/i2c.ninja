@@ -23,6 +23,31 @@ const stats = ref(null);
 const strip = ref(null);
 const frames = []; // [t, ms]
 let frame = 0, last = 0, shownAt = 0, postedAt = 0;
+// the slow frames' anatomy, where the browser has the Long Animation Frames
+// API (Chromium 123+): each over 50 ms, how its time went (script, style and
+// layout, the rest of the render) and its longest script, posted with the
+// numbers (cleared each post)
+let slow = [];
+let loaf = null;
+function watchSlowFrames() {
+  if (!PerformanceObserver.supportedEntryTypes?.includes('long-animation-frame')) return;
+  loaf = new PerformanceObserver((list) => {
+    for (const e of list.getEntries()) {
+      const top = [...e.scripts].sort((a, b) => b.duration - a.duration)[0];
+      slow.push({
+        ms: Math.round(e.duration),
+        script: Math.round(e.scripts.reduce((n, x) => n + x.duration, 0)),
+        style: Math.round(e.renderStart && e.styleAndLayoutStart ? e.startTime + e.duration - e.styleAndLayoutStart : 0),
+        render: Math.round(e.renderStart ? e.startTime + e.duration - e.renderStart : 0),
+        top: top ? `${top.invoker || top.invokerType} ${top.sourceFunctionName || ''} ${(top.sourceURL || '').split('/').pop()}:${top.sourceCharPosition ?? ''}`.trim() : '',
+        topMs: top ? Math.round(top.duration) : 0,
+        y: Math.round(scrollY),
+      });
+    }
+  });
+  loaf.observe({ type: 'long-animation-frame', buffered: false });
+}
+
 
 const pct = (sorted, p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))] ?? 0;
 
@@ -48,7 +73,8 @@ function tick(t) {
   if (POSTS && t - postedAt >= POST_EVERY_MS) {
     postedAt = t;
     const r1 = (v) => Math.round(v * 10) / 10;
-    const body = JSON.stringify({ path: location.pathname, ...Object.fromEntries(Object.entries(stats.value).map(([k, v]) => [k, r1(v)])) });
+    const body = JSON.stringify({ path: location.pathname, y: Math.round(scrollY), ...Object.fromEntries(Object.entries(stats.value).map(([k, v]) => [k, r1(v)])), ...(slow.length ? { slow } : {}) });
+    slow = [];
     fetch('/__perf', { method: 'POST', body, keepalive: true }).catch(() => {});
   }
 }
@@ -71,8 +97,8 @@ function draw() {
   });
 }
 
-onMounted(() => { perf.on = true; frame = requestAnimationFrame(tick); });
-onBeforeUnmount(() => { perf.on = false; perf.readings.length = 0; cancelAnimationFrame(frame); });
+onMounted(() => { perf.on = true; frame = requestAnimationFrame(tick); watchSlowFrames(); });
+onBeforeUnmount(() => { perf.on = false; perf.readings.length = 0; cancelAnimationFrame(frame); loaf?.disconnect(); });
 const f1 = (v) => v.toFixed(1);
 </script>
 
