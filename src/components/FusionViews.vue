@@ -75,43 +75,44 @@ const flatCaptions = computed(() => {
   };
 });
 // each block: a formula a row (LaTeX), its result with the latest numbers
-// (wide: a long formula, its result after it on the line)
+// (wide: a long formula, its result after it on the line); term: the short
+// name shown beside it, note: the explanation, in its tooltip
 const blocks = computed(() => {
   const u = props.fusion, i = u.input;
   return [
     { title: 'From the sensors, every reading', rows: [
-      { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, note: 'the accelerometer' },
-      { tex: String.raw`\mathbf{b}_0 =`, value: `${vec(u.b0, 2)} °/s`, note: u.zeroed ? 'Zero\'s offset: the gyro\'s average, held still for two seconds' : 'Zero\'s offset: none yet (hold the board still, press Zero)' },
-      { tex: String.raw`\boldsymbol{\omega} = (\omega_x,\ \omega_y,\ \omega_z) =`, value: `${vec(i?.gyro, 1)} °/s`, note: 'the gyro: the rates about x, y and z, as read, b₀ taken off' },
-      { tex: String.raw`\Delta t =`, value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', note: 'since the reading before' },
+      { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, term: 'the accelerometer', note: 'the accelerometer' },
+      { tex: String.raw`\mathbf{b}_0 =`, value: `${vec(u.b0, 2)} °/s`, term: 'Zero\'s offset', note: u.zeroed ? 'Zero\'s offset: the gyro\'s average, held still for two seconds' : 'Zero\'s offset: none yet (hold the board still, press Zero)' },
+      { tex: String.raw`\boldsymbol{\omega} = (\omega_x,\ \omega_y,\ \omega_z) =`, value: `${vec(i?.gyro, 1)} °/s`, term: 'the gyro', note: 'the gyro: the rates about x, y and z, as read, b₀ taken off' },
+      { tex: String.raw`\Delta t =`, value: i ? `${(i.dt * 1000).toFixed(0)} ms` : '—', term: 'the time step', note: 'since the reading before' },
     ] },
     { title: 'Gravity\'s tilt, from a alone', rows: [
-      { tex: String.raw`\varphi_g = \operatorname{atan2}(a_y,\ a_z) =`, value: `${f(u.gravity?.roll, 1)}°`, note: 'φ (phi), the roll: about the nose, x; g, gravity\'s' },
-      { tex: String.raw`\theta_g = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${f(u.gravity?.pitch, 1)}°`, note: 'θ (theta), the pitch: nose up' },
+      { tex: String.raw`\varphi_g = \operatorname{atan2}(a_y,\ a_z) =`, value: `${f(u.gravity?.roll, 1)}°`, term: 'roll, from gravity', note: 'φ (phi), the roll: about the nose, x; g, gravity\'s' },
+      { tex: String.raw`\theta_g = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${f(u.gravity?.pitch, 1)}°`, term: 'pitch, from gravity', note: 'θ (theta), the pitch: nose up' },
     ] },
     { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
-      { tex: String.raw`\varphi_\omega \leftarrow \varphi_\omega + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, note: 'ω: the gyro\'s alone, started from gravity\'s' },
-      { tex: String.raw`\theta_\omega \leftarrow \theta_\omega - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, note: 'started from gravity\'s; nose up is a turn about −y' },
-      { tex: String.raw`\psi_\omega \leftarrow \psi_\omega - \omega_z\,\Delta t =`, value: `${f(u.gyroAlone?.yaw, 1)}°`, note: 'started from 0: gravity can\'t see yaw; turning right is a turn about −z' },
+      { tex: String.raw`\varphi_\omega \leftarrow \varphi_\omega + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, term: 'roll, gyro alone', note: 'ω: the gyro\'s alone, started from gravity\'s' },
+      { tex: String.raw`\theta_\omega \leftarrow \theta_\omega - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, term: 'pitch, gyro alone', note: 'started from gravity\'s; nose up is a turn about −y' },
+      { tex: String.raw`\psi_\omega \leftarrow \psi_\omega - \omega_z\,\Delta t =`, value: `${f(u.gyroAlone?.yaw, 1)}°`, term: 'yaw, gyro alone', note: 'started from 0: gravity can\'t see yaw; turning right is a turn about −z' },
     ] },
     { title: 'The attitude, q: a quaternion, four numbers for how the board sits in the room', rows: [
-      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', note: 'the start (and Start again): from gravity\'s roll and pitch above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
-      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), note: 'then, each reading: the q the filter made the reading before (the last line below)' },
-      { tex: String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}`, value: '', note: 'what q is for: it turns a direction in the board\'s axes (b, the body frame) into the world\'s (W); q*, its conjugate, turns back' },
-      { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', note: 'how far the board has turned from the start, all in one turn' },
-      { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), note: 'the axis of that turn (none while β is 0): so q = (cos β/2, n sin β/2)' },
+      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', term: 'the start', note: 'the start (and Start again): from gravity\'s roll and pitch above, the yaw ψ (psi) 0; flat, (1, 0, 0, 0)' },
+      { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), term: 'the attitude', note: 'then, each reading: the q the filter made the reading before (the last line below)' },
+      { tex: String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}`, value: '', term: 'what q does', note: 'what q is for: it turns a direction in the board\'s axes (b, the body frame) into the world\'s (W); q*, its conjugate, turns back' },
+      { tex: String.raw`\beta = 2 \arccos q_w =`, value: turn.value ? `${turn.value.beta.toFixed(1)}°` : '—', term: 'the turn angle', note: 'how far the board has turned from the start, all in one turn' },
+      { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(turn.value?.n, 3), term: 'the turn axis', note: 'the axis of that turn (none while β is 0): so q = (cos β/2, n sin β/2)' },
     ] },
     { title: 'Fused: Mahony\'s filter, each reading', rows: [
-      { tex: String.raw`k_p =`, value: `${u.kp} /s`, note: 'the spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
-      { tex: String.raw`k_i =`, value: `${u.ki} /s²`, note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki (10 s at 1 and 0.1) (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others with the sliders under Mahony\'s filter, below' },
-      { tex: String.raw`k_d =`, value: '0', note: 'no D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
-      { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
-      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), wide: true, note: 'up, as q says: the world\'s Z, in the board\'s own axes' },
-      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), note: 'how far apart the two ups are (a cross product)' },
-      { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, note: 'b̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
-      { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
-      { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; the fused angles come from it (the last line)' },
-      { tex: String.raw`(\varphi_q,\ \theta_q,\ \psi_q) =`, value: fusionAngles(u), note: 'q: roll, pitch and yaw from the new q, the attitude fused' },
+      { tex: String.raw`k_p =`, value: `${u.kp} /s`, term: 'proportional gain', note: 'the spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
+      { tex: String.raw`k_i =`, value: `${u.ki} /s²`, term: 'integral gain', note: 'the memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki (10 s at 1 and 0.1) (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others with the sliders under Mahony\'s filter, below' },
+      { tex: String.raw`k_d =`, value: '0', term: 'derivative gain', note: 'no D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
+      { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(aHat.value, 3), term: 'up, from gravity', note: 'up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
+      { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), wide: true, term: 'up, from q', note: 'up, as q says: the world\'s Z, in the board\'s own axes' },
+      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(err.value, 3), term: 'the error', note: 'how far apart the two ups are (a cross product)' },
+      { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, term: 'the bias estimate', note: 'b̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
+      { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', term: 'the steered gyro', note: 'the gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
+      { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), term: 'the update', note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; the fused angles come from it (the last line)' },
+      { tex: String.raw`(\varphi_q,\ \theta_q,\ \psi_q) =`, value: fusionAngles(u), term: 'the fused angles', note: 'q: roll, pitch and yaw from the new q, the attitude fused' },
     ] },
   ];
 });
@@ -136,7 +137,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
             <template v-else>
               <TexMath :expr="r.tex" :class="r.value === '' && 'col-span-2'" /><span v-if="r.value !== ''" :class="value" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
             </template>
-            <span class="text-right font-sans text-xs whitespace-normal text-slate-500 dark:text-slate-400">{{ r.note }}</span>
+            <!-- the term, its explanation in a tooltip (hover, or focus by keyboard) -->
+            <span class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400" :title="r.note" tabindex="0">{{ r.term }}</span>
           </template>
         </div>
       </div>
