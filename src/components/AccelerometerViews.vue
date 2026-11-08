@@ -50,7 +50,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
           <p class="font-mono text-3xl tabular-nums">{{ fmt(size) }} <span class="text-base">g</span></p>
         </div>
       </div>
-      <HintNote class="mt-auto pt-3">At rest |a| is about 1 g whichever way it's turned: gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</HintNote>
+      <HintNote class="mt-auto pt-3">At rest |a| is about 1 g whichever way it's turned: what holds it up against gravity, shared among the axes by the tilt. Shake it and |a| moves; drop it onto a cushion and it falls toward 0 g.</HintNote>
     </section>
     <section :class="[card, 'flex flex-col items-center']">
       <AttitudeIndicator :roll="roll" :pitch="pitch" />
