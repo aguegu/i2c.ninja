@@ -62,6 +62,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
   <CollapsibleCard id="what-the-chip-feels-three-ways" title="What the chip feels, three ways">
     <h2 class="mb-2 font-semibold">What the chip feels, three ways</h2>
     <VectorViews :x="v.x" :y="v.y" :z="v.z" />
+    <HintNote class="mt-3"><b>Why up, not down?</b> The chip doesn't feel gravity; it feels what holds it. At rest the table pushes it up, and inside it the springs hold the little mass up against gravity: so it reads +1 g, up. Drop it onto a cushion and it reads about 0 g: falling, nothing holds it. (Einstein's equivalence: from inside, gravity and acceleration feel the same.)</HintNote>
     <p class="mt-3 leading-relaxed">
       The reading as an arrow, seen from three sides like an engineering drawing; the board (its outline) stays still, in its own axes as printed. At rest the arrow is 1 g long, pointing up, away from the floor: not gravity's pull but the springs holding the mass up against it. Lying flat it stands straight up in the two side views and is a dot from above; tilt the real board and it leans in the views that see the tilt, still pointing at the ceiling. Shake it and it swings and stretches (dashed past 1.55 g); drop it onto a cushion and it shrinks toward the centre.
     </p>
