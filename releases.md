@@ -1,5 +1,11 @@
 # Releases
 
+## 1.6.3
+
+- On atiic 1.5.3: a dart is told by its answer, not its name, so a
+  renamed dart still opens; a device that doesn't answer as one is refused
+  within a second.
+
 ## 1.6.2
 
 - On atiic 1.5.2: a dart opens again after a page closes it (its interface
