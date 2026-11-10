@@ -1,5 +1,23 @@
 # Releases
 
+## 1.6.9
+
+- **Colour and light**, a sixth physics page (the user: "I am new to this
+  sensor too. let's create the physics page for it. how light is mixed
+  with color, etc."): from the BH1745NUC, what it sees as a tint and as
+  shares of red, green and blue, a dot in Maxwell's colour triangle, "Call
+  this light white" (its channels' sensitivities differ: the datasheet's
+  red 4000, green 3350, blue 2370 counts for equal light), its tint over
+  time, a mixer of three lights; **the screen as a light**: a colour full
+  screen, how to hold the sensor (a drawing: the user, "I need a
+  instruction svg too"), what it sees in a window in the corner (the user)
+  with its counts, the arrow keys stepping through the colours (the user);
+  light as a spectrum, the eye's three cones, adding light against taking
+  it away, the sensor against the eye, the clear channel; things to try.
+  On the user's bench the screen's colours read as expected ("close enough
+  I would say"), green and blue not swapped.
+- The BH1745NUC page: what "clear" is, and a link to the physics page.
+
 ## 1.6.8
 
 - **The BH1745NUC**, ROHM's colour sensor (atiic 1.5.9's `Bh1745`; the

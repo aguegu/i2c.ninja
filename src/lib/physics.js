@@ -62,6 +62,17 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/HumidityView.vue'),
   },
+  {
+    slug: 'colour',
+    title: 'Colour and light',
+    short: 'Colour',
+    icon: 'M8 9a4 4 0 1 0 8 0a4 4 0 1 0-8 0M5 14.5a4 4 0 1 0 8 0a4 4 0 1 0-8 0M11 14.5a4 4 0 1 0 8 0a4 4 0 1 0-8 0',
+    blurb: 'White light as many colours, the eye\'s three kinds of sensor, mixing light by adding it, and a colour sensor doing what the eye does, with the screen as its light.',
+    devices: [
+      { to: '/bh1745', label: 'BH1745NUC', note: 'colour' },
+    ],
+    component: () => import('../views/physics/ColourView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title, short: p.short, icon: p.icon }));

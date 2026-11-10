@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" width="720" height="360" font-family="Helvetica, Arial, sans-serif">
+  <!-- How to hold the BH1745NUC module against the screen for "The screen as
+       a light" (i2c.ninja /physics/colour): from the side, its chip's
+       window towards the coloured screen, touching or a few millimetres
+       away, a hand or card around it against the room's light; from the
+       front, in the middle of the colour, away from the edges. Practical
+       guidance, not the datasheet's (it gives no distance for this) -->
+  <rect width="720" height="360" fill="#fff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">Holding the sensor to the screen</text>
+
+  <!-- from the side -->
+  <text x="175" y="56" text-anchor="middle" font-size="13" fill="#555">from the side</text>
+  <!-- the screen: its frame, the lit face (green here), its stand -->
+  <rect x="58" y="74" width="26" height="196" rx="3" fill="#2b2b2b"/>
+  <rect x="84" y="80" width="6" height="184" fill="#22c55e"/>
+  <rect x="50" y="270" width="42" height="8" rx="2" fill="#2b2b2b"/>
+  <text x="70" y="298" text-anchor="middle" font-size="12" fill="#555">screen</text>
+  <!-- light from the screen -->
+  <g stroke="#22c55e" stroke-width="2" stroke-linecap="round" opacity="0.7">
+    <line x1="94" y1="150" x2="112" y2="150"/><line x1="94" y1="172" x2="112" y2="172"/><line x1="94" y1="194" x2="112" y2="194"/>
+  </g>
+  <!-- the module, edge on: the board, the chip on its screen side, the header and wires going away -->
+  <rect x="116" y="128" width="8" height="90" rx="1.5" fill="#8e1f6e" stroke="#5e1449"/>
+  <rect x="110" y="164" width="6" height="18" rx="1" fill="#cfcfcf" stroke="#888"/>
+  <rect x="124" y="140" width="14" height="66" fill="#161616"/>
+  <g fill="#c9a24a"><rect x="138" y="146" width="22" height="3"/><rect x="138" y="160" width="22" height="3"/><rect x="138" y="174" width="22" height="3"/><rect x="138" y="188" width="22" height="3"/></g>
+  <path d="M160 147 C 200 147, 210 120, 260 110" fill="none" stroke="#d32f2f" stroke-width="3"/>
+  <path d="M160 161 C 205 161, 215 135, 262 124" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+  <path d="M160 175 C 210 175, 220 150, 264 138" fill="none" stroke="#f2c200" stroke-width="3"/>
+  <path d="M160 189 C 215 189, 225 165, 266 152" fill="none" stroke="#1e88e5" stroke-width="3"/>
+  <text x="270" y="134" font-size="12" fill="#555">to the dongle</text>
+  <!-- the gap -->
+  <g stroke="#555" stroke-width="1.2">
+    <line x1="90" y1="236" x2="90" y2="252"/><line x1="110" y1="236" x2="110" y2="252"/>
+    <line x1="90" y1="244" x2="110" y2="244"/>
+  </g>
+  <text x="118" y="248" font-size="12" fill="#333">touching, or a few mm</text>
+  <!-- the chip's window towards the screen -->
+  <path d="M106 173 L 96 173" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="166" y="88" font-size="12" fill="#333">the chip's window</text>
+  <text x="166" y="102" font-size="12" fill="#333">faces the screen</text>
+  <path d="M164 94 C 140 96, 124 120, 116 160" fill="none" stroke="#555" stroke-width="1.2"/>
+  <!-- a hand or card cupped round it -->
+  <path d="M96 118 C 140 100, 168 128, 170 173 C 168 218, 140 246, 96 228" fill="none" stroke="#9ca3af" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+  <text x="182" y="214" font-size="12" fill="#333">a hand or a card round it:</text>
+  <text x="182" y="228" font-size="12" fill="#333">the room's light kept out</text>
+
+  <!-- from the front -->
+  <text x="530" y="56" text-anchor="middle" font-size="13" fill="#555">from the front</text>
+  <rect x="400" y="72" width="260" height="170" rx="6" fill="#2b2b2b"/>
+  <rect x="410" y="80" width="240" height="152" fill="#22c55e"/>
+  <rect x="512" y="242" width="36" height="20" fill="#2b2b2b"/><rect x="490" y="262" width="80" height="8" rx="2" fill="#2b2b2b"/>
+  <!-- the module seen from its back, in the middle of the colour -->
+  <rect x="508" y="128" width="44" height="56" rx="3" fill="#8e1f6e" stroke="#5e1449" stroke-width="1.5"/>
+  <g fill="#c9a24a"><circle cx="516" cy="138" r="2.5"/><circle cx="516" cy="146" r="2.5"/><circle cx="516" cy="154" r="2.5"/><circle cx="516" cy="162" r="2.5"/><circle cx="516" cy="170" r="2.5"/><circle cx="516" cy="178" r="2.5"/></g>
+  <text x="530" y="208" text-anchor="middle" font-size="12" fill="#14532d">in the middle,</text>
+  <text x="530" y="222" text-anchor="middle" font-size="12" fill="#14532d">away from the edges</text>
+
+  <!-- the steps -->
+  <g font-size="12" fill="#333">
+    <text x="30" y="318">1. Fill the screen with a colour (the buttons below); set the screen to its full brightness.</text>
+    <text x="30" y="336">2. Hold the chip's window flat to the middle of it, shaded from the room; wait for two readings.</text>
+    <text x="30" y="354">3. Counts in single digits: raise the gain (16×). A channel at 65535: lower the gain.</text>
+  </g>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

@@ -127,13 +127,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <CollapsibleCard id="reading-it" title="Reading it" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Reading it</h2>
       <p class="mb-2">
-        Four photodiodes, each behind its own filter: red, green and blue pass their part of the spectrum, clear a wide band. An infrared-cut filter keeps infrared light out, which the eye doesn't see. Each converts its light into a count over the measurement time, multiplied by the gain.
+        Four photodiodes, each behind its own filter: red, green and blue pass their part of the spectrum, clear a wide band (for how bright the light is, whatever its colour; far less sensitive than the other three in this chip, so its counts compare only with themselves). An infrared-cut filter keeps infrared light out, which the eye doesn't see. Each converts its light into a count over the measurement time, multiplied by the gain.
       </p>
       <p class="mb-2">
         atiic knows it by its part ID (0x0B in register 40h) and ROHM's maker ID (0xE0 in 92h). It resets it, sets the time (register 41h) and turns measuring on with the gain (42h; the datasheet asks 44h be written 02h too), then waits for each measurement's VALID bit and reads 8 bytes from 50h: red, green, blue and clear, low byte first.
       </p>
       <p class="mb-2">
         <b>Counts, not lux.</b> The datasheet plots the illuminance (lux) and the colour temperature worked out from the four channels, but gives no formula for them (ROHM gives one separately, not read here). So this page shows what the sensor gives, counts.
+      </p>
+      <p class="mb-2">
+        <b>How colour and light mix</b>, the sensor against the eye, and the screen as a light to measure: <RouterLink to="/physics/colour" :class="link">Colour and light</RouterLink>.
       </p>
       <p>
         <b>The tint</b> above is only the red, green and blue counts shown as a screen colour, scaled to the brightest: a rough look. The channels' filters aren't the eye's colour response, nor the screen's, so a true colour needs a calibration this page doesn't have.
