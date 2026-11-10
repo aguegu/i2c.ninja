@@ -34,7 +34,9 @@
   A card's sensor type in its group's hue too (the user: "The sensor type
   could use the same color of the category"), a darker step for text
   (`--group-*-text`: the 700s on white, 5.0-7.0:1; the 400s on slate-800,
-  5.4-8.8:1).
+  5.4-8.8:1). The cards' "field-tested" tag gone (the user: "I think we
+  could remove the 'field-tested' tag"): the page's intro says it once for
+  all of them.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").
