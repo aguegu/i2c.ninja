@@ -1,5 +1,13 @@
 # Releases
 
+## 1.6.1
+
+- **A udev rule per dongle** (the user: "let's give dart its own rule. maybe
+  the rule for ch341 and ch347 could be separated too"): Get started's Linux
+  step shows three, each its own file: `70-ch341.rules` (1a86:5512),
+  `70-ch347.rules` (55db, 55de), `70-dart.rules` (ffff:da92), so only the
+  dongle in hand needs one. 1.6.0's combined `70-ch341.rules` keeps working.
+
 ## 1.6.0
 
 - **dart, a third dongle** (the user: "let's get i2c.ninja to support dart,

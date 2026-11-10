@@ -15,12 +15,17 @@ const PLATFORMS = [
 ];
 const platform = ref(detectPlatform());
 
-// the CH341 in I2C mode (5512), the CH347T in mode 1 (55db), the CH347F
-// (55de); a dart (ffff:da92)
-const UDEV_RULE = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512|55db|55de", TAG+="uaccess"';
-const UDEV_RULE_DART = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="ffff", ATTRS{idProduct}=="da92", TAG+="uaccess"';
-const UDEV_COMMANDS = `printf '%s\\n' '${UDEV_RULE}' '${UDEV_RULE_DART}' | sudo tee /etc/udev/rules.d/70-ch341.rules
+// a rule of its own for each dongle, its file named to sort before
+// 73-seat-late.rules (which turns uaccess into the user's access): the CH341
+// in I2C mode (1a86:5512), the CH347T in mode 1 (55db) and the CH347F (55de),
+// a dart (ffff:da92)
+const udev = (file, vendor, products) => `echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="${vendor}", ATTRS{idProduct}=="${products}", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/${file}
 sudo udevadm control --reload`;
+const UDEV_RULES = [
+  { name: 'A CH341', commands: udev('70-ch341.rules', '1a86', '5512') },
+  { name: 'A CH347', commands: udev('70-ch347.rules', '1a86', '55db|55de') },
+  { name: 'A dart', commands: udev('70-dart.rules', 'ffff', 'da92') },
+];
 const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*; do [ -e "$i" ] && echo "\${i##*/}" && echo -n "\${i##*/}" > /sys/bus/usb/drivers/spi-ch341/unbind; done'`;
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
 sudo rmmod spi_ch341`;
@@ -105,12 +110,16 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           The browser runs as you, and USB devices belong to root. A udev rule
           gives the dongle to whoever is logged in at the computer:
         </p>
-        <pre :class="code">{{ UDEV_COMMANDS }}</pre>
+        <template v-for="r in UDEV_RULES" :key="r.name">
+          <p class="font-semibold">{{ r.name }}:</p>
+          <pre :class="code">{{ r.commands }}</pre>
+        </template>
         <p>
-          Then unplug the dongle and plug it back in. The rule's file name has
+          Then unplug the dongle and plug it back in. A rule's file name has
           to sort before <code>73-seat-late.rules</code>, which turns the
-          <code>uaccess</code> tag into your access: <code>70-ch341.rules</code>
-          does.
+          <code>uaccess</code> tag into your access: the <code>70-</code>
+          files do. One rule set up before 1.6.1, for all three in
+          <code>70-ch341.rules</code>, keeps working.
         </p>
         <p>A CH347 or a dart is ready then. A CH341 has step 3.1 too.</p>
       </div>
