@@ -46,6 +46,16 @@
   it shorter"). The footer's devices a column per group, its name on top
   (the user: "the right half is kinda empty now"); a wrapping line per group
   on a phone.
+- **A quick filter on /devices** (the user: "let's add a quick search/filter
+  of sensors on somewhere top right"): a box at the title row's right end
+  (full width under the title on a phone). Every word typed must match:
+  an address like 0x44 against each sensor's addresses (the INA231's
+  0x40-0x4F range counts each), anything else, ignoring case, spaces and
+  dashes, against name, short names (SHT31 finds the SHT3x), maker, type,
+  group and what it measures. Empty groups hide, "n of 13 sensors" shows,
+  and with none the footnote says so and offers the GitHub issue. Kept in
+  the address as ?q= (a filtered list to share); / focuses it, Esc
+  clears it. `lib/deviceSearch.js`, test/deviceSearch.test.js.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").
