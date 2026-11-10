@@ -73,7 +73,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </div>
       <SpecTable :rows="SPECS" />
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation and the gyroscope</RouterLink>
+        <b>See also:</b> <RouterLink to="/physics/rotation" class="text-emerald-700 underline dark:text-emerald-400">Rotation and gyroscope</RouterLink>
       </p>
     </section>
   </main>

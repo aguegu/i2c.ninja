@@ -93,7 +93,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </div>
       <SpecTable :rows="SPECS" />
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/magnetism" class="text-emerald-700 underline dark:text-emerald-400">Magnetism and the compass</RouterLink>
+        <b>See also:</b> <RouterLink to="/physics/magnetism" class="text-emerald-700 underline dark:text-emerald-400">Magnetism and compass</RouterLink>
       </p>
     </section>
   </main>

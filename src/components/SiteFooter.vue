@@ -2,57 +2,57 @@
 // The footer: the site map (every page, from lib/nav.js), share this page,
 // and the license.
 // Kept short as the devices grow: they fill rows across the full width
-// first; Learn (its index; the steps are linked from there), Get started
-// and Elsewhere share the row under them.
+// first; the other groups share the row under them, each page by its short
+// name. On a phone those groups fold to their headings (open from sm up).
 import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 import { COURSE_LINKS } from '../lib/courses.js';
 import ShareRow from './ShareRow.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
 const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
+const GROUPS = [
+  { head: 'Physics', links: PHYSICS_LINKS },
+  { head: 'Algorithms', links: ALGORITHM_LINKS },
+  { head: 'Learn', links: COURSE_LINKS },
+  { head: 'Get started', links: start },
+  { head: 'Elsewhere', links: ELSEWHERE_LINKS },
+];
+// open from Tailwind's sm (40rem) up; folded below, until tapped
+const SM = '(min-width: 40rem)';
+const wide = ref(true); // open while prerendered: every link in the HTML
+let mq = null;
+const onChange = () => { wide.value = mq.matches; };
+onMounted(() => { mq = matchMedia(SM); onChange(); mq.addEventListener('change', onChange); });
+onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
 </script>
 
 <template>
   <footer class="mt-12 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-    <nav class="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 text-sm leading-6" aria-label="Site map">
-      <div>
-        <RouterLink to="/devices" :class="[head, 'block hover:text-emerald-600']">Devices</RouterLink>
+    <nav class="mx-auto flex max-w-5xl flex-col gap-1.5 px-4 py-6 text-sm leading-6 sm:gap-5" aria-label="Site map">
+      <details class="group" :open="wide">
+        <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">
+          <RouterLink to="/devices" class="pointer-events-auto hover:text-emerald-600">Devices</RouterLink>
+          <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
+        </summary>
         <ul class="grid grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] gap-x-4">
           <li v-for="l in DEVICE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
         </ul>
-      </div>
-      <div class="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-5">
-        <div>
-          <p :class="head">Algorithms</p>
-          <ul>
-            <li v-for="l in ALGORITHM_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
+      </details>
+      <div class="grid gap-x-8 sm:grid-cols-5 sm:gap-y-5">
+        <details v-for="g in GROUPS" :key="g.head" class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
+          <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none sm:mb-1.5']">
+            {{ g.head }}
+            <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
+          </summary>
+          <ul class="flex flex-wrap gap-x-4 pb-1 sm:block sm:pb-0">
+            <li v-for="l in g.links" :key="l.to ?? l.href">
+              <a v-if="l.href" :href="l.href" :class="link">{{ l.label }}</a>
+              <RouterLink v-else :to="l.to" :class="link">{{ l.short ?? l.label }}</RouterLink>
+            </li>
           </ul>
-        </div>
-        <div>
-          <p :class="head">Physics</p>
-          <ul>
-            <li v-for="l in PHYSICS_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
-          </ul>
-        </div>
-        <div>
-          <p :class="head">Learn</p>
-          <ul>
-            <li v-for="l in COURSE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
-          </ul>
-        </div>
-        <div>
-          <p :class="head">Get started</p>
-          <ul>
-            <li v-for="l in start" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label }}</RouterLink></li>
-          </ul>
-        </div>
-        <div>
-          <p :class="head">Elsewhere</p>
-          <ul>
-            <li v-for="l in ELSEWHERE_LINKS" :key="l.href"><a :href="l.href" :class="link">{{ l.label }}</a></li>
-          </ul>
-        </div>
+        </details>
       </div>
     </nav>
     <div class="mx-auto max-w-5xl px-4 pb-4"><ShareRow /></div>

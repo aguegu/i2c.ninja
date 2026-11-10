@@ -4,7 +4,7 @@ How a phone, a game controller or a drone knows which way it's turned, from two 
 
 1. **Gravity on a spring-held mass.** Read [Acceleration and gravity](/physics/acceleration): why a board lying still reads 1 g *upward*, how a tiny mass on springs feels it, and how the tilt comes from it.
    *Done when* you can say why |a| is about 1 g whichever way a still board is turned.
-2. **Turning, and which way is positive.** Read [Rotation and the gyroscope](/physics/rotation): angular velocity in degrees a second, the right-hand rule, the Coriolis push a gyro feels, and why a gyro drifts.
+2. **Turning, and which way is positive.** Read [Rotation and gyroscope](/physics/rotation): angular velocity in degrees a second, the right-hand rule, the Coriolis push a gyro feels, and why a gyro drifts.
    *Done when* you can point your right thumb along z and say which way a positive turn goes.
 
 ## 2. Wire it up
@@ -129,7 +129,7 @@ These chips have no magnetometer; the MPU-9250 (an MPU-6500 with one inside) and
 The accelerometer feels every shake, as <a href="/physics/acceleration">Acceleration and gravity</a>
 showed with your hand; the motors shake far harder and faster. Strong enough, the shaking saturates the
 accelerometer (it reads its limit and no more, like the gyro past ±250 deg/s in
-<a href="/physics/rotation">Rotation and the gyroscope</a>), and its average is no longer gravity:
+<a href="/physics/rotation">Rotation and gyroscope</a>), and its average is no longer gravity:
 the level the filter pulls toward goes wrong. So boards are soft-mounted on rubber, and the readings are
 filtered, often with notch filters that follow the motors' speed.
 </p>

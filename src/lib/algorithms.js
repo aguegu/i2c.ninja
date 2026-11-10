@@ -6,10 +6,11 @@ export const ALGORITHMS = [
   {
     slug: 'attitude',
     title: 'Attitude from accel and gyro',
+    short: 'Attitude', // the footer's
     blurb: '6-axis sensor fusion: an accelerometer and a gyro together, steady as gravity and quick as the gyro. The complementary filter and Mahony\'s, live on any pair.',
     combines: ['acceleration', 'rotation'],
     component: () => import('../views/algorithms/AttitudeView.vue'),
   },
 ];
 
-export const ALGORITHM_LINKS = ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title }));
+export const ALGORITHM_LINKS = ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title, short: p.short }));

@@ -24,7 +24,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
-      <h1 class="text-2xl font-bold">Magnetism and the compass</h1>
+      <h1 class="text-2xl font-bold">Magnetism and compass</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         The Earth is wrapped in a weak magnetic field, a few tens of microtesla, the same everywhere in a room unless iron or a magnet bends it. A magnetometer chip measures it along three axes; from its level part comes a compass, from the rest the field's dip into the ground.
       </p>

@@ -55,7 +55,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
         An accelerometer knows which way is down but jumps at every push; a gyro follows every turn but drifts. Read together and combined (6-axis sensor fusion), they give an attitude: roll, pitch and yaw, that is steady and quick at once: the trick inside every phone, game controller and drone. It runs on one chip that has both, or on two boards side by side.
       </p>
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Combines <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> + <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink>.
+        Combines <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> + <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink>.
       </p>
     </div>
 
@@ -129,7 +129,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it can't see: north</h2>
       <p>
-        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and the compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift. Try kp and ki with the sliders under Mahony's filter above; the whole path, step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
+        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift. Try kp and ki with the sliders under Mahony's filter above; the whole path, step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
       </p>
     </section>
 
@@ -159,7 +159,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
           <p class="mb-1 text-sm font-semibold">On this site</p>
           <ul class="space-y-1 text-sm">
             <li><RouterLink to="/learn/motion" :class="link">The Motion course</RouterLink><span class="text-slate-500 dark:text-slate-400"> · step by step: the physics, the wiring, the sensors, this page, practice</span></li>
-            <li><RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink><span class="text-slate-500 dark:text-slate-400"> · and</span> <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink><span class="text-slate-500 dark:text-slate-400"> · the two sensors on their own</span></li>
+            <li><RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink><span class="text-slate-500 dark:text-slate-400"> · and</span> <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink><span class="text-slate-500 dark:text-slate-400"> · the two sensors on their own</span></li>
           </ul>
         </div>
       </div>

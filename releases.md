@@ -1,5 +1,34 @@
 # Releases
 
+## 1.6.4
+
+- **Distance and time of flight**, a fourth physics page (the user: "the
+  physics page is mainly about distance"): the VL53L1X at 30 readings a
+  second (short mode, 33 ms); position, speed and acceleration, each its
+  own chart; speed as the slope of a line fitted to the last few readings,
+  acceleration as twice the t² term of a parabola fitted to a few more
+  (lib/motion.js), from neighbours only (2 and 3 readings), 5 and 9, or 9
+  and 15; why every derivative blows the noise up (1 mm of noise at 33 ms:
+  0.044 m/s and 2.3 m/s² from neighbours, 0.010 and 0.10 from 5 and 9);
+  How it measures, moved from the device page; Light or sound (the user:
+  "there could be other way to measure distance. like ultra sonic"); a
+  drop to see g.
+- **The VL53L1X page** (on atiic 1.5.7), as a module smoke test (the
+  user): distance mode, timing budget (the datasheet's) and region of
+  interest to pick; each reading's light back, background (a SPAD, against
+  the datasheet's office light, sunny window, direct sun) and SPADs, the
+  light back and the background each its own chart in its own colour (the
+  user); Check the module: ten readings each with 16 x 16, 8 x 8 and 4 x 4
+  SPADs; its settings from ST's datasheet (DS12385 rev. 8).
+- **Icons in the Physics menu** (the user), desktop and phone.
+- **A shorter footer** (the user: "the sitemap section has grown big"):
+  short names (Acceleration, Rotation, ...); on a phone every group folds
+  to its heading.
+- "Rotation and gyroscope", "Magnetism and compass" (the user: without
+  "the"), the 1.3.0 post's links too.
+- A display formula wider than a phone scrolls in its own box, not the
+  page.
+
 ## 1.6.3
 
 - On atiic 1.5.3: a dart is told by its answer, not its name, so a

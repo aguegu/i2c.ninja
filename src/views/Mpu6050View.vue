@@ -79,7 +79,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Each sensor alone falls short: the accelerometer knows which way is down but jumps at every push; the gyro follows every turn but drifts. Fused, they give an attitude steady and quick at once, the trick inside every phone and drone. See it live with this board, every formula with its numbers: <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink>.
       </p>
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and the gyroscope</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
+        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
       </p>
     </CollapsibleCard>
   </main>

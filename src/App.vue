@@ -24,6 +24,7 @@ watch(() => route.fullPath, () => { mobile.value = false; });
 watch(() => route.query.perf, (q) => { if (q !== undefined) setMeter(q !== '0'); }, { immediate: true });
 const navLink = 'hover:text-emerald-600';
 const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700';
+const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700';
 </script>
 
 <template>
@@ -58,7 +59,10 @@ const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:b
       </div>
       <nav v-if="mobile" class="border-t border-slate-200 px-4 py-3 text-sm sm:hidden dark:border-slate-700" aria-label="Main">
         <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
-        <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
+        <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileIconLink">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="l.icon" /></svg>
+          {{ l.label }}
+        </RouterLink>
         <RouterLink to="/devices" class="block px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Devices →</RouterLink>
         <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
