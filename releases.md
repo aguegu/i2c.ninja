@@ -43,7 +43,9 @@
   footer's top margin 48 px to 8 px, site-wide: 24 px from a page's end to
   the footer (the user: "the space under the footnote looks too big", then
   "still too big"), and the footnote one line (the user: "and we can make
-  it shorter").
+  it shorter"). The footer's devices a column per group, its name on top
+  (the user: "the right half is kinda empty now"); a wrapping line per group
+  on a phone.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").
