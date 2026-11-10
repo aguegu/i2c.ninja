@@ -1,5 +1,12 @@
 # Releases
 
+## 1.6.2
+
+- On atiic 1.5.2: a dart opens again after a page closes it (its interface
+  released), and its new name, "Dart" by "Sourcekit" (the user), is
+  taken; 1.6.1's atiic wanted "dart" exactly. The browser's USB chooser
+  lists it as "Dart".
+
 ## 1.6.1
 
 - **A udev rule per dongle** (the user: "let's give dart its own rule. maybe
