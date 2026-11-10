@@ -67,7 +67,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
+      <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Air pressure and height</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         We live at the bottom of an ocean of air, and its weight presses on everything. Climb, and there's less air above you: the pressure falls, by about 12 Pa for every metre near the ground. A good barometer feels that from a desk to above your head. Here from an <RouterLink to="/spl06" :class="link">SPL06</RouterLink>.

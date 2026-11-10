@@ -39,7 +39,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
           <RouterLink to="/about#releases" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}: the releases`">{{ version }}</RouterLink>
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
-          <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? recentOf(PHYSICS_LINKS, 'physics') : []" />
+          <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? recentOf(PHYSICS_LINKS, 'physics') : []" :all="{ to: '/physics', label: 'All topics' }" />
           <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent, 'device')" :all="{ to: '/devices', label: 'All devices' }" wide />
           <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? recentOf(ALGORITHM_LINKS, 'algorithm') : []" />
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
@@ -61,7 +61,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
         </button>
       </div>
       <nav v-if="mobile" class="border-t border-slate-200 px-4 py-3 text-sm sm:hidden dark:border-slate-700" aria-label="Main">
-        <p class="px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">Physics</p>
+        <RouterLink to="/physics" class="block px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Physics →</RouterLink>
         <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileIconLink">
           <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="l.icon" /></svg>
           {{ l.label }}

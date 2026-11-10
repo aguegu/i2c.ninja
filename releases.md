@@ -56,6 +56,13 @@
   and with none the footnote says so and offers the GitHub issue. Kept in
   the address as ?q= (a filtered list to share); / focuses it, Esc
   clears it. `lib/deviceSearch.js`, test/deviceSearch.test.js.
+- **/physics, an index page** (the user: "go ahead with the physics index
+  page"): a card per topic, its icon, title and what it explains, and the
+  sensors that measure it as chips in their device group's colour. Reached
+  from the Physics menu's "All topics", the phone menu's and the footer's
+  Physics heading, and the "Physics" over each topic's title; in the
+  topics' breadcrumbs for search engines, its topics as its prerendered
+  links.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

@@ -76,6 +76,12 @@ export const PAGES = [
     description: 'The I2C sensors i2c.ninja reads live over a USB dongle: motion, magnetism, humidity, colour, distance, pulse, power. Each with its wiring, readings and settings.',
   },
   {
+    path: '/physics',
+    title: 'Physics: the ideas behind the sensors, live',
+    description: 'The ideas behind the sensors, a page each: what is measured, how a chip measures it, its limits, with live readings and things to try. Motion to air pressure.',
+    links: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title })),
+  },
+  {
     path: '/learn',
     title: 'Learn: courses through the physics, the sensors and the maths',
     description: 'Step-by-step courses through this site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, with sensors live in the browser.',

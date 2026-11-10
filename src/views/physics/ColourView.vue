@@ -98,7 +98,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
+      <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Colour and light</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         White light is many colours at once, and the eye judges colour with just three kinds of sensor. A colour sensor does the same: three filtered light sensors, red, green and blue. See what it sees as a mix of the three, make mixes of your own, and turn the screen itself into a light to measure. Here with the <RouterLink to="/bh1745" :class="link">BH1745NUC</RouterLink>.

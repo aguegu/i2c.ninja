@@ -84,7 +84,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
+      <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Distance and time of flight</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         A time-of-flight sensor measures distance by timing something out to whatever it faces and back: light, or sound. Read it often enough and the distances tell more than where something is: how fast it moves, and how fast that changes. Here with the <RouterLink to="/vl53l1x" :class="link">VL53L1X</RouterLink>, 30 readings a second.

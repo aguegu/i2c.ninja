@@ -42,7 +42,7 @@ const tooLong = PAGES.filter((p) => p.description.length > DESCRIBE_MAX);
 if (tooLong.length) throw new Error(`prerender: descriptions over ${DESCRIBE_MAX}: ${tooLong.map((p) => `${p.path} (${p.description.length})`).join(', ')}`);
 
 // the page's place: home, then its section (if it has a page), then itself
-const SECTIONS = [['/blog/', '/blog', 'Blog'], ['/learn/', '/learn', 'Learn']];
+const SECTIONS = [['/blog/', '/blog', 'Blog'], ['/learn/', '/learn', 'Learn'], ['/physics/', '/physics', 'Physics']];
 function crumbs(page) {
   const list = [{ name: SITE, url: `${ORIGIN}/` }];
   if (page.kind === 'device') list.push({ name: 'Devices', url: `${ORIGIN}/devices` });

@@ -28,6 +28,7 @@ const router = createRouter({
     { path: '/adxl345', component: () => import('./views/Adxl345View.vue') },
     { path: '/hmc5883l', component: () => import('./views/Hmc5883lView.vue') },
     { path: '/itg3200', component: () => import('./views/Itg3200View.vue') },
+    { path: '/physics', component: () => import('./views/physics/IndexView.vue') },
     { path: '/learn', component: () => import('./views/learn/LearnView.vue') },
     ...Object.entries(MOVED).map(([path, to]) => ({ path, redirect: to })), // old addresses, before the course's
     { path: '/learn/:slug', component: () => import('./views/learn/CourseView.vue') },

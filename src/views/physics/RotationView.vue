@@ -23,7 +23,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
+      <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Rotation and gyroscope</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         How fast something turns: its angular velocity, in degrees a second. A gyroscope chip measures it about three axes at once, with no spinning wheel inside, just a tiny mass kept shaking. Added up, the rates tell how far it has turned, for a while.

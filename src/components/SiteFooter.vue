@@ -47,7 +47,7 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
       </details>
       <details class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
         <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">
-          Physics
+          <RouterLink to="/physics" class="pointer-events-auto hover:text-emerald-600">Physics</RouterLink>
           <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
         </summary>
         <ul class="grid grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] gap-x-4 pb-1 sm:pb-0">

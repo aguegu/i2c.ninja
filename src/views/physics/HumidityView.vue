@@ -43,7 +43,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
+      <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Humidity and dew point</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B or AHT30</RouterLink>, whichever is plugged in (with more than one, pick which: the same air, two answers).
