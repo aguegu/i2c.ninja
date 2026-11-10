@@ -14,6 +14,15 @@
   above the sea from the day's sea-level pressure, highs and lows (1 hPa
   about 8.5 m), the chip's limits, things to try. `lib/pressure.js`
   (ISA, hypsometric, density) with its tests; `PressureCurve`.
+- **The devices in five groups**, by what a sensor senses (the user: "it
+  is about time to category our sensors", then "go with the five groups"):
+  Motion (MPU-6050, ADXL345, ITG-3200, HMC5883L), Air (SHT20, SHT3x,
+  AHT21B / AHT30, SPL06), Light (BH1745NUC, VL53L1X, MLX90614), Body
+  (MAX30102), Electricity (INA231). `group` per device and DEVICE_GROUPS in
+  `lib/devices.js`, the list in their order (test/devices.test.js keeps it
+  so); /devices a section per group with a line on it, the header's
+  Devices menu and the phone menu with a small heading per group, the
+  footer a line per group, the prerendered site map a list per group.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

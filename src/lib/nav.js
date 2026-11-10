@@ -1,7 +1,7 @@
 // The site's links, grouped, for the header's menus and the footer's site
 // map: from the device cards and the guides, so a new page shows up in both
 // by itself
-import { DEVICES, GUIDES } from './devices.js';
+import { DEVICES, DEVICES_BY_GROUP, GUIDES } from './devices.js';
 export { PHYSICS_LINKS } from './physics.js';
 export { ALGORITHM_LINKS } from './algorithms.js';
 
@@ -11,7 +11,9 @@ export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
 // a sensor or a dongle the site doesn't know yet: asked for here
 export const NEW_ISSUE = 'https://github.com/aguegu/i2c.ninja/issues/new';
 
-export const DEVICE_LINKS = DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind }));
+export const DEVICE_LINKS = DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind, group: d.group }));
+// the same by group: [{ head, links }]
+export const DEVICE_LINK_GROUPS = DEVICES_BY_GROUP.map((g) => ({ head: g.name, links: DEVICE_LINKS.filter((l) => l.group === g.name) }));
 // the guides, each by its index page (its chapters are linked from there)
 export const GUIDE_LINKS = GUIDES.map((g) => ({ to: g.to, label: g.name, note: g.kind }));
 export const START_LINKS = [

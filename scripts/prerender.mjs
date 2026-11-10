@@ -15,7 +15,7 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { PAGES, ORIGIN, SITE, fullTitle, DESCRIBE_MAX } from '../src/lib/pages.js';
-import { DEVICES } from '../src/lib/devices.js';
+import { DEVICES_BY_GROUP } from '../src/lib/devices.js';
 import { PHYSICS } from '../src/lib/physics.js';
 import { ALGORITHMS } from '../src/lib/algorithms.js';
 import { COURSES } from '../src/lib/courses.js';
@@ -67,7 +67,7 @@ function structured(page) {
 const a = (to, label) => `<a href="${to}">${esc(label)}</a>`;
 const list = (items) => `<ul>${items.map((i) => `<li>${a(i.to, i.label)}</li>`).join('')}</ul>`;
 const MAP = [
-  ['Devices', DEVICES.map((d) => ({ to: d.to, label: d.name }))],
+  ...DEVICES_BY_GROUP.map((g) => [`Devices: ${g.name}`, g.devices.map((d) => ({ to: d.to, label: d.name }))]),
   ['Physics', PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title }))],
   ['Algorithms', ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title }))],
   ['Learn', COURSES.map((c) => ({ to: `/learn/${c.slug}`, label: c.title }))],

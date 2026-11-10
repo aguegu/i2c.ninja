@@ -2,9 +2,10 @@
 // The footer: the site map (every page, from lib/nav.js), share this page,
 // and the license.
 // Kept short as the devices and physics topics grow: they fill rows across
-// the full width (the topics by their short names); the other groups share
+// the full width (the devices a line per group, its name first; the topics
+// by their short names); the other groups share
 // the row under them. On a phone those groups fold to their headings (open from sm up).
-import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
+import { DEVICE_LINK_GROUPS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 import { COURSE_LINKS } from '../lib/courses.js';
 import ShareRow from './ShareRow.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
@@ -35,9 +36,14 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
           <RouterLink to="/devices" class="pointer-events-auto hover:text-emerald-600">Devices</RouterLink>
           <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
         </summary>
-        <ul class="grid grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] gap-x-4">
-          <li v-for="l in DEVICE_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
-        </ul>
+        <div class="grid gap-x-4 sm:grid-cols-[6.5rem_1fr]">
+          <template v-for="g in DEVICE_LINK_GROUPS" :key="g.head">
+            <p class="pt-1 text-[11px] tracking-wide text-slate-400 uppercase sm:pt-0.5">{{ g.head }}</p>
+            <ul class="flex flex-wrap gap-x-4 pb-1 sm:pb-0">
+              <li v-for="l in g.links" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
+            </ul>
+          </template>
+        </div>
       </details>
       <details class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
         <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">

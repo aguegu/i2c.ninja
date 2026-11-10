@@ -11,7 +11,7 @@ import { meterOn, setMeter } from './lib/perf.js';
 import { useTheme } from './lib/theme.js';
 import { updateReady, applyUpdate } from './lib/pwa.js';
 import { recent, withLabels } from './lib/recent.js';
-import { DEVICE_LINKS, PHYSICS_LINKS, ALGORITHM_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
+import { DEVICE_LINKS, DEVICE_LINK_GROUPS, PHYSICS_LINKS, ALGORITHM_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
 
 const { dark, toggle } = useTheme();
@@ -67,7 +67,10 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
           {{ l.label }}
         </RouterLink>
         <RouterLink to="/devices" class="block px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Devices →</RouterLink>
-        <RouterLink v-for="l in DEVICE_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
+        <template v-for="g in DEVICE_LINK_GROUPS" :key="g.head">
+          <p class="px-3 pt-1.5 text-[11px] tracking-wide text-slate-400 uppercase">{{ g.head }}</p>
+          <RouterLink v-for="l in g.links" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
+        </template>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
         <RouterLink v-for="l in ALGORITHM_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
