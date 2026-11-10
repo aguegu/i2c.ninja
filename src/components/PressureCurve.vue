@@ -19,6 +19,7 @@ const P_TICKS = [0, 200, 400, 600, 800, 1000, 1200];
 const H_TICKS = [0, 2, 4, 6, 8, 10];
 const STEP_KM = 0.1;
 const EVEREST_KM = 8.849; // its summit's height
+const NOTE_KM = 6.8; // the reading's words: right of the curve, under Everest's
 const x = (hpa) => PAD.l + (hpa / P_MAX) * (W - PAD.l - PAD.r);
 const y = (km) => H - PAD.b - (km / H_MAX) * (H - PAD.t - PAD.b);
 const curve = (() => {
@@ -56,9 +57,9 @@ const fmtM = (m) => (m < 0 ? `${Math.round(-m)} m below sea level` : `${Math.rou
     <g v-if="at">
       <line :x1="PAD.l" :x2="x(at.hpa)" :y1="y(at.km)" :y2="y(at.km)" style="stroke: var(--series-2)" stroke-width="2" stroke-dasharray="4 4" />
       <circle :cx="x(at.hpa)" :cy="y(at.km)" r="6" style="fill: var(--series-2); stroke: var(--chart-grid)" stroke-width="2" />
-      <!-- its words in the empty top right, clear of the curve -->
-      <text :x="W - PAD.r - 8" :y="PAD.t + 18" text-anchor="end" font-size="13" style="fill: var(--chart-text)">yours: {{ at.hpa.toFixed(1) }} hPa,</text>
-      <text :x="W - PAD.r - 8" :y="PAD.t + 36" text-anchor="end" font-size="13" style="fill: var(--chart-text)">{{ fmtM(at.m) }} in the standard atmosphere</text>
+      <!-- its words in the empty space right of the curve, under Everest's -->
+      <text :x="W - PAD.r - 8" :y="y(NOTE_KM)" text-anchor="end" font-size="13" style="fill: var(--chart-text)">yours: {{ at.hpa.toFixed(1) }} hPa,</text>
+      <text :x="W - PAD.r - 8" :y="y(NOTE_KM) + 18" text-anchor="end" font-size="13" style="fill: var(--chart-text)">{{ fmtM(at.m) }} in the standard atmosphere</text>
     </g>
   </svg>
 </template>
