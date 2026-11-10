@@ -1,5 +1,23 @@
 # Releases
 
+## 1.6.13
+
+- **The SPL06** (atiic 1.5.11; the user's purple CJMCU board on our bench's
+  dart, 3.3 V only): /spl06 (alias /spl06-001), air pressure and
+  temperature live, its datasheet's three use cases (weather, indoor,
+  sports) to pick, a wiring drawing, its settings. The user: "it works".
+- **Air pressure and height**, a physics page (the user: "go ahead with the
+  air pressure physics page"): the weight of the air (live: tonnes on a
+  square metre, pascals a metre of air), the gas law and the hypsometric
+  equation, height from a "Zero here" in the sports mode (about 4 cm of
+  noise), the standard atmosphere's curve with the reading on it, height
+  above the sea from the day's sea-level pressure, highs and lows (1 hPa
+  about 8.5 m), the chip's limits, things to try. `lib/pressure.js`
+  (ISA, hypsometric, density) with its tests; `PressureCurve`.
+- **The footer:** Physics a full row under Devices, as it grows (the user:
+  "The Physics column in the sitemap is also getting taller. maybe it could
+  use a full row").
+
 ## 1.6.12
 
 - **The AHT30** (atiic 1.5.11: one driver for the AHT21B and AHT30, not told

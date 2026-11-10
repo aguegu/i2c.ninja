@@ -29,6 +29,7 @@ const WHAT = {
   '/aht21': 'AHT21B / AHT30 humidity and temperature sensor',
   '/sht3x': 'SHT3x (SHT30, SHT31, SHT35) humidity and temperature sensor',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
+  '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',
   '/mlx90614': 'MLX90614 infrared thermometer',
@@ -125,6 +126,7 @@ const DESCRIBE = {
   '/learn': 'Step-by-step courses through the site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, live in the browser.',
   '/learn/motion': 'An accelerometer and a gyro, step by step: physics, wiring, raw numbers, calibration and fusion, then practice. With an MPU-6050, or an ADXL345 and ITG-3200.',
   '/physics/humidity': 'How much water the air holds, why relative humidity falls as air warms with the same water in it, and the dew point. Live, with things to try.',
+  '/physics/pressure': 'Air pressure as the weight of the air above, why it thins with height, height from pressure to a few centimetres, and the weather moving it. Live.',
   '/physics/colour': 'White light as many colours, the eye\'s three cones, mixing light, and a colour sensor doing what the eye does, with the screen as its light.',
   '/algorithms/attitude': '6-axis sensor fusion: an accelerometer and a gyro together, steady as gravity and quick as the gyro: the complementary and Mahony filters, live.',
 };

@@ -9,6 +9,7 @@ export const ALIASES = {
   '/sht30': '/sht3x',
   '/sht31': '/sht3x',
   '/sht35': '/sht3x',
+  '/spl06-001': '/spl06',
 };
 
 // a page's aliases, for its route

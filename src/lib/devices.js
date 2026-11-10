@@ -45,6 +45,14 @@ export const DEVICES = [
     bus: 'I2C 0x38',
   },
   {
+    to: '/spl06',
+    name: 'SPL06',
+    maker: 'Goertek',
+    kind: 'Pressure',
+    measures: 'Air pressure and temperature: the weather, and the board lifted by a few centimetres.',
+    bus: 'I2C 0x77 / 0x76',
+  },
+  {
     to: '/bh1745',
     name: 'BH1745NUC',
     maker: 'ROHM',

@@ -1,7 +1,7 @@
 {
   "name": "i2c.ninja",
   "private": true,
-  "version": "1.6.12",
+  "version": "1.6.13",
   "type": "module",
   "description": "I2C devices live in the browser: a CH341 over WebUSB, atiic's drivers, charts",
   "license": "PolyForm-Noncommercial-1.0.0",
