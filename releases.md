@@ -1,5 +1,10 @@
 # Releases
 
+## 1.6.5
+
+- On atiic 1.5.8: a dart with command set 1.1 names a bus held low (`bus
+  held low: SCL`) where 1.0 said `BUS_BUSY`; the pages' speeds unchanged.
+
 ## 1.6.4
 
 - **Distance and time of flight**, a fourth physics page (the user: "the
