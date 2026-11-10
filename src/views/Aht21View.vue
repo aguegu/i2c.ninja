@@ -15,8 +15,7 @@ import HumidityPage from '../components/HumidityPage.vue';
     </template>
     <template #measures="{ readMs }">
       <p class="mb-2">
-        A MEMS capacitive humidity element and a temperature sensor, read out by its own chip, calibrated at the factory. Both come back as 20-bit numbers (steps of 0.024 %RH and 0.01 °C, its datasheet says).
-        Fine steps are not accuracy: typically ±3 %RH and ±0.5 °C, so beside an SHT20 the two may read a few percent apart.
+        A MEMS capacitive humidity element and a temperature sensor (how they work: <RouterLink to="/physics/humidity" class="text-emerald-700 underline dark:text-emerald-400">Humidity and dew point</RouterLink>), read out by its own chip, calibrated at the factory. Both come back as 20-bit numbers (steps of 0.024 %RH and 0.01 °C, its datasheet says), typically within ±3 %RH and ±0.5 °C.
       </p>
       <p class="mb-2">
         At power-on its status byte (command 0x71) must read 0x18, calibrated. A reading is one command (0xAC 0x33 0x00), a wait of 80 ms while it measures (its busy bit says when it's done), and seven bytes back: the status, 20 bits of humidity, 20 bits of temperature, and a CRC, which atiic checks.

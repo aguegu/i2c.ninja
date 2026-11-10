@@ -1,6 +1,7 @@
 <script setup>
-// A humidity sensor's page: its drawing, connect, temperature, relative
-// humidity and the dew point as tiles and charts, what the numbers mean;
+// A humidity sensor's page: its drawing, connect, temperature and relative
+// humidity as tiles and charts (the dew point: the physics page), what the
+// numbers mean;
 // the sensor's own intro (slot intro) and how it measures (slot measures)
 import LiveSettings from './LiveSettings.vue';
 import CollapsibleCard from './CollapsibleCard.vue';
@@ -18,15 +19,20 @@ const props = defineProps({
   drawingAlt: { type: String, required: true },
   drawingCaption: { type: String, required: true },
   responseS: { type: Number, required: true }, // its humidity response time, 63 %
+  resolution: { type: String, default: null }, // the first, for a driver with RESOLUTIONS
 });
 
 const WINDOW_MS = 120000; // two minutes: the air changes slowly
 const TEMPERATURE_SPAN_C = 1;
 const HUMIDITY_SPAN = 4;
-const TEMPERATURE = [{ label: 'temperature', color: '--series-2' }, { label: 'dew point', color: '--series-1' }];
+const TEMPERATURE = [{ label: 'temperature', color: '--series-2' }];
 const HUMIDITY = [{ label: 'humidity', color: '--series-3' }];
 
-const s = reactive(useHumidity(props.driver, { windowMs: WINDOW_MS }));
+const s = reactive(useHumidity(props.driver, { windowMs: WINDOW_MS, resolution: props.resolution }));
+const field = 'flex items-center gap-2 text-sm';
+const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark:border-slate-600 dark:bg-slate-800';
+// 'RH/T' bits, as a person reads them
+const label = (r) => { const [rh, t] = r.split('/'); return `RH ${rh} bit, T ${t} bit`; };
 const name = props.driver.chip.name;
 const r = computed(() => s.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
@@ -53,7 +59,12 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @click="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="s.disconnect" />
-      <span v-if="s.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(s.address) }} · a reading every {{ s.readMs / 1000 }} s</span>
+      <label v-if="s.resolutions.length" :class="field">Resolution
+        <select :value="s.resolution" :class="select" @change="s.setResolution($event.target.value)">
+          <option v-for="res in s.resolutions" :key="res" :value="res">{{ label(res) }}</option>
+        </select>
+      </label>
+      <span v-if="s.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(s.address) }} · a reading every {{ s.readMs / 1000 }} s{{ s.hold ? ' · hold master' : '' }}</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="s.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
@@ -62,7 +73,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p v-if="s.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ s.failure.error }}</p>
     </div>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 gap-4">
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">Temperature</p>
         <p class="font-mono text-2xl tabular-nums">{{ fmt(r?.temperature, 2) }} <span class="text-base">°C</span></p>
@@ -71,14 +82,10 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
         <p class="text-sm text-slate-500 dark:text-slate-400">Relative humidity</p>
         <p class="font-mono text-2xl tabular-nums">{{ fmt(r?.humidity, 1) }} <span class="text-base">%</span></p>
       </section>
-      <section :class="card">
-        <p class="text-sm text-slate-500 dark:text-slate-400">Dew point</p>
-        <p class="font-mono text-2xl tabular-nums">{{ fmt(r?.dewPoint, 1) }} <span class="text-base">°C</span></p>
-      </section>
     </div>
 
-    <CollapsibleCard id="temperature-and-dew-point" title="Temperature and dew point">
-      <LiveChart title="Temperature and dew point" unit="°C" :series="TEMPERATURE" :values="r ? [r.temperature, r.dewPoint] : []" :source="s.temperatureSource" :window-ms="WINDOW_MS" :floor="TEMPERATURE_SPAN_C" :digits="2" fit />
+    <CollapsibleCard id="temperature" title="Temperature">
+      <LiveChart title="Temperature" unit="°C" :series="TEMPERATURE" :values="r ? [r.temperature] : []" :source="s.temperatureSource" :window-ms="WINDOW_MS" :floor="TEMPERATURE_SPAN_C" :digits="2" fit />
     </CollapsibleCard>
     <CollapsibleCard id="relative-humidity" title="Relative humidity">
       <LiveChart title="Relative humidity" unit="%" :series="HUMIDITY" :values="r ? [r.humidity] : []" :source="s.humiditySource" :window-ms="WINDOW_MS" :floor="HUMIDITY_SPAN" :digits="1" fit />
@@ -89,16 +96,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="mb-2">
         <b>Relative humidity</b> is how much water vapour the air holds, against the most it could hold at its temperature. Warm air holds more: the same moisture reads lower as the air warms. Breathe near the sensor and watch it jump; then it comes back down, over seconds (its response time is about {{ responseS }} s).
       </p>
-      <p class="mb-2">
-        <b>The dew point</b> is the temperature the air would have to cool to before that moisture condenses: a cold glass sweats when it's below the dew point. Unlike relative humidity, it stays put when the room just warms or cools, so it tells how much water is in the air.
-        Worked out here from the two readings with the Magnus formula (over water: β = 17.62, λ = 243.12 °C, as Sensirion's SHT20 datasheet gives them):
-        <span class="font-mono">{{ r ? `${fmt(r.temperature, 2)} °C, ${fmt(r.humidity, 1)} % → ${fmt(r.dewPoint, 1)} °C` : '—' }}</span>.
+      <p>
+        <b>From the two:</b> how much water the air really holds, and the dew point, the temperature where it would condense, worked out live on <RouterLink to="/physics/humidity" class="text-emerald-700 underline dark:text-emerald-400">Humidity and dew point</RouterLink>, with how a chip like this measures them.
       </p>
     </CollapsibleCard>
 
-    <CollapsibleCard id="how-it-measures" title="How it measures" class="leading-relaxed">
-      <h2 class="mb-2 text-lg font-semibold">How it measures</h2>
-      <slot name="measures" :read-ms="s.readMs" />
+    <CollapsibleCard id="reading-it" title="Reading it" class="leading-relaxed">
+      <h2 class="mb-2 text-lg font-semibold">Reading it</h2>
+      <slot name="measures" :read-ms="s.readMs" :hold="s.hold" :resolution="s.resolution" />
     </CollapsibleCard>
   </main>
 </template>

@@ -49,6 +49,18 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/DistanceView.vue'),
   },
+  {
+    slug: 'humidity',
+    title: 'Humidity and dew point',
+    short: 'Humidity',
+    icon: 'M12 3c-4 5-6 8.5-6 11.5a6 6 0 0 0 12 0C18 11.5 16 8 12 3zM9.5 15a2.5 2.5 0 0 0 2.5 2.5',
+    blurb: 'How much water the air holds, why relative humidity falls as air warms with the same water in it, and the dew point, where it condenses.',
+    devices: [
+      { to: '/sht20', label: 'SHT20', note: 'humidity and temperature' },
+      { to: '/aht21', label: 'AHT21B', note: 'humidity and temperature' },
+    ],
+    component: () => import('../views/physics/HumidityView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title, short: p.short, icon: p.icon }));

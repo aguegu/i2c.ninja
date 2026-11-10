@@ -1,5 +1,28 @@
 # Releases
 
+## 1.6.6
+
+- **Humidity and dew point**, a fifth physics page (the user: "all 3
+  readings come from sht20, right? Let's create a physics page for it", then
+  "move the dew point to the physics page" and "'How it measures' could be
+  moved the the physics page too"): from an SHT20 or an AHT21B, whichever
+  answers; temperature and relative humidity measured, the water in the air
+  (g/m3) and the dew point worked out (the Magnus formula with Sensirion's
+  and the WMO's constants, within 0.3 % of the steam tables from 0 to 40 C;
+  `test/humidity.test.js`); the saturation curve drawn with the air's state
+  on it; relative against absolute humidity, each its own chart; the dew
+  point; how a chip measures it (a capacitor taking up water, its 8 s
+  response, self-heating, fine steps against accuracy); things to try.
+- **The SHT20 page** (on atiic 1.5.9; the user: "0.5hz looks not that
+  active"): a resolution to pick, 11/11 bits by default, read as often as
+  its datasheet allows (10 % active: every 0.26 s, 1.14 s at 12/14 bits);
+  on a dart in hold master mode (the user: "dart is waiting sht20 on the
+  bus, right?"), dart waiting on the sensor's held SCL.
+- The SHT20 and AHT21B pages show what they measure, temperature and
+  relative humidity; the dew point and how they measure moved to the
+  physics page; "How it measures" there is "Reading it": the commands,
+  the bytes, the rates.
+
 ## 1.6.5
 
 - On atiic 1.5.8: a dart with command set 1.1 names a bus held low (`bus
