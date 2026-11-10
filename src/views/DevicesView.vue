@@ -21,7 +21,7 @@ const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm ring-em
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <RouterLink v-for="d in g.devices" :key="d.to" :to="d.to" :class="card" :style="{ borderTopColor: `var(${g.color})` }">
           <span class="flex items-center justify-between gap-2">
-            <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
+            <span class="text-xs font-medium tracking-wide uppercase" :style="{ color: `var(${g.color}-text)` }">{{ d.kind }}</span>
             <span class="flex items-center gap-1 rounded-full bg-emerald-600/10 px-2 py-0.5 text-[11px] text-emerald-800 dark:text-emerald-300" title="Its driver run on a real module, its page tried on the bench">
               <svg viewBox="0 0 16 16" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3 3l7-7" /></svg>field-tested
             </span>

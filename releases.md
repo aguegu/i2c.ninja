@@ -31,6 +31,10 @@
   out (cyan too grey at a passing step, red reads as an error). Marks only,
   always beside the group's name: a dot by each group's name (/devices, the
   menus, the footer) and a stripe atop each card. `--group-*` in style.css.
+  A card's sensor type in its group's hue too (the user: "The sensor type
+  could use the same color of the category"), a darker step for text
+  (`--group-*-text`: the 700s on white, 5.0-7.0:1; the 400s on slate-800,
+  5.4-8.8:1).
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

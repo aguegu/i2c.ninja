@@ -79,6 +79,13 @@
   --group-light: #f59e0b; /* amber-500 */
   --group-body: #e11d48; /* rose-600 */
   --group-electricity: #9333ea; /* purple-600 */
+  /* the same hues for text (a card's sensor type): 4.5:1 or more on the
+     card (white; slate-800 dark) */
+  --group-motion-text: #1d4ed8; /* blue-700, 6.7:1 */
+  --group-air-text: #0f766e; /* teal-700, 5.5:1 */
+  --group-light-text: #b45309; /* amber-700, 5.0:1 */
+  --group-body-text: #be123c; /* rose-700, 6.3:1 */
+  --group-electricity-text: #7e22ce; /* purple-700, 7.0:1 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,6 +104,11 @@
     --group-light: #d97706; /* amber-600 */
     --group-body: #be123c; /* rose-700 */
     --group-electricity: #7e22ce; /* purple-700 */
+    --group-motion-text: #60a5fa; /* blue-400, 5.8:1 */
+    --group-air-text: #2dd4bf; /* teal-400, 7.9:1 */
+    --group-light-text: #fbbf24; /* amber-400, 8.8:1 */
+    --group-body-text: #fb7185; /* rose-400, 5.4:1 */
+    --group-electricity-text: #c084fc; /* purple-400, 5.5:1 */
   }
 }
 :root[data-theme="dark"] {
@@ -114,4 +126,9 @@
   --group-light: #d97706; /* amber-600 */
   --group-body: #be123c; /* rose-700 */
   --group-electricity: #7e22ce; /* purple-700 */
+  --group-motion-text: #60a5fa; /* blue-400, 5.8:1 */
+  --group-air-text: #2dd4bf; /* teal-400, 7.9:1 */
+  --group-light-text: #fbbf24; /* amber-400, 8.8:1 */
+  --group-body-text: #fb7185; /* rose-400, 5.4:1 */
+  --group-electricity-text: #c084fc; /* purple-400, 5.5:1 */
 }
