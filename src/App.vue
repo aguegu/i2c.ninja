@@ -63,7 +63,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
       <nav v-if="mobile" class="border-t border-slate-200 px-4 py-3 text-sm sm:hidden dark:border-slate-700" aria-label="Main">
         <RouterLink to="/physics" class="block px-3 pt-1 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Physics →</RouterLink>
         <RouterLink v-for="l in PHYSICS_LINKS" :key="l.to" :to="l.to" :class="mobileIconLink">
-          <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="l.icon" /></svg>
+          <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" :style="l.iconColor && { color: `var(${l.iconColor})` }" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="l.icon" /></svg>
           {{ l.label }}
         </RouterLink>
         <RouterLink to="/devices" class="block px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Devices →</RouterLink>

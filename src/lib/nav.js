@@ -2,7 +2,8 @@
 // map: from the device cards and the guides, so a new page shows up in both
 // by itself
 import { DEVICES, DEVICE_GROUPS, DEVICES_BY_GROUP, GUIDES } from './devices.js';
-export { PHYSICS_LINKS } from './physics.js';
+import { PHYSICS, PHYSICS_LINKS as TOPIC_LINKS } from './physics.js';
+import { topicColor } from './topicColor.js';
 export { ALGORITHM_LINKS } from './algorithms.js';
 
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
@@ -12,6 +13,9 @@ export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
 export const NEW_ISSUE = 'https://github.com/aguegu/i2c.ninja/issues/new';
 
 const colorOf = (group) => DEVICE_GROUPS.find((g) => g.name === group).color;
+// the topics, each icon in its sensors' group colour (the text step: lines
+// that thin need its contrast)
+export const PHYSICS_LINKS = TOPIC_LINKS.map((l) => ({ ...l, iconColor: `${topicColor(PHYSICS.find((p) => `/physics/${p.slug}` === l.to))}-text` }));
 export const DEVICE_LINKS = DEVICES.map((d) => ({ to: d.to, label: d.name, note: d.kind, group: d.group, groupColor: colorOf(d.group) }));
 // the same by group: [{ head, color, links }]
 export const DEVICE_LINK_GROUPS = DEVICES_BY_GROUP.map((g) => ({ head: g.name, color: g.color, links: DEVICE_LINKS.filter((l) => l.group === g.name) }));

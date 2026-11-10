@@ -62,7 +62,12 @@
   from the Physics menu's "All topics", the phone menu's and the footer's
   Physics heading, and the "Physics" over each topic's title; in the
   topics' breadcrumbs for search engines, its topics as its prerendered
-  links.
+  links. A topic's icon in its sensors' group colour, there and in the
+  menus (the user: "We can make the physics icon match the catogory color
+  too"): Acceleration, Rotation and Magnetism blue, Humidity and Air
+  pressure teal, Distance and Colour amber, the text step for lines that
+  thin. `lib/topicColor.js`; test/topicColor.test.js keeps each topic's
+  sensors in one group.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").
