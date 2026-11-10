@@ -1,5 +1,26 @@
 # Releases
 
+## 1.6.11
+
+- **Search engines** (the user: "any improvement we can do regarding SEO?",
+  then "go ahead with 1-5"):
+  1. The short addresses /sht30, /sht31, /sht35 and /bh1745nuc answered
+     404 to a crawler: the aliases are one list now (`lib/aliases.js`), the
+     router's and the prerender's, each its own page canonical to the main.
+  2. Each page's HTML carries its heading, description, the pages it leads
+     to (a device's physics, a topic's devices) and the site's map inside
+     #app, for crawlers that don't run the app; the app replaces them as it
+     starts (one heading, no leftovers: checked on the built site).
+  3. Structured data on every page: breadcrumbs; a device page a
+     TechArticle about its product and maker, a physics or algorithm page or
+     a course a LearningResource, a post a BlogPosting (its date, its
+     author, its image).
+  4. The sitemap's lastmod is each page's own last commit (git; the deploy
+     checks out the whole history), not the build's date.
+  5. Every description within 160 characters (the longest 158), a shared
+     tail shortened ("Live in your browser over USB."), search descriptions
+     of their own where a card's blurb runs longer; the build fails past 160.
+
 ## 1.6.10
 
 - **The home page's carousel** (the user: "we got multiple candidates for

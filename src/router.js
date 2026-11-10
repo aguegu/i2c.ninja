@@ -1,3 +1,4 @@
+import { aliasesOf } from './lib/aliases.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
 import { MOVED } from './lib/moved.js';
@@ -14,12 +15,12 @@ const router = createRouter({
     { path: '/blog', component: () => import('./views/BlogView.vue') },
     { path: '/blog/:slug', component: () => import('./views/BlogPostView.vue') },
     { path: '/devices', component: () => import('./views/DevicesView.vue') },
-    { path: '/mpu6050', alias: '/mpu6500', component: () => import('./views/Mpu6050View.vue') },
+    { path: '/mpu6050', alias: aliasesOf('/mpu6050'), component: () => import('./views/Mpu6050View.vue') },
     { path: '/ina231', component: () => import('./views/Ina231View.vue') },
     { path: '/sht20', component: () => import('./views/Sht20View.vue') },
-    { path: '/aht21', alias: '/aht21b', component: () => import('./views/Aht21View.vue') },
-    { path: '/bh1745', alias: '/bh1745nuc', component: () => import('./views/Bh1745View.vue') },
-    { path: '/sht3x', alias: ['/sht30', '/sht31', '/sht35'], component: () => import('./views/Sht3xView.vue') },
+    { path: '/aht21', alias: aliasesOf('/aht21'), component: () => import('./views/Aht21View.vue') },
+    { path: '/bh1745', alias: aliasesOf('/bh1745'), component: () => import('./views/Bh1745View.vue') },
+    { path: '/sht3x', alias: aliasesOf('/sht3x'), component: () => import('./views/Sht3xView.vue') },
     { path: '/max30102', component: () => import('./views/Max30102View.vue') },
     { path: '/vl53l1x', component: () => import('./views/Vl53l1xView.vue') },
     { path: '/mlx90614', component: () => import('./views/Mlx90614View.vue') },
