@@ -23,6 +23,14 @@
   so); /devices a section per group with a line on it, the header's
   Devices menu and the phone menu with a small heading per group, the
   footer a line per group, the prerendered site map a list per group.
+- **A colour per group** (the user: "i think we can create color pattern for
+  categories"): Motion blue, Air teal, Light amber, Body rose, Electricity
+  purple, Tailwind steps searched for and checked by the dataviz palette
+  validator over all pairs, light and dark each its own steps (worst
+  normal-vision 15.8 / 19.1, colour-blind 13.2 / 11.0); cyan and red were
+  out (cyan too grey at a passing step, red reads as an error). Marks only,
+  always beside the group's name: a dot by each group's name (/devices, the
+  menus, the footer) and a stripe atop each card. `--group-*` in style.css.
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

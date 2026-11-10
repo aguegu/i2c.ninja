@@ -20,3 +20,8 @@ test('the grouped list has every device once, and no empty group', () => {
   assert.deepEqual(DEVICES_BY_GROUP.flatMap((g) => g.devices), DEVICES);
   for (const g of DEVICES_BY_GROUP) assert.ok(g.devices.length, g.name);
 });
+
+test('every group has its colour, each its own', () => {
+  for (const g of DEVICE_GROUPS) assert.match(g.color ?? '', /^--group-/, g.name);
+  assert.equal(new Set(DEVICE_GROUPS.map((g) => g.color)).size, DEVICE_GROUPS.length);
+});

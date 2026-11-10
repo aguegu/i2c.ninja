@@ -70,6 +70,15 @@
   --channel-green: #16a34a; /* green-600 */
   --channel-blue: #2563eb; /* blue-600 */
   --channel-clear: #64748b; /* slate-500 */
+  /* the device groups (lib/devices.js), a hue each: Tailwind steps picked
+     by the dataviz validator, all pairs (normal-vision floor 15.8, CVD 13.2
+     light; 19.1 and 11.0 dark), always beside the group's name (some under
+     3:1 on the surface) */
+  --group-motion: #60a5fa; /* blue-400 */
+  --group-air: #14b8a6; /* teal-500 */
+  --group-light: #f59e0b; /* amber-500 */
+  --group-body: #e11d48; /* rose-600 */
+  --group-electricity: #9333ea; /* purple-600 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -83,6 +92,11 @@
     --channel-green: #4ade80; /* green-400 */
     --channel-blue: #60a5fa; /* blue-400 */
     --channel-clear: #94a3b8; /* slate-400 */
+    --group-motion: #3b82f6; /* blue-500 */
+    --group-air: #0d9488; /* teal-600 */
+    --group-light: #d97706; /* amber-600 */
+    --group-body: #be123c; /* rose-700 */
+    --group-electricity: #7e22ce; /* purple-700 */
   }
 }
 :root[data-theme="dark"] {
@@ -95,4 +109,9 @@
   --channel-green: #4ade80;
   --channel-blue: #60a5fa;
   --channel-clear: #94a3b8;
+  --group-motion: #3b82f6; /* blue-500 */
+  --group-air: #0d9488; /* teal-600 */
+  --group-light: #d97706; /* amber-600 */
+  --group-body: #be123c; /* rose-700 */
+  --group-electricity: #7e22ce; /* purple-700 */
 }

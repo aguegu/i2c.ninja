@@ -4,13 +4,14 @@
 // tests) and the page itself on the bench.
 import { COURSES } from './courses.js';
 
-// the groups, in the order shown; a group with no device yet isn't shown
+// the groups, in the order shown, each its colour (a CSS variable: style.css);
+// a group with no device yet isn't shown
 export const DEVICE_GROUPS = [
-  { name: 'Motion', blurb: 'How it moves, turns and points: acceleration, rotation, and Earth\'s magnetic field.' },
-  { name: 'Air', blurb: 'The air around it: humidity, temperature and pressure.' },
-  { name: 'Light', blurb: 'Sensing by light: colour, distance by timing light, temperature by infrared.' },
-  { name: 'Body', blurb: 'The body: the pulse, by light through the skin.' },
-  { name: 'Electricity', blurb: 'Voltage, current and power.' },
+  { name: 'Motion', color: '--group-motion', blurb: 'How it moves, turns and points: acceleration, rotation, and Earth\'s magnetic field.' },
+  { name: 'Air', color: '--group-air', blurb: 'The air around it: humidity, temperature and pressure.' },
+  { name: 'Light', color: '--group-light', blurb: 'Sensing by light: colour, distance by timing light, temperature by infrared.' },
+  { name: 'Body', color: '--group-body', blurb: 'The body: the pulse, by light through the skin.' },
+  { name: 'Electricity', color: '--group-electricity', blurb: 'Voltage, current and power.' },
 ];
 
 export const DEVICES = [

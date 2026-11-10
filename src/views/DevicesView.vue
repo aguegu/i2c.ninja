@@ -4,7 +4,7 @@
 import { DEVICES_BY_GROUP } from '../lib/devices.js';
 import { NEW_ISSUE } from '../lib/nav.js';
 
-const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
+const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 </script>
 
 <template>
@@ -16,10 +16,10 @@ const card = 'flex flex-col rounded-xl bg-white p-4 shadow-sm ring-emerald-600 t
       </p>
     </div>
     <section v-for="g in DEVICES_BY_GROUP" :key="g.name" :aria-labelledby="`group-${g.name}`">
-      <h2 :id="`group-${g.name}`" class="mt-2 text-lg font-semibold">{{ g.name }}</h2>
+      <h2 :id="`group-${g.name}`" class="mt-2 flex items-center gap-2 text-lg font-semibold"><span class="inline-block size-3 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.name }}</h2>
       <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">{{ g.blurb }}</p>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="d in g.devices" :key="d.to" :to="d.to" :class="card">
+        <RouterLink v-for="d in g.devices" :key="d.to" :to="d.to" :class="card" :style="{ borderTopColor: `var(${g.color})` }">
           <span class="flex items-center justify-between gap-2">
             <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">{{ d.kind }}</span>
             <span class="flex items-center gap-1 rounded-full bg-emerald-600/10 px-2 py-0.5 text-[11px] text-emerald-800 dark:text-emerald-300" title="Its driver run on a real module, its page tried on the bench">

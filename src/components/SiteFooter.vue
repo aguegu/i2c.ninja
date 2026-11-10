@@ -38,7 +38,7 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
         </summary>
         <div class="grid gap-x-4 sm:grid-cols-[6.5rem_1fr]">
           <template v-for="g in DEVICE_LINK_GROUPS" :key="g.head">
-            <p class="pt-1 text-[11px] tracking-wide text-slate-400 uppercase sm:pt-0.5">{{ g.head }}</p>
+            <p class="flex items-center gap-1.5 pt-1 text-[11px] tracking-wide text-slate-400 uppercase sm:pt-0.5"><span class="inline-block size-2 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.head }}</p>
             <ul class="flex flex-wrap gap-x-4 pb-1 sm:pb-0">
               <li v-for="l in g.links" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
             </ul>

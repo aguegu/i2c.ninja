@@ -68,7 +68,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
         </RouterLink>
         <RouterLink to="/devices" class="block px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Devices →</RouterLink>
         <template v-for="g in DEVICE_LINK_GROUPS" :key="g.head">
-          <p class="px-3 pt-1.5 text-[11px] tracking-wide text-slate-400 uppercase">{{ g.head }}</p>
+          <p class="flex items-center gap-1.5 px-3 pt-1.5 text-[11px] tracking-wide text-slate-400 uppercase"><span class="inline-block size-2 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.head }}</p>
           <RouterLink v-for="l in g.links" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         </template>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
