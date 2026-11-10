@@ -19,6 +19,14 @@
   the SHT20 and BH1745NUC beside it, none.
 - The Devices list: the SHT3x; the SHT20's and AHT21B's lines no longer
   promise the dew point (on the physics page now).
+- **Humidity and dew point reads the SHT3x first** (the user: "so we got
+  sht20 and sht3x both online, which one would the physics page pick?"):
+  every humidity sensor that answers is found, the most accurate read
+  first (SHT3x, SHT20, AHT21B), and with more than one a switch picks
+  which, the charts cleared: the same air, two answers.
+- **The Physics menu's Recent** (the user: "the 'physcis postfix' would
+  line wrap"): its pages with their icons, no "Physics" note; the same in
+  Algorithms once it has a Recent.
 
 ## 1.6.6
 

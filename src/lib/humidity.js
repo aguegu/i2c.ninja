@@ -57,7 +57,9 @@ export const absoluteHumidity = (t, rh) => (vapourPressure(t, rh) * PA_PER_HPA *
 // `resolution` (setResolution() here changes it, the readings paused). A
 // driver with STRETCH_MS (the SHT20) on a dart: hold master mode, dart
 // waiting on the sensor's held SCL (the CH341 and CH347 don't)
-// Driver may be a list (a physics page): the first that answers is read.
+// Driver may be a list (a physics page), in order of preference: every one
+// that answers is found (`found`, their names), the first read, choose(name)
+// switching to another, the charts cleared.
 export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000, resolution: firstResolution = null } = {}) {
   const list = Array.isArray(Drivers) ? Drivers : [Drivers];
   let Driver = list[0];
@@ -78,6 +80,8 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
   const repeatability = ref(repeatabilities.value[0] ?? null);
   const readMs = ref(fixedMs);
   const hold = ref(false); // hold master mode, on a dart
+  const found = ref([]); // the names of the sensors that answered
+  let sensors = []; // { Driver, address } of each that answered
 
   let bus = null;
   let dev = null;
@@ -129,35 +133,58 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
       return;
     }
     try {
-      address.value = null;
-      found: for (const D of list) {
+      sensors = [];
+      for (const D of list) {
         for (const a of D.addresses) {
-          if ((await bus.acks(a)) && (await D.chip.identify(bus, a))) { Driver = D; address.value = a; break found; }
+          if ((await bus.acks(a)) && (await D.chip.identify(bus, a))) { sensors.push({ Driver: D, address: a }); break; }
         }
       }
-      if (address.value === null) {
+      found.value = sensors.map((x) => x.Driver.chip.name);
+      if (!sensors.length) {
         const where = [...new Set(list.flatMap((D) => D.addresses))].map(hex).join(' or ');
         failure.value = { title: `No ${name.value} answers`, detail: `Nothing at ${where} answers as an ${name.value}: check the four wires and the module's power.`, error: '' };
         await disconnect();
         return;
       }
-      name.value = Driver.chip.name;
-      if (list.length > 1) {
-        resolutions.value = resolutionsOf(Driver);
-        repeatabilities.value = repeatabilitiesOf(Driver);
-        repeatability.value = repeatabilities.value[0] ?? null;
-      }
-      readMs.value = READ_MS[Driver.chip.name] ?? fixedMs;
-      hold.value = Boolean(Driver.STRETCH_MS) && bus instanceof Dart;
-      if (hold.value) await bus.speed(SCL_HZ, Driver.STRETCH_MS);
-      dev = new Driver(bus, address.value, { hold: hold.value, ...(repeatability.value && { repeatability: repeatability.value }) });
-      await dev.init();
-      await applyResolution();
-      Object.values(series).forEach((s) => s.clear());
-      failed.value = { count: 0, of: 0, last: null };
-      resume();
+      await start(sensors[0]);
     } catch (e) {
       failure.value = { title: `The ${name.value} didn't start`, detail: '', error: `${e.name}: ${e.message}` };
+      await disconnect();
+    }
+  }
+
+  // one of the sensors found, set up and read
+  async function start(sensor) {
+    ({ Driver } = sensor);
+    address.value = sensor.address;
+    name.value = Driver.chip.name;
+    if (list.length > 1) {
+      resolutions.value = resolutionsOf(Driver);
+      repeatabilities.value = repeatabilitiesOf(Driver);
+      repeatability.value = repeatabilities.value[0] ?? null;
+    }
+    readMs.value = READ_MS[Driver.chip.name] ?? fixedMs;
+    hold.value = Boolean(Driver.STRETCH_MS) && bus instanceof Dart;
+    if (hold.value) await bus.speed(SCL_HZ, Driver.STRETCH_MS);
+    dev = new Driver(bus, address.value, { hold: hold.value, ...(repeatability.value && { repeatability: repeatability.value }) });
+    await dev.init();
+    await applyResolution();
+    Object.values(series).forEach((s) => s.clear());
+    latest.value = null;
+    failed.value = { count: 0, of: 0, last: null };
+    resume();
+  }
+
+  // another of the sensors found: the readings paused, it set up, on again
+  async function choose(chipName) {
+    const sensor = sensors.find((x) => x.Driver.chip.name === chipName);
+    if (!sensor || state.value !== 'running' || sensor.Driver === Driver) return;
+    generation++;
+    await running;
+    try {
+      await start(sensor);
+    } catch (e) {
+      failure.value = { title: `The ${chipName} didn't start`, detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -221,8 +248,8 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
   });
 
   return {
-    state, failure, failed, address, latest, readMs, resolution, resolutions, repeatability, repeatabilities, hold, name,
+    state, failure, failed, found, address, latest, readMs, resolution, resolutions, repeatability, repeatabilities, hold, name,
     temperatureSource: series.temperature.source, humiditySource: series.humidity.source, absoluteSource: series.absolute.source,
-    connect, disconnect, setResolution, setRepeatability,
+    connect, disconnect, choose, setResolution, setRepeatability,
   };
 }

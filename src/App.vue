@@ -17,6 +17,9 @@ import { version } from '../package.json';
 const { dark, toggle } = useTheme();
 // a menu this long or shorter shows no Recent group: it would only repeat its own few lines
 const MENU_RECENT_FROM = 4;
+// a menu's recent pages as its own links (their icons; no "Physics" note
+// inside the Physics menu)
+const recentOf = (links, kind) => withLabels(recent.value, kind).map((r) => links.find((l) => l.to === r.to)).filter(Boolean);
 const mobile = ref(false);
 const route = useRoute();
 watch(() => route.fullPath, () => { mobile.value = false; });
@@ -36,9 +39,9 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
           <RouterLink to="/about#releases" class="rounded-full border border-slate-300 px-2 py-0.5 font-mono text-xs text-slate-500 hover:border-emerald-600 hover:text-emerald-600 dark:border-slate-600 dark:text-slate-400" :title="`Version ${version}: the releases`">{{ version }}</RouterLink>
         </div>
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
-          <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'physics') : []" />
+          <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? recentOf(PHYSICS_LINKS, 'physics') : []" />
           <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent, 'device')" :all="{ to: '/devices', label: 'All devices' }" wide />
-          <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? withLabels(recent, 'algorithm') : []" />
+          <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? recentOf(ALGORITHM_LINKS, 'algorithm') : []" />
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
         </nav>
         <a :href="ATIIC" class="hidden rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 sm:block dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" title="atiic on GitHub: the drivers" aria-label="atiic on GitHub">

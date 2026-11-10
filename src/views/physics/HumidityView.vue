@@ -11,7 +11,7 @@ import LiveSettings from '../../components/LiveSettings.vue';
 import LiveChart from '../../components/LiveChart.vue';
 import TexMath from '../../components/TexMath.vue';
 import { reactive, computed } from 'vue';
-import { Sht20, Sht3x, Aht21 } from 'atiic';
+import { Sht3x, Sht20, Aht21 } from 'atiic';
 import { hasWebUsb, hex } from '../../lib/dongle.js';
 import { useHumidity, saturation, vapourPressure } from '../../lib/humidity.js';
 
@@ -29,7 +29,9 @@ const RELATIVE = String.raw`\text{RH} = \frac{e}{e_s(T)} \times 100\,\%`;
 const DEW = String.raw`e_s(T_d) = e \quad\Rightarrow\quad T_d = \frac{243.12\,\gamma}{17.62 - \gamma}, \qquad \gamma = \ln\frac{\text{RH}}{100\,\%} + \frac{17.62\,T}{243.12 + T}`;
 const ABSOLUTE_LAW = String.raw`\rho_v = \frac{e \, M_w}{R \, (T + 273.15)}`;
 
-const h = reactive(useHumidity([Sht20, Sht3x, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
+// the most accurate first: the SHT3x (typically +/-2 %RH), the SHT20 and the
+// AHT21B (+/-3)
+const h = reactive(useHumidity([Sht3x, Sht20, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
 const r = computed(() => h.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
 
@@ -68,7 +70,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
       <h1 class="text-2xl font-bold">Humidity and dew point</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, whichever is plugged in.
+        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, whichever is plugged in (with more than one, pick which: the same air, two answers).
       </p>
     </div>
 
@@ -78,6 +80,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="h.state !== 'running'" :busy="h.state === 'connecting'" @click="h.connect">{{ h.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="h.disconnect" />
+      <div v-if="h.state === 'running' && h.found.length > 1" class="flex rounded-lg border border-slate-300 text-sm dark:border-slate-600" role="group" aria-label="The sensor read">
+        <button v-for="n in h.found" :key="n" type="button" class="px-3 py-1 first:rounded-l-lg last:rounded-r-lg" :class="n === h.name ? 'bg-emerald-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-700'" :aria-pressed="n === h.name" @click="h.choose(n)">{{ n }}</button>
+      </div>
       <span v-if="h.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ h.name }} at {{ hex(h.address) }} · a reading every {{ h.readMs / 1000 }} s</span>
       <span v-if="h.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${h.failed.count} of ${h.failed.of} readings didn't come through and were skipped; the last: ${h.failed.last}`">· {{ h.failed.count }} {{ h.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
