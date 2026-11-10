@@ -28,12 +28,8 @@ const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm ring-em
         </RouterLink>
       </div>
     </section>
-    <div class="mt-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <a :href="NEW_ISSUE" class="flex flex-col justify-center rounded-xl border-2 border-dashed border-slate-300 p-4 text-slate-600 transition hover:border-emerald-600 hover:text-emerald-700 dark:border-slate-600 dark:text-slate-300 dark:hover:text-emerald-400">
-        <span class="text-lg font-semibold">Your sensor isn't here?</span>
-        <span class="mt-2 leading-relaxed">Ask for it: open an issue on GitHub with its name and module (a photo or the listing helps). It joins the way the others did, field-tested on a real module first.</span>
-        <span class="mt-3 text-sm font-medium">Open an issue →</span>
-      </a>
-    </div>
+    <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+      <b class="font-semibold text-slate-600 dark:text-slate-300">Your sensor isn't here?</b> Ask for it: <a :href="NEW_ISSUE" class="text-emerald-700 underline dark:text-emerald-400">open an issue</a> on GitHub with its name and module (a photo or the listing helps). It joins the way the others did, field-tested on a real module first.
+    </p>
   </main>
 </template>

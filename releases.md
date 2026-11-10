@@ -36,7 +36,8 @@
   (`--group-*-text`: the 700s on white, 5.0-7.0:1; the 400s on slate-800,
   5.4-8.8:1). The cards' "field-tested" tag gone (the user: "I think we
   could remove the 'field-tested' tag"): the page's intro says it once for
-  all of them.
+  all of them. "Your sensor isn't here?" a footnote under the groups, not a
+  card (the user: "It could just be a footnote").
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").
