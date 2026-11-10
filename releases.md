@@ -1,5 +1,17 @@
 # Releases
 
+## 1.6.0
+
+- **dart, a third dongle** (the user: "let's get i2c.ninja to support dart,
+  started with 1.6.0"): the user's own USB-to-I2C bridge (atiic's
+  docs/dart.md), on atiic 1.5.1. The chooser lists it beside the CH341 and
+  CH347, and every page takes it as it takes them: the same bus. What it
+  adds: it waits for a device holding the clock (the CH341 and CH347
+  don't), and a refused data byte is told from a missing device. Get
+  started's Linux udev rule covers it (`ffff:da92`); on Windows it binds
+  WinUSB by itself, no Zadig. Not on the Dongles page yet: its firmware
+  isn't out.
+
 ## 1.5.4
 
 - **Wiring drawings redrawn**: every sensor page and Get started show the

@@ -15,9 +15,11 @@ const PLATFORMS = [
 ];
 const platform = ref(detectPlatform());
 
-// the CH341 in I2C mode (5512), the CH347T in mode 1 (55db), the CH347F (55de)
+// the CH341 in I2C mode (5512), the CH347T in mode 1 (55db), the CH347F
+// (55de); a dart (ffff:da92)
 const UDEV_RULE = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5512|55db|55de", TAG+="uaccess"';
-const UDEV_COMMANDS = `echo '${UDEV_RULE}' | sudo tee /etc/udev/rules.d/70-ch341.rules
+const UDEV_RULE_DART = 'SUBSYSTEM=="usb", ATTRS{idVendor}=="ffff", ATTRS{idProduct}=="da92", TAG+="uaccess"';
+const UDEV_COMMANDS = `printf '%s\\n' '${UDEV_RULE}' '${UDEV_RULE_DART}' | sudo tee /etc/udev/rules.d/70-ch341.rules
 sudo udevadm control --reload`;
 const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*; do [ -e "$i" ] && echo "\${i##*/}" && echo -n "\${i##*/}" > /sys/bus/usb/drivers/spi-ch341/unbind; done'`;
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
@@ -110,7 +112,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <code>uaccess</code> tag into your access: <code>70-ch341.rules</code>
           does.
         </p>
-        <p>A CH347 is ready then. A CH341 has step 3.1 too.</p>
+        <p>A CH347 or a dart is ready then. A CH341 has step 3.1 too.</p>
       </div>
 
       <div v-else-if="platform === 'windows'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
@@ -132,6 +134,9 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         <p class="text-sm text-slate-500 dark:text-slate-400">
           Tried on our bench with a CH347T (its Interface 2 on WinUSB); a CH341
           the same way, not tried yet.
+        </p>
+        <p>
+          A dart needs none of this: it asks Windows for WinUSB itself.
         </p>
       </div>
 
