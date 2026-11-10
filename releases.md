@@ -40,9 +40,10 @@
   card (the user: "It could just be a footnote"). A card's hover and focus
   ring in its group's colour too (the user: "the sensor card hover border
   color is not 'by category'"): `--tw-ring-color` set per card. The
-  footer's top margin 48 px to 32 px, site-wide (the user: "the space under
-  the footnote looks too big"; a page ending in text looked emptier than one
-  ending in a card).
+  footer's top margin 48 px to 8 px, site-wide: 24 px from a page's end to
+  the footer (the user: "the space under the footnote looks too big", then
+  "still too big"), and the footnote one line (the user: "and we can make
+  it shorter").
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

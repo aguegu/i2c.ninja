@@ -29,7 +29,7 @@ const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm transit
       </div>
     </section>
     <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-      <b class="font-semibold text-slate-600 dark:text-slate-300">Your sensor isn't here?</b> Ask for it: <a :href="NEW_ISSUE" class="text-emerald-700 underline dark:text-emerald-400">open an issue</a> on GitHub with its name and module (a photo or the listing helps). It joins the way the others did, field-tested on a real module first.
+      <b class="font-semibold text-slate-600 dark:text-slate-300">Your sensor isn't here?</b> Ask for it in <a :href="NEW_ISSUE" class="text-emerald-700 underline dark:text-emerald-400">an issue on GitHub</a>.
     </p>
   </main>
 </template>
