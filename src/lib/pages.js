@@ -18,6 +18,7 @@ const WHAT = {
   '/ina231': 'INA231 current and power monitor',
   '/sht20': 'SHT20 humidity and temperature sensor',
   '/aht21': 'AHT21B humidity and temperature sensor',
+  '/sht3x': 'SHT3x (SHT30, SHT31, SHT35) humidity and temperature sensor',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',
   '/mlx90614': 'MLX90614 infrared thermometer',

@@ -11,7 +11,7 @@ import LiveSettings from '../../components/LiveSettings.vue';
 import LiveChart from '../../components/LiveChart.vue';
 import TexMath from '../../components/TexMath.vue';
 import { reactive, computed } from 'vue';
-import { Sht20, Aht21 } from 'atiic';
+import { Sht20, Sht3x, Aht21 } from 'atiic';
 import { hasWebUsb, hex } from '../../lib/dongle.js';
 import { useHumidity, saturation, vapourPressure } from '../../lib/humidity.js';
 
@@ -29,7 +29,7 @@ const RELATIVE = String.raw`\text{RH} = \frac{e}{e_s(T)} \times 100\,\%`;
 const DEW = String.raw`e_s(T_d) = e \quad\Rightarrow\quad T_d = \frac{243.12\,\gamma}{17.62 - \gamma}, \qquad \gamma = \ln\frac{\text{RH}}{100\,\%} + \frac{17.62\,T}{243.12 + T}`;
 const ABSOLUTE_LAW = String.raw`\rho_v = \frac{e \, M_w}{R \, (T + 273.15)}`;
 
-const h = reactive(useHumidity([Sht20, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
+const h = reactive(useHumidity([Sht20, Sht3x, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
 const r = computed(() => h.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
 
@@ -68,7 +68,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
       <h1 class="text-2xl font-bold">Humidity and dew point</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, whichever is plugged in.
+        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, whichever is plugged in.
       </p>
     </div>
 
@@ -79,6 +79,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <ConnectButton v-if="h.state !== 'running'" :busy="h.state === 'connecting'" @click="h.connect">{{ h.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="h.disconnect" />
       <span v-if="h.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ h.name }} at {{ hex(h.address) }} · a reading every {{ h.readMs / 1000 }} s</span>
+      <span v-if="h.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${h.failed.count} of ${h.failed.of} readings didn't come through and were skipped; the last: ${h.failed.last}`">· {{ h.failed.count }} {{ h.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="h.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
@@ -178,19 +179,19 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <CollapsibleCard id="how-a-chip-measures-it" title="How a chip measures it" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How a chip measures it</h2>
       <p class="mb-2">
-        <b>Humidity by a capacitor.</b> Both chips here carry a tiny capacitor whose dielectric, a thin layer between its plates (a polymer, in the AHT21B's words), takes up water vapour from the air around it until it balances with it. Water has a far higher permittivity than the dry layer, so the more there is, the larger the capacitance; the chip measures it and turns it into relative humidity with its factory calibration. It's relative humidity it senses directly, because the layer takes up water by how full the air is, not by how much there is.
+        <b>Humidity by a capacitor.</b> The SHT20's and the AHT21B's datasheets describe a tiny capacitor whose dielectric, a thin layer between its plates (a polymer, in the AHT21B's words), takes up water vapour from the air around it until it balances with it. Water has a far higher permittivity than the dry layer, so the more there is, the larger the capacitance; the chip measures it and turns it into relative humidity with its factory calibration. It's relative humidity it senses directly, because the layer takes up water by how full the air is, not by how much there is.
       </p>
       <p class="mb-2">
         <b>Temperature beside it,</b> on the same silicon: a band-gap sensor in the SHT20, whose voltage changes with temperature in a way the chip knows exactly. The two are measured together, so the relative humidity is for the temperature that's read with it.
       </p>
       <p class="mb-2">
-        <b>Slow to follow.</b> Water has to soak into the layer and out again, so a step in humidity shows 63 % of its size after about 8 s (both datasheets), and the chip's own temperature follows the air in 5 to 30 s, by how well its board conducts heat. Reading it four times a second draws the same slow curve with more points. Anything round it that holds water, a case, foam, glue, slows it further.
+        <b>Slow to follow.</b> Water has to soak into the layer and out again, so a step in humidity shows 63 % of its size after about 8 s (all three datasheets), and the chip's own temperature follows the air in 5 to 30 s, by how well its board conducts heat. Reading it four times a second draws the same slow curve with more points. Anything round it that holds water, a case, foam, glue, slows it further.
       </p>
       <p class="mb-2">
-        <b>Measuring warms it.</b> The chip's own circuit makes heat while it measures. Both datasheets ask it be busy no more than 10 % of the time to keep that under 0.1 °C, and a warmer sensor reads a lower relative humidity than the air has, the curve above again. That, not the bus, sets how often each can be read: on their device pages.
+        <b>Measuring warms it.</b> The chip's own circuit makes heat while it measures. The SHT20's and AHT21B's datasheets ask it be busy no more than 10 % of the time to keep that under 0.1 °C; the SHT3x's warns that at its fastest, ten measurements a second, it may warm itself. A warmer sensor reads a lower relative humidity than the air has, the curve above again. That, not the bus, sets how often each can be read: on their device pages.
       </p>
       <p>
-        <b>Fine steps are not accuracy.</b> The chips report steps of 0.04 %RH or finer, but each is typically within ±3 %RH and half a degree (±0.3 °C for the SHT20, ±0.5 °C for the AHT21B): two sensors side by side may read a few percent apart, and both be right.
+        <b>Fine steps are not accuracy.</b> The chips report steps of 0.04 %RH or finer, but each is typically within a few percent and a few tenths of a degree (±3 %RH and ±0.3 °C for the SHT20, ±2 %RH and ±0.2 °C for the SHT30 and SHT31, ±1.5 %RH and ±0.1 °C for the SHT35, ±3 %RH and ±0.5 °C for the AHT21B): two sensors side by side may read a few percent apart, and both be right.
       </p>
     </CollapsibleCard>
 
@@ -204,7 +205,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </ol>
     </CollapsibleCard>
     <p class="text-sm">
-      <b>The sensors:</b> <RouterLink to="/sht20" :class="link">SHT20</RouterLink> and <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, how each measures and its wiring.
+      <b>The sensors:</b> <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> and <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, how each is read and its wiring.
     </p>
   </main>
 </template>

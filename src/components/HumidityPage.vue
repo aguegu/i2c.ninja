@@ -15,8 +15,8 @@ import { useHumidity } from '../lib/humidity.js';
 
 const props = defineProps({
   driver: { type: Function, required: true },
-  drawing: { type: String, required: true },
-  drawingAlt: { type: String, required: true },
+  drawing: { type: String, default: null }, // none yet: the caption alone
+  drawingAlt: { type: String, default: '' },
   drawingCaption: { type: String, required: true },
   responseS: { type: Number, required: true }, // its humidity response time, 63 %
   resolution: { type: String, default: null }, // the first, for a driver with RESOLUTIONS
@@ -49,7 +49,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <figure :class="card">
-      <SvgDrawing :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing v-if="drawing" :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }} New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.</figcaption>
     </figure>
 
@@ -64,7 +64,13 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
           <option v-for="res in s.resolutions" :key="res" :value="res">{{ label(res) }}</option>
         </select>
       </label>
+      <label v-if="s.repeatabilities.length" :class="field">Repeatability
+        <select :value="s.repeatability" :class="select" @change="s.setRepeatability($event.target.value)">
+          <option v-for="rep in s.repeatabilities" :key="rep" :value="rep">{{ rep }}</option>
+        </select>
+      </label>
       <span v-if="s.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(s.address) }} · a reading every {{ s.readMs / 1000 }} s{{ s.hold ? ' · hold master' : '' }}</span>
+      <span v-if="s.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${s.failed.count} of ${s.failed.of} readings didn't come through and were skipped; the last: ${s.failed.last}`">· {{ s.failed.count }} {{ s.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="s.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">

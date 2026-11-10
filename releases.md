@@ -1,5 +1,25 @@
 # Releases
 
+## 1.6.7
+
+- **The SHT3x** (SHT30, SHT31, SHT35; atiic 1.5.10; the user's SHT30 on
+  r8845's dart): its page on the shared humidity page, a repeatability to
+  pick (high, medium, low), read four times a second (its datasheet allows
+  ten but warns it may warm itself there), hold master on a dart; no wiring
+  drawing yet (the module's pin order not seen), the caption says how. On
+  Humidity and dew point too, beside the SHT20 and the AHT21B; "How a chip
+  measures it" says which datasheet says what.
+- **A failed reading doesn't stop a humidity page** (the user: "I think the
+  sht30 reading breaks easily", then "as long as the reading continue, I
+  think it is fine ... no need to make the error report that eye catching.
+  teachers or non-engineers may go panic"): it's skipped and counted, a
+  quiet "· 2 readings skipped" (the error in its tooltip); three in a row
+  stop it. r8845's SHT30 module dropped about 1 in 60 readings for a while
+  (its SDA not driven: a missed acknowledge or 0xFF bytes), then 1 in 1600;
+  the SHT20 and BH1745NUC beside it, none.
+- The Devices list: the SHT3x; the SHT20's and AHT21B's lines no longer
+  promise the dew point (on the physics page now).
+
 ## 1.6.6
 
 - **Humidity and dew point**, a fifth physics page (the user: "all 3

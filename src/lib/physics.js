@@ -57,6 +57,7 @@ export const PHYSICS = [
     blurb: 'How much water the air holds, why relative humidity falls as air warms with the same water in it, and the dew point, where it condenses.',
     devices: [
       { to: '/sht20', label: 'SHT20', note: 'humidity and temperature' },
+      { to: '/sht3x', label: 'SHT3x', note: 'humidity and temperature' },
       { to: '/aht21', label: 'AHT21B', note: 'humidity and temperature' },
     ],
     component: () => import('../views/physics/HumidityView.vue'),
