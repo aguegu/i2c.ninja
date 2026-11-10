@@ -38,7 +38,7 @@ export const DEVICES = [
   },
   {
     to: '/aht21',
-    name: 'AHT21B',
+    name: 'AHT21B / AHT30',
     maker: 'Aosong',
     kind: 'Humidity',
     measures: 'Relative humidity and temperature: another maker\'s answer to the same air.',

@@ -46,7 +46,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Physics</p>
       <h1 class="text-2xl font-bold">Humidity and dew point</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, whichever is plugged in (with more than one, pick which: the same air, two answers).
+        Air carries water as an invisible gas, water vapour, and warm air can carry far more than cold. A humidity sensor measures two things, the temperature and the relative humidity; from those two come how much water is really there and the dew point, the temperature where it would turn back into droplets. Here from an <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, an <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> or an <RouterLink to="/aht21" :class="link">AHT21B or AHT30</RouterLink>, whichever is plugged in (with more than one, pick which: the same air, two answers).
       </p>
     </div>
 
@@ -151,7 +151,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <b>Measuring warms it.</b> The chip's own circuit makes heat while it measures. The SHT20's and AHT21B's datasheets ask it be busy no more than 10 % of the time to keep that under 0.1 °C; the SHT3x's warns that at its fastest, ten measurements a second, it may warm itself. A warmer sensor reads a lower relative humidity than the air has, the curve above again. That, not the bus, sets how often each can be read: on their device pages.
       </p>
       <p>
-        <b>Fine steps are not accuracy.</b> The chips report steps of 0.04 %RH or finer, but each is typically within a few percent and a few tenths of a degree (±3 %RH and ±0.3 °C for the SHT20, ±2 %RH and ±0.2 °C for the SHT30 and SHT31, ±1.5 %RH and ±0.1 °C for the SHT35, ±3 %RH and ±0.5 °C for the AHT21B): two sensors side by side may read a few percent apart, and both be right.
+        <b>Fine steps are not accuracy.</b> The chips report steps of 0.04 %RH or finer, but each is typically within a few percent and a few tenths of a degree (±3 %RH and ±0.3 °C for the SHT20, ±2 %RH and ±0.2 °C for the SHT30 and SHT31, ±1.5 %RH and ±0.1 °C for the SHT35, ±3 %RH and ±0.5 °C for the AHT21B and the AHT30): two sensors side by side may read a few percent apart, and both be right.
       </p>
     </CollapsibleCard>
 
@@ -165,7 +165,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </ol>
     </CollapsibleCard>
     <p class="text-sm">
-      <b>The sensors:</b> <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> and <RouterLink to="/aht21" :class="link">AHT21B</RouterLink>, how each is read and its wiring.
+      <b>The sensors:</b> <RouterLink to="/sht20" :class="link">SHT20</RouterLink>, <RouterLink to="/sht3x" :class="link">SHT3x</RouterLink> and <RouterLink to="/aht21" :class="link">AHT21B / AHT30</RouterLink>, how each is read and its wiring.
     </p>
   </main>
 </template>

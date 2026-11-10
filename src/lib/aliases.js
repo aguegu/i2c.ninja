@@ -4,6 +4,7 @@
 export const ALIASES = {
   '/mpu6500': '/mpu6050',
   '/aht21b': '/aht21',
+  '/aht30': '/aht21',
   '/bh1745nuc': '/bh1745',
   '/sht30': '/sht3x',
   '/sht31': '/sht3x',

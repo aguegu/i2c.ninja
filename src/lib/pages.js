@@ -26,7 +26,7 @@ const WHAT = {
   '/mpu6050': 'MPU-6050 / MPU-6500 accelerometer and gyro',
   '/ina231': 'INA231 current and power monitor',
   '/sht20': 'SHT20 humidity and temperature sensor',
-  '/aht21': 'AHT21B humidity and temperature sensor',
+  '/aht21': 'AHT21B / AHT30 humidity and temperature sensor',
   '/sht3x': 'SHT3x (SHT30, SHT31, SHT35) humidity and temperature sensor',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',

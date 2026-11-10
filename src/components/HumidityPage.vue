@@ -18,6 +18,8 @@ const props = defineProps({
   drawing: { type: String, default: null }, // none yet: the caption alone
   drawingAlt: { type: String, default: '' },
   drawingCaption: { type: String, required: true },
+  // more boards the same chip family comes on: [{ src, alt, caption }], each drawn after the first
+  moreDrawings: { type: Array, default: () => [] },
   responseS: { type: Number, required: true }, // its humidity response time, 63 %
   resolution: { type: String, default: null }, // the first, for a driver with RESOLUTIONS
 });
@@ -51,6 +53,10 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <figure :class="card">
       <SvgDrawing v-if="drawing" :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }} New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.</figcaption>
+      <template v-for="d in moreDrawings" :key="d.src">
+        <SvgDrawing :src="d.src" :alt="d.alt" class="mx-auto mt-6 w-full lg:w-3/5" />
+        <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ d.caption }}</figcaption>
+      </template>
     </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">

@@ -1,5 +1,16 @@
 # Releases
 
+## 1.6.12
+
+- **The AHT30** (atiic 1.5.11: one driver for the AHT21B and AHT30, not told
+  apart on the bus; the user's AHT30 on r8845's dart, with its datasheet):
+  the page is "AHT21B / AHT30", /aht30 an address of it, a wiring drawing
+  of the purple AHT30 board (VIN, GND, SCL, SDA: all four wires cross) after
+  the AHT21B's, and what differs (the user: "there is something different
+  between aht21 and aht30, right?"): the AHT30 to 120 C, started in 5 ms,
+  read every second or more; the page's 2 s suits both. Humidity and dew
+  point names both.
+
 ## 1.6.11
 
 - **Search engines** (the user: "any improvement we can do regarding SEO?",
