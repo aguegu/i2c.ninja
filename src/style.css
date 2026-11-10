@@ -64,6 +64,12 @@
   --series-3: #1baf7a;
   --chart-grid: #e2e8f0; /* slate-200 */
   --chart-text: #64748b; /* slate-500 */
+  /* a colour sensor's channels, in the colour each measures (the BH1745NUC
+     page): an exception to the categorical slots, the hue being the data */
+  --channel-red: #dc2626; /* red-600 */
+  --channel-green: #16a34a; /* green-600 */
+  --channel-blue: #2563eb; /* blue-600 */
+  --channel-clear: #64748b; /* slate-500 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -73,6 +79,10 @@
     --series-3: #199e70;
     --chart-grid: #334155; /* slate-700 */
     --chart-text: #94a3b8; /* slate-400 */
+    --channel-red: #f87171; /* red-400 */
+    --channel-green: #4ade80; /* green-400 */
+    --channel-blue: #60a5fa; /* blue-400 */
+    --channel-clear: #94a3b8; /* slate-400 */
   }
 }
 :root[data-theme="dark"] {
@@ -81,4 +91,8 @@
   --series-3: #199e70;
   --chart-grid: #334155;
   --chart-text: #94a3b8;
+  --channel-red: #f87171;
+  --channel-green: #4ade80;
+  --channel-blue: #60a5fa;
+  --channel-clear: #94a3b8;
 }

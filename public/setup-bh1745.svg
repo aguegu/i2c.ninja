@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 893 450" width="893" height="450" font-family="Helvetica, Arial, sans-serif">
+  <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
+  <title>A CH341T dongle in I2C mode at 3.3V wired to a VL53L1X module: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA</title>
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9ecef"/>
+      <stop offset="0.5" stop-color="#b8bec5"/>
+      <stop offset="1" stop-color="#d9dde1"/>
+    </linearGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3d77a"/>
+      <stop offset="1" stop-color="#b8922a"/>
+    </linearGradient>
+    <g id="dupont">
+      <rect x="0" y="-6" width="20" height="12" rx="1.5" fill="#1b1b1b"/>
+      <rect x="2" y="-2" width="4" height="4" fill="#444"/>
+    </g>
+  </defs>
+
+  <rect class="bg" width="893" height="450" fill="#ffffff"/>
+  <text x="446" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + BH1745NUC module</text>
+
+  <text x="89.42519685039376" y="138.58267716535434" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
+  <rect x="160.2913385826772" y="124.96062992125985" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
+  <rect x="175.4094488188977" y="141.02362204724412" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="175.4094488188977" y="269.5275590551181" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="196.08661417322838" y="170.78740157480317" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="196.08661417322838" y="194.40944881889766" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="196.08661417322838" y="218.03149606299212" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="196.08661417322838" y="241.6535433070866" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="18.559055118110308" y="148.58267716535434" width="179.52755905511808" height="122.83464566929133" rx="4" fill="#cfd4da" stroke="#8a9096"/>
+  <rect x="49.74015748031503" y="176.83464566929135" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <rect x="49.74015748031503" y="222.28346456692913" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <text transform="translate(106.43307086614179 210.0) rotate(-90)" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7178">USB-A</text>
+  <text x="160.2913385826772" y="313.03937007874015" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
+  <rect x="465.0" y="136.0" width="22" height="148.0" fill="#161616"/>
+  <g fill="url(#pin)">
+    <rect x="476.0" y="148.0" width="34.0" height="4"/>
+    <rect x="476.0" y="172.0" width="34.0" height="4"/>
+    <rect x="476.0" y="196.0" width="34.0" height="4"/>
+    <rect x="476.0" y="220.0" width="34.0" height="4"/>
+    <rect x="476.0" y="244.0" width="34.0" height="4"/>
+    <rect x="476.0" y="268.0" width="34.0" height="4"/>
+  </g>
+  <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace" text-anchor="end">
+    <text x="459.0" y="154.0">RXD</text>
+    <text x="459.0" y="178.0">TXD</text>
+    <text x="459.0" y="202.0">SDA</text>
+    <text x="459.0" y="226.0">SCL</text>
+    <text x="459.0" y="250.0">GND</text>
+    <text x="459.0" y="274.0">VCC</text>
+  </g>
+  <rect x="333.6771653543307" y="178.15748031496065" width="68.03149606299212" height="50.07874015748031" rx="2" fill="#1d1d1d"/>
+  <rect x="335.57874015748035" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="335.57874015748035" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="342.38188976377955" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="342.38188976377955" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="349.18503937007875" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="349.18503937007875" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="355.98818897637796" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="355.98818897637796" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="362.79133858267716" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="362.79133858267716" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="369.5944881889764" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="369.5944881889764" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="376.3976377952756" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="376.3976377952756" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="383.2007874015748" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="383.2007874015748" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="390.003937007874" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="390.003937007874" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="396.8070866141733" y="173.15748031496065" width="3" height="5" fill="#c9ccd1"/><rect x="396.8070866141733" y="228.23622047244095" width="3" height="5" fill="#c9ccd1"/>
+  <text x="367.6929133858268" y="206.1968503937008" text-anchor="middle" font-size="9" font-weight="bold" fill="#e5e5e5">CH341T</text>
+  <rect x="264.70078740157476" y="155.5748031496063" width="44.40944881889764" height="101.1023622047244" rx="21.732283464566926" fill="#e9ecef" stroke="#8a9096"/>
+  <text transform="translate(289.9055118110236 206.1259842519685) rotate(-90)" text-anchor="middle" font-size="8" fill="#555">12.000</text>
+  <rect x="249.19685039370086" y="199.79527559055117" width="7" height="11" rx="1" fill="#b45309"/>
+  <rect x="325.8661417322835" y="133.96850393700788" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="377.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="353.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="329.3661417322835" y="137.46850393700788" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="350.8661417322835" y="134.96850393700788" width="38" height="14" rx="2.5" fill="#f2c200" fill-opacity="0.45" stroke="#f2c200" stroke-width="1.5"/>
+  <rect x="353.8661417322835" y="138.46850393700788" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="357.8661417322835" cy="141.96850393700788" r="1.8" fill="#7a5b10"/>
+  <circle cx="381.8661417322835" cy="141.96850393700788" r="1.8" fill="#7a5b10"/>
+  <rect x="325.8661417322835" y="270.0314960629921" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="377.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="353.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="329.3661417322835" y="273.5314960629921" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="326.8661417322835" y="271.0314960629921" width="38" height="14" rx="2.5" fill="#22a34a" fill-opacity="0.45" stroke="#22a34a" stroke-width="1.5"/>
+  <rect x="329.8661417322835" y="274.5314960629921" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="333.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
+  <circle cx="357.8661417322835" cy="278.0314960629921" r="1.8" fill="#7a5b10"/>
+  <text x="381.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="333.8661417322835" y="159.96850393700788" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
+  <text x="381.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="333.8661417322835" y="267.0314960629921" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
+  <rect x="233.66141732283467" y="143.6692913385827" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="243.66141732283467" y="159.6692913385827" font-size="9" fill="#fff">TNOW</text>
+  <rect x="233.66141732283467" y="267.8267716535433" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="243.66141732283467" y="275.8267716535433" font-size="9" fill="#fff">RDY</text>
+
+  <g transform="translate(33 0)">
+  <!-- the BH1745NUC module, its board traced from the user's photo (turned
+       45 degrees, pins left as here): a tall strip carrying the pins (VCC GND
+       SCL SDA INT ADD) with a mounting hole above and below them, a small
+       notch at its two right corners, then 45-degree diagonals out to the
+       sensor section, a rectangle on the right; symmetric top and bottom,
+       its outer left corners chamfered. Other modules share this board
+       shape -->
+  <path d="M656 101 H 722 L 725 104 V 115 L 787 177 H 837 V 290 H 787 L 725 352 V 361 L 722 364 H 656 L 646 354 V 111 Z" fill="#8e1f6e" stroke="#5e1449" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="690" cy="135" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
+  <circle cx="690" cy="336" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
+  <g fill="#d9b44a" stroke="#a88600">
+    <circle cx="656" cy="174" r="7"/><circle cx="656" cy="198" r="7"/><circle cx="656" cy="222" r="7"/>
+    <circle cx="656" cy="246" r="7"/><circle cx="656" cy="270" r="7"/><circle cx="656" cy="294" r="7"/>
+  </g>
+  <g fill="url(#pin)">
+    <rect x="593" y="172" width="64" height="4"/><rect x="593" y="196" width="64" height="4"/><rect x="593" y="220" width="64" height="4"/>
+    <rect x="593" y="244" width="64" height="4"/><rect x="593" y="268" width="64" height="4"/><rect x="593" y="292" width="64" height="4"/>
+  </g>
+  <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace">
+    <text x="670" y="178">VCC</text><text x="670" y="202">GND</text><text x="670" y="226">SCL</text>
+    <text x="670" y="250">SDA</text><text x="670" y="274">INT</text><text x="670" y="298">ADD</text>
+  </g>
+  <!-- the parts, where the photo has them: a regulator (SOT-23) and its
+       capacitor, the four resistors beside SCL to ADD, the sensor's small
+       package with its light window, a capacitor beside it -->
+  <rect x="754" y="182" width="12" height="6" rx="1" fill="#c9a26b"/>
+  <rect x="749" y="198" width="20" height="12" rx="1" fill="#1d1d1d"/>
+  <g fill="#c9c9c9"><rect x="752" y="193" width="4" height="5"/><rect x="762" y="193" width="4" height="5"/><rect x="757" y="210" width="4" height="5"/></g>
+  <g fill="#1d1d1d" stroke="#c9c9c9" stroke-width="1.5">
+    <rect x="748" y="229" width="16" height="7" rx="1"/><rect x="748" y="247" width="16" height="7" rx="1"/>
+    <rect x="748" y="264" width="16" height="7" rx="1"/><rect x="748" y="282" width="16" height="7" rx="1"/>
+  </g>
+  <rect x="796" y="218" width="22" height="22" rx="2" fill="#cfcfcf" stroke="#888"/>
+  <rect x="802" y="224" width="10" height="10" rx="2" fill="#6b4a2e"/>
+  <rect x="824" y="221" width="6" height="14" rx="1" fill="#c9a26b"/>
+  <text x="740" y="388" text-anchor="middle" font-size="12" fill="#555">BH1745NUC module</text>
+
+  <!-- wires, dupont ends on both pins: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA -->
+  <g stroke-linecap="round" fill="none">
+    <path d="M495 198 C 535 198, 535 246, 575 246" stroke="#0d4f8c" stroke-width="7"/><path d="M495 198 C 535 198, 535 246, 575 246" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M495 222 H 575" stroke="#a88600" stroke-width="7"/><path d="M495 222 H 575" stroke="#f2c200" stroke-width="5"/>
+    <path d="M495 246 C 535 246, 535 198, 575 198" stroke="#000" stroke-width="7"/><path d="M495 246 C 535 246, 535 198, 575 198" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M495 270 C 548 270, 522 174, 575 174" stroke="#8e1c1c" stroke-width="7"/><path d="M495 270 C 548 270, 522 174, 575 174" stroke="#d32f2f" stroke-width="5"/>
+  </g>
+  <use href="#dupont" x="475" y="198"/><use href="#dupont" x="475" y="222"/><use href="#dupont" x="475" y="246"/><use href="#dupont" x="475" y="270"/>
+  <use href="#dupont" x="575" y="174"/><use href="#dupont" x="575" y="198"/><use href="#dupont" x="575" y="222"/><use href="#dupont" x="575" y="246"/>
+
+  <!-- notes -->
+  <g font-size="12" fill="#333">
+    <text x="20" y="414">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four wires: VCC (3.3 V) to VCC, GND to GND,</text>
+    <text x="20" y="434">SCL to SCL, SDA to SDA (three cross). INT and ADD stay free (ADD free: 0x38). Face the sensor's window to the light.</text>
+  </g>
+  </g>
+</svg>

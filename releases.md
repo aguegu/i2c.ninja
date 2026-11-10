@@ -1,5 +1,24 @@
 # Releases
 
+## 1.6.8
+
+- **The BH1745NUC**, ROHM's colour sensor (atiic 1.5.9's `Bh1745`; the
+  user: "Next would be the bh1745 page"): red, green, blue and clear as
+  counts, a measurement time (160 ms to 5.12 s) and gain (1x, 2x, 16x) to
+  pick, its tint roughly (the three counts as a screen colour, scaled to
+  the brightest: not a colour measurement), **its tint over time** (the
+  user: "let's also make a color stripe scrolling with the mixed color it
+  sees"), the four channels each in the colour it measures, a quiet note
+  when one saturates, counts not lux (the datasheet gives no formula), its
+  settings. A failed reading skipped quietly, as on the humidity pages.
+- **Wiring drawings for the SHT3x and the BH1745NUC** (the user: "Oh, we
+  fogot about the wiring guide", with their modules' photos): the blue
+  SHT3X-DIS board, scl sda gnd vcc; the purple BH1745 board, VCC GND SCL
+  SDA INT ADD, its outline traced from the photo (the user, three times:
+  "match the shape of photo", "with the sensor section stepped out", "the
+  up half is okay, but the bottom half is not"): a strip with the pins
+  and two holes, 45-degree shoulders out to the sensor section, symmetric.
+
 ## 1.6.7
 
 - **The SHT3x** (SHT30, SHT31, SHT35; atiic 1.5.10; the user's SHT30 on

@@ -45,6 +45,14 @@ export const DEVICES = [
     bus: 'I2C 0x38',
   },
   {
+    to: '/bh1745',
+    name: 'BH1745NUC',
+    maker: 'ROHM',
+    kind: 'Colour',
+    measures: 'Red, green, blue and clear light as counts: the tint of a lamp, a window, a coloured card.',
+    bus: 'I2C 0x38 / 0x39',
+  },
+  {
     to: '/max30102',
     name: 'MAX30102',
     maker: 'Maxim (Analog Devices)',

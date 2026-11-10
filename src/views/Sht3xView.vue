@@ -1,15 +1,16 @@
 <script setup>
 // The SHT3x (SHT30, SHT31, SHT35) on the shared humidity page: its
-// repeatability to pick, hold master on a dart. No wiring drawing yet: the
-// module's pin order not seen
+// repeatability to pick, hold master on a dart; the blue SHT3X-DIS board's
+// wiring (from the user's photo)
 import { Sht3x } from 'atiic';
 import HumidityPage from '../components/HumidityPage.vue';
 </script>
 
 <template>
   <HumidityPage
-    :driver="Sht3x" :response-s="8"
-    drawing-caption="Four wires from the module's labels: VIN (or VCC) to 3.3 V, GND to GND, SCL to SCL, SDA to SDA. Its ADDR pin picks the address, 0x44 low or 0x45 high, and must not be left floating (modules tie it on the board). Keep it away from warm parts."
+    :driver="Sht3x" drawing="/setup-sht3x.svg" :response-s="8"
+    drawing-alt="A CH341T dongle wired to a small blue SHT3x module: SDA to sda and SCL to scl, crossing, GND to gnd, VCC (3.3 V) to vcc"
+    drawing-caption="The small blue SHT3x board (printed SHT3X-DIS): its header runs scl, sda, gnd, vcc, so the SDA and SCL wires cross. Its ADDR pin isn't on the header: the board ties it, for 0x44. Keep it away from warm parts."
   >
     <template #intro>
       Sensirion's next humidity and temperature sensor after the SHT20 (the SHT30, SHT31 and SHT35 differ in accuracy): how warm the air is and how full of water. Faster and more accurate than the SHT20, read four times a second here. Live over the USB dongle; the water in the air and the dew point on <RouterLink to="/physics/humidity" class="text-emerald-700 underline dark:text-emerald-400">Humidity and dew point</RouterLink>.
