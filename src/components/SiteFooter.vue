@@ -29,7 +29,7 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
 </script>
 
 <template>
-  <footer class="mt-12 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
+  <footer class="mt-8 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
     <nav class="mx-auto flex max-w-5xl flex-col gap-1.5 px-4 py-6 text-sm leading-6 sm:gap-5" aria-label="Site map">
       <details class="group" :open="wide">
         <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">

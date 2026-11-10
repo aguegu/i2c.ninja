@@ -37,7 +37,12 @@
   5.4-8.8:1). The cards' "field-tested" tag gone (the user: "I think we
   could remove the 'field-tested' tag"): the page's intro says it once for
   all of them. "Your sensor isn't here?" a footnote under the groups, not a
-  card (the user: "It could just be a footnote").
+  card (the user: "It could just be a footnote"). A card's hover and focus
+  ring in its group's colour too (the user: "the sensor card hover border
+  color is not 'by category'"): `--tw-ring-color` set per card. The
+  footer's top margin 48 px to 32 px, site-wide (the user: "the space under
+  the footnote looks too big"; a page ending in text looked emptier than one
+  ending in a card).
 - **The footer:** Physics a full row under Devices, as it grows (the user:
   "The Physics column in the sitemap is also getting taller. maybe it could
   use a full row").

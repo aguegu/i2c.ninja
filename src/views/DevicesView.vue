@@ -4,7 +4,7 @@
 import { DEVICES_BY_GROUP } from '../lib/devices.js';
 import { NEW_ISSUE } from '../lib/nav.js';
 
-const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm ring-emerald-600 transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
+const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm transition hover:shadow-md hover:ring-2 focus-visible:ring-2 dark:bg-slate-800';
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm ring-em
       <h2 :id="`group-${g.name}`" class="mt-2 flex items-center gap-2 text-lg font-semibold"><span class="inline-block size-3 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.name }}</h2>
       <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">{{ g.blurb }}</p>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <RouterLink v-for="d in g.devices" :key="d.to" :to="d.to" :class="card" :style="{ borderTopColor: `var(${g.color})` }">
+        <RouterLink v-for="d in g.devices" :key="d.to" :to="d.to" :class="card" :style="{ borderTopColor: `var(${g.color})`, '--tw-ring-color': `var(${g.color})` }">
           <span class="text-xs font-medium tracking-wide uppercase" :style="{ color: `var(${g.color}-text)` }">{{ d.kind }}</span>
           <span class="mt-1 text-lg font-semibold">{{ d.name }}</span>
           <span class="text-sm text-slate-500 dark:text-slate-400">{{ d.maker }}</span>
