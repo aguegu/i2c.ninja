@@ -10,10 +10,11 @@ import StopButton from '../../components/StopButton.vue';
 import LiveSettings from '../../components/LiveSettings.vue';
 import LiveChart from '../../components/LiveChart.vue';
 import TexMath from '../../components/TexMath.vue';
+import SaturationCurve from '../../components/SaturationCurve.vue';
 import { reactive, computed } from 'vue';
 import { Sht3x, Sht20, Aht21 } from 'atiic';
 import { hasWebUsb, hex } from '../../lib/dongle.js';
-import { useHumidity, saturation, vapourPressure } from '../../lib/humidity.js';
+import { useHumidity } from '../../lib/humidity.js';
 
 const WINDOW_MS = 300000; // five minutes: a breath, a warm hand, a cold glass
 const SHT20_RESOLUTION = '11/11'; // ~4 readings a second (its device page's default)
@@ -34,31 +35,6 @@ const ABSOLUTE_LAW = String.raw`\rho_v = \frac{e \, M_w}{R \, (T + 273.15)}`;
 const h = reactive(useHumidity([Sht3x, Sht20, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
 const r = computed(() => h.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
-
-// the saturation curve, drawn: temperature across, vapour pressure up
-const W = 600;
-const H = 320;
-const PAD = { l: 52, r: 16, t: 16, b: 40 };
-const T_MIN = -10;
-const T_MAX = 40;
-const E_MAX = 80; // hPa: e_s(40 C) is 73.8
-const T_TICKS = [-10, 0, 10, 20, 30, 40];
-const E_TICKS = [0, 20, 40, 60, 80];
-const CURVE_STEP_C = 0.5;
-const x = (t) => PAD.l + ((t - T_MIN) / (T_MAX - T_MIN)) * (W - PAD.l - PAD.r);
-const y = (e) => H - PAD.b - (e / E_MAX) * (H - PAD.t - PAD.b);
-const curve = (() => {
-  const pts = [];
-  for (let t = T_MIN; t <= T_MAX; t += CURVE_STEP_C) pts.push(`${x(t).toFixed(1)},${y(saturation(t)).toFixed(1)}`);
-  return `M${pts.join('L')}`;
-})();
-// the air now: its point (T, e), the most it could hold at T, its dew point
-const state = computed(() => {
-  if (!r.value) return null;
-  const { temperature: t, humidity: rh, dewPoint: td } = r.value;
-  const e = vapourPressure(t, rh);
-  return { t, e, es: saturation(t), td, rh };
-});
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -115,28 +91,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <CollapsibleCard id="the-curve" title="How much water air can hold" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How much water air can hold</h2>
       <figure>
-        <svg :viewBox="`0 0 ${W} ${H}`" class="mx-auto w-full max-w-2xl" role="img" :aria-label="state ? `The saturation curve; the air now at ${fmt(state.t, 1)} °C holds ${fmt(state.e, 1)} hPa of vapour of the ${fmt(state.es, 1)} it could; its dew point ${fmt(state.td, 1)} °C` : 'The saturation curve: the most water vapour air can hold, rising steeply with temperature'">
-          <g style="stroke: var(--chart-grid)" stroke-width="1">
-            <line v-for="e in E_TICKS" :key="`e${e}`" :x1="PAD.l" :x2="W - PAD.r" :y1="y(e)" :y2="y(e)" />
-            <line v-for="t in T_TICKS" :key="`t${t}`" :x1="x(t)" :x2="x(t)" :y1="PAD.t" :y2="H - PAD.b" />
-          </g>
-          <g style="fill: var(--chart-text)" font-size="12">
-            <text v-for="e in E_TICKS" :key="`el${e}`" :x="PAD.l - 6" :y="y(e) + 4" text-anchor="end">{{ e }}</text>
-            <text v-for="t in T_TICKS" :key="`tl${t}`" :x="x(t)" :y="H - PAD.b + 16" text-anchor="middle">{{ t }}</text>
-            <text :x="(PAD.l + W - PAD.r) / 2" :y="H - 6" text-anchor="middle">temperature, °C</text>
-            <text :x="14" :y="(PAD.t + H - PAD.b) / 2" text-anchor="middle" :transform="`rotate(-90 14 ${(PAD.t + H - PAD.b) / 2})`">water vapour pressure, hPa</text>
-          </g>
-          <path :d="curve" fill="none" style="stroke: var(--series-1)" stroke-width="2" />
-          <text :x="x(30) - 8" :y="y(saturation(30)) - 8" text-anchor="end" font-size="12" style="fill: var(--chart-text)">saturated: 100 %, it condenses above</text>
-          <g v-if="state">
-            <line :x1="x(state.t)" :x2="x(state.t)" :y1="y(state.e)" :y2="y(state.es)" style="stroke: var(--series-2)" stroke-width="2" stroke-dasharray="4 4" />
-            <line :x1="x(state.td)" :x2="x(state.t)" :y1="y(state.e)" :y2="y(state.e)" style="stroke: var(--series-1)" stroke-width="2" stroke-dasharray="4 4" />
-            <circle :cx="x(state.td)" :cy="y(state.e)" r="5" style="fill: var(--series-1)" />
-            <circle :cx="x(state.t)" :cy="y(state.e)" r="6" style="fill: var(--series-2); stroke: var(--chart-grid)" stroke-width="2" />
-            <text :x="x(state.t) + 10" :y="y(state.e) + 4" font-size="12" style="fill: var(--chart-text)">the air now: {{ fmt(state.e, 1) }} hPa, {{ fmt(state.rh, 0) }} % of {{ fmt(state.es, 1) }}</text>
-            <text :x="x(state.td) - 8" :y="y(state.e) + 18" text-anchor="end" font-size="12" style="fill: var(--chart-text)">dew point {{ fmt(state.td, 1) }} °C</text>
-          </g>
-        </svg>
+        <SaturationCurve :temperature="r?.temperature ?? null" :humidity="r?.humidity ?? null" />
         <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
           The blue curve is the most water vapour air can hold at each temperature. The orange dot is the air now; the dashed line up from it reaches what it could hold, and relative humidity is how far up it is. The dashed line across meets the curve at the dew point: cool the air to there, with the same water in it, and it's full.
         </figcaption>

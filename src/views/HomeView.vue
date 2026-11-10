@@ -1,40 +1,16 @@
 <script setup>
-// The home page, a simple landing page: the hero (what it is, the glass box
-// with the board swaying in it, still for reduced motion, and the way in),
+// The home page, a simple landing page: the hero (what it is, the way in, and
+// the site's own views in turn: HeroCarousel),
 // what's inside as six cards, the hardware it asks for (no board of ours:
 // the common WCH bridges and common modules; to Dongles), and three quotes
 // on measuring and understanding.
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import ProjectionBox from '../components/ProjectionBox.vue';
+import HeroCarousel from '../components/HeroCarousel.vue';
 import { DEVICES } from '../lib/devices.js';
 import { PHYSICS } from '../lib/physics.js';
 import { ALGORITHMS } from '../lib/algorithms.js';
-import { fromAxisAngle } from '../lib/quaternion.js';
 
 const hasWebUsb = 'usb' in navigator;
 
-// the hero's board: a slow sway about the vertical, a little roll and pitch
-const SWAY_DEG = 35;
-const SWAY_S = 9; // a sway there and back
-const ROLL_DEG = 18;
-const PITCH_DEG = 12;
-const PITCH_S = 6;
-const mul = ([a, b, c, d], [e, f, g, h]) => [a * e - b * f - c * g - d * h, a * f + b * e + c * h - d * g, a * g - b * h + c * e + d * f, a * h + b * g - c * f + d * e];
-const pose = (s) => {
-  const yaw = fromAxisAngle([0, 0, 1], SWAY_DEG * Math.sin((2 * Math.PI * s) / SWAY_S));
-  const pitch = fromAxisAngle([0, -1, 0], PITCH_DEG * Math.sin((2 * Math.PI * s) / PITCH_S));
-  const roll = fromAxisAngle([1, 0, 0], ROLL_DEG);
-  return mul(yaw, mul(pitch, roll));
-};
-const q = ref(pose(1.5));
-let frame = 0;
-onMounted(() => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const t0 = performance.now();
-  const tick = (t) => { q.value = pose(1.5 + (t - t0) / 1000); frame = requestAnimationFrame(tick); };
-  frame = requestAnimationFrame(tick);
-});
-onBeforeUnmount(() => cancelAnimationFrame(frame));
 
 // what's inside: a card each, its icon (a 24-unit SVG path), where it goes
 const FEATURES = [
@@ -67,7 +43,7 @@ const QUOTES = [
         <RouterLink to="/get-started" class="rounded-lg bg-emerald-600/10 px-5 py-2.5 font-medium text-emerald-800 hover:bg-emerald-600/20 dark:text-emerald-300">Get started</RouterLink>
       </div>
       <p v-if="!hasWebUsb" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).</p>
-      <div class="mt-4 w-full max-w-md"><ProjectionBox :q="q" /></div>
+      <HeroCarousel class="mt-4" />
     </section>
 
     <!-- what's inside -->

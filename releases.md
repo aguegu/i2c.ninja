@@ -1,5 +1,21 @@
 # Releases
 
+## 1.6.10
+
+- **The home page's carousel** (the user: "we got multiple candidates for
+  the visual on the cover page now. we could show them in carousel"): the
+  site's own views in turn, each in a made-up motion, no sensor: the glass
+  box, the gyro's rings, the compass, the saturation curve with a breath,
+  Maxwell's triangle round the colours, and a ball dropped under a
+  distance sensor, its x, v and a (the user: "the tof one is not animated
+  yet ... s/v/a chart is animatable"), in slow motion (the user: "scroll
+  slower"). One height for all, no full-screen buttons in it, each caption
+  just its topic's title (the user, three times). On every 7 s (the ball's
+  9), paused under the pointer or focus; arrows, dots, a swipe; still
+  pictures for reduced motion. The saturation curve and the colour
+  triangle are components now, shared with their physics pages; the
+  curve's "the air now" label moves clear of the curve on the right.
+
 ## 1.6.9
 
 - **Colour and light**, a sixth physics page (the user: "I am new to this

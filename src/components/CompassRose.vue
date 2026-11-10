@@ -12,6 +12,7 @@ import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
   heading: { type: Number, default: null },
+  size: { type: String, default: 'h-56 w-56' }, // the rose's size, not full screen (the home page's carousel: larger)
 });
 
 const R = 100;
@@ -32,7 +33,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative flex flex-col items-center live-view" :class="full && 'h-full! w-full! justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <svg :viewBox="`${-R - LABEL_ROOM} ${-R - LABEL_ROOM} ${2 * (R + LABEL_ROOM)} ${2 * (R + LABEL_ROOM)}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-56 w-56'" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
+    <svg :viewBox="`${-R - LABEL_ROOM} ${-R - LABEL_ROOM} ${2 * (R + LABEL_ROOM)} ${2 * (R + LABEL_ROOM)}`" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : size" role="img" :aria-label="heading === null ? 'Compass: no heading yet' : `Compass: heading ${heading.toFixed(0)} degrees, ${name}`">
       <circle :r="RING + 10" fill="#f8fafc" stroke="#334155" stroke-width="4" />
       <g :transform="turn">
         <line v-for="d in TICKS" :key="d" x1="0" :y1="-RING" x2="0" :y2="d % 30 ? -RING + 6 : -RING + 11" :transform="`rotate(${d})`" stroke="#475569" :stroke-width="d % 30 ? 1 : 2" />
