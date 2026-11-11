@@ -1,5 +1,18 @@
 # Releases
 
+## 1.6.14
+
+- **Using the site is free for anyone** (the user, after weighing a licence
+  for paid courses: "I think the website could be free even for paid
+  courses", then "yes" to their own slides): with any dongle, paid courses
+  and workshops included, and a course may put the drawings and text in its
+  own slides and handouts, with credit. The licenses are about copying: a
+  copy of the site, the code in a product, the drawings and text in
+  material sold on its own (a book, a course pack). The About page says so
+  first; the footer reads "free to use; for copies and reuse, …" (was "free
+  for noncommercial use"); the licenses post gets a row for schools and
+  training centres and an update of 11 November.
+
 ## 1.6.13
 
 - **The SPL06** (atiic 1.5.11; the user's purple CJMCU board on our bench's
