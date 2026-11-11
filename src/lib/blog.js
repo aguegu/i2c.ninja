@@ -8,7 +8,7 @@ export const POSTS = [
     title: 'The science first, programming optional',
     date: '2026-11-11',
     version: '1.8.8',
-    summary: 'A sensor lesson without a tech stack: a bridge and a browser, the lesson on the physics and the maths, programming optional, readings to record and report.',
+    summary: 'A sensor lesson without another tech stack: four wires, a bridge and a browser, and the lesson goes to the physics and the maths.',
     markdown: () => import('../blog/1.8.08-the-science-first.md?raw'),
   },
   {
