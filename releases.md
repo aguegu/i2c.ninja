@@ -1,5 +1,15 @@
 # Releases
 
+## 1.8.8
+
+A post: [The science first, programming optional](/blog/the-science-first)
+(the user: "it helps students to focus on the physcis part, like science"):
+a sensor lesson without another tech stack, four wires, a bridge and a
+browser, and the lesson on the physics and the maths. Two comics: the
+banner (the usual way, four wires, the science) and one for what is
+measured, what the numbers tell and the real world. The other tech-stack
+stories wait for later posts (docs/ideas.md; a draft in docs/drafts/).
+
 ## 1.8.7
 
 The recorder (1.8.0 to 1.8.7, deployed together; the user: "we will do
