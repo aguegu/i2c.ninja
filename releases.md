@@ -1,8 +1,9 @@
 # Releases
 
-## 1.8.0
+## 1.8.7
 
-The recorder (the user: "we will do recorder in 1.8.0").
+The recorder (1.8.0 to 1.8.7, deployed together; the user: "we will do
+recorder in 1.8.0").
 
 - **Record, beside every live page's Stop**: every series the page reads,
   written to a CSV as it comes, for as long as it runs. The disk is the
@@ -27,6 +28,9 @@ The recorder (the user: "we will do recorder in 1.8.0").
   (°/s)", before what the page works out from them (the attitude page's
   angles); two chips read in the same round share a row. UTF-8 with a byte
   order mark, so Excel shows °, µ and φ.
+- **Stop is orange** (the user: "no need to be same red as the recording
+  one"), white text, lighter on hover, so the page's Stop and the
+  recording's red don't blur.
 - **One recording kept, no history**: a recording cut off (the tab closed,
   a crash) is offered on the next visit, Save or Delete; a saved one is
   deleted on the next visit. The downloads are the history.
