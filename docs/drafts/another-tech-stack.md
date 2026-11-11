@@ -12,8 +12,9 @@ A trail across a decade, and only part of it:
 - **[NodeMCU](https://nodemcu.readthedocs.io)**, Lua (2017)
 - **[STM8](https://www.st.com/en/microcontrollers-microprocessors/stm8-8-bit-mcus.html)** with [SDCC](https://sdcc.sourceforge.net) on Linux, C (2018)
 - **[micro:bit](https://makecode.microbit.org)** in MakeCode, TypeScript (2024)
+- **[WCH](https://www.wch-ic.com)'s RISC-V chips**, the CH5xx with Bluetooth and the CH32V, C (2026): the newest, an open instruction set
 
-Six stacks, six languages, and each time the sensors had to come along, their drivers written again for the new board.
+Seven stacks, five languages, and each time the sensors had to come along, their drivers written again for the new board.
 
 ## Porting isn't copying
 
