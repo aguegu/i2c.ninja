@@ -17,8 +17,8 @@ export const DONGLES = [
     alt: 'WCH\'s CH347F evaluation board, USB-B down: its seven headers pin by pin, each pin\'s role and its I/O name, the three jumpers, the EEPROM and flash on its buses',
     site: true,
     recommended: true,
-    effort: 4,
-    effortWhy: 'seven headers and three jumpers, an EEPROM and a flash on its buses; no modes to set, though',
+    effort: 3,
+    effortWhy: 'seven headers and three jumpers, but no modes to set, and its cheatsheet names every pin and jumper',
     look: [
       'WCH\'s own blue board with a USB-B socket, "CH347F-EVT-R0-1v0" printed by it',
       'Headers marked P2 and P3 (UART0, UART1), P4 (SPI), P5 (I2C), P6 (JTAG), jumpers JP1, P7, P8',
