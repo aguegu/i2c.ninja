@@ -62,7 +62,7 @@ const QUOTES = [
         <span class="flex flex-col">
           <span class="font-semibold">Common hardware, no lock-in</span>
           <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            No board of ours to buy: the site runs on WCH's everyday USB-to-I²C bridges, a CH341T stick, a CH347T minimum-system board or WCH's own CH347F evaluation board, and any CH341 or CH347 set for I²C should do, through open drivers (atiic, MIT).
+            No board of ours to buy: the site runs on WCH's everyday USB-to-I²C bridges, a CH341T devkit, a CH347T minimum-system board or WCH's own CH347F evaluation board, and any CH341 or CH347 set for I²C should do, through open drivers (atiic, MIT).
             The sensors are the common modules any seller has.
           </span>
         </span>
