@@ -74,6 +74,20 @@ to share about the 'another tech stack'"). A post each, short:
   microcontroller board (board, IDE, USB driver, library, language), told
   from a real first try, not guessed.
 
+## Blog: why the everyday bridges
+
+The user, 2026-11-11, on atiic: "why we are compatible with built-in
+usb-to-i2c bridges. Simply because they have been heavily test and
+improved over the years. and millions have been made and distributed
+already. Maybe it can be another blog." For students and teachers: why
+atiic and the site work with the common USB-to-I²C bridges (the CH341,
+the CH347) instead of a board of their own: years of use and fixes, made
+in huge numbers, on sale everywhere, cheap to replace in a classroom.
+Check first: any number for how many were made needs a source (WCH's own,
+a teardown, a market report), else say "widely used" without a figure.
+Vendor-neutral, as the site is: no shop, no recommendation beyond what
+Bridges already measures.
+
 ## Blog: words lost in translation
 
 The user, 2026-11-11, on the science-first post's "not by 'bus'": "the bus
