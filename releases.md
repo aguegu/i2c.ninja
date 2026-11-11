@@ -1,5 +1,11 @@
 # Releases
 
+## 1.6.15
+
+- **The releases name no company**: the notes of 1.0.27, 1.6.2 and 1.6.14
+  told who stood behind the site and Dart; they say what changed, as the
+  rest do.
+
 ## 1.6.14
 
 - **Using the site is free for anyone** (the user, after weighing a licence
@@ -12,10 +18,9 @@
   first; the footer reads "free to use; for copies and reuse, …" (was "free
   for noncommercial use"); the licenses post gets a row for schools and
   training centres and an update of 11 November.
-- **Sourcekit off the About page** (the user: "I think we can put down
-  sourcekit from it. Dart may be manufactured by other company."): the
-  contact is the email alone, the disclaimer names the author, and the
-  copyright line reads "© 2026 Weihong Guan (aGuegu)", as LICENSE does.
+- **The About page names the author only**: the contact is the email
+  alone, the disclaimer the author's, and the copyright line reads
+  "© 2026 Weihong Guan (aGuegu)", as LICENSE does.
 
 ## 1.6.13
 
@@ -268,8 +273,8 @@
 ## 1.6.2
 
 - On atiic 1.5.2: a dart opens again after a page closes it (its interface
-  released), and its new name, "Dart" by "Sourcekit" (the user), is
-  taken; 1.6.1's atiic wanted "dart" exactly. The browser's USB chooser
+  released), and its new name, "Dart" (the user's), is taken; 1.6.1's
+  atiic wanted "dart" exactly. The browser's USB chooser
   lists it as "Dart".
 
 ## 1.6.1
@@ -655,7 +660,7 @@ opens with a second dongle.
   lessons, digital experiments, an electronics smoke test).
 - About: About and Releases as tabs; what it's for; the Discussions as the
   forum; commercial opportunities (vendors' links, marked; kits; licenses)
-  by email; Fuzhou Sourcekit Electronics Ltd linked to sourcekit.cc.
+  by email.
 - README: the devices, the Discussions; commercial licenses by email.
 
 ## 1.0.26
