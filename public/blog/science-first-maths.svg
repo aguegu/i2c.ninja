@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. What is measured: inside the chip, a mass between two springs; the robot: A mass on springs. What the numbers tell: a board reads x 0.00 g, y 0.34 g, z 0.94 g, tilt = atan2(y, z) = 20 degrees; a student: So that is 20 degrees! In the real world: a pilot's attitude indicator rolled by 20 degrees; a student: Like a pilot!">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
+<rect width="1200" height="420" fill="#fffdf7"/>
+<rect x="14" y="14" width="400" height="392" fill="#fef9c3"/>
+<rect x="14" y="14" width="400" height="392" fill="url(#dots)"/>
+<rect x="426" y="14" width="370" height="392" fill="#e0f2fe"/>
+<rect x="426" y="14" width="370" height="392" fill="url(#dots)"/>
+<rect x="808" y="14" width="378" height="392" fill="#dcfce7"/>
+<rect x="808" y="14" width="378" height="392" fill="url(#hot)"/>
+<rect x="28" y="28" width="230" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="142.8" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WHAT IS MEASURED</text>
+<rect x="120" y="110" width="200" height="180" rx="8" fill="#f8fafc" stroke="#1e1b18" stroke-width="4" stroke-dasharray="10 6"/>
+<rect x="190" y="170" width="60" height="60" rx="6" fill="#94a3b8" stroke="#1e1b18" stroke-width="3.5"/>
+<text x="220" y="206" font-size="20" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">m</text>
+<polyline points="122,200 130.5,208.0 139.0,192.0 147.5,208.0 156.0,192.0 164.5,208.0 173.0,192.0 181.5,208.0 190,200" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<polyline points="250,200 258.5,208.0 267.0,192.0 275.5,208.0 284.0,192.0 292.5,208.0 301.0,192.0 309.5,208.0 318,200" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="220" y="312" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">inside the chip</text>
+<g transform="translate(66 264) scale(0.7)"><line x1="0" y1="-30" x2="0" y2="-8" stroke="#1e1b18" stroke-width="3.5"/><circle cx="0" cy="-34" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="-40" y="-8" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="-28" y="6" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-12" cy="21" r="5" fill="#1e1b18"/><circle cx="12" cy="21" r="5" fill="#1e1b18"/>
+<path d="M-8 44 Q0 50 8 44" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+</g>
+<path d="M42 110 H96 Q114 110 114 128 V171 Q114 189 96 189 H70 L60 228 L54 189 H42 Q24 189 24 171 V128 Q24 110 42 110 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="69.0" y="136" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">A MASS</text>
+<text x="69.0" y="155" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">ON</text>
+<text x="69.0" y="174" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SPRINGS</text>
+<rect x="440" y="28" width="293" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="586.3" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WHAT THE NUMBERS TELL</text>
+<rect x="446" y="72" width="330" height="134" rx="6" fill="#fff" stroke="#1e1b18" stroke-width="4"/>
+<text x="470" y="104" font-size="16" text-anchor="start" fill="#1e1b18" font-weight="700" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">x  0.00 g</text>
+<text x="470" y="128" font-size="16" text-anchor="start" fill="#1e1b18" font-weight="700" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">y  0.34 g</text>
+<text x="470" y="152" font-size="16" text-anchor="start" fill="#1e1b18" font-weight="700" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">z  0.94 g</text>
+<text x="470" y="188" font-size="16" text-anchor="start" fill="#059669" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">tilt = atan2(y, z) = 20°</text>
+<g transform="translate(500 270) scale(0.62)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<g transform="translate(724 290) scale(0.58)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#db2777" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<path d="M602 216 H670 Q688 216 688 234 V258 Q688 276 670 276 H666 L704 286 L650 276 H602 Q584 276 584 258 V234 Q584 216 602 216 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="636.0" y="242" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SO THAT</text>
+<text x="636.0" y="261" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">IS 20°!</text>
+<rect x="822" y="28" width="242" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="943.1" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">IN THE REAL WORLD</text>
+<defs><clipPath id="dial"><circle cx="1000" cy="196" r="92"/></clipPath></defs>
+<g clip-path="url(#dial)"><rect x="908" y="104" width="184" height="184" fill="#3b82f6"/><g transform="rotate(-20 1000 196)"><rect x="816" y="196" width="368" height="184" fill="#92400e"/><line x1="816" y1="196" x2="1184" y2="196" stroke="#fff" stroke-width="3"/></g></g>
+<circle cx="1000" cy="196" r="92" fill="none" stroke="#1e1b18" stroke-width="6"/>
+<path d="M950 196 h30 l10 10 l10 -10 h30" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1000" y="318" font-size="15" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">roll 20°</text>
+<g transform="translate(1124 262) scale(0.6)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#0891b2" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<path d="M1098 92 H1158 Q1176 92 1176 110 V134 Q1176 152 1158 152 H1130 L1120 268 L1114 152 H1098 Q1080 152 1080 134 V110 Q1080 92 1098 92 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1128.0" y="118" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LIKE A</text>
+<text x="1128.0" y="137" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">PILOT!</text>
+<rect x="14" y="14" width="400" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="426" y="14" width="370" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+</svg>

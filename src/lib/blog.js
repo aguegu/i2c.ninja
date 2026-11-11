@@ -8,6 +8,7 @@ export const POSTS = [
     title: 'The science first, programming optional',
     date: '2026-11-11',
     version: '1.8.8',
+    banner: { src: '/blog/science-first-comic.svg', alt: 'A comic in three panels: the usual way, a student looks up at a tower of boxes, board, USB driver, IDE, library, language, with the sensor on top, out of reach: "Where\'s the sensor?"; four wires, a sensor wired to a USB-to-I2C bridge and a laptop with a live chart, the robot: "That\'s all."; the science, a screen shows an arrow pointing up, 1 g, the student asks "Why up?" and the maker answers "Good question!"' },
     summary: 'A sensor lesson without another tech stack: four wires, a bridge and a browser, and the lesson goes to the physics and the maths.',
     markdown: () => import('../blog/1.8.08-the-science-first.md?raw'),
   },
