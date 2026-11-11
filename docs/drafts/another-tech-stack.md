@@ -4,14 +4,14 @@
 
 > I have played with most mainstream devkits, it all comes to a point that I would need some sensors attached.
 
-A few of the public repositories, a trail across a decade and only part of it:
+A trail across a decade, and only part of it:
 
-- **[ardulibs](https://github.com/aguegu/ardulibs)**: Arduino, C++ (2013 to 2021)
-- **[stm32libs](https://github.com/aguegu/stm32libs)**: STM32F10x on ST's standard peripheral library, C++ (2013 to 2018)
-- **[busykoala-rpi](https://github.com/aguegu/busykoala-rpi)**: Raspberry Pi on Arch Linux, Python (2014)
-- **[nodemcu-libs](https://github.com/aguegu/nodemcu-libs)**: NodeMCU, Lua (2017)
-- **[stm8demos](https://github.com/aguegu/stm8demos)**: STM8 with SDCC on Linux, C (2018 to 2019)
-- **A MakeCode package**: micro:bit, TypeScript (2024)
+- **[Arduino](https://www.arduino.cc)**, C++ (from 2013)
+- **[STM32](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)** on ST's standard peripheral library, C++ (from 2013)
+- **[Raspberry Pi](https://www.raspberrypi.com)**, Python (2014)
+- **[NodeMCU](https://nodemcu.readthedocs.io)**, Lua (2017)
+- **[STM8](https://www.st.com/en/microcontrollers-microprocessors/stm8-8-bit-mcus.html)** with [SDCC](https://sdcc.sourceforge.net) on Linux, C (2018)
+- **[micro:bit](https://makecode.microbit.org)** in MakeCode, TypeScript (2024)
 
 Six stacks, six languages, and each time the sensors had to come along, their drivers written again for the new board.
 
