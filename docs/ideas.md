@@ -74,6 +74,17 @@ to share about the 'another tech stack'"). A post each, short:
   microcontroller board (board, IDE, USB driver, library, language), told
   from a real first try, not guessed.
 
+## Blog: words lost in translation
+
+The user, 2026-11-11, on the science-first post's "not by 'bus'": "the bus
+translation could be another blog". A post on the site's own words and
+what a browser's translator makes of them: "dongle" became 加密狗 (a
+copy-protection key; the reason the site says bridge, 1.7.0), and "bus"
+may come out as the vehicle. What a bus is (two wires shared by many
+chips, each answering its address), told so the word lands in any
+language. Check first: what the translators really give for "bus" and
+"I²C bus" (Chrome's, others), no guessed outputs.
+
 ## Machine translation (parked 2026-11-11: "I do not want to over engineer these yet")
 
 "Dongle" became 加密狗 in a browser's translator, so the page text says bridge
