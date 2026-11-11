@@ -65,20 +65,24 @@ const DONGLE_SETUPS = [
     sheet: '/dongles/ch341t-2in1.svg',
   },
 ];
-// step 5: what the site gives each kind of reader, once the bridge works
+// step 5: what the site gives each kind of reader, once the bridge works;
+// icons as Home's cards (24-unit SVG paths): a mortarboard, a whiteboard, a wrench
 const GAINS = [
   {
     who: 'Students and hobbyists',
+    icon: 'M2 9l10-5 10 5-10 5zM6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5M22 9v6',
     text: 'A sensor\'s readings live and explained: what it measures, how the chip measures it, the physics behind it, and a course to follow step by step.',
     links: [{ to: '/devices', label: 'Devices' }, { to: '/physics', label: 'Physics' }, { to: '/learn', label: 'Learn' }],
   },
   {
     who: 'Teachers',
+    icon: 'M3 4h18M4 4v11h16V4M12 15v3M8 21l4-3 4 3M8 11l3-3 2 2 3-3',
     text: 'Lessons with nothing to install: a browser and a bridge, and once visited the site works offline. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
     links: [{ to: '/learn', label: 'Learn' }, { to: '/blog/three-licenses', label: 'The licenses' }],
   },
   {
     who: 'Makers and engineers',
+    icon: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z',
     text: 'A module checked in a minute: found by its ID, its readings live. The drivers behind every page are atiic\'s, MIT, the same code in your own project, in a browser or in Node. And measured facts about the bridges and chips that their datasheets leave out.',
     links: [{ href: ATIIC, label: 'atiic' }, { to: '/bridges', label: 'Bridges' }],
   },
@@ -291,7 +295,10 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <h2 class="mb-3 text-lg font-semibold">5. What it gives you</h2>
       <div class="grid gap-4 md:grid-cols-3">
         <div v-for="g in GAINS" :key="g.who" class="flex flex-col gap-2 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
-          <h3 class="font-semibold">{{ g.who }}</h3>
+          <h3 class="flex items-center gap-2 font-semibold">
+            <svg viewBox="0 0 24 24" class="h-7 w-7 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="g.icon" /></svg>
+            {{ g.who }}
+          </h3>
           <p class="text-sm leading-relaxed">{{ g.text }}</p>
           <p class="mt-auto flex flex-wrap gap-x-3 text-sm">
             <template v-for="l in g.links" :key="l.label">
