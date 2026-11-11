@@ -4,6 +4,14 @@
 // (2026-11-06-..., version null). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
   {
+    slug: 'the-science-first',
+    title: 'The science first, programming optional',
+    date: '2026-11-11',
+    version: '1.8.8',
+    summary: 'A sensor lesson without a tech stack: a bridge and a browser, the lesson on the physics and the maths, programming optional, readings to record and report.',
+    markdown: () => import('../blog/1.8.08-the-science-first.md?raw'),
+  },
+  {
     slug: 'three-licenses',
     title: 'Built in public, under three licenses',
     date: '2026-11-07',
