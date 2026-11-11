@@ -71,13 +71,13 @@ const GAINS = [
   {
     who: 'Students and hobbyists',
     icon: 'M2 9l10-5 10 5-10 5zM6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5M22 9v6',
-    text: 'The science first: a sensor\'s readings live and explained, what it measures, how the chip measures it, the physics and the maths behind it. Then play and experiment: the things to try on each page, then your own questions, a small piece of research with live readings and charts to back its report.',
+    text: 'The science first: a sensor\'s readings live and explained, what it measures, how the chip measures it, the physics and the maths behind it. Then play and experiment: the things to try on each page, then your own questions, with the raw readings logged and charted for the report. A home assignment worth an A+.',
     links: [{ to: '/devices', label: 'Devices' }, { to: '/physics', label: 'Physics' }],
   },
   {
     who: 'Teachers',
     icon: 'M3 4h18M4 4v11h16V4M12 15v3M8 21l4-3 4 3M8 11l3-3 2 2 3-3',
-    text: 'Lessons with nothing to install: a browser and a bridge, and once visited the site works offline. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
+    text: 'Lessons and experiments with nothing to install: a browser and a bridge, and once visited the site works offline. Class demos, lab work and home assignments, the raw readings logged and charted for the students\' reports. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
     links: [{ to: '/algorithms', label: 'Algorithms' }, { to: '/blog/three-licenses', label: 'The licenses' }],
   },
   {
