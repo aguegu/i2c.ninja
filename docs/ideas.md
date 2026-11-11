@@ -52,6 +52,28 @@ page measuring the speed of sound: a target at a known distance, the echo
 time, and the speed's change with the room's temperature (an SHT20 or
 AHT21B beside it), 0.6 m/s a degree.
 
+## Blog: the other tech stack
+
+Stories parked from "The science first, programming optional" (1.8.8;
+the user: "we can save some for later blogs. I think we have many stories
+to share about the 'another tech stack'"). A post each, short:
+
+- **Optional, not later.** The home card's title went from "no
+  programming" to "programming optional" in an afternoon (the user: "we
+  can say programming later, or optional, even 'ai would take care of the
+  programming part'"): why "later" and the AI forecast stayed out.
+- **Check it before it goes in.** For makers who do program: a minute on a
+  device page shows whether a module answers and reads sane, before it's
+  three layers deep in a project; atiic's drivers, field-tested here, as a
+  reference (the user: "it could be good reference if they would just use
+  it or write their own driver").
+- **Play, experiment, report.** The recorder (1.8.0): one button, a raw
+  CSV, the charts the student's own (the user: "That would be great for a
+  A+ home assignment I think"); full screen for the projector.
+- **The hour before the first number.** What a sensor lesson costs on a
+  microcontroller board (board, IDE, USB driver, library, language), told
+  from a real first try, not guessed.
+
 ## Machine translation (parked 2026-11-11: "I do not want to over engineer these yet")
 
 "Dongle" became 加密狗 in a browser's translator, so the page text says bridge
