@@ -1,12 +1,16 @@
 // A chart's buffers kept by a page: times and n series, the last windowMs
-// (plus a second) kept, read by LiveChart through source()
+// (plus a second) kept, read by LiveChart through source(); each reading
+// also to the recorder (lib/recorder.js), a no-op unless it runs
+import { tap } from './recorder.js';
+
 const SLACK_MS = 1000;
 
 export function makeSeries(n, windowMs) {
   const t = [];
   const ys = Array.from({ length: n }, () => []);
-  return {
+  const api = {
     push(now, values) {
+      tap(api.source, now, values);
       t.push(now);
       values.forEach((v, k) => ys[k].push(v));
       let old = 0;
@@ -22,4 +26,5 @@ export function makeSeries(n, windowMs) {
     },
     source: () => ({ t, ys }),
   };
+  return api;
 }

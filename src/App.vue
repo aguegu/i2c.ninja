@@ -2,7 +2,7 @@
 // The frame round every page: the header (the devices and Learn as menus,
 // Setup, About, the theme; folded into one menu on a narrow screen) and the
 // footer's site map
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
@@ -13,6 +13,7 @@ import { updateReady, applyUpdate } from './lib/pwa.js';
 import { recent, withLabels } from './lib/recent.js';
 import { DEVICE_LINKS, DEVICE_LINK_GROUPS, PHYSICS_LINKS, ALGORITHM_LINKS, ATIIC, DISCUSSIONS } from './lib/nav.js';
 import { version } from '../package.json';
+import { leftover, tidyRecordings, saveLeftover, deleteLeftover } from './lib/recorder.js';
 
 const { dark, toggle } = useTheme();
 // a menu this long or shorter shows no Recent group: it would only repeat its own few lines
@@ -25,6 +26,9 @@ const route = useRoute();
 watch(() => route.fullPath, () => { mobile.value = false; });
 // the timing meter: ?perf on, ?perf=0 off, remembered for the tab
 watch(() => route.query.perf, (q) => { if (q !== undefined) setMeter(q !== '0'); }, { immediate: true });
+// a recording cut off last time (lib/recorder.js): offered until saved or deleted
+onMounted(tidyRecordings);
+const kB = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : `${Math.ceil(n / 1e3)} kB`);
 const navLink = 'hover:text-emerald-600';
 const mobileLink = 'block rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700';
 const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700';
@@ -84,6 +88,12 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
     </div>
     <SiteFooter />
     <PerfMeter v-if="meterOn" />
+    <!-- a recording cut off last time: save or delete it (lib/recorder.js) -->
+    <div v-if="leftover" class="fixed bottom-4 left-4 z-30 flex max-w-[calc(100vw-2rem)] flex-wrap items-center gap-3 rounded-xl bg-slate-800 px-4 py-3 text-sm text-white shadow-lg" role="status">
+      <span>A recording was cut off: {{ leftover.name }}, {{ kB(leftover.size) }}.</span>
+      <button type="button" class="rounded-lg bg-emerald-600 px-3 py-1.5 font-medium hover:bg-emerald-700" @click="saveLeftover">Save</button>
+      <button type="button" class="rounded-lg bg-slate-600 px-3 py-1.5 font-medium hover:bg-slate-500" @click="deleteLeftover">Delete</button>
+    </div>
     <!-- a new release downloaded: reload when it suits (lib/pwa.js) -->
     <div v-if="updateReady" class="fixed right-4 bottom-4 z-30 flex items-center gap-3 rounded-xl bg-slate-800 px-4 py-3 text-sm text-white shadow-lg" role="status">
       A new version of i2c.ninja is ready.

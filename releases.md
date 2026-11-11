@@ -1,5 +1,26 @@
 # Releases
 
+## 1.8.0
+
+The recorder (the user: "we will do recorder in 1.8.0").
+
+- **Record, beside every live page's Stop**: every series the page reads,
+  written to a CSV as it comes, for as long as it runs. The disk is the
+  limit, not the memory (the user: "they may got it recording for days,
+  let their hard disk be the limit"): the file lives in the browser's
+  private storage for the site (OPFS), a worker appends and flushes it
+  each second. Stop recording, Stop, or leaving the page saves it to the
+  downloads. While it runs: the time, the rows, the size and the room left;
+  the screen kept on (Screen Wake Lock); closing the tab asks first.
+- **Raw CSV, no chart images** (the user: "users can generate chart with
+  their preferred tools"): `time` (ISO 8601, UTC), `t_ms` from the first
+  row, then a column per series, "<chart> <axis> (<unit>)", the values as
+  the page has them, unrounded; series read at the same moment share a row.
+  Named after the page and its start, `mpu6050-2026-11-11-112952.csv`.
+- **One recording kept, no history**: a recording cut off (the tab closed,
+  a crash) is offered on the next visit, Save or Delete; a saved one is
+  deleted on the next visit. The downloads are the history.
+
 ## 1.7.14
 
 What the site gives, said plainly (1.7.1 to 1.7.14, deployed together).

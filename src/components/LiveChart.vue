@@ -10,6 +10,7 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { frameDue } from '../lib/frame.js';
+import { nameSeries } from '../lib/recorder.js';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
@@ -147,7 +148,11 @@ function draw() {
 const start = () => { if (!frame) frame = requestAnimationFrame(draw); };
 const stop = () => { cancelAnimationFrame(frame); frame = 0; };
 
+// named for the recorder: its title, unit and series' labels
+let unname = () => {};
+
 onMounted(() => {
+  unname = nameSeries(props.source, props.title, props.unit, props.series.map((s) => s.label + (s.sub ? `_${s.sub}` : '')));
   const c = canvas.value;
   const resize = new ResizeObserver(([e]) => {
     const dpr = devicePixelRatio || 1;
@@ -168,6 +173,7 @@ onMounted(() => {
   observers = [resize, seen, theme, { disconnect: () => media.removeEventListener('change', onMedia) }];
 });
 onBeforeUnmount(() => {
+  unname();
   stop();
   clearTimeout(legendTimer);
   for (const o of observers) o.disconnect();

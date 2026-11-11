@@ -10,6 +10,7 @@
 import { perFrame } from './frame.js';
 import { noteReading } from './perf.js';
 import { ref, onBeforeUnmount } from 'vue';
+import { nameSeries, tap } from './recorder.js';
 import { Mpu6050, Mpu6500 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
 import { loadCalibration, applyCalibration } from './calibrationStore.js';
@@ -61,6 +62,10 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   // page that works per reading (integrating, filtering), not per frame
   const publish = perFrame((v) => { latest.value = v; }); // once a frame, the newest
   const listeners = new Set();
+  const accelSource = () => ({ t: buf.t, ys: buf.accel });
+  const gyroSource = () => ({ t: buf.t, ys: buf.gyro });
+  // named for the recorder: its two, whichever charts the page shows
+  const unnamed = [nameSeries(accelSource, 'Acceleration', 'g', ['x', 'y', 'z']), nameSeries(gyroSource, 'Rotation', 'deg/s', ['x', 'y', 'z'])];
   const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
   function push(bytes) {
@@ -70,6 +75,8 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     let accel = counts.slice(0, 3).map((c) => c / mpu.accelerometerSensitivity);
     let gyro = counts.slice(4, 7).map((c) => c / mpu.gyroscopeSensitivity);
     if (calibrationApplies()) ({ accel, gyro } = applyCalibration(calibration.value, accel, gyro));
+    tap(accelSource, now, accel);
+    tap(gyroSource, now, gyro);
     buf.t.push(now);
     accel.forEach((a, k) => buf.accel[k].push(a));
     gyro.forEach((g, k) => buf.gyro[k].push(g));
@@ -200,6 +207,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   }
   if (hasWebUsb) navigator.usb.addEventListener('disconnect', onUsbDisconnect);
   onBeforeUnmount(() => {
+    for (const u of unnamed) u();
     if (hasWebUsb) navigator.usb.removeEventListener('disconnect', onUsbDisconnect);
     disconnect();
   });
@@ -214,8 +222,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   return {
     calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration,
     state, failure, address, chipName, chip, found, gyroscopeScale, accelerometerScale, latest, rate,
-    accelSource: () => ({ t: buf.t, ys: buf.accel }),
-    gyroSource: () => ({ t: buf.t, ys: buf.gyro }),
+    accelSource, gyroSource,
     connect, disconnect, configure, onReading,
   };
 }
