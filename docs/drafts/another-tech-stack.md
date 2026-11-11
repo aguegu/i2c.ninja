@@ -42,6 +42,37 @@ When a reading is wrong, the answer is somewhere in those layers, and the deeper
 
 ## Why atiic looks the way it does
 
-That's the reason for atiic's shape. Its drivers are [the datasheet in code](/blog/reloaded): registers, timings and conversions as the chip's makers wrote them, bound to no board. The bus underneath is a small interface, a few calls to write and read, so the same driver runs over a USB-to-I²C bridge in a browser or in Node, and each driver is field-tested here, on these pages, with a real module.
+That's the reason for atiic's shape. Its drivers are [the datasheet in code](/blog/reloaded): registers, timings and conversions as the chip's makers wrote them, bound to no board. The bus underneath is a small interface, a few calls to write and read, so the same driver runs over a USB-to-I²C bridge in a browser or in Node, and each driver is field-tested here, on these pages, with a real module. Three choices hold it up: a PC, Linux and JavaScript.
+
+### Why a PC
+
+> A PC is supposed to run way faster than the sensors' communication buses, so a delay can be well measured.
+
+On a small board, the board's own speed is part of the puzzle: a wait that works on one chip is too short on a faster one and too long on a slower one. A PC is never the slow side of an I²C bus. The waits a datasheet asks for become plain numbers in the driver, there because the chip needs them and not because of whatever the host happened to be doing. The USB bridge adds a round trip of its own, but that's the same on every PC.
+
+### Why Linux
+
+> On Linux the USB interface is much easier to manage. And the foundation is the Linux kernel, which we can have much more confidence in than a hobbyist's sharing.
+
+atiic's board tests run on Linux, talking to the bridge through the kernel's own USB stack: no vendor driver to install, nothing between the code and the wire that thousands of people don't already depend on. The site itself runs wherever a Chromium browser does, Windows and Android included; Linux is the bench where each driver is proved first.
+
+### Why JavaScript
+
+> JS is a high-level language that is easy for humans to understand. I personally like its syntax very much. With the built-in buffers, the code looks very similar to the C written for most embedded systems. And it runs both on the system, in Node.js, and in the browser.
+
+Here is atiic's ADXL345 turning its six data bytes into three axes, each low byte first, two's complement, as its datasheet describes:
+
+```js
+const s16 = (i) => ((d[i] | (d[i + 1] << 8)) << 16) >> 16;
+return { x: s16(0), y: s16(2), z: s16(4) };
+```
+
+The same in C, on a microcontroller:
+
+```c
+int16_t x = (int16_t)(d[0] | (d[1] << 8));
+```
+
+The bytes, the shifts and the masks read the same, so a driver can be checked line by line against a datasheet, or against a C driver someone wrote for a board. And because the bytes live in the language's own typed arrays (`Uint8Array`, `DataView`), not in anything tied to one runtime, the same file runs in Node for the board tests and in the browser for these pages, unchanged.
 
 And it's the reason i2c.ninja asks for no stack at all. A decade of porting the same sensors from board to board is a good teacher, but it's a long way round to the physics. Here the stack is a bridge and a browser, and the sensor is the lesson.
