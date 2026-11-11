@@ -19,6 +19,13 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   drawing (`public/setup-ch347f.svg`, ch32v00x's `scripts/wiring`: the
   GY-521 straight across from P5), the CH347T after. The user tried the
   attitude page on it: "it works".
+- **Get started: Where to buy?** (the user: "It could explain about the
+  easy to buy part of ch341/ch347 and the various-ness of i2c sensors"),
+  before the steps: the dongles common and cheap, found by the chip's name
+  (each Dongles card's search words; the CH347F EVT by its own); the
+  sensors on many boards for one chip, which differ in their pins' order,
+  supply, pull-ups and address pin, so wire by the board's print and check
+  its chip against the listing. No shop links, no prices.
 
 ## 1.6.15
 

@@ -46,6 +46,43 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </p>
 
     <section :class="card">
+      <h2 class="mb-2 text-lg font-semibold">Where to buy?</h2>
+      <div class="grid gap-4 leading-relaxed md:grid-cols-2">
+        <div>
+          <h3 class="mb-1 font-semibold">The dongle</h3>
+          <p>
+            CH341 and CH347 boards are common and cheap: online marketplaces
+            (Amazon, AliExpress, Taobao) and electronics shops carry them, from
+            many sellers under many names. Search by the chip, not the shop: each
+            board's card on
+            <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>
+            gives the words that find it and how to recognise it when it comes.
+            The CH347F evaluation board is WCH's own: search for its name,
+            <i>WCH CH347F EVT</i>.
+          </p>
+        </div>
+        <div>
+          <h3 class="mb-1 font-semibold">The sensors</h3>
+          <p>
+            The same chip comes on many small boards (modules, breakouts) from
+            many makers: an MPU-6050 is often sold as a GY-521, but not only.
+            What counts is the chip, and that's what this site looks for. Search
+            for the chip's name and <i>module</i>.
+          </p>
+          <p class="mt-2">
+            Boards for the same chip still differ: the order and names of their
+            pins (wire by what's printed on yours), whether they take 3.3 V only
+            or carry a regulator for 5 V, their pull-up resistors, an address pin.
+            Each page under
+            <RouterLink to="/devices" class="text-emerald-700 underline dark:text-emerald-400">Devices</RouterLink>
+            shows the board we ran and its wiring. When yours comes, check that
+            the chip printed on it is the one the listing names.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">1. A browser with WebUSB</h2>
       <p class="max-w-3xl leading-relaxed">
         Chrome, Edge, Opera, Brave or another Chromium, on a computer or on
