@@ -4,6 +4,15 @@
 // (2026-11-06-..., version null). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
   {
+    slug: 'another-tech-stack',
+    title: 'Another tech stack, the same sensors',
+    date: '2026-11-11',
+    version: '1.8.11',
+    banner: { src: '/blog/another-stack-comic.svg', alt: 'A comic in three panels: new board, the maker holds the same sensor beside a pile of old boards from 2013, 2017 and 2024 and a new one: "Again?"; ported, the code moved to the new board gets its timing wrong, an HX711 chip has fallen asleep and a DS18B20 says "Still thinking...", the robot: "Bad timing!"; on the bench, late at night with the moon in the window, the maker wired up: "One more try...", the robot: it takes a while' },
+    summary: 'A decade of maker boards, the same sensors carried to each, and the pitfalls: sensors with their own timing, one code for every chip, and the fun of less.',
+    markdown: () => import('../blog/1.8.11-another-tech-stack.md?raw'),
+  },
+  {
     slug: 'the-science-first',
     title: 'The science first, programming optional',
     date: '2026-11-11',

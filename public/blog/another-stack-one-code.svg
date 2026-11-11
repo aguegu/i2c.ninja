@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="A comic in three panels. One code: a signpost of branches, #if AVR, #elif SAM, #elif SAMD, #elif ESP32, and seven more; a student: Which way? One timer: a servo takes the board's timer T1, and the LEDs on pins 9 and 10 go dark; a student: My LEDs went dark! Less is fun: one small chip drives a servo and a lit LED at once; the maker: Both, on one small chip! The robot: Fun!">
+<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#1e1b18" fill-opacity="0.12"/></pattern>
+<pattern id="hot" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2.4" fill="#f59e0b" fill-opacity="0.35"/></pattern></defs>
+<rect width="1200" height="420" fill="#fffdf7"/>
+<rect x="14" y="14" width="400" height="392" fill="#fef9c3"/>
+<rect x="14" y="14" width="400" height="392" fill="url(#dots)"/>
+<rect x="426" y="14" width="370" height="392" fill="#e0f2fe"/>
+<rect x="426" y="14" width="370" height="392" fill="url(#dots)"/>
+<rect x="808" y="14" width="378" height="392" fill="#dcfce7"/>
+<rect x="808" y="14" width="378" height="392" fill="url(#hot)"/>
+<rect x="28" y="28" width="129" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="92.4" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">ONE CODE</text>
+<rect x="246" y="96" width="10" height="256" fill="#a16207" stroke="#1e1b18" stroke-width="3"/>
+<path d="M115 96 H251 L251 111 L251 126 H115 L101 111 Z" fill="#fde68a" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="183.0" y="117" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">#if AVR</text>
+<path d="M251 136 H387 L401 151 L387 166 H251 L251 151 Z" fill="#fde68a" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="319.0" y="157" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">#elif SAM</text>
+<path d="M115 176 H251 L251 191 L251 206 H115 L101 191 Z" fill="#fde68a" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="183.0" y="197" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">#elif SAMD</text>
+<path d="M251 216 H387 L401 231 L387 246 H251 L251 231 Z" fill="#fde68a" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="319.0" y="237" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">#elif ESP32</text>
+<path d="M115 256 H251 L251 271 L251 286 H115 L101 271 Z" fill="#fde68a" stroke="#1e1b18" stroke-width="3" stroke-linejoin="round"/>
+<text x="183.0" y="277" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">... 7 more</text>
+<rect x="20" y="352" width="388" height="8" fill="#a8a29e" stroke="#1e1b18" stroke-width="2.5"/>
+<g transform="translate(56 282) scale(0.5)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#db2777" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<path d="M40 210 H80 Q98 210 98 228 V252 Q98 270 80 270 H64 L52 270 L48 270 H40 Q22 270 22 252 V228 Q22 210 40 210 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="60.0" y="236" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WHICH</text>
+<text x="60.0" y="255" font-size="13" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WAY?</text>
+<rect x="440" y="28" width="141" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="510.7" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">ONE TIMER</text>
+<rect x="450" y="220" width="150" height="60" rx="4" fill="#0e7490" stroke="#1e1b18" stroke-width="3"/>
+<rect x="517.0" y="242.0" width="16" height="16" fill="#1e1b18"/>
+<circle cx="458.0" cy="226" r="2" fill="#fde68a"/>
+<circle cx="491.5" cy="226" r="2" fill="#fde68a"/>
+<circle cx="525.0" cy="226" r="2" fill="#fde68a"/>
+<circle cx="558.5" cy="226" r="2" fill="#fde68a"/>
+<circle cx="592.0" cy="226" r="2" fill="#fde68a"/>
+<rect x="560" y="232" width="34" height="22" rx="3" fill="#f59e0b" stroke="#1e1b18" stroke-width="2.5"/>
+<text x="577" y="248" font-size="11" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">T1</text>
+<rect x="640" y="200" width="64" height="44" rx="6" fill="#1e293b" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="672" cy="212" r="8" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/><path d="M672 212 L712 182" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M672 212 L712 182" stroke="#1e1b18" stroke-width="2" stroke-linecap="round" fill="none"/>
+<text x="672" y="264" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">servo</text>
+<path d="M640 230 C620 236 606 240 594 243" fill="none" stroke="#1e1b18" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 6"/>
+<line x1="476" y1="280" x2="476" y2="312" stroke="#1e1b18" stroke-width="3"/>
+<path d="M464 330 a12 12 0 0 1 24 0 v10 h-24 z" fill="#64748b" stroke="#1e1b18" stroke-width="3"/>
+<text x="476" y="362" font-size="11" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">pin 9</text>
+<line x1="526" y1="280" x2="526" y2="312" stroke="#1e1b18" stroke-width="3"/>
+<path d="M514 330 a12 12 0 0 1 24 0 v10 h-24 z" fill="#64748b" stroke="#1e1b18" stroke-width="3"/>
+<text x="526" y="362" font-size="11" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">pin 10</text>
+<g transform="translate(744 236) scale(0.48)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#0891b2" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<path d="M650 90 H760 Q778 90 778 108 V132 Q778 150 760 150 H750 L740 224 L734 150 H650 Q632 150 632 132 V108 Q632 90 650 90 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="705.0" y="116" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">MY LEDS</text>
+<text x="705.0" y="135" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">WENT DARK!</text>
+<rect x="822" y="28" width="167" height="32" fill="#fde68a" stroke="#1e1b18" stroke-width="3"/>
+<text x="905.3" y="51" font-size="17" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">LESS IS FUN</text>
+<line x1="936.375" y1="219.4" x2="936.375" y2="280.6" stroke="#1e1b18" stroke-width="2.7"/>
+<line x1="952.125" y1="219.4" x2="952.125" y2="280.6" stroke="#1e1b18" stroke-width="2.7"/>
+<line x1="967.875" y1="219.4" x2="967.875" y2="280.6" stroke="#1e1b18" stroke-width="2.7"/>
+<line x1="983.625" y1="219.4" x2="983.625" y2="280.6" stroke="#1e1b18" stroke-width="2.7"/>
+<rect x="928.5" y="227.5" width="63.0" height="45.0" rx="4.5" fill="#0f766e" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="949.2" cy="246.4" r="4.5" fill="#fff"/><circle cx="970.8" cy="246.4" r="4.5" fill="#fff"/>
+<circle cx="949.2" cy="246.4" r="1.9800000000000002" fill="#1e1b18"/><circle cx="970.8" cy="246.4" r="1.9800000000000002" fill="#1e1b18"/>
+<path d="M953.7 259.0 Q960 263.5 966.3 259.0" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round"/>
+<text x="960" y="297.7" font-size="12" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">one small chip</text>
+<rect x="1040" y="230" width="56" height="38" rx="6" fill="#1e293b" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="1068" cy="240" r="7" fill="#fff" stroke="#1e1b18" stroke-width="2.5"/><path d="M1068 240 L1102 216" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+<path d="M1104 204 a10 10 0 0 1 8 14 M1112 196 a18 18 0 0 1 10 24" fill="none" stroke="#1e1b18" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M858 300 a12 12 0 0 1 24 0 v10 h-24 z" fill="#facc15" stroke="#1e1b18" stroke-width="3"/>
+<path d="M870 280 v-10 M854 286 l-8 -6 M886 286 l8 -6" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+<g transform="translate(870 160) scale(0.55)"><path d="M-46 170 Q-44 70 0 66 Q44 70 46 170 Z" fill="#059669" stroke="#1e1b18" stroke-width="3.5"/>
+<circle cx="0" cy="20" r="38" fill="#f6d2b0" stroke="#1e1b18" stroke-width="3.5"/>
+<path d="M-38 14 Q-36 -24 0 -22 Q38 -24 38 10 Q20 -4 0 -2 Q-18 -6 -38 14 Z" fill="#1e1b18"/>
+<circle cx="-14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><circle cx="14" cy="22" r="10" fill="#fff" fill-opacity="0.4" stroke="#1e1b18" stroke-width="3"/><path d="M-4 22h8" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-14" cy="23" r="2.6" fill="#1e1b18"/><circle cx="14" cy="23" r="2.6" fill="#1e1b18"/>
+</g>
+<path d="M958 78 H1072 Q1090 78 1090 96 V120 Q1090 138 1072 138 H982 L906 160 L966 138 H958 Q940 138 940 120 V96 Q940 78 958 78 Z" fill="#fff" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1015.0" y="104" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">BOTH, ON ONE</text>
+<text x="1015.0" y="123" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">SMALL CHIP!</text>
+<g transform="translate(1140 330) scale(0.55)"><line x1="0" y1="-30" x2="0" y2="-8" stroke="#1e1b18" stroke-width="3.5"/><circle cx="0" cy="-34" r="7" fill="#fbbf24" stroke="#1e1b18" stroke-width="3"/>
+<rect x="-40" y="-8" width="80" height="64" rx="22" fill="#e07a4f" stroke="#1e1b18" stroke-width="3.5"/>
+<rect x="-28" y="6" width="56" height="30" rx="12" fill="#fff7ed" stroke="#1e1b18" stroke-width="3"/>
+<circle cx="-12" cy="21" r="5" fill="#1e1b18"/><circle cx="12" cy="21" r="5" fill="#1e1b18"/>
+<path d="M-8 44 Q0 50 8 44" fill="none" stroke="#1e1b18" stroke-width="3" stroke-linecap="round"/>
+</g>
+<path d="M1058 300 H1098 Q1116 300 1116 318 V323 Q1116 341 1098 341 H1094 L1112 318 L1078 341 H1058 Q1040 341 1040 323 V318 Q1040 300 1058 300 Z" fill="#fff7ed" stroke="#1e1b18" stroke-width="3.5" stroke-linejoin="round"/>
+<text x="1078.0" y="326" font-size="14" text-anchor="middle" fill="#1e1b18" font-weight="800" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" letter-spacing="0.5">FUN!</text>
+<rect x="14" y="14" width="400" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="426" y="14" width="370" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+<rect x="808" y="14" width="378" height="392" fill="none" stroke="#1e1b18" stroke-width="5"/>
+</svg>
