@@ -10,10 +10,11 @@ The recorder (the user: "we will do recorder in 1.8.0").
   let their hard disk be the limit"): the file lives in the browser's
   private storage for the site (OPFS), a worker appends and flushes it
   each second. Stop recording, Stop, or leaving the page saves it to the
-  downloads. While it runs, a red bar at the top of the page, in sight as
-  it scrolls (the user: "show an alert on page top, when it is recording"):
-  the time, the rows, the size, the room left, the file's name and Stop
-  recording; the screen kept on (Screen Wake Lock); closing the tab asks
+  downloads. While it runs, a soft rose bar at the top of the page, in
+  sight as it scrolls (the user: "show an alert on page top, when it is
+  recording"; red was "way too bright"): the time, the rows, the size, the
+  room left, the file's name and a square stop with its tooltip; Record
+  hides meanwhile, one stop for the recording. The screen kept on (Screen Wake Lock); closing the tab asks
   first.
 - **Raw CSV, no chart images** (the user: "users can generate chart with
   their preferred tools"): `time` (ISO 8601, UTC), `t_ms` from the first
