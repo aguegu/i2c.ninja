@@ -1,6 +1,9 @@
 # Releases
 
-## 1.6.16
+## 1.7.0
+
+A new dongle, a minor version (the user: "I think i2c.ninja can bump to
+1.7.0 with a new dongle support too").
 
 - **WCH's CH347F EVT, the recommended dongle** (the user's plan of 7
   November: "I would like to have ch347f evt as the first recommendation of
