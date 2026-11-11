@@ -54,7 +54,7 @@ The wires a sensor talks over are slow compared with a computer. On a small boar
 
 > On Linux the USB interface is much easier to manage. And the foundation is the Linux kernel, which we can have much more confidence in than a hobbyist's sharing.
 
-The kernel is the heart of the Linux system, the part that talks to hardware like USB, used and checked by millions of people. Building on it means trusting something tested far more than any one person's shared code. Linux is where each driver is proven first; the site itself then runs in a browser on Windows, macOS, Linux or Android.
+The kernel is the heart of the Linux system, the part that talks to hardware like USB, used and checked by millions of people. Building on it means trusting something tested far more than any one person's shared code. Linux is where each driver is proven first; the site itself then runs in a browser, on Linux, Windows and Android so far.
 
 ### Why JavaScript
 
