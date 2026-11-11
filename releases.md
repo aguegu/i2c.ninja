@@ -17,6 +17,12 @@ The recorder (the user: "we will do recorder in 1.8.0").
   row, then a column per series, "<chart> <axis> (<unit>)", the values as
   the page has them, unrounded; series read at the same moment share a row.
   Named after the page and its start, `mpu6050-2026-11-11-112952.csv`.
+- **The sensors' own readings first** (the user: "what multiple sensors? like
+  adxl345 + itg3200"): each sensor a page reads is recorded as it comes,
+  named by its chip, "ADXL345 accelerometer x (g)", "ITG3200 gyroscope x
+  (°/s)", before what the page works out from them (the attitude page's
+  angles); two chips read in the same round share a row. UTF-8 with a byte
+  order mark, so Excel shows °, µ and φ.
 - **One recording kept, no history**: a recording cut off (the tab closed,
   a crash) is offered on the next visit, Save or Delete; a saved one is
   deleted on the next visit. The downloads are the history.

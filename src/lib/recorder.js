@@ -14,7 +14,8 @@
 // moment share a row; columns of a series not read at that moment stay
 // empty.
 //
-// The CSV: time (ISO 8601, UTC), t_ms (since its first row), then a
+// The CSV (UTF-8, with a byte order mark for Excel): time (ISO 8601, UTC),
+// t_ms (since its first row), then a
 // column per series, "<chart> <label> (<unit>)".
 import { ref, computed } from 'vue';
 
@@ -28,7 +29,8 @@ export const hasRecorder = typeof navigator !== 'undefined' && !!navigator.stora
 // the named series on the page: source function -> { title, unit, labels }
 const named = new Map();
 
-// a series' name for the recorder; returns its unregister
+// a series' name for the recorder (title a string, or a function read when a
+// recording starts: the chip found by then); returns its unregister
 export function nameSeries(source, title, unit, labels) {
   if (named.has(source)) return () => {};
   const entry = { title, unit, labels };
@@ -129,11 +131,12 @@ export async function startRecording(label) {
     return;
   }
   columns = new Map();
-  const head = ['time', 't_ms'];
+  const head = ['\uFEFFtime', 't_ms']; // the byte order mark: Excel reads the file as UTF-8 (°, µ, φ)
   width = 0;
   for (const [source, { title, unit, labels }] of sources) {
     columns.set(source, width);
-    for (const l of labels) head.push(quote(`${title} ${l}${unit ? ` (${unit})` : ''}`));
+    const t = typeof title === 'function' ? title() : title;
+    for (const l of labels) head.push(quote(`${t} ${l}${unit ? ` (${unit})` : ''}`));
     width += labels.length;
   }
   const started = new Date();

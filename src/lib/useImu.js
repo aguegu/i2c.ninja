@@ -64,8 +64,8 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const listeners = new Set();
   const accelSource = () => ({ t: buf.t, ys: buf.accel });
   const gyroSource = () => ({ t: buf.t, ys: buf.gyro });
-  // named for the recorder: its two, whichever charts the page shows
-  const unnamed = [nameSeries(accelSource, 'Acceleration', 'g', ['x', 'y', 'z']), nameSeries(gyroSource, 'Rotation', 'deg/s', ['x', 'y', 'z'])];
+  // named for the recorder: its two, the chip and its kind, whichever charts the page shows
+  const unnamed = [nameSeries(accelSource, () => `${chipName.value ?? ''} accelerometer`.trim(), 'g', ['x', 'y', 'z']), nameSeries(gyroSource, () => `${chipName.value ?? ''} gyroscope`.trim(), '°/s', ['x', 'y', 'z'])];
   const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
   function push(bytes) {

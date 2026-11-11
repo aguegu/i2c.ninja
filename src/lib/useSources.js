@@ -14,6 +14,7 @@ import { ref, computed, onBeforeUnmount } from 'vue';
 import { hasWebUsb, detectPlatform, chooseDongle, explain, DongleError } from './dongle.js';
 import * as SOURCES from './sources.js';
 import { makeSeries } from './series.js';
+import { nameSeries } from './recorder.js';
 
 const SCL_HZ = 400000;
 export const READ_MS = 20; // 50 a second: smooth enough to see a shake (a chip's readMs if slower)
@@ -39,6 +40,9 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   const series = Object.fromEntries(keys.map((k) => [k, makeSeries(3, windowMs)]));
   const sources = Object.fromEntries(keys.map((k) => [k, series[k].source]));
   const pick = (k) => found.value[k][chosen.value[k]];
+  // named for the recorder, the raw readings before any chart's: the chip
+  // read and its kind, "ADXL345 accelerometer x (g)"
+  const unnamed = keys.map((k) => nameSeries(sources[k], () => `${pick(k)?.name ?? ''} ${kinds[k].noun}`.trim(), kinds[k].unit, ['x', 'y', 'z']));
   // readings a second: the slowest chosen chip's, else the fastest each may find
   const rate = computed(() => Math.min(...keys.map((k) => (pick(k) ? perSecond(pick(k).chip) : Math.max(...kinds[k].chips.map(perSecond))))));
   // the chosen chips on separate boards: their axes must be lined up by hand
@@ -172,6 +176,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   }
   if (hasWebUsb) navigator.usb.addEventListener('disconnect', onUsbDisconnect);
   onBeforeUnmount(() => {
+    for (const u of unnamed) u();
     if (hasWebUsb) navigator.usb.removeEventListener('disconnect', onUsbDisconnect);
     disconnect();
   });
