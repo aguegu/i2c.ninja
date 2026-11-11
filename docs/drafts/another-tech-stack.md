@@ -60,19 +60,22 @@ atiic's board tests run on Linux, talking to the bridge through the kernel's own
 
 > JS is a high-level language that is easy for humans to understand. I personally like its syntax very much. With the built-in buffers, the code looks very similar to the C written for most embedded systems. And it runs both on the system, in Node.js, and in the browser.
 
-Here is atiic's ADXL345 turning its six data bytes into three axes, each low byte first, two's complement, as its datasheet describes:
+The buffers are the language's own: [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) and [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array), raw bytes in every browser, and Node's [`Buffer`](https://nodejs.org/api/buffer.html), itself a `Uint8Array`. Bytes in, bytes out, as on a microcontroller. Here is atiic's SHT20 turning its two data bytes into a temperature, the formula straight from its datasheet, T = -46.85 + 175.72 · S / 2¹⁶:
 
 ```js
-const s16 = (i) => ((d[i] | (d[i + 1] << 8)) << 16) >> 16;
-return { x: s16(0), y: s16(2), z: s16(4) };
+const s = ((d[0] << 8) | d[1]) & ~STATUS_BITS;
+const t = -46.85 + (175.72 * s) / 65536;
 ```
 
-The same in C, on a microcontroller:
+and the same two lines in C:
 
 ```c
-int16_t x = (int16_t)(d[0] | (d[1] << 8));
+uint16_t s = ((d[0] << 8) | d[1]) & ~STATUS_BITS;
+float t = -46.85f + (175.72f * s) / 65536;
 ```
 
-The bytes, the shifts and the masks read the same, so a driver can be checked line by line against a datasheet, or against a C driver someone wrote for a board. And because the bytes live in the language's own typed arrays (`Uint8Array`, `DataView`), not in anything tied to one runtime, the same file runs in Node for the board tests and in the browser for these pages, unchanged.
+Only the types differ. A driver reads line by line against its datasheet, or against a C driver someone wrote for a board. And since atiic keeps its bytes in `Uint8Array`s, the same file runs in Node for the board tests and in the browser for these pages, unchanged.
+
+The other half of JavaScript is everything around it. Backend and frontend development have built every wheel a driver needs, and testing is one of them. Node ships its own test runner, so each atiic driver has two kinds of test: one on the desk, against a fake chip that answers the datasheet's bytes (the SHT20's checksum is tested on the datasheet's own example, 0x63 0x52 giving 0x64), and one on the bench, against the real module over a real bridge. The site's pages get the same care from a headless browser. On a microcontroller, each of those would be a project of its own.
 
 And it's the reason i2c.ninja asks for no stack at all. A decade of porting the same sensors from board to board is a good teacher, but it's a long way round to the physics. Here the stack is a bridge and a browser, and the sensor is the lesson.
