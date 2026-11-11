@@ -52,8 +52,8 @@ const QUOTES = [
         <span class="flex flex-col">
           <span class="font-semibold">The science first, no programming</span>
           <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            A sensor on a USB-to-I²C bridge, and its readings and their pictures are on the page. The lesson goes to the physics and the maths, what is measured, why, and what the numbers tell, not to programming a microcontroller board or learning another tech stack just to get a number.
-            That may come later, elsewhere, and the site helps there too: check the sensor here first, so the project starts from a module known to work.
+            A sensor on a USB-to-I²C bridge, and its readings and their pictures are on the page. The lesson goes to the physics and the maths: what is measured, why and how, what the numbers tell, and how to put them to use in the real world.
+            No microcontroller board to program, no other tech stack to learn just to get a number.
           </span>
         </span>
       </RouterLink>
