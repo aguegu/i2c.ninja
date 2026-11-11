@@ -71,7 +71,7 @@ const GAINS = [
   {
     who: 'Students and hobbyists',
     icon: 'M2 9l10-5 10 5-10 5zM6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5M22 9v6',
-    text: 'A sensor\'s readings live and explained: what it measures, how the chip measures it, the physics behind it, and a course to follow step by step.',
+    text: 'The science first: a sensor\'s readings live and explained, what it measures, how the chip measures it, the physics behind it, with no microcontroller to program and no other tech stack to learn. And a course to follow step by step.',
     links: [{ to: '/devices', label: 'Devices' }, { to: '/physics', label: 'Physics' }, { to: '/learn', label: 'Learn' }],
   },
   {

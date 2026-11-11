@@ -45,6 +45,20 @@ const QUOTES = [
       <HeroCarousel class="mt-4" />
     </section>
 
+    <!-- the point of it all: the science, not a tech stack -->
+    <section class="mx-auto w-full max-w-5xl px-4 pb-4">
+      <RouterLink to="/physics" class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 sm:flex-row sm:items-center dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
+        <svg viewBox="0 0 24 24" class="h-10 w-10 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" /></svg>
+        <span class="flex flex-col">
+          <span class="font-semibold">The science first, no programming</span>
+          <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            A sensor on a USB-to-I²C bridge, and its readings and their pictures are on the page. The lesson goes to the physics, what is measured and why, not to programming a microcontroller board or learning another tech stack just to get a number.
+            That may come later, elsewhere; it isn't what this site is for.
+          </span>
+        </span>
+      </RouterLink>
+    </section>
+
     <!-- what's inside -->
     <section class="mx-auto grid w-full max-w-5xl gap-4 px-4 pb-4 sm:grid-cols-2 lg:grid-cols-3">
       <RouterLink v-for="f in FEATURES" :key="f.title" :to="f.to" class="flex flex-col rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
