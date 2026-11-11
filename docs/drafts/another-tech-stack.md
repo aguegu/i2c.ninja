@@ -2,7 +2,7 @@
 
 "Another tech stack" came up in [the last post](/blog/the-science-first) as the thing a student shouldn't need. That phrase has a history. Long before coding agents, Weihong went through most of the mainstream devkits, and every one of them came to the same point:
 
-> I have played with most mainstream devkits, it all comes to a point that I would need some sensors attached.
+> I have played with most mainstream devkits, and it always comes to a point where I need some sensors attached.
 
 A trail across a decade, and only part of it:
 
@@ -20,23 +20,23 @@ Seven stacks, five languages, and each time the sensors had to come along, their
 
 It sounds like a copy and a few renames. It never is:
 
-> changing 'stack', migrating code is not easy as i looks. because different platform running at various speed. some senors would need a delay/waiting, some do not. some chips may just run slower than the sensors by its nature.
+> Changing stacks and migrating code is not as easy as it looks, because different platforms run at different speeds. Some sensors need a delay or a wait, some don't. Some chips simply run slower than the sensors, by their nature.
 
 Two examples, both from their datasheets. A DS18B20 needs up to 750 ms to convert a temperature at its full 12-bit resolution: ask too soon and it hands back the old one, so the code has to wait, and how it waits is different on every platform. An HX711 is clocked by the host pin by pin, and a clock held high for more than 60 µs puts it to sleep. A fast board has to slow down for it; on a slow one, or one interrupted at the wrong moment, the pulse may stretch past the limit on its own.
 
 None of that shows when the code compiles. It shows on the bench, and only there:
 
-> And each time by the 'field test' style, it wound take a while.
+> And each time, field-testing it, it would take a while.
 
 ## The datasheet first
 
 Out of those years came one rule:
 
-> always respect the datasheets as the first hand material, not libraries.
+> Always respect the datasheets as the first-hand material, not the libraries.
 
-A library is somebody's reading of the datasheet, made for their board and their needs. Some grow, as Weihong puts it, "too complicated with the feature not needed". And most sit on top of something bigger still:
+A library is somebody's reading of the datasheet, made for their board and their needs. Some grow, as Weihong puts it, "too complicated, with features nobody needs". And most sit on top of something bigger still:
 
-> most libraries rely on lower layers that have grown too heavy to explore.
+> Most libraries rely on lower layers that have grown too heavy to explore.
 
 When a reading is wrong, the answer is somewhere in those layers, and the deeper they go the harder it is to find. The datasheet is shorter. It says what the chip does, and nothing about anyone's board.
 
