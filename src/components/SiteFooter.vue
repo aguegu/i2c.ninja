@@ -14,7 +14,7 @@ const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
 const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
 const GROUPS = [
-  { head: 'Algorithms', links: ALGORITHM_LINKS },
+  { head: 'Algorithms', to: '/algorithms', links: ALGORITHM_LINKS },
   { head: 'Learn', links: COURSE_LINKS },
   { head: 'Get started', links: start },
   { head: 'Elsewhere', links: ELSEWHERE_LINKS },
@@ -57,7 +57,8 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
       <div class="grid gap-x-8 sm:grid-cols-4 sm:gap-y-5">
         <details v-for="g in GROUPS" :key="g.head" class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
           <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none sm:mb-1.5']">
-            {{ g.head }}
+            <RouterLink v-if="g.to" :to="g.to" class="pointer-events-auto hover:text-emerald-600">{{ g.head }}</RouterLink>
+            <template v-else>{{ g.head }}</template>
             <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
           </summary>
           <ul class="flex flex-wrap gap-x-4 pb-1 sm:block sm:pb-0">

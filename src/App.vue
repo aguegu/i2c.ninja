@@ -41,7 +41,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
         <nav class="ml-auto hidden items-center gap-5 text-sm text-slate-500 sm:flex dark:text-slate-400" aria-label="Main">
           <NavMenu label="Physics" :links="PHYSICS_LINKS" :recent="PHYSICS_LINKS.length > MENU_RECENT_FROM ? recentOf(PHYSICS_LINKS, 'physics') : []" :all="{ to: '/physics', label: 'All topics' }" />
           <NavMenu label="Devices" :links="DEVICE_LINKS" :recent="withLabels(recent, 'device')" :all="{ to: '/devices', label: 'All devices' }" wide />
-          <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? recentOf(ALGORITHM_LINKS, 'algorithm') : []" />
+          <NavMenu label="Algorithms" :links="ALGORITHM_LINKS" :recent="ALGORITHM_LINKS.length > MENU_RECENT_FROM ? recentOf(ALGORITHM_LINKS, 'algorithm') : []" :all="{ to: '/algorithms', label: 'All algorithms' }" />
           <RouterLink to="/get-started" :class="navLink" active-class="text-emerald-600">Get started</RouterLink>
         </nav>
         <a :href="ATIIC" class="hidden rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 sm:block dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100" title="atiic on GitHub: the drivers" aria-label="atiic on GitHub">
@@ -71,7 +71,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
           <p class="flex items-center gap-1.5 px-3 pt-1.5 text-[11px] tracking-wide text-slate-400 uppercase"><span class="inline-block size-2 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.head }}</p>
           <RouterLink v-for="l in g.links" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }} <span class="text-xs text-slate-400">{{ l.note }}</span></RouterLink>
         </template>
-        <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
+        <RouterLink to="/algorithms" class="block px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase hover:text-emerald-600">Algorithms →</RouterLink>
         <RouterLink v-for="l in ALGORITHM_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
         <RouterLink to="/get-started" :class="mobileLink">Set up the bridge</RouterLink>

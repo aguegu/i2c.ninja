@@ -82,6 +82,12 @@ export const PAGES = [
     links: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title })),
   },
   {
+    path: '/algorithms',
+    title: 'Algorithms: combining sensors, live',
+    description: 'The maths that turns I2C sensor readings into what no single sensor gives, every formula with its live numbers: attitude from an accelerometer and a gyro.',
+    links: ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title })),
+  },
+  {
     path: '/learn',
     title: 'Learn: courses through the physics, the sensors and the maths',
     description: 'Step-by-step courses through this site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, with sensors live in the browser.',
