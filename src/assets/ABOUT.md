@@ -25,7 +25,7 @@ Commercial opportunities are welcome:
 - **Kits and teaching**: dongle-and-sensor kits around these pages, for workshops, schools and labs.
 - **Commercial use** of i2c.ninja's code or content, under a license of its own.
 
-Write to [support@meshmass.com](mailto:support@meshmass.com), or see [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc).
+Write to [support@meshmass.com](mailto:support@meshmass.com).
 
 Legal disclaimer
 ---
@@ -36,8 +36,8 @@ This site talks, from your browser, to USB devices you choose: a USB dongle (a C
 
 The site, its device pages and the drivers behind them are experimental. They are provided **as is**, without warranty of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, correctness, or safety. They are intended for hobby, educational, and prototyping use only and are **not** suitable for life-critical, medical, or otherwise safety-critical applications.
 
-You are solely responsible for how you use the site and the hardware connected to it. Neither the author nor [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc) accept liability for any damage, injury, loss, or regulatory infraction arising from its use.
+You are solely responsible for how you use the site and the hardware connected to it. The author accepts no liability for any damage, injury, loss, or regulatory infraction arising from its use.
 
 **USE AT YOUR OWN RISK.**
 
-&copy; [Fuzhou Sourcekit Electronics Ltd](https://sourcekit.cc)
+&copy; 2026 Weihong Guan (aGuegu)

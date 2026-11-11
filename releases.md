@@ -12,6 +12,10 @@
   first; the footer reads "free to use; for copies and reuse, …" (was "free
   for noncommercial use"); the licenses post gets a row for schools and
   training centres and an update of 11 November.
+- **Sourcekit off the About page** (the user: "I think we can put down
+  sourcekit from it. Dart may be manufactured by other company."): the
+  contact is the email alone, the disclaimer names the author, and the
+  copyright line reads "© 2026 Weihong Guan (aGuegu)", as LICENSE does.
 
 ## 1.6.13
 
