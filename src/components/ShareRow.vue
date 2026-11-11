@@ -14,7 +14,12 @@ import { ORIGIN, pageFor, fullTitle } from '../lib/pages.js';
 const route = useRoute();
 const url = computed(() => `${ORIGIN}${route.path === '/' ? '/' : route.path}`);
 // an alias (/mpu6500) titled as its page, as the router does
-const title = computed(() => fullTitle(pageFor(route.matched[0]?.aliasOf?.path ?? route.path)));
+const page = computed(() => pageFor(route.matched[0]?.aliasOf?.path ?? route.path));
+const title = computed(() => fullTitle(page.value));
+// the text beside the link on X and Reddit: the page's own name, without
+// the site's (X turns a bare "i2c.ninja" into a link of its own and builds
+// its card from the first link: the home page's, not this page's)
+const shareText = computed(() => (page.value.path === '/' ? title.value : page.value.heading ?? page.value.title));
 const canShare = typeof navigator !== 'undefined' && 'share' in navigator;
 const copied = ref(false);
 
@@ -26,10 +31,10 @@ const MAIL = 'M3 5h18v14H3zM3 6l9 7l9-7';
 const LINK = 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1';
 const SHARE = 'M12 3v12M7 8l5-5l5 5M5 13v6h14v-6';
 const NETWORKS = [
-  { name: 'X', path: siX.path, href: (u, t) => `https://x.com/intent/post?url=${e(u)}&text=${e(t)}` },
+  { name: 'X', path: siX.path, href: (u, t) => `https://x.com/intent/post?url=${e(u)}&text=${e(t)}`, short: true },
   { name: 'Facebook', path: siFacebook.path, href: (u) => `https://www.facebook.com/sharer/sharer.php?u=${e(u)}` },
   { name: 'LinkedIn', path: LINKEDIN, rule: 'evenodd', href: (u) => `https://www.linkedin.com/sharing/share-offsite/?url=${e(u)}` },
-  { name: 'Reddit', path: siReddit.path, href: (u, t) => `https://www.reddit.com/submit?url=${e(u)}&title=${e(t)}` },
+  { name: 'Reddit', path: siReddit.path, href: (u, t) => `https://www.reddit.com/submit?url=${e(u)}&title=${e(t)}`, short: true },
 ];
 // the QR code: a pop-up, dark on white whatever the theme (scanners need it);
 // shut by a click outside or Esc
@@ -69,7 +74,7 @@ const icon = 'flex h-8 w-8 items-center justify-center rounded-full border borde
     <button v-if="canShare" type="button" :class="icon" title="Share…" aria-label="Share…" @click="share">
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="SHARE" /></svg>
     </button>
-    <a v-for="n in NETWORKS" :key="n.name" :href="n.href(url, title)" target="_blank" rel="noopener noreferrer" :class="icon" :title="`Share on ${n.name}`" :aria-label="`Share on ${n.name}`">
+    <a v-for="n in NETWORKS" :key="n.name" :href="n.href(url, n.short ? shareText : title)" target="_blank" rel="noopener noreferrer" :class="icon" :title="`Share on ${n.name}`" :aria-label="`Share on ${n.name}`">
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true"><path :d="n.path" :fill-rule="n.rule ?? 'nonzero'" /></svg>
     </a>
     <a :href="`mailto:?subject=${e(title)}&body=${e(url)}`" :class="icon" title="Email the link" aria-label="Email the link">
