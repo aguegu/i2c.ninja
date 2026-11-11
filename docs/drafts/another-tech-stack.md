@@ -1,81 +1,81 @@
-<!-- A draft post, not published: back to src/blog/ and src/lib/blog.js when its turn comes (the user, 2026-11-11: "we would draft another blog for it. let's finished the science one first"). -->
+<!-- A draft post, not published: back to src/blog/ and src/lib/blog.js when its turn comes (the user, 2026-11-11: "we would draft another blog for it. let's finished the science one first"). Written for students and teachers without EE or CS training (the user, 2026-11-11). -->
 
-"Another tech stack" came up in [the last post](/blog/the-science-first) as the thing a student shouldn't need. That phrase has a history. Long before coding agents, Weihong went through most of the mainstream devkits, and every one of them came to the same point:
+In [the last post](/blog/the-science-first), "another tech stack" was the thing a student shouldn't need. A tech stack is everything that has to be learnt and set up before a project works: a circuit board, the program that writes code for it, the language, the add-ons. That phrase has a story behind it. Long before AI could write code, Weihong tried most of the popular boards for makers, and every one of them led to the same place:
 
 > I have played with most mainstream devkits, and it always comes to a point where I need some sensors attached.
 
-A trail across a decade, and only part of it:
+Here are some of them, across more than a decade:
 
-- **[Arduino](https://www.arduino.cc)**, C++ (from 2013)
-- **[STM32](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)** on ST's standard peripheral library, C++ (from 2013)
-- **[Raspberry Pi](https://www.raspberrypi.com)**, Python (2014)
-- **[NodeMCU](https://nodemcu.readthedocs.io)**, Lua (2017)
-- **[STM8](https://www.st.com/en/microcontrollers-microprocessors/stm8-8-bit-mcus.html)** with [SDCC](https://sdcc.sourceforge.net) on Linux, C (2018)
-- **[micro:bit](https://makecode.microbit.org)** in MakeCode, TypeScript (2024)
-- **[WCH](https://www.wch-ic.com)'s RISC-V chips**, the CH5xx with Bluetooth and the CH32V, C (2026): the newest, an open instruction set
+- **[Arduino](https://www.arduino.cc)**, programmed in C++ (from 2013)
+- **[STM32](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)**, in C++ (from 2013)
+- **[Raspberry Pi](https://www.raspberrypi.com)**, a small computer, in Python (2014)
+- **[NodeMCU](https://nodemcu.readthedocs.io)**, a Wi-Fi board, in Lua (2017)
+- **[STM8](https://www.st.com/en/microcontrollers-microprocessors/stm8-8-bit-mcus.html)**, in C (2018)
+- **[micro:bit](https://makecode.microbit.org)**, the classroom board, in MakeCode and TypeScript (2024)
+- **[WCH](https://www.wch-ic.com)'s RISC-V chips**, the newest, in C (2026)
 
-Seven stacks, five languages, and each time the sensors had to come along, their drivers written again for the new board.
+Seven boards, five programming languages. And each time, the sensors came along, and the code that talks to each sensor, its driver, had to be written again for the new board.
 
-## Porting isn't copying
+## Moving code isn't copying it
 
-It sounds like a copy and a few renames. It never is:
+It sounds like copy and paste. It never is:
 
 > Changing stacks and migrating code is not as easy as it looks, because different platforms run at different speeds. Some sensors need a delay or a wait, some don't. Some chips simply run slower than the sensors, by their nature.
 
-Two examples, both from their datasheets. A DS18B20 needs up to 750 ms to convert a temperature at its full 12-bit resolution: ask too soon and it hands back the old one, so the code has to wait, and how it waits is different on every platform. An HX711 is clocked by the host pin by pin, and a clock held high for more than 60 µs puts it to sleep. A fast board has to slow down for it; on a slow one, or one interrupted at the wrong moment, the pulse may stretch past the limit on its own.
+Think of a sensor as a person you're asking questions. Some answer at once. Some need time to think: a common thermometer chip, the DS18B20, needs up to three quarters of a second to measure a temperature properly, and if you ask again too soon it just repeats its old answer. Others are fussy about how fast you talk: a chip used in kitchen scales, the HX711, falls asleep if one of its signals is held for longer than 60 millionths of a second. A fast board has to slow down for it; a slow board may stumble past that limit without meaning to.
 
-None of that shows when the code compiles. It shows on the bench, and only there:
+None of this shows up while writing the code. It shows up on the workbench, with the real sensor wired up, and only there:
 
 > And each time, field-testing it, it would take a while.
 
 ## The datasheet first
 
-Out of those years came one rule:
+Every chip comes with a datasheet: its makers' own description of how it works, what to send it and what it answers. Out of those years came one rule:
 
 > Always respect the datasheets as the first-hand material, not the libraries.
 
-A library is somebody's reading of the datasheet, made for their board and their needs. Some grow, as Weihong puts it, "too complicated, with features nobody needs". And most sit on top of something bigger still:
+A library is ready-made code someone shared for a sensor. It's that person's reading of the datasheet, written for their board and their needs. Some grow, as Weihong puts it, "too complicated, with features nobody needs". And most are built on top of other code, layer upon layer:
 
 > Most libraries rely on lower layers that have grown too heavy to explore.
 
-When a reading is wrong, the answer is somewhere in those layers, and the deeper they go the harder it is to find. The datasheet is shorter. It says what the chip does, and nothing about anyone's board.
+When a reading comes out wrong, the mistake is hiding somewhere in those layers, and the more layers there are, the harder it is to find. The datasheet is shorter. It says what the chip does, and nothing about anyone's board.
 
-## Why atiic looks the way it does
+## Why atiic is built the way it is
 
-That's the reason for atiic's shape. Its drivers are [the datasheet in code](/blog/reloaded): registers, timings and conversions as the chip's makers wrote them, bound to no board. The bus underneath is a small interface, a few calls to write and read, so the same driver runs over a USB-to-I²C bridge in a browser or in Node, and each driver is field-tested here, on these pages, with a real module. Three choices hold it up: a PC, Linux and JavaScript.
+[atiic](https://github.com/aguegu/atiic) is the collection of sensor drivers behind every page of this site, each one [the datasheet in code](/blog/reloaded), tied to no board. Three choices shape it: a PC, Linux and JavaScript.
 
 ### Why a PC
 
 > A PC is supposed to run way faster than the sensors' communication buses, so a delay can be well measured.
 
-On a small board, the board's own speed is part of the puzzle: a wait that works on one chip is too short on a faster one and too long on a slower one. A PC is never the slow side of an I²C bus. The waits a datasheet asks for become plain numbers in the driver, there because the chip needs them and not because of whatever the host happened to be doing. The USB bridge adds a round trip of its own, but that's the same on every PC.
+The wires a sensor talks over are slow compared with a computer. On a small board, the board's own speed gets mixed into the problem: a wait that works on one board is too short on a faster one and too long on a slower one. A PC is always the quick one in the conversation, so every wait in a driver is there because the sensor's datasheet asks for it, written down as a plain number.
 
 ### Why Linux
 
 > On Linux the USB interface is much easier to manage. And the foundation is the Linux kernel, which we can have much more confidence in than a hobbyist's sharing.
 
-atiic's board tests run on Linux, talking to the bridge through the kernel's own USB stack: no vendor driver to install, nothing between the code and the wire that thousands of people don't already depend on. The site itself runs wherever a Chromium browser does, Windows and Android included; Linux is the bench where each driver is proved first.
+The kernel is the heart of the Linux system, the part that talks to hardware like USB, used and checked by millions of people. Building on it means trusting something tested far more than any one person's shared code. Linux is where each driver is proven first; the site itself then runs in a browser on Windows, macOS, Linux or Android.
 
 ### Why JavaScript
 
 > JS is a high-level language that is easy for humans to understand. I personally like its syntax very much. With the built-in buffers, the code looks very similar to the C written for most embedded systems. And it runs both on the system, in Node.js, and in the browser.
 
-The buffers are the language's own: [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) and [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array), raw bytes in every browser, and Node's [`Buffer`](https://nodejs.org/api/buffer.html), itself a `Uint8Array`. Bytes in, bytes out, as on a microcontroller. Here is atiic's SHT20 turning its two data bytes into a temperature, the formula straight from its datasheet, T = -46.85 + 175.72 · S / 2¹⁶:
+A sensor answers in bytes, small numbers from 0 to 255. JavaScript has built-in ways to hold them, [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) and [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) in the browser and [`Buffer`](https://nodejs.org/api/buffer.html) in Node.js, so the code that turns bytes into a reading looks almost the same as C, the language most chips are programmed in. Here is a temperature sensor, the SHT20, turning its answer into degrees Celsius with the formula from its datasheet, T = -46.85 + 175.72 × S / 2¹⁶. In JavaScript, from atiic:
 
 ```js
-const s = ((d[0] << 8) | d[1]) & ~STATUS_BITS;
 const t = -46.85 + (175.72 * s) / 65536;
 ```
 
-and the same two lines in C:
+and in C:
 
 ```c
-uint16_t s = ((d[0] << 8) | d[1]) & ~STATUS_BITS;
 float t = -46.85f + (175.72f * s) / 65536;
 ```
 
-Only the types differ. A driver reads line by line against its datasheet, or against a C driver someone wrote for a board. And since atiic keeps its bytes in `Uint8Array`s, the same file runs in Node for the board tests and in the browser for these pages, unchanged.
+Only the first word changes. Anyone can hold the code next to the datasheet and check it, line by line. And the very same JavaScript runs in Node.js, on a computer, and in the browser, on these pages.
 
-The other half of JavaScript is everything around it. Backend and frontend development have built every wheel a driver needs, and testing is one of them. Node ships its own test runner, so each atiic driver has two kinds of test: one on the desk, against a fake chip that answers the datasheet's bytes (the SHT20's checksum is tested on the datasheet's own example, 0x63 0x52 giving 0x64), and one on the bench, against the real module over a real bridge. On a microcontroller, each of those would be a project of its own.
+The other half of JavaScript is everything that comes with it. Websites and servers are built with it every day, so the tools are already there, ready to use. Testing is one of them: each atiic driver is tested twice, once on the desk against a pretend sensor that answers exactly as its datasheet says (the SHT20's check on its data is tested with the datasheet's own example), and once on the workbench with the real sensor wired up. On a small board, either of those would be a project of its own.
 
-And it's the reason i2c.ninja asks for no stack at all. A decade of porting the same sensors from board to board is a good teacher, but it's a long way round to the physics. Here the stack is a bridge and a browser, and the sensor is the lesson.
+## And why this site asks for none of it
+
+A decade of moving the same sensors from board to board is a good teacher, but it's a long way round to the science. Here the whole stack is a bridge and a browser, and the sensor is the lesson.
