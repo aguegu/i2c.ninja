@@ -1,5 +1,24 @@
 # Releases
 
+## 1.8.13
+
+1.8.10 to 1.8.13, deployed together.
+
+- **A post: [Another tech stack, the same sensors](/blog/another-tech-stack)**
+  (the pitfall story behind "another tech stack": a decade of maker boards,
+  sensors with their own timing, one code for every chip, and the fun of
+  less), with two comics. Its sequel, the datasheet first and why atiic is
+  built as it is, waits in docs/drafts/.
+- **Weihong's quotes tidied** in the science-first post (the user: "you
+  could fix my quotes").
+- **Sharing on X**: the share text is the page's own name. With "| i2c.ninja"
+  in it, X linked the bare domain and showed the home page's card, not the
+  post's comic (the user's share of A dongle for a bridge).
+- **A new general preview card**, drawn as comics (the user: "we have many
+  pretty materials to make cards now"): physics, devices and algorithms over
+  the site's band. Every preview image's address now carries `?v=` and its
+  content's hash, so a redrawn card is fetched again.
+
 ## 1.8.9
 
 The science-first post: **Ideas come from combining** (the user:
