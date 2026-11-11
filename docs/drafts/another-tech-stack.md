@@ -24,6 +24,24 @@ It sounds like copy and paste. It never is:
 
 Think of a sensor as a person you're asking questions. Some answer at once. Some need time to think: a common thermometer chip, the DS18B20, needs up to three quarters of a second to measure a temperature properly, and if you ask again too soon it just repeats its old answer. Others are fussy about how fast you talk: a chip used in kitchen scales, the HX711, falls asleep if one of its signals is held for longer than 60 millionths of a second. A fast board has to slow down for it; a slow board may stumble past that limit without meaning to.
 
+The boards don't make it easier by trying to be the same, either. Arduino set out to make one way of writing code work on every chip, from the smallest to the fastest. It's a generous goal, and it comes at a price Weihong knows well:
+
+> Arduino tries to make itself work on different architectures, from the low end to the high end, with macro-defined if conditions everywhere in the core libraries.
+
+Those conditions are lines that switch code on or off depending on the chip it's being built for. Here's how Arduino's own [Servo library](https://github.com/arduino-libraries/Servo/blob/master/src/Servo.h), the code that turns a small motor arm, picks its timing code:
+
+```c
+#if defined(ARDUINO_ARCH_AVR)
+#include "avr/ServoTimers.h"
+#elif defined(ARDUINO_ARCH_SAM)
+#include "sam/ServoTimers.h"
+#elif defined(ARDUINO_ARCH_SAMD)
+#include "samd/ServoTimers.h"
+...
+```
+
+and eight more chip families after those. The code reads the same on every board, but underneath it's a different program for each one. When something goes wrong, the first job is working out which of those branches is even in play.
+
 None of this shows up while writing the code. It shows up on the workbench, with the real sensor wired up, and only there:
 
 > And each time, field-testing it, it would take a while.
