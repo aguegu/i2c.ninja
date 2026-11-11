@@ -4,14 +4,6 @@
 // (2026-11-06-..., version null). banner: a comic strip at its top (public/blog). Quotes are Weihong's words (Weihong makes the site).
 export const POSTS = [
   {
-    slug: 'another-tech-stack',
-    title: 'Another tech stack, the same sensors',
-    date: '2026-11-11',
-    version: '1.8.8',
-    summary: 'A decade of devkits, Arduino to the micro:bit, and the same sensors ported to each: why it\'s never a copy, and why atiic and this site start from the datasheet.',
-    markdown: () => import('../blog/1.8.08-another-tech-stack.md?raw'),
-  },
-  {
     slug: 'the-science-first',
     title: 'The science first, programming optional',
     date: '2026-11-11',
