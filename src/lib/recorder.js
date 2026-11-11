@@ -43,6 +43,7 @@ export const recording = ref(false);
 export const rows = ref(0);
 export const bytes = ref(0);
 export const startedAt = ref(null); // a Date
+export const fileName = ref(''); // the CSV's, while it runs
 export const room = ref(null); // bytes left in the site's quota, or null
 export const failure = ref(null);
 // a recording left from before, { name, size, started, saved }
@@ -162,6 +163,7 @@ export async function startRecording(label) {
   rows.value = 0;
   bytes.value = 0;
   startedAt.value = started;
+  fileName.value = name;
   recording.value = true;
   batchTimer = setInterval(sendBatch, BATCH_MS);
   readRoom();

@@ -7,6 +7,7 @@ import { useRoute } from 'vue-router';
 import NavMenu from './components/NavMenu.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import PerfMeter from './components/PerfMeter.vue';
+import RecordingBar from './components/RecordingBar.vue';
 import { meterOn, setMeter } from './lib/perf.js';
 import { useTheme } from './lib/theme.js';
 import { updateReady, applyUpdate } from './lib/pwa.js';
@@ -36,6 +37,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
 
 <template>
   <div class="flex min-h-screen flex-col bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100">
+    <RecordingBar />
     <header class="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
       <div class="mx-auto flex h-14 max-w-5xl items-center gap-5 px-4">
         <div class="flex items-center gap-2">
