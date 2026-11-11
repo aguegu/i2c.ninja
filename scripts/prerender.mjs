@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { PAGES, ORIGIN, SITE, fullTitle, DESCRIBE_MAX } from '../src/lib/pages.js';
 import { DEVICES_BY_GROUP } from '../src/lib/devices.js';
 import { PHYSICS } from '../src/lib/physics.js';
@@ -24,8 +25,13 @@ import { MOVED } from '../src/lib/moved.js';
 import { ALIASES } from '../src/lib/aliases.js'; // the router's too: their own files, canonical to the page
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
-const IMAGE = `${ORIGIN}/og-card.png`; // 1200 x 630, from scripts/og-card.svg (rsvg-convert -w 1200 -h 630); a page may have its own (page.image)
-const IMAGE_ALT = 'i2c.ninja: I2C sensors, live and explained, in your browser over a USB dongle';
+// a preview image's address with ?v= its content's hash: a card redrawn gets a
+// new address, so X and the rest fetch it again instead of keeping the old
+// one (they cache an image by its address)
+const PUBLIC = fileURLToPath(new URL('../public/', import.meta.url));
+const versioned = (path) => `${ORIGIN}${path}?v=${createHash('sha256').update(readFileSync(PUBLIC + path.slice(1))).digest('hex').slice(0, 8)}`;
+const IMAGE = versioned('/og-card.png'); // 1200 x 630, from scripts/og-card.svg (rsvg-convert -w 1200 -h 630); a page may have its own (page.image)
+const IMAGE_ALT = 'i2c.ninja, sensors live and explained: three comic panels, physics (a screen shows 1 g pointing up, "Why up?"), devices (a sensor wired to a USB-to-I2C bridge and a laptop with a live chart, "Live!") and algorithms (a pilot\'s horizon rolled 20°, "Like a pilot!")';
 const template = readFileSync(`${DIST}index.html`, 'utf8');
 
 const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -96,7 +102,7 @@ function render(page, { robots } = {}) {
     `<meta property="og:title" content="${title}">`,
     `<meta property="og:description" content="${description}">`,
     `<meta property="og:url" content="${url}">`,
-    `<meta property="og:image" content="${page.image ? ORIGIN + page.image : IMAGE}">`,
+    `<meta property="og:image" content="${page.image ? versioned(page.image) : IMAGE}">`,
     '<meta property="og:image:width" content="1200">',
     '<meta property="og:image:height" content="630">',
     `<meta property="og:image:alt" content="${esc(page.imageAlt ?? IMAGE_ALT)}">`,
