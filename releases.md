@@ -26,6 +26,10 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   sensors on many boards for one chip, which differ in their pins' order,
   supply, pull-ups and address pin, so wire by the board's print and check
   its chip against the listing. No shop links, no prices.
+- **Vendor and dealer neutral**, said so (the user: "i2c.ninja stays
+  vendors/dealer neutral unless sponsorship"): on About, before the
+  commercial opportunities (a vendor's link now a sponsored one, marked),
+  and under Where to buy?.
 
 ## 1.6.15
 

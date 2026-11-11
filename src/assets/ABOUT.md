@@ -18,9 +18,11 @@ Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](ht
 Commercial
 ---
 
+i2c.ninja is vendor and dealer neutral: no shop, brand or seller is favoured, and the boards on its pages are the ones we ran, not ones anyone paid for. A sponsor's link, if there is one, is marked as a sponsor's.
+
 Commercial opportunities are welcome:
 
-- **Vendors**: links on a device's page to where to buy that sensor, the dongle or a kit. Links from vendors are marked as such.
+- **Vendors**: a sponsored link on a device's page to where to buy that sensor, the dongle or a kit, marked as such.
 - **Your sensor here**: a page for your module, once its driver has run on a real one on the bench.
 - **Kits and teaching**: dongle-and-sensor kits around these pages, for workshops, schools and labs.
 - **Commercial use** of i2c.ninja's code or content, under a license of its own.

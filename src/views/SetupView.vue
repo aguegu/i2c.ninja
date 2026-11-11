@@ -80,6 +80,10 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           </p>
         </div>
       </div>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        i2c.ninja is vendor and dealer neutral: no shop, brand or seller is
+        favoured. A sponsor's link, if there is one, is marked as a sponsor's.
+      </p>
     </section>
 
     <section :class="card">
