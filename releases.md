@@ -1,5 +1,35 @@
 # Releases
 
+## 1.7.14
+
+What the site gives, said plainly (1.7.1 to 1.7.14, deployed together).
+
+- **Get started, step 5: what it gives you**: a card each for students
+  and hobbyists, teachers, and makers and engineers, with an icon and
+  where to go next. Students: the science first, then play and
+  experiment, their own questions, the raw readings logged and charted
+  for the report (the user: "That would be great for a A+ home
+  assignment"). Teachers: class demos on the projector, every live chart
+  a click from full screen; lab work and home assignments; the drawings
+  and text free for slides and handouts, with credit, paid courses
+  included. Makers: a module checked in a minute, and atiic's drivers,
+  field-tested here, to use as they are or as a reference for their own
+  (the user: "it could be good reference if they would just use it or
+  write their own driver").
+- **The science first, programming optional**: a card on Home above the
+  others (the user: "it helps students to focus on the physics part, like
+  science ... There is no need to dive into 'arduino', 'raspberry pi', and
+  learn another tech stack to make it work"): the lesson goes to the
+  physics and the maths, what is measured, why and how, what the numbers
+  tell and how to use them in the real world.
+- **An Algorithms index** at /algorithms (the user: "maybe we need a
+  algorithm index page too"), as Physics': a card each, the physics it
+  combines as chips. The menus, the footer, Home and Get started link it.
+- **Get started, step 1**: Firefox and Safari's lack of WebUSB in
+  brackets.
+- **Still to come**: the data log the cards above promise (record,
+  CSV, the chart as an image) is 1.8.0's.
+
 ## 1.7.0
 
 A new dongle, a minor version (the user: "I think i2c.ninja can bump to
