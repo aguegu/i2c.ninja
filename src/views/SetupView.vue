@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import SetupCheck from '../components/SetupCheck.vue';
 import { detectPlatform } from '../lib/dongle.js';
 import { ATIIC } from '../lib/nav.js';
+import { ALGORITHMS } from '../lib/algorithms.js';
 
 // tried: whether these steps have run on our bench; the others are what the
 // platforms document, waiting for a bench to try them
@@ -78,7 +79,7 @@ const GAINS = [
     who: 'Teachers',
     icon: 'M3 4h18M4 4v11h16V4M12 15v3M8 21l4-3 4 3M8 11l3-3 2 2 3-3',
     text: 'Lessons with nothing to install: a browser and a bridge, and once visited the site works offline. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
-    links: [{ to: '/learn', label: 'Learn' }, { to: '/blog/three-licenses', label: 'The licenses' }],
+    links: [{ to: `/algorithms/${ALGORITHMS[0].slug}`, label: 'Algorithms' }, { to: '/blog/three-licenses', label: 'The licenses' }],
   },
   {
     who: 'Makers and engineers',
