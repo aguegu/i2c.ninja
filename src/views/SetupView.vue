@@ -3,6 +3,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 import { ref } from 'vue';
 import SetupCheck from '../components/SetupCheck.vue';
 import { detectPlatform } from '../lib/dongle.js';
+import { ATIIC } from '../lib/nav.js';
 
 // tried: whether these steps have run on our bench; the others are what the
 // platforms document, waiting for a bench to try them
@@ -62,6 +63,24 @@ const DONGLE_SETUPS = [
       'Four wires: <b>SDA</b>, <b>SCL</b>, <b>GND</b>, <b>VCC</b>.',
     ],
     sheet: '/dongles/ch341t-2in1.svg',
+  },
+];
+// step 5: what the site gives each kind of reader, once the bridge works
+const GAINS = [
+  {
+    who: 'Students and hobbyists',
+    text: 'A sensor\'s readings live and explained: what it measures, how the chip measures it, the physics behind it, and a course to follow step by step.',
+    links: [{ to: '/devices', label: 'Devices' }, { to: '/physics', label: 'Physics' }, { to: '/learn', label: 'Learn' }],
+  },
+  {
+    who: 'Teachers',
+    text: 'Lessons with nothing to install: a browser and a bridge, and once visited the site works offline. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
+    links: [{ to: '/learn', label: 'Learn' }, { to: '/blog/three-licenses', label: 'The licenses' }],
+  },
+  {
+    who: 'Makers and engineers',
+    text: 'A module checked in a minute: found by its ID, its readings live. The drivers behind every page are atiic\'s, MIT, the same code in your own project, in a browser or in Node. And measured facts about the bridges and chips that their datasheets leave out.',
+    links: [{ href: ATIIC, label: 'atiic' }, { to: '/bridges', label: 'Bridges' }],
   },
 ];
 const TAB_ON = 'border-emerald-600 bg-emerald-600 text-white';
@@ -266,6 +285,22 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         which I2C addresses answer.
       </p>
       <SetupCheck :platform="platform" />
+    </section>
+
+    <section :class="card">
+      <h2 class="mb-3 text-lg font-semibold">5. What it gives you</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div v-for="g in GAINS" :key="g.who" class="flex flex-col gap-2 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+          <h3 class="font-semibold">{{ g.who }}</h3>
+          <p class="text-sm leading-relaxed">{{ g.text }}</p>
+          <p class="mt-auto flex flex-wrap gap-x-3 text-sm">
+            <template v-for="l in g.links" :key="l.label">
+              <a v-if="l.href" :href="l.href" class="text-emerald-700 underline dark:text-emerald-400">{{ l.label }}</a>
+              <RouterLink v-else :to="l.to" class="text-emerald-700 underline dark:text-emerald-400">{{ l.label }}</RouterLink>
+            </template>
+          </p>
+        </div>
+      </div>
     </section>
   </main>
 </template>
