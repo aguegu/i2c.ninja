@@ -58,7 +58,29 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
         <div class="flex flex-col gap-2 leading-relaxed lg:w-2/5">
           <p>
-            <b>Recommended: a CH347T board</b> (LXC-CH347; USB to UART, I2C,
+            <b>Recommended: WCH's CH347F evaluation board</b> (CH347F EVT; I2C,
+            SPI, two serial ports and eight I/O lines at once, high speed). No
+            modes to set: just check that <b>JP1</b> joins its bottom pair
+            (3V3 to VIO).
+          </p>
+          <p>
+            Then four wires to the device from its <b>P5</b> header:
+            <b>SDA</b>, <b>SCL</b>, <b>GND</b>, and the pin printed
+            <b>3V3</b> (VIO, 3.3 V) for the device's VCC.
+          </p>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Every pin of the board, its jumpers and the chips on its buses: its
+            <a href="/dongles/ch347f-evt.svg" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
+          </p>
+        </div>
+        <SvgDrawing src="/dongles/ch347f-evt.svg" alt="WCH's CH347F evaluation board, USB-B down: P5, the I2C header, at its top left (SDA, SCL, GND, 3V3), JP1 beside it on its bottom pair" class="mx-auto w-full lg:w-3/5" />
+      </div>
+
+      <h3 class="mt-6 mb-2 font-semibold">Or a CH347T board (LXC-CH347)</h3>
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+        <div class="flex flex-col gap-2 leading-relaxed lg:w-2/5">
+          <p>
+            <b>A CH347T board</b> (LXC-CH347; USB to UART, I2C,
             SPI, high speed). Set its switch with it unplugged:
             <b>S1 on, S2 off</b> (mode 1: I2C and SPI beside a serial port).
           </p>

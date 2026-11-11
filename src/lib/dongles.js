@@ -1,4 +1,5 @@
-// The USB dongles we know, the recommended one first: each one run on our bench, drawn from the board
+// The USB dongles we know, the recommended one first (WCH's CH347F EVT,
+// the user's pick until a dongle of our own): each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
 // site: whether this site runs on it; effort: how hard the board is to find
 // your way on, by its pins, 1 (easy) to 5 stars, and why; look: how to
@@ -9,13 +10,31 @@ export const ATIIC_DOCS = 'https://github.com/aguegu/atiic/blob/main/docs';
 
 export const DONGLES = [
   {
+    id: 'ch347f',
+    name: 'CH347F EVT (WCH)',
+    kind: 'USB to two UARTs / I2C / SPI / JTAG / I/O, high speed, all at once',
+    sheet: '/dongles/ch347f-evt.svg',
+    alt: 'WCH\'s CH347F evaluation board, USB-B down: its seven headers pin by pin, each pin\'s role and its I/O name, the three jumpers, the EEPROM and flash on its buses',
+    site: true,
+    recommended: true,
+    effort: 4,
+    effortWhy: 'seven headers and three jumpers, an EEPROM and a flash on its buses; no modes to set, though',
+    look: [
+      'WCH\'s own blue board with a USB-B socket, "CH347F-EVT-R0-1v0" printed by it',
+      'Headers marked P2 and P3 (UART0, UART1), P4 (SPI), P5 (I2C), P6 (JTAG), jumpers JP1, P7, P8',
+      'A square CH347F chip (28 pins), an 8 MHz crystal, a 24C02 EEPROM and a W25Q16 flash',
+    ],
+    search: 'WCH CH347F EVT evaluation board',
+    note: 'No modes: I2C, SPI, two serial ports and eight I/O lines at once. JP1 on its bottom pair (3V3 to VIO). Its I2C is on UART1\'s flow-control pins, switched on when the site opens it; its SPI (to 60 MHz) and eight I/O lines drive displays in atiic. The board\'s EEPROM answers at 0x50.',
+    doc: `${ATIIC_DOCS}/ch347.md`,
+  },
+  {
     id: 'ch347t',
     name: 'LXC-CH347 (CH347T)',
     kind: 'USB to UART / I2C / SPI / JTAG, high speed',
     sheet: '/dongles/ch347t-lxc.svg',
     alt: 'The LXC-CH347 board, USB-C down: its two 16-pin rows, each pin\'s silkscreen, back label and role in mode 1, the mode switch',
     site: true,
-    recommended: true,
     effort: 3,
     effortWhy: '32 pins named for every mode at once, several on the same chip pin (the UART0 and JTAG headers repeat SPI and I2C), and a mode switch',
     look: [
@@ -76,11 +95,11 @@ export const EFFORT = ['', 'easy', 'moderate', 'harder', 'hard', 'hardest'];
 
 export const COMPARE = [
   { label: 'Difficulty', cells: DONGLES.map((d) => `${STARS(d.effort)} ${EFFORT[d.effort]}`) },
-  { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page'] },
-  { label: 'USB', cells: ['high speed (480 Mbit/s), USB-C', 'full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A'] },
-  { label: 'I2C', cells: ['20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
-  { label: 'SPI', cells: ['yes, up to 60 MHz', 'no', 'yes'] },
-  { label: 'Digital I/O lines', cells: ['5: IO2, IO4, IO5, IO6, IO7', 'none', '8: D0 to D5 in and out, D6 and D7 in'] },
-  { label: 'Serial port', cells: ['beside I2C and SPI, always', 'instead of I2C (yellow jumper on TTL)', 'instead of I2C/SPI (jumper on UART)'] },
-  { label: 'Voltage', cells: ['3.3 V', '3.3 or 5 V (green jumper)', '3.3 or 5 V (jumper)'] },
+  { label: 'On this site', cells: ['yes, every page', 'yes, every page', 'yes, every page', 'yes, every page'] },
+  { label: 'USB', cells: ['high speed (480 Mbit/s), USB-B', 'high speed (480 Mbit/s), USB-C', 'full speed (12 Mbit/s), USB-A', 'full speed (12 Mbit/s), USB-A'] },
+  { label: 'I2C', cells: ['20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz', '20, 100, 400, 750 kHz'] },
+  { label: 'SPI', cells: ['yes, up to 60 MHz', 'yes, up to 60 MHz', 'no', 'yes'] },
+  { label: 'Digital I/O lines', cells: ['8: IO0 to IO7', '5: IO2, IO4, IO5, IO6, IO7', 'none', '8: D0 to D5 in and out, D6 and D7 in'] },
+  { label: 'Serial port', cells: ['two, beside I2C and SPI, always', 'beside I2C and SPI, always', 'instead of I2C (yellow jumper on TTL)', 'instead of I2C/SPI (jumper on UART)'] },
+  { label: 'Voltage', cells: ['3.3 V (JP1)', '3.3 V', '3.3 or 5 V (green jumper)', '3.3 or 5 V (jumper)'] },
 ];

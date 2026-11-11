@@ -1,5 +1,19 @@
 # Releases
 
+## 1.6.16
+
+- **WCH's CH347F EVT, the recommended dongle** (the user's plan of 7
+  November: "I would like to have ch347f evt as the first recommendation of
+  dongles before we made our own one"), on atiic 1.6.1, which switches its
+  I2C on when it opens (its I2C pins start as UART1's flow control) and
+  drives it right after a missing device. Board-tested on our bench: I2C
+  (an MPU-6500, its FIFO at 1 kHz), SPI to 60 MHz and all eight I/O lines
+  (an ST7789 240x320). Dongles: first, recommended, its cheatsheet
+  (`public/dongles/ch347f-evt.svg`: the headers, the jumpers, the EEPROM
+  and flash on its buses), a column in the table; the CH347T after it.
+  Get started: the CH347F first (JP1, four wires from P5), the CH347T
+  after.
+
 ## 1.6.15
 
 - **The releases name no company**: the notes of 1.0.27, 1.6.2 and 1.6.14
