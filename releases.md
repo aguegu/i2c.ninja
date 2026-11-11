@@ -8,7 +8,7 @@
   (the pitfall story behind "another tech stack": a decade of maker boards,
   sensors with their own timing, one code for every chip, and the fun of
   less), with two comics. Its sequel, the datasheet first and why atiic is
-  built as it is, waits in docs/drafts/.
+  built as it is, waits for a later post.
 - **Weihong's quotes tidied** in the science-first post (the user: "you
   could fix my quotes").
 - **Sharing on X**: the share text is the page's own name. With "| i2c.ninja"
@@ -34,7 +34,7 @@ a sensor lesson without another tech stack, four wires, a bridge and a
 browser, and the lesson on the physics and the maths. Two comics: the
 banner (the usual way, four wires, the science) and one for what is
 measured, what the numbers tell and the real world. The other tech-stack
-stories wait for later posts (docs/ideas.md; a draft in docs/drafts/).
+stories wait for later posts.
 
 ## 1.8.7
 
