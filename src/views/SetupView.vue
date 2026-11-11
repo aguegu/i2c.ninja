@@ -73,7 +73,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
             <a href="/dongles/ch347f-evt.svg" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
           </p>
         </div>
-        <SvgDrawing src="/dongles/ch347f-evt.svg" alt="WCH's CH347F evaluation board, USB-B down: P5, the I2C header, at its top left (SDA, SCL, GND, 3V3), JP1 beside it on its bottom pair" class="mx-auto w-full lg:w-3/5" />
+        <SvgDrawing src="/setup-ch347f.svg" alt="WCH's CH347F evaluation board, USB-B down, JP1 on its bottom pair, wired from its P5 header straight across to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 (VIO) to VCC" class="mx-auto w-full lg:w-3/5" />
       </div>
 
       <h3 class="mt-6 mb-2 font-semibold">Or a CH347T board (LXC-CH347)</h3>
