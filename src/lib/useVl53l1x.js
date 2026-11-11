@@ -1,4 +1,4 @@
-// A VL53L1X on the dongle, for a page: found by its model ID at 0x29,
+// A VL53L1X on the bridge, for a page: found by its model ID at 0x29,
 // started by atiic's driver (ST's Ultra Lite Driver sequence), then set to
 // the page's distance mode, timing budget and region of interest; each
 // reading kept with its status, its light back, the background and the
@@ -80,7 +80,7 @@ export function useVl53l1x({ windowMs = 15000, settings: initial = DEFAULTS, onV
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the VL53L1X failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the VL53L1X failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -202,7 +202,7 @@ export function useVl53l1x({ windowMs = 15000, settings: initial = DEFAULTS, onV
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

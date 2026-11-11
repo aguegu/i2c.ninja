@@ -1,5 +1,5 @@
 <script setup>
-// The HMC5883L live on the CH341 dongle: Earth's field on three axes, a
+// The HMC5883L live on the CH341 bridge: Earth's field on three axes, a
 // compass from it (held level), the board's own field calibrated out
 // (MagnetometerViews), its self test, its settings
 import LiveSettings from '../components/LiveSettings.vue';
@@ -36,14 +36,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">HMC5883L</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Honeywell's 3-axis magnetometer: Earth's magnetic field, in microtesla, along three axes, so a compass. Live over a USB-to-I2C dongle, 15 readings a second.
+        Honeywell's 3-axis magnetometer: Earth's magnetic field, in microtesla, along three axes, so a compass. Live over a USB-to-I²C bridge, 15 readings a second.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-hmc5883l.svg" alt="A CH341T dongle wired to an HMC5883L breakout whose pins run RDY, SCL, SDA, 3vo, GND, VIN: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; RDY and 3vo free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-hmc5883l.svg" alt="A CH341T bridge wired to an HMC5883L breakout whose pins run RDY, SCL, SDA, 3vo, GND, VIN: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; RDY and 3vo free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VIN, GND, SCL and SDA; RDY and 3vo stay free. The axes printed on it are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        Four wires: VCC to VIN, GND, SCL and SDA; RDY and 3vo stay free. The axes printed on it are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

@@ -1,4 +1,4 @@
-// An HMC5883L on the CH341 dongle, for a page: found at 0x1E by its ID
+// An HMC5883L on the CH341 bridge, for a page: found at 0x1E by its ID
 // ("H43"), set up by atiic's driver (15 Hz, 8 samples averaged, +/-1.3 Ga),
 // read once a sample period, each reading to onReading's listeners (a page
 // calibrates them: lib/useHardIron.js); its self test on request, the
@@ -39,7 +39,7 @@ export function useHmc5883l() {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the HMC5883L failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the HMC5883L failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -106,7 +106,7 @@ export function useHmc5883l() {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

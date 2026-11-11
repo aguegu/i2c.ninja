@@ -1,4 +1,4 @@
-// A BH1745NUC on the dongle, for a page: found by its part and maker IDs at
+// A BH1745NUC on the bridge, for a page: found by its part and maker IDs at
 // 0x38 or 0x39, started by atiic's driver at a measurement time and gain,
 // read as each measurement ends (its VALID bit): red, green, blue and clear
 // counts; the last windowMs kept for the chart. A failed reading now and then
@@ -49,7 +49,7 @@ export function useBh1745({ windowMs = 60000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: `Reading the BH1745NUC failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the BH1745NUC failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -116,7 +116,7 @@ export function useBh1745({ windowMs = 60000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

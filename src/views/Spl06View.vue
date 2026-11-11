@@ -1,5 +1,5 @@
 <script setup>
-// The SPL06 live on the dongle: air pressure and temperature, its
+// The SPL06 live on the bridge: air pressure and temperature, its
 // datasheet's three use cases to pick, how it's read, its settings; the
 // purple CJMCU board's wiring (from the user's photo)
 import LiveSettings from '../components/LiveSettings.vue';
@@ -44,14 +44,14 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">SPL06</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Goertek's barometric pressure sensor: the weight of the air above it, fine enough to notice the board lifted by a few centimetres, and the temperature. Live over a USB-to-I2C dongle.
+        Goertek's barometric pressure sensor: the weight of the air above it, fine enough to notice the board lifted by a few centimetres, and the temperature. Live over a USB-to-I²C dongle.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-spl06.svg" alt="A CH341T dongle wired to a purple SPL06 module: VCC (3.3 V) to VCC, GND to GND, SCL to SCK, SDA to SDI; CSB and SDO free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-spl06.svg" alt="A CH341T bridge wired to a purple SPL06 module: VCC (3.3 V) to VCC, GND to GND, SCL to SCK, SDA to SDI; CSB and SDO free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The purple CJMCU board: VCC, GND, then SCK and SDI, the SPI names of I2C's SCL and SDA; CSB and SDO stay free (SDO left high: 0x77). <b>3.3 V only</b>: the board has no regulator and the chip takes 3.6 V at most. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The purple CJMCU board: VCC, GND, then SCK and SDI, the SPI names of I2C's SCL and SDA; CSB and SDO stay free (SDO left high: 0x77). <b>3.3 V only</b>: the board has no regulator and the chip takes 3.6 V at most. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 

@@ -43,17 +43,17 @@ export const PAGES = [
   {
     path: '/',
     title: 'Sensors live and explained, for STEM lessons and the bench',
-    description: 'Real sensors live in your browser over a USB-to-I2C dongle, nothing to install: motion, compass, distance, humidity, colour, pulse, power, with the physics behind them.',
+    description: 'Real sensors live in your browser over a USB-to-I2C bridge, nothing to install: motion, compass, distance, humidity, colour, pulse, power, with the physics behind them.',
   },
   {
     path: '/get-started',
-    title: 'Get started: set up the USB-to-I2C dongle (CH347, CH341)',
-    description: 'The CH347 or CH341 USB-to-I2C dongle set up: the mode switch or the jumpers, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
+    title: 'Get started: set up the USB-to-I2C bridge (CH347, CH341)',
+    description: 'The CH347 or CH341 USB-to-I2C bridge set up: the mode switch or the jumpers, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
   },
   {
     path: '/bridges',
     title: 'USB-to-I2C bridges: the ones we tested (CH347F, CH347T, CH341T, CH341A)',
-    description: 'The USB-to-I2C dongles we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
+    description: 'The USB-to-I2C bridges we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
   },
   ...DEVICES.map((d) => ({
     path: d.to,
@@ -73,7 +73,7 @@ export const PAGES = [
   {
     path: '/devices',
     title: 'Devices: I2C sensors live in the browser',
-    description: 'The I2C sensors i2c.ninja reads live over a USB-to-I2C dongle: motion, magnetism, humidity, colour, distance, pulse, power. Each with its wiring, readings and settings.',
+    description: 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, magnetism, humidity, colour, distance, pulse, power. Each with its wiring, readings and settings.',
   },
   {
     path: '/physics',
@@ -111,14 +111,14 @@ export const PAGES = [
   {
     path: '/about',
     title: 'About',
-    description: 'What i2c.ninja is: I2C sensors visualised in the browser, built on atiic\'s drivers, a USB-to-I2C dongle and WebUSB.',
+    description: 'What i2c.ninja is: I2C sensors visualised in the browser, built on atiic\'s drivers, a USB-to-I2C bridge and WebUSB.',
   },
 ];
 
 // search descriptions where the page's own blurb or summary (shown on its
 // card, the blog list) runs past DESCRIBE_MAX
 const DESCRIBE = {
-  '/': 'Real sensors live in your browser over a USB-to-I2C dongle, nothing to install: motion, distance, humidity, colour, pulse, power, and the physics behind them.',
+  '/': 'Real sensors live in your browser over a USB-to-I2C bridge, nothing to install: motion, distance, humidity, colour, pulse, power, and the physics behind them.',
   '/bridges': 'The USB-to-I2C bridges tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
   '/mpu6050': 'MPU-6050 / MPU-6500 by InvenSense: acceleration and rotation on 3 axes each, and temperature, what tilts a phone or a drone. Live in your browser over USB.',
   '/sht20': 'SHT20 by Sensirion: relative humidity and temperature at a resolution you pick, the air\'s water and when a glass sweats. Live in your browser over USB.',
@@ -126,9 +126,9 @@ const DESCRIBE = {
   '/blog/three-licenses': 'Everything here is open; the licenses say what anyone may do: MIT for the drivers, noncommercial for the code, CC BY-NC-SA for the content.',
   '/blog/the-last-generation': 'A terminal Matrix rain from 2013 is made in seconds now. The last generation of human coders? What an agent makes, and why the passion is back.',
   '/blog/three-sensors-from-2012': 'An accelerometer, a compass and a gyro, fourteen years in a drawer, and the device pages, the physics and the algorithm page they led to.',
-  '/blog/a-dongle-for-a-bridge': 'A homemade bridge replaced by a cheap CH341T USB dongle, opened from the browser over WebUSB, on Linux, Windows and Android.',
+  '/blog/a-dongle-for-a-bridge': 'A homemade bridge replaced by a cheap CH341T USB board, opened from the browser over WebUSB, on Linux, Windows and Android.',
   '/blog/reloaded': 'Why atiic and i2c.ninja exist: drivers for a decade of I2C chips, loyal to their datasheets, started over, and a site made for education.',
-  '/devices': 'The I2C sensors i2c.ninja reads live over a USB-to-I2C dongle: motion, magnetism, humidity, colour, distance, pulse, power, with wiring, readings and settings.',
+  '/devices': 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, magnetism, humidity, colour, distance, pulse, power, with wiring, readings and settings.',
   '/learn': 'Step-by-step courses through the site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, live in the browser.',
   '/learn/motion': 'An accelerometer and a gyro, step by step: physics, wiring, raw numbers, calibration and fusion, then practice. With an MPU-6050, or an ADXL345 and ITG-3200.',
   '/physics/humidity': 'How much water the air holds, why relative humidity falls as air warms with the same water in it, and the dew point. Live, with things to try.',

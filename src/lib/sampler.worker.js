@@ -10,7 +10,7 @@
 //        { type: 'stop' }
 //   out: { type: 'found', found: { key: [{ ci, address }] } }
 //        { type: 'reading', t, v: { key: [x, y, z] } }
-//        { type: 'error', stage: 'open', name, message }  (the dongle didn't open)
+//        { type: 'error', stage: 'open', name, message }  (the bridge didn't open)
 //        { type: 'failure', title, detail, name, message } (after it opened)
 //        { type: 'stopped' }
 import * as SOURCES from './sources.js';
@@ -30,7 +30,7 @@ async function openBus(m) {
   }
   const devices = await navigator.usb.getDevices();
   const d = devices.find((x) => x.vendorId === m.match.vendorId && x.productId === m.match.productId && x.serialNumber === m.match.serialNumber);
-  if (!d) throw Object.assign(new Error('the dongle chosen is no longer there'), { name: 'NotFoundError' });
+  if (!d) throw Object.assign(new Error('the bridge chosen is no longer there'), { name: 'NotFoundError' });
   return new (adapterFor(d))(d).open(m.sclHz);
 }
 
@@ -60,7 +60,7 @@ async function loop(gen, readMs) {
     }
   } catch (e) {
     if (gen !== generation) return;
-    postMessage({ type: 'failure', title: 'Reading the sensor failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', name: e.name, message: e.message });
+    postMessage({ type: 'failure', title: 'Reading the sensor failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', name: e.name, message: e.message });
   }
 }
 

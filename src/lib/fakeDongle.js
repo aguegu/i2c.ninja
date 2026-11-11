@@ -1,4 +1,4 @@
-// A dongle that isn't there, to drive the live pages without hardware (the
+// A bridge that isn't there, to drive the live pages without hardware (the
 // ?perf meter and bench/ measure them so): ?fake (a calm sway) or ?fake=kid
 // (shaken hard, as a child would), never on i2c.ninja (lib/dongle.js). It
 // answers as atiic's bus does, with an MPU-6050 at 0x68 on it: WHO_AM_I,

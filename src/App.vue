@@ -74,7 +74,7 @@ const mobileIconLink = 'flex items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">Algorithms</p>
         <RouterLink v-for="l in ALGORITHM_LINKS" :key="l.to" :to="l.to" :class="mobileLink">{{ l.label }}</RouterLink>
         <p class="px-3 pt-3 text-xs font-semibold tracking-wide text-slate-400 uppercase">More</p>
-        <RouterLink to="/get-started" :class="mobileLink">Set up the dongle</RouterLink>
+        <RouterLink to="/get-started" :class="mobileLink">Set up the bridge</RouterLink>
         <a :href="DISCUSSIONS" :class="mobileLink">Discussions <span class="text-xs text-slate-400">questions, ideas, what you built</span></a>
         <a :href="ATIIC" :class="mobileLink">atiic on GitHub <span class="text-xs text-slate-400">the drivers</span></a>
       </nav>

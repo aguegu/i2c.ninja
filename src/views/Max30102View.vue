@@ -1,5 +1,5 @@
 <script setup>
-// The MAX30102 live on the CH341 dongle: a fingertip's light, its heartbeat
+// The MAX30102 live on the CH341 bridge: a fingertip's light, its heartbeat
 // worked out, and how a pulse oximeter starts from two colours of light
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
@@ -27,14 +27,14 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">MAX30102</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A pulse oximeter and heart-rate sensor, the kind in a smartwatch or a fingertip clip: a red and an infrared LED shine into the skin, a photodiode reads the light that comes back, and each heartbeat shows in it. Live over a USB-to-I2C dongle.
+        A pulse oximeter and heart-rate sensor, the kind in a smartwatch or a fingertip clip: a red and an infrared LED shine into the skin, a photodiode reads the light that comes back, and each heartbeat shows in it. Live over a USB-to-I²C dongle.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-max30102.svg" alt="A CH341T dongle wired to a black MAX30102 module: GND to GND, SCL to SCL, SDA to SDA, VCC (3.3 V) to VIN; INT, IRD, RD free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-max30102.svg" alt="A CH341T bridge wired to a black MAX30102 module: GND to GND, SCL to SCL, SDA to SDA, VCC (3.3 V) to VIN; INT, IRD, RD free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The common black MAX30102 board: four wires from its row of GND, SCL, SDA, VIN (3.3 or 5 V: the board makes the chip's 1.8 V and the LEDs' 3.3 V itself); INT, IRD, RD (the LEDs' own) and the other GND stay free. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        The common black MAX30102 board: four wires from its row of GND, SCL, SDA, VIN (3.3 or 5 V: the board makes the chip's 1.8 V and the LEDs' 3.3 V itself); INT, IRD, RD (the LEDs' own) and the other GND stay free. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

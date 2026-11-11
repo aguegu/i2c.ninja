@@ -33,6 +33,14 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   About, the physics index, the course, the not-found page, every sensor
   page ("Live over a USB-to-I2C dongle"), the search descriptions and
   titles. Home's bridges include the CH347F EVT.
+- **Bridge in the text, never dongle** (the user: "The worse problem is
+  the browser built-in translator. I have seen dongle is translated into
+  '加密狗', which is totally wrong"): every "dongle" in the pages' text,
+  captions, alt texts, error messages and the nav's "Set up the bridge"
+  is now a bridge, and the page text writes USB-to-I²C (the user: "use the
+  'upper 2'"; the search titles and descriptions keep I2C, as typed). The
+  drawings keep theirs: shown as images, a translator leaves them alone.
+  The blog posts are left as written.
 - **Bridges, not Dongles** (the user: "let's change the 'Dongles' title
   too", then Bridges, the address moved): the page is USB-to-I2C bridges at
   /bridges, "Bridges" in the nav and footer, /dongles forwarding to it (the

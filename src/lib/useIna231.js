@@ -1,4 +1,4 @@
-// An INA231 on the CH341 dongle, for a page: found by its ID among
+// An INA231 on the CH341 bridge, for a page: found by its ID among
 // 0x40-0x4F, set up by atiic's driver for a shunt, read every READ_MS: bus
 // voltage, shunt voltage, current, power; the last windowMs kept for the
 // charts, and the energy and charge since connecting (or a reset) summed.
@@ -55,7 +55,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the INA231 failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the INA231 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -140,7 +140,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

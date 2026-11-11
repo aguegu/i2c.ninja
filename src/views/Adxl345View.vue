@@ -1,5 +1,5 @@
 <script setup>
-// The ADXL345 live on the CH341 dongle: its three axes in g, the tilt
+// The ADXL345 live on the CH341 bridge: its three axes in g, the tilt
 // they give at rest, and its self test against the datasheet's limits
 import LiveSettings from '../components/LiveSettings.vue';
 import ConnectButton from '../components/ConnectButton.vue';
@@ -34,15 +34,15 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">ADXL345</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Analog Devices' 3-axis accelerometer: the push on a tiny mass inside it, in g, along three axes, so gravity at rest, and every shake. Live over a USB-to-I2C dongle, at 100 samples a second.
+        Analog Devices' 3-axis accelerometer: the push on a tiny mass inside it, in g, along three axes, so gravity at rest, and every shake. Live over a USB-to-I²C bridge, at 100 samples a second.
         New to these numbers? <RouterLink to="/learn/motion" class="text-emerald-700 underline dark:text-emerald-400">Take the Motion course</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-adxl345.svg" alt="A CH341T dongle wired to an ADXL345 breakout whose pins run VIN, 3V3, GND, CS, INT1, INT2, SDO, SDA, SCL: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; the other five free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-adxl345.svg" alt="A CH341T bridge wired to an ADXL345 breakout whose pins run VIN, 3V3, GND, CS, INT1, INT2, SDO, SDA, SCL: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; the other five free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VIN, GND, SCL and SDA. Leave CS, SDO and the INT pins free: the board answers on I2C at 0x53 (SDO to 3V3 would move it to 0x1D). The axes printed on the board are the ones charted below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        Four wires: VCC to VIN, GND, SCL and SDA. Leave CS, SDO and the INT pins free: the board answers on I2C at 0x53 (SDO to 3V3 would move it to 0x1D). The axes printed on the board are the ones charted below. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

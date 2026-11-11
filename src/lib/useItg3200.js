@@ -1,4 +1,4 @@
-// An ITG-3200 on the CH341 dongle, for a page: woken (asleep, its WHO_AM_I
+// An ITG-3200 on the CH341 bridge, for a page: woken (asleep, its WHO_AM_I
 // reads 0) and found at 0x68 or 0x69, set up by atiic's driver (+/-2000
 // deg/s, a 98 Hz filter at 1 kHz), read every READ_MS; each reading to
 // onReading's listeners (a page adds them up: lib/useTurned.js). The last
@@ -45,7 +45,7 @@ export function useItg3200({ windowMs = 10000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the ITG-3200 failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the ITG-3200 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -100,7 +100,7 @@ export function useItg3200({ windowMs = 10000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

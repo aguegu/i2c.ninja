@@ -1,4 +1,4 @@
-// An MLX90614 on the CH341 dongle, for a page: found by its config word's
+// An MLX90614 on the CH341 bridge, for a page: found by its config word's
 // PEC at 0x5A (SMBus: 100 kHz at most), read by atiic's driver every
 // READ_MS: the object's temperature and its own (ambient); the last
 // windowMs kept.
@@ -35,7 +35,7 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the MLX90614 failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the MLX90614 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -83,7 +83,7 @@ export function useMlx90614({ windowMs = 30000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

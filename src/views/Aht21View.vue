@@ -6,19 +6,19 @@ import HumidityPage from '../components/HumidityPage.vue';
 
 const AHT30 = [{
   src: '/setup-aht30.svg',
-  alt: 'A CH341T dongle wired to a purple AHT30 module: VCC (3.3 V) to VIN, GND to GND, SCL to SCL, SDA to SDA, all four wires crossing',
-  caption: 'The purple AHT30 board: its header runs VIN, GND, SCL, SDA, the other way from the dongle\'s, so all four wires cross. Keep it away from warm parts.',
+  alt: 'A CH341T bridge wired to a purple AHT30 module: VCC (3.3 V) to VIN, GND to GND, SCL to SCL, SDA to SDA, all four wires crossing',
+  caption: 'The purple AHT30 board: its header runs VIN, GND, SCL, SDA, the other way from the bridge\'s, so all four wires cross. Keep it away from warm parts.',
 }];
 </script>
 
 <template>
   <HumidityPage
     :driver="Aht21" drawing="/setup-aht21.svg" :response-s="8" :more-drawings="AHT30"
-    drawing-alt="A CH341T dongle wired SDA, SCL, GND and VCC (3.3 V) to an AHT21B module"
+    drawing-alt="A CH341T bridge wired SDA, SCL, GND and VCC (3.3 V) to an AHT21B module"
     drawing-caption="Aosong's own small green AHT21B module (its datasheet's Figure 1): pads 1 VDD, 2 SDA, 3 GND, 4 SCL, so three wires cross. Keep it away from warm parts."
   >
     <template #intro>
-      Aosong's humidity and temperature sensors, the AHT21B and the newer AHT30: read the same way, so one page for both. How warm the air is and how much of the moisture it could hold it holds. Live over a USB-to-I2C dongle; beside an SHT20, two makers' answers to the same air.
+      Aosong's humidity and temperature sensors, the AHT21B and the newer AHT30: read the same way, so one page for both. How warm the air is and how much of the moisture it could hold it holds. Live over a USB-to-I²C bridge; beside an SHT20, two makers' answers to the same air.
     </template>
     <template #measures="{ readMs }">
       <p class="mb-2">

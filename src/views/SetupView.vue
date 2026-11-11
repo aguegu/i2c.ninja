@@ -15,7 +15,7 @@ const PLATFORMS = [
 ];
 const platform = ref(detectPlatform());
 
-// a rule of its own for each dongle, its file named to sort before
+// a rule of its own for each bridge, its file named to sort before
 // 73-seat-late.rules (which turns uaccess into the user's access): the CH341
 // in I2C mode (1a86:5512), the CH347T in mode 1 (55db) and the CH347F (55de),
 // a dart (ffff:da92)
@@ -30,7 +30,7 @@ const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
 sudo rmmod spi_ch341`;
 
-// the dongles with a wiring drawing, in Dongles' order: each one's setup in
+// the bridges with a wiring drawing, in Bridges' order: each one's setup in
 // a sentence or two (its steps: our own markup, shown as HTML)
 const DONGLE_SETUPS = [
   {
@@ -56,7 +56,7 @@ const DONGLE_SETUPS = [
   {
     name: 'CH341T "2-in-1"',
     drawing: '/setup-ch341t.svg',
-    alt: 'A CH341T 2-in-1 dongle, USB-A to the left, yellow jumper on I2C and green on 3V3, its header\'s SDA, SCL, GND and VCC wired straight across to a GY-521 (MPU-6050)',
+    alt: 'A CH341T 2-in-1 bridge, USB-A to the left, yellow jumper on I2C and green on 3V3, its header\'s SDA, SCL, GND and VCC wired straight across to a GY-521 (MPU-6050)',
     steps: [
       'USB to I2C or TTL. Its jumpers <b>yellow on I2C</b> (on TTL it\'s a serial port instead), <b>green on 3V3</b> (VCC and the bus at 3.3 V).',
       'Four wires: <b>SDA</b>, <b>SCL</b>, <b>GND</b>, <b>VCC</b>.',
@@ -74,8 +74,8 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <h1 class="mt-2 text-2xl font-bold">Get started</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
-      What a USB-to-I2C dongle or devkit (a CH347, or a CH341) needs before this site can use
-      it: a browser with WebUSB, the dongle set for I2C, once per computer a
+      What a USB-to-I²C bridge (a CH347 or a CH341 board, or a devkit) needs before this site can use
+      it: a browser with WebUSB, the bridge set for I2C, once per computer a
       permission, then a check.
     </p>
 
@@ -168,14 +168,14 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <div v-if="platform === 'linux'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           The browser runs as you, and USB devices belong to root. A udev rule
-          gives the dongle to whoever is logged in at the computer:
+          gives the bridge to whoever is logged in at the computer:
         </p>
         <template v-for="r in UDEV_RULES" :key="r.name">
           <p class="font-semibold">{{ r.name }}:</p>
           <pre :class="code">{{ r.commands }}</pre>
         </template>
         <p>
-          Then unplug the dongle and plug it back in. A rule's file name has
+          Then unplug the bridge and plug it back in. A rule's file name has
           to sort before <code>73-seat-late.rules</code>, which turns the
           <code>uaccess</code> tag into your access: the <code>70-</code>
           files do. One rule set up before 1.6.1, for all three in
@@ -191,13 +191,13 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <a href="https://zadig.akeo.ie" class="text-emerald-600 underline">Zadig</a>:
         </p>
         <ol class="list-decimal pl-6">
-          <li>Plug the dongle in and start Zadig.</li>
+          <li>Plug the bridge in and start Zadig.</li>
           <li>Options, List All Devices.</li>
           <li>Pick the device whose USB ID reads 1A86 55DB, Interface 2 (a CH347T in mode 1), or 1A86 5512 (a CH341).</li>
           <li>Choose WinUSB as the driver, then Install (or Replace) Driver.</li>
         </ol>
         <p>
-          WCH's own CH341 driver and tools then no longer see this dongle,
+          WCH's own CH341 driver and tools then no longer see this bridge,
           until its driver is switched back.
         </p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
@@ -212,14 +212,14 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <div v-else-if="platform === 'macos'" class="max-w-3xl leading-relaxed">
         <p>
           Nothing to do: macOS lets the browser open the dongle. If WCH's own
-          CH341 driver is installed and holds the dongle, the check below says
+          CH341 driver is installed and holds the bridge, the check below says
           it's busy.
         </p>
       </div>
 
       <div v-else-if="platform === 'android'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
-          Chrome on the phone, the dongle on a USB OTG adapter or cable. Chrome
+          Chrome on the phone, the bridge on a USB OTG adapter or cable. Chrome
           asks once whether this site may use it.
         </p>
         <p>Some phones keep OTG off until it's switched on in their settings.</p>
@@ -236,8 +236,8 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <div class="flex max-w-3xl flex-col gap-3 leading-relaxed">
         <p>
           Recent kernels have <code>spi-ch341</code>, a driver
-          for the CH341 as an SPI master. It takes the dongle each time it's
-          plugged in, and the browser can't take it back. Release the dongle
+          for the CH341 as an SPI master. It takes the bridge each time it's
+          plugged in, and the browser can't take it back. Release the bridge
           from it, each time after plugging it in:
         </p>
         <pre :class="code">{{ RELEASE_COMMAND }}</pre>
@@ -262,7 +262,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     <section :class="card">
       <h2 class="mb-3 text-lg font-semibold">4. Check</h2>
       <p class="mb-3 max-w-3xl leading-relaxed">
-        Pick the dongle in the browser's list: the site opens it and asks
+        Pick the bridge in the browser's list: the site opens it and asks
         which I2C addresses answer.
       </p>
       <SetupCheck :platform="platform" />

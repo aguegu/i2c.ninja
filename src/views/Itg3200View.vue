@@ -1,5 +1,5 @@
 <script setup>
-// The ITG-3200 live on the CH341 dongle: its three rates, the turn they
+// The ITG-3200 live on the CH341 bridge: its three rates, the turn they
 // add up to, its bias zeroed out, and how a vibrating mass feels a turn
 import LiveSettings from '../components/LiveSettings.vue';
 import ConnectButton from '../components/ConnectButton.vue';
@@ -36,15 +36,15 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">ITG-3200</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        InvenSense's 3-axis gyroscope: how fast it's turning, in degrees a second, about three axes, and its own temperature. Live over a USB-to-I2C dongle, 100 readings a second.
+        InvenSense's 3-axis gyroscope: how fast it's turning, in degrees a second, about three axes, and its own temperature. Live over a USB-to-I²C bridge, 100 readings a second.
         New to these numbers? <RouterLink to="/learn/motion" class="text-emerald-700 underline dark:text-emerald-400">Take the Motion course</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-itg3200.svg" alt="A CH341T dongle wired to a blue ITG-3200 module whose pins run SCL, SDA, CLK, INT, GND, VIO, VDD: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VDD; INT and CLK free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-itg3200.svg" alt="A CH341T bridge wired to a blue ITG-3200 module whose pins run SCL, SDA, CLK, INT, GND, VIO, VDD: VCC to VDD, GND to GND, SCL to SCL, SDA to SDA, a short jumper from VIO to VDD; INT and CLK free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VDD, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VDD unless the board already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        Four wires: VCC to VDD, GND, SCL and SDA. VIO sets the chip's I/O voltage and must be powered: tie it to VDD unless the board already does. INT and CLK stay free; AD0 as shipped picks 0x68. The axes printed on it are the ones read below. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

@@ -52,7 +52,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 
     <figure :class="card">
       <SvgDrawing v-if="drawing" :src="drawing" :alt="drawingAlt" class="mx-auto w-full lg:w-3/5" />
-      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }} New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.</figcaption>
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ drawingCaption }} New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.</figcaption>
       <template v-for="d in moreDrawings" :key="d.src">
         <SvgDrawing :src="d.src" :alt="d.alt" class="mx-auto mt-6 w-full lg:w-3/5" />
         <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">{{ d.caption }}</figcaption>

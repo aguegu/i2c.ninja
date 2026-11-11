@@ -1,5 +1,5 @@
 <script setup>
-// The dongles we know: side by side, then each with its cheatsheet, how to
+// The bridges we know: side by side, then each with its cheatsheet, how to
 // recognise it and the words that find it (lib/dongles.js)
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { DONGLES, COMPARE, STARS, EFFORT } from '../lib/dongles.js';
@@ -11,10 +11,10 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <h1 class="mt-2 text-2xl font-bold">USB-to-I2C bridges</h1>
+    <h1 class="mt-2 text-2xl font-bold">USB-to-I²C bridges</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
-      A USB-to-I2C dongle, or a devkit such as WCH's CH347F evaluation board, is
-      the bridge between the computer and the I2C bus. They
+      A USB-to-I²C bridge, a small board or a devkit such as WCH's CH347F
+      evaluation board, connects the computer to the I2C bus. They
       come as many boards under many names; these are the ones we ran on our
       bench, WCH's CH347F evaluation board first (high-speed USB, I2C, SPI
       and eight I/O lines at once, no modes to set),

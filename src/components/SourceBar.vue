@@ -13,12 +13,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 // "a", "a or b", "a, b or c"
 const sep = (i, n) => (i === 0 ? '' : i === n - 1 ? ' or ' : ', ');
 const cap = (w) => w[0].toUpperCase() + w.slice(1);
-// "It looks for any accelerometer this site knows on the dongle's bus: A, B
+// "It looks for any accelerometer this site knows on the bridge's bus: A, B
 // or C, and any gyroscope ...: D (each ...), and reads it ...", as text and links
 const note = (parts) => [
   { text: 'It looks for ' },
   ...parts.flatMap((p, j) => [
-    { text: `${j === 0 ? '' : ', and '}any ${p.noun} this site knows${j === 0 ? ' on the dongle\'s bus' : ''}: ` },
+    { text: `${j === 0 ? '' : ', and '}any ${p.noun} this site knows${j === 0 ? ' on the bridge\'s bus' : ''}: ` },
     ...p.chips.flatMap((c, i) => [{ text: sep(i, p.chips.length) }, { text: c.name, to: c.to }]),
   ]),
   { text: ` (each one's page shows its wiring), and reads ${parts.length > 1 ? 'them' : 'it'} ` },

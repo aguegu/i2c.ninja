@@ -7,11 +7,11 @@ import HumidityPage from '../components/HumidityPage.vue';
 <template>
   <HumidityPage
     :driver="Sht20" drawing="/setup-sht20.svg" :response-s="8" resolution="11/11"
-    drawing-alt="A CH341T dongle wired to a small green SHT20 module: SDA to sda and SCL to scl, crossing, GND to gnd, VCC (3.3 V) to vcc"
+    drawing-alt="A CH341T bridge wired to a small green SHT20 module: SDA to sda and SCL to scl, crossing, GND to gnd, VCC (3.3 V) to vcc"
     drawing-caption="The small green SHT20 board: its header runs scl, sda, gnd, vcc, so the SDA and SCL wires cross. Keep it away from warm parts."
   >
     <template #intro>
-      Sensirion's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over a USB-to-I2C dongle.
+      Sensirion's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over a USB-to-I²C dongle.
     </template>
     <template #measures="{ readMs, hold }">
       <p class="mb-2">
@@ -19,7 +19,7 @@ import HumidityPage from '../components/HumidityPage.vue';
       </p>
       <p class="mb-2">
         Each reading is a command and three bytes back: the value and a CRC checksum, which atiic checks. Then <span class="font-mono">T = −46.85 + 175.72 × S / 2¹⁶</span> and <span class="font-mono">RH = −6 + 125 × S / 2¹⁶</span>.
-        While it measures, either the host waits the longest the datasheet allows and then asks (temperature 0xF3, humidity 0xF5: "no hold master"), or the sensor holds the clock line low until it's done and the dongle waits on it (0xE3, 0xE5: "hold master"), so the answer comes as soon as it's ready.
+        While it measures, either the host waits the longest the datasheet allows and then asks (temperature 0xF3, humidity 0xF5: "no hold master"), or the sensor holds the clock line low until it's done and the bridge waits on it (0xE3, 0xE5: "hold master"), so the answer comes as soon as it's ready.
         {{ hold ? 'Your dart waits on the held clock, so this page uses hold master.' : 'The CH341 and CH347 never wait on a held clock, so on them this page uses no hold master; a dart waits.' }}
       </p>
       <p>

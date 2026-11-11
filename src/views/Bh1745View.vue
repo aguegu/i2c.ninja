@@ -1,5 +1,5 @@
 <script setup>
-// The BH1745NUC live on the dongle: red, green, blue and clear light as
+// The BH1745NUC live on the bridge: red, green, blue and clear light as
 // counts, a rough colour from them, its measurement time and gain to pick,
 // how it's read, its settings; the purple board's wiring (from the user's
 // photo)
@@ -58,14 +58,14 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">BH1745NUC</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        ROHM's colour sensor: four light sensors behind red, green, blue and clear filters, each counting how much light it gets. Point it at a lamp, a window, a coloured card, and watch the balance shift. Live over a USB-to-I2C dongle.
+        ROHM's colour sensor: four light sensors behind red, green, blue and clear filters, each counting how much light it gets. Point it at a lamp, a window, a coloured card, and watch the balance shift. Live over a USB-to-I²C dongle.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-bh1745.svg" alt="A CH341T dongle wired to a purple BH1745NUC module: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA; INT and ADD free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-bh1745.svg" alt="A CH341T bridge wired to a purple BH1745NUC module: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA; INT and ADD free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The purple BH1745 board: four wires from its VCC, GND, SCL and SDA; INT and ADD stay free (ADD free, it answers at 0x38; tied high, 0x39). Keep the window on top of the chip clean and uncovered. New to the dongle? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The purple BH1745 board: four wires from its VCC, GND, SCL and SDA; INT and ADD stay free (ADD free, it answers at 0x38; tied high, 0x39). Keep the window on top of the chip clean and uncovered. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 

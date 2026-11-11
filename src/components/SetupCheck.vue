@@ -1,5 +1,5 @@
 <script setup>
-// Test the setup: pick the dongle in the browser's chooser, open it, scan
+// Test the setup: pick the bridge in the browser's chooser, open it, scan
 // the I2C bus. Each way it can fail says what's likely missing.
 import ConnectButton from './ConnectButton.vue';
 import { ref } from 'vue';
@@ -22,8 +22,8 @@ async function check() {
     bus = await openDongle(SCL_HZ);
     const found = await bus.scan();
     result.value = found.length
-      ? { ok: true, title: `Working: ${found.length === 1 ? 'a device answers' : `${found.length} devices answer`} at ${found.map(hex).join(', ')}`, detail: 'The browser, the dongle and the bus are all set.' }
-      : { ok: true, title: 'The dongle works, but no device answered', detail: 'Check the four wires (SDA to SDA, SCL to SCL), and that the device is powered: VCC from the dongle\'s VCC, its green jumper on 3V3.' };
+      ? { ok: true, title: `Working: ${found.length === 1 ? 'a device answers' : `${found.length} devices answer`} at ${found.map(hex).join(', ')}`, detail: 'The browser, the bridge and the bus are all set.' }
+      : { ok: true, title: 'The bridge works, but no device answered', detail: 'Check the four wires (SDA to SDA, SCL to SCL), and that the device is powered: VCC from the bridge\'s VCC, its green jumper on 3V3.' };
   } catch (e) {
     result.value = { ok: false, ...explain(e, props.platform), error: e.message };
   } finally {

@@ -1,4 +1,4 @@
-// An SPL06 on the dongle, for a page: found by its ID (0x10) at 0x77 or
+// An SPL06 on the bridge, for a page: found by its ID (0x10) at 0x77 or
 // 0x76, started by atiic's driver at one of its datasheet's use cases
 // (weather, indoor, sports), read as each pressure result comes: pressure
 // (Pa) and temperature (C); the last windowMs kept for the charts. A failed
@@ -58,7 +58,7 @@ export function useSpl06({ windowMs = 120000, mode: firstMode = 'indoor', onRead
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: `Reading the SPL06 failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the SPL06 failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -138,7 +138,7 @@ export function useSpl06({ windowMs = 120000, mode: firstMode = 'indoor', onRead
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

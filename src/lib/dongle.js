@@ -1,4 +1,4 @@
-// The USB dongle from a page: pick it in the browser's chooser, open it
+// The USB bridge from a page: pick it in the browser's chooser, open it
 // (atiic's Ch341, Ch347 or Dart over WebUSB, by the device picked), and when that
 // fails, say what's likely missing. Shared by the setup check and the
 // device pages. Both give the same I2C bus: scan, write, read, writeRead.
@@ -37,13 +37,13 @@ export class DongleError extends Error {
   }
 }
 
-// ?fake / ?fake=kid on our own servers: the fake dongle's motion, else null
+// ?fake / ?fake=kid on our own servers: the fake bridge's motion, else null
 export function fakeMode() {
   const fake = new URLSearchParams(location.search).get('fake');
   return fake !== null && !/(^|\.)i2c\.ninja$/.test(location.hostname) ? fake || 'calm' : null;
 }
 
-// the chooser only, for a dongle opened elsewhere (lib/sampler.worker.js: a
+// the chooser only, for a bridge opened elsewhere (lib/sampler.worker.js: a
 // worker can't show the chooser, but can open a device the page was given):
 // { device, match } to find it there again, or { fake } for the fake one
 export async function chooseDongle() {
@@ -86,8 +86,8 @@ export async function openDongle(sclHz) {
 }
 
 const PERMISSION_HINT = {
-  linux: 'Linux keeps USB devices to root unless a udev rule gives the dongle to you (Get started, step 3); then unplug and plug the dongle back in.',
-  windows: 'Windows lets the browser open only devices on the WinUSB driver: bind the dongle to WinUSB with Zadig (Get started, step 3), then unplug and plug it back in.',
+  linux: 'Linux keeps USB devices to root unless a udev rule gives the bridge to you (Get started, step 3); then unplug and plug the bridge back in.',
+  windows: 'Windows lets the browser open only devices on the WinUSB driver: bind the bridge to WinUSB with Zadig (Get started, step 3), then unplug and plug it back in.',
 };
 
 // { title, detail } for a DongleError (or anything thrown talking to it)
@@ -96,27 +96,27 @@ export function explain(e, platform) {
   if (e.stage === 'choose') {
     if (cause.name === 'NotFoundError') {
       return {
-        title: 'No dongle chosen',
-        detail: 'If the dongle wasn\'t in the list: check it\'s plugged in, and set for I2C: a CH347T in mode 1 (S1 on, S2 off), a CH341T\'s yellow jumper on I2C (on TTL it\'s a serial port, which WebUSB doesn\'t list). A dart is listed as it is.',
+        title: 'No bridge chosen',
+        detail: 'If the bridge wasn\'t in the list: check it\'s plugged in, and set for I2C: a CH347T in mode 1 (S1 on, S2 off), a CH341T\'s yellow jumper on I2C (on TTL it\'s a serial port, which WebUSB doesn\'t list). A dart is listed as it is.',
       };
     }
     return { title: 'The chooser failed', detail: '' };
   }
   if (e.stage === 'open' && cause.name === 'SecurityError') {
     return {
-      title: 'The system didn\'t let the browser open the dongle',
+      title: 'The system didn\'t let the browser open the bridge',
       detail: PERMISSION_HINT[platform] ?? `${PERMISSION_HINT.linux} ${PERMISSION_HINT.windows}`,
     };
   }
   if (e.stage === 'open' && cause.name === 'NetworkError') {
     return {
-      title: 'The dongle is busy',
+      title: 'The bridge is busy',
       detail: platform === 'linux'
         ? 'On a CH341, most likely the kernel\'s spi-ch341 driver holds it: release it (Get started, step 3, after each plug), or block the driver. Otherwise another tab or program has it open.'
-        : 'Another tab or program has it open: close it, or unplug and plug the dongle back in.',
+        : 'Another tab or program has it open: close it, or unplug and plug the bridge back in.',
     };
   }
-  return { title: 'Talking to the dongle failed', detail: 'Unplug it, plug it back in and try again.' };
+  return { title: 'Talking to the bridge failed', detail: 'Unplug it, plug it back in and try again.' };
 }
 
 export const hex = (a) => `0x${a.toString(16).padStart(2, '0')}`;

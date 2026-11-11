@@ -1,5 +1,5 @@
-// The USB dongles we know, WCH's CH347F EVT first (the user's pick until a
-// dongle of our own; first is enough, no 'recommended'): each one run on our bench, drawn from the board
+// The USB bridges we know, WCH's CH347F EVT first (the user's pick until a
+// bridge of our own; first is enough, no 'recommended'): each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
 // site: whether this site runs on it; effort: how hard the board is to find
 // your way on, by its pins, 1 (easy) to 5 stars, and why; look: how to
@@ -51,7 +51,7 @@ export const DONGLES = [
     name: 'CH341T "2-in-1"',
     kind: 'USB to I2C / TTL',
     sheet: '/dongles/ch341t-2in1.svg',
-    alt: 'The CH341T 2-in-1 dongle drawn to scale, USB down: its 6-pin header with each pin in I2C and TTL mode, the two jumpers, the crystal and LEDs',
+    alt: 'The CH341T 2-in-1 bridge drawn to scale, USB down: its 6-pin header with each pin in I2C and TTL mode, the two jumpers, the crystal and LEDs',
     site: true,
     effort: 1,
     effortWhy: '6 pins: the four wires are the header\'s SDA, SCL, GND and VCC',
@@ -70,7 +70,7 @@ export const DONGLES = [
     name: 'CH341A "V357"',
     kind: 'USB to UART / I2C / SPI',
     sheet: '/dongles/ch341a-v357.svg',
-    alt: 'The CH341A V357 dongle, USB down: its 2x8 header and two 10-hole rows, each hole\'s chip pin and role, the jumpers, the crystal and regulator',
+    alt: 'The CH341A V357 bridge, USB down: its 2x8 header and two 10-hole rows, each hole\'s chip pin and role, the jumpers, the crystal and regulator',
     site: true,
     effort: 2,
     effortWhy: '36 holes, a 2x8 header and two rows of 10; I2C on the header among them',

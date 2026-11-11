@@ -9,7 +9,7 @@ export { ALGORITHM_LINKS } from './algorithms.js';
 export const REPO = 'https://github.com/aguegu/i2c.ninja';
 export const ATIIC = 'https://github.com/aguegu/atiic';
 export const DISCUSSIONS = 'https://github.com/aguegu/i2c.ninja/discussions';
-// a sensor or a dongle the site doesn't know yet: asked for here
+// a sensor or a bridge the site doesn't know yet: asked for here
 export const NEW_ISSUE = 'https://github.com/aguegu/i2c.ninja/issues/new';
 
 const colorOf = (group) => DEVICE_GROUPS.find((g) => g.name === group).color;
@@ -23,7 +23,7 @@ export const DEVICE_LINK_GROUPS = DEVICES_BY_GROUP.map((g) => ({ head: g.name, c
 export const GUIDE_LINKS = GUIDES.map((g) => ({ to: g.to, label: g.name, note: g.kind }));
 export const START_LINKS = [
   { to: '/', label: 'Home' },
-  { to: '/get-started', label: 'Set up the dongle' },
+  { to: '/get-started', label: 'Set up the bridge' },
   { to: '/bridges', label: 'Bridges' },
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },

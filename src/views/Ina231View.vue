@@ -1,5 +1,5 @@
 <script setup>
-// The INA231 live on the CH341 dongle: the voltage, current and power
+// The INA231 live on the CH341 bridge: the voltage, current and power
 // through its shunt, an energy meter, and how the chip measures
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
@@ -60,14 +60,14 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     <div class="mt-2">
       <h1 class="text-2xl font-bold">INA231</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over a USB-to-I2C dongle.
+        A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over a USB-to-I²C dongle.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-ina231.svg" alt="A CH341T dongle wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="mx-auto w-full" />
+      <SvgDrawing src="/setup-ina231.svg" alt="A CH341T bridge wired SDA, SCL, GND and VCC to an INA231 module; the module's shunt in series between a supply and a load: supply plus to IN+, IN minus to the load, the load's minus back to the supply's, joined to Gnd; Bus to IN minus" class="mx-auto w-full" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The common blue INA231 board. Four wires to the dongle as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        The common blue INA231 board. Four wires to the bridge as for any I2C device; the current to measure through the shunt, between the supply's + and the load (high side), the supply's − joined to Gnd. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 
@@ -139,7 +139,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
         </tbody>
       </table>
       <p class="text-sm text-slate-500 dark:text-slate-400">
-        The chip itself runs from the dongle's 3.3 V (Vdd 2.7-5.5 V); what it measures has its own supply, up to 28 V, its − joined to Gnd. A bigger current wants a smaller shunt: a R010 reaches ±3.28 A here, limited then by the Current register's steps.
+        The chip itself runs from the bridge's 3.3 V (Vdd 2.7-5.5 V); what it measures has its own supply, up to 28 V, its − joined to Gnd. A bigger current wants a smaller shunt: a R010 reaches ±3.28 A here, limited then by the Current register's steps.
       </p>
     </section>
 

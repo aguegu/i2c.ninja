@@ -1,4 +1,4 @@
-// A MAX30102 on the CH341 dongle, for a page: found by its part ID at 0x57,
+// A MAX30102 on the CH341 bridge, for a page: found by its part ID at 0x57,
 // set up by atiic's driver (red and IR, 100 samples a second), its FIFO
 // read every READ_MS; the last ANALYSE_S of samples worked into a heartbeat
 // (lib/ppg.js), the last windowMs kept for the charts.
@@ -66,7 +66,7 @@ export function useMax30102({ windowMs = 8000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the MAX30102 failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the MAX30102 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -120,7 +120,7 @@ export function useMax30102({ windowMs = 8000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

@@ -1,5 +1,5 @@
 // What the humidity pages share: the dew point, and a composable that finds
-// a humidity sensor on the CH341 dongle and reads it every readMs (both
+// a humidity sensor on the CH341 bridge and reads it every readMs (both
 // chips warm themselves if read too often: their datasheets ask for a
 // reading every 2 s or so), the last windowMs kept for the charts.
 import { ref, onBeforeUnmount } from 'vue';
@@ -117,7 +117,7 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: `Reading the ${name.value} failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the ${name.value} failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -237,7 +237,7 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

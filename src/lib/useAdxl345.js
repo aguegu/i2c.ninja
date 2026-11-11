@@ -1,4 +1,4 @@
-// An ADXL345 on the CH341 dongle, for a page: found at 0x53 or 0x1D by its
+// An ADXL345 on the CH341 bridge, for a page: found at 0x53 or 0x1D by its
 // DEVID, set up by atiic's driver (full resolution, +/-16 g, 100 Hz), read
 // once a sample period; its self test run on request, the reading paused
 // meanwhile. The last windowMs kept for the chart.
@@ -40,7 +40,7 @@ export function useAdxl345({ windowMs = 10000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the ADXL345 failed', detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: 'Reading the ADXL345 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -114,7 +114,7 @@ export function useAdxl345({ windowMs = 10000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

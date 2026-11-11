@@ -1,4 +1,4 @@
-// A page's live readings of one or more quantities: connect the dongle,
+// A page's live readings of one or more quantities: connect the bridge,
 // scan the bus for every chip of each (lib/sources.js), read the chosen
 // ones in turn every READ_MS (or the slowest chosen chip's readMs), each as
 // [x, y, z] in its unit, the last windowMs kept for a chart each. kinds:
@@ -49,7 +49,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
   let worker = null;
-  let chosenDevice = null; // the page's handle of the dongle, to notice its unplugging
+  let chosenDevice = null; // the page's handle of the bridge, to notice its unplugging
 
   // a reading posted by the worker: its time back on this page's clock
   function onReadingPosted(t, v) {
@@ -166,7 +166,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
 
   function onUsbDisconnect(e) {
     if (chosenDevice && e.device === chosenDevice) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }

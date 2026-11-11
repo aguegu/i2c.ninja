@@ -1,6 +1,6 @@
 <script setup>
 // The MPU-6050 or MPU-6500 live (WHO_AM_I picks atiic's driver) on the
-// CH341 dongle: an accelerometer and a gyro on one chip, sampled together.
+// CH341 bridge: an accelerometer and a gyro on one chip, sampled together.
 // Tabs (in the address: #accelerometer, the default, #gyro, #raw,
 // #calibration): the accelerometer's views and the gyro's, the same as the
 // ADXL345's and the ITG-3200's pages; the raw bytes to physics; the chip's
@@ -47,15 +47,15 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">{{ imu.chipName ?? 'MPU-6050 / MPU-6500' }}</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A 3-axis accelerometer and a 3-axis gyro on one chip, and its temperature: the motion sensor of phones, game controllers and drones. Live over a USB-to-I2C dongle at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
+        A 3-axis accelerometer and a 3-axis gyro on one chip, and its temperature: the motion sensor of phones, game controllers and drones. Live over a USB-to-I²C bridge at 400 kHz: the MPU-6050 or its successor the MPU-6500, told apart by their WHO_AM_I.
         New to IMUs? <RouterLink to="/learn/motion" class="text-emerald-700 underline dark:text-emerald-400">Take the Motion course</RouterLink>.
       </p>
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-mpu6050.svg" alt="A CH341T dongle wired to a GY-521 board (MPU-6050), turned so its pins face the dongle: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC; INT, AD0, XCL, XDA free; its axes as printed" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-mpu6050.svg" alt="A CH341T bridge wired to a GY-521 board (MPU-6050), turned so its pins face the bridge: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC; INT, AD0, XCL, XDA free; its axes as printed" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The GY-521 board, turned half a turn so its pins face the dongle's and the four wires run straight: SDA, SCL, GND, VCC. INT, AD0, XCL and XDA stay free; AD0 left low gives 0x68 (high: 0x69). Its X and Y arrows are printed on it, Z points out of the board; they're the axes read below. New to the dongle? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        The GY-521 board, turned half a turn so its pins face the bridge's and the four wires run straight: SDA, SCL, GND, VCC. INT, AD0, XCL and XDA stay free; AD0 left low gives 0x68 (high: 0x69). Its X and Y arrows are printed on it, Z points out of the board; they're the axes read below. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 

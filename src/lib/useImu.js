@@ -1,4 +1,4 @@
-// An MPU-6050 or MPU-6500 on the CH341 dongle, for a page: connect, pick
+// An MPU-6050 or MPU-6500 on the CH341 bridge, for a page: connect, pick
 // atiic's driver by WHO_AM_I, set the scales, read it once a sample period,
 // keep the last windowMs for the charts. Each reading keeps every stage:
 // the 14 bytes the chip sent, the counts they hold, and the counts in g,
@@ -104,7 +104,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: `Reading the ${chipName.value} failed`, detail: 'Was the dongle unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the ${chipName.value} failed`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -140,7 +140,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     try {
       found.value = (await bus.scan()).filter((a) => ADDRESSES.includes(a));
       if (!found.value.length) {
-        failure.value = { title: 'No MPU-6050 or MPU-6500 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the dongle\'s green jumper on 3V3).', error: '' };
+        failure.value = { title: 'No MPU-6050 or MPU-6500 answers', detail: 'Nothing at 0x68 or 0x69: check the four wires and that the board has power (the bridge\'s green jumper on 3V3).', error: '' };
         await disconnect();
         return;
       }
@@ -194,7 +194,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
 
   function onUsbDisconnect(e) {
     if (bus && e.device === bus.device) {
-      failure.value = { title: 'The dongle was unplugged', detail: '', error: '' };
+      failure.value = { title: 'The bridge was unplugged', detail: '', error: '' };
       disconnect();
     }
   }
