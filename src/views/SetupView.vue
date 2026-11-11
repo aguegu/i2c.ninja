@@ -30,6 +30,40 @@ const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
 sudo rmmod spi_ch341`;
 
+// the dongles with a wiring drawing, in Dongles' order: each one's setup in
+// a sentence or two (its steps: our own markup, shown as HTML)
+const DONGLE_SETUPS = [
+  {
+    name: 'CH347F EVT (WCH)',
+    drawing: '/setup-ch347f.svg',
+    alt: 'WCH\'s CH347F evaluation board, USB-B down, JP1 on its bottom pair, wired from its P5 header straight across to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 (VIO) to VCC',
+    steps: [
+      'I2C, SPI, two serial ports and eight I/O lines at once, high speed. No modes to set: just check that <b>JP1</b> joins its bottom pair (3V3 to VIO).',
+      'Four wires from its <b>P5</b> header: <b>SDA</b>, <b>SCL</b>, <b>GND</b>, and the pin printed <b>3V3</b> (VIO, 3.3 V) for the device\'s VCC.',
+    ],
+    sheet: '/dongles/ch347f-evt.svg',
+  },
+  {
+    name: 'CH347T board (LXC-CH347)',
+    drawing: '/setup-ch347t.svg',
+    alt: 'A CH347T board (LXC-CH347), USB-C down, its switch S1 on and S2 off, wired from its right-hand row to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 to VCC',
+    steps: [
+      'USB to UART, I2C, SPI, high speed. Its switch <b>S1 on, S2 off</b> (mode 1: I2C and SPI beside a serial port).',
+      'Four wires: <b>SDA</b> and <b>SCL</b> from its I2C header, <b>GND</b>, and <b>3V3</b> for the device\'s VCC (the 5V pins are USB\'s own 5 V).',
+    ],
+    sheet: '/dongles/ch347t-lxc.svg',
+  },
+  {
+    name: 'CH341T "2-in-1"',
+    drawing: '/setup-ch341t.svg',
+    alt: 'A CH341T 2-in-1 dongle, USB-A to the left, yellow jumper on I2C and green on 3V3, its header\'s SDA, SCL, GND and VCC wired straight across to a GY-521 (MPU-6050)',
+    steps: [
+      'USB to I2C or TTL. Its jumpers <b>yellow on I2C</b> (on TTL it\'s a serial port instead), <b>green on 3V3</b> (VCC and the bus at 3.3 V).',
+      'Four wires: <b>SDA</b>, <b>SCL</b>, <b>GND</b>, <b>VCC</b>.',
+    ],
+    sheet: '/dongles/ch341t-2in1.svg',
+  },
+];
 const TAB_ON = 'border-emerald-600 bg-emerald-600 text-white';
 const TAB_OFF = 'border-slate-300 dark:border-slate-600';
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -96,57 +130,20 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
 
     <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">2. The dongle</h2>
-      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <div class="flex flex-col gap-2 leading-relaxed lg:w-2/5">
-          <p>
-            <b>Recommended: WCH's CH347F evaluation board</b> (CH347F EVT; I2C,
-            SPI, two serial ports and eight I/O lines at once, high speed). No
-            modes to set: just check that <b>JP1</b> joins its bottom pair
-            (3V3 to VIO).
-          </p>
-          <p>
-            Then four wires to the device from its <b>P5</b> header:
-            <b>SDA</b>, <b>SCL</b>, <b>GND</b>, and the pin printed
-            <b>3V3</b> (VIO, 3.3 V) for the device's VCC.
-          </p>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            Every pin of the board, its jumpers and the chips on its buses: its
-            <a href="/dongles/ch347f-evt.svg" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
-          </p>
-        </div>
-        <SvgDrawing src="/setup-ch347f.svg" alt="WCH's CH347F evaluation board, USB-B down, JP1 on its bottom pair, wired from its P5 header straight across to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 (VIO) to VCC" class="mx-auto w-full lg:w-3/5" />
-      </div>
-
-      <h3 class="mt-6 mb-2 font-semibold">Or a CH347T board (LXC-CH347)</h3>
-      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <div class="flex flex-col gap-2 leading-relaxed lg:w-2/5">
-          <p>
-            <b>A CH347T board</b> (LXC-CH347; USB to UART, I2C,
-            SPI, high speed). Set its switch with it unplugged:
-            <b>S1 on, S2 off</b> (mode 1: I2C and SPI beside a serial port).
-          </p>
-          <p>
-            Then four wires to the device: <b>SDA</b> and <b>SCL</b> from its
-            I2C header, <b>GND</b>, and <b>3V3</b> for the device's VCC (3.3 V;
-            the 5V pins are USB's own 5 V).
-          </p>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
+      <p class="mb-4 leading-relaxed">
+        Any of these: set it as its card says, with it unplugged, then four
+        wires to the device. Each drawing opens full screen (its corner button).
+      </p>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div v-for="d in DONGLE_SETUPS" :key="d.name" class="flex flex-col gap-2 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+          <h3 class="font-semibold">{{ d.name }}</h3>
+          <SvgDrawing :src="d.drawing" :alt="d.alt" class="w-full" />
+          <p v-for="(t, i) in d.steps" :key="i" class="text-sm leading-relaxed" v-html="t" />
+          <p class="mt-auto text-sm text-slate-500 dark:text-slate-400">
             Every pin of the board: its
-            <a href="/dongles/ch347t-lxc.svg" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
+            <a :href="d.sheet" target="_blank" rel="noopener" class="text-emerald-700 underline dark:text-emerald-400">cheatsheet</a>.
           </p>
         </div>
-        <SvgDrawing src="/setup-ch347t.svg" alt="A CH347T board (LXC-CH347), USB-C down, its switch S1 on and S2 off, wired from its right-hand row to a GY-521 (MPU-6050): SDA to SDA, SCL to SCL, GND to GND, 3V3 to VCC" class="mx-auto w-full lg:w-3/5" />
-      </div>
-
-      <h3 class="mt-6 mb-2 font-semibold">Or a CH341T "2-in-1"</h3>
-      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <p class="leading-relaxed lg:w-2/5">
-          A CH341T "2-in-1" dongle (USB to I2C / TTL). Set its jumpers with it
-          unplugged: <b>yellow on I2C</b> (on TTL it's a serial port instead),
-          <b>green on 3V3</b> (VCC and the bus at 3.3 V). Then four wires to the
-          device: SDA, SCL, GND, VCC.
-        </p>
-        <SvgDrawing src="/setup-ch341t.svg" alt="A CH341T 2-in-1 dongle, USB-A to the left, yellow jumper on I2C and green on 3V3, its header's SDA, SCL, GND and VCC wired straight across to a GY-521 (MPU-6050)" class="mx-auto w-full lg:w-3/5" />
       </div>
 
       <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">

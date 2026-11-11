@@ -53,7 +53,7 @@ export const PAGES = [
   {
     path: '/dongles',
     title: 'Dongles: the USB to I2C bridges we tested (CH347F, CH347T, CH341T, CH341A)',
-    description: 'The USB dongles we ran on our bench: WCH\'s CH347F EVT, recommended, the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
+    description: 'The USB dongles we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
   },
   ...DEVICES.map((d) => ({
     path: d.to,
@@ -119,7 +119,7 @@ export const PAGES = [
 // card, the blog list) runs past DESCRIBE_MAX
 const DESCRIBE = {
   '/': 'Real sensors live in your browser over a USB dongle, nothing to install: motion, distance, humidity, colour, pulse and power, with the physics behind them.',
-  '/dongles': 'The USB to I2C dongles tested on our bench: the CH347F EVT, recommended, the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
+  '/dongles': 'The USB to I2C dongles tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
   '/mpu6050': 'MPU-6050 / MPU-6500 by InvenSense: acceleration and rotation on 3 axes each, and temperature, what tilts a phone or a drone. Live in your browser over USB.',
   '/sht20': 'SHT20 by Sensirion: relative humidity and temperature at a resolution you pick, the air\'s water and when a glass sweats. Live in your browser over USB.',
   '/max30102': 'MAX30102 by Maxim: red and infrared light through a fingertip, the heartbeat as a live trace, and how oximeters see oxygen. Live in your browser over USB.',

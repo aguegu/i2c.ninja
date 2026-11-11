@@ -15,8 +15,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       The USB dongle is the bridge between the computer and the I2C bus. They
       come as many boards under many names; these are the ones we ran on our
-      bench, WCH's CH347F evaluation board first, the one we recommend
-      (high-speed USB, I2C, SPI and eight I/O lines at once, no modes to set),
+      bench, WCH's CH347F evaluation board first (high-speed USB, I2C, SPI
+      and eight I/O lines at once, no modes to set),
       each drawn from the board itself and its chip's datasheet. Any
       CH341 that shows up as USB ID 1A86 5512 in I2C mode, or a CH347 as 1A86
       55DB (a CH347T in mode 1) or 55DE (a CH347F), should run this site, but

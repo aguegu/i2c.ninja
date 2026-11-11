@@ -5,13 +5,14 @@
 A new dongle, a minor version (the user: "I think i2c.ninja can bump to
 1.7.0 with a new dongle support too").
 
-- **WCH's CH347F EVT, the recommended dongle** (the user's plan of 7
+- **WCH's CH347F EVT, the first dongle** (the user's plan of 7
   November: "I would like to have ch347f evt as the first recommendation of
   dongles before we made our own one"), on atiic 1.6.1, which switches its
   I2C on when it opens (its I2C pins start as UART1's flow control) and
   drives it right after a missing device. Board-tested on our bench: I2C
   (an MPU-6500, its FIFO at 1 kHz), SPI to 60 MHz and all eight I/O lines
-  (an ST7789 240x320). Dongles: first, recommended, its cheatsheet
+  (an ST7789 240x320). Dongles: first (no "recommended": the user, "giving
+  it #1 is enough for now"), its cheatsheet
   (`public/dongles/ch347f-evt.svg`: the headers, the jumpers, the EEPROM
   and flash on its buses), a column in the table, ★★★ like the CH347T (the
   user: "Our cheatsheet has made the job much easier"); the CH347T after it.
@@ -19,6 +20,11 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   drawing (`public/setup-ch347f.svg`, ch32v00x's `scripts/wiring`: the
   GY-521 straight across from P5), the CH347T after. The user tried the
   attitude page on it: "it works".
+- **Get started: the dongles as a grid** (the user: "show all dongles with
+  the wiring guide (fullscreen-able) in grid"): a card each, in Dongles'
+  order, its setup in two sentences and its wiring drawing (full screen
+  from its corner); three columns wide, one on a phone. The CH341A has no
+  drawing yet: on Dongles only.
 - **Get started: Where to buy?** (the user: "It could explain about the
   easy to buy part of ch341/ch347 and the various-ness of i2c sensors"),
   before the steps: the dongles common and cheap, found by the chip's name

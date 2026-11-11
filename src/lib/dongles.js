@@ -1,5 +1,5 @@
-// The USB dongles we know, the recommended one first (WCH's CH347F EVT,
-// the user's pick until a dongle of our own): each one run on our bench, drawn from the board
+// The USB dongles we know, WCH's CH347F EVT first (the user's pick until a
+// dongle of our own; first is enough, no 'recommended'): each one run on our bench, drawn from the board
 // itself (atiic's cheatsheets, public/dongles/) and its chip's datasheet.
 // site: whether this site runs on it; effort: how hard the board is to find
 // your way on, by its pins, 1 (easy) to 5 stars, and why; look: how to
@@ -16,7 +16,6 @@ export const DONGLES = [
     sheet: '/dongles/ch347f-evt.svg',
     alt: 'WCH\'s CH347F evaluation board, USB-B down: its seven headers pin by pin, each pin\'s role and its I/O name, the three jumpers, the EEPROM and flash on its buses',
     site: true,
-    recommended: true,
     effort: 3,
     effortWhy: 'seven headers and three jumpers, but no modes to set, and its cheatsheet names every pin and jumper',
     look: [
