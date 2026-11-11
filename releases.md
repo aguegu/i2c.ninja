@@ -1,5 +1,12 @@
 # Releases
 
+## 1.8.9
+
+The science-first post: **Ideas come from combining** (the user:
+"creativites emerge from combining physcics concepts, not by 'bus',
+especially for kids and students"): gravity and turning give an attitude,
+pressure and temperature a height, distance over time a speed.
+
 ## 1.8.8
 
 A post: [The science first, programming optional](/blog/the-science-first)
