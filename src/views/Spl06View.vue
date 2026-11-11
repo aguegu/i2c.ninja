@@ -44,7 +44,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">SPL06</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Goertek's barometric pressure sensor: the weight of the air above it, fine enough to notice the board lifted by a few centimetres, and the temperature. Live over the USB dongle.
+        Goertek's barometric pressure sensor: the weight of the air above it, fine enough to notice the board lifted by a few centimetres, and the temperature. Live over a USB-to-I2C dongle.
       </p>
     </div>
 

@@ -17,7 +17,7 @@ const chip = 'flex items-center gap-1.5 rounded-full border border-slate-200 px-
     <div class="mt-2">
       <h1 class="text-2xl font-bold">Physics</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        The ideas behind the sensors, a page each: what's being measured, how a chip measures it, and its limits, with the readings live from a sensor on the dongle and things to try. Each topic names the sensors that measure it.
+        The ideas behind the sensors, a page each: what's being measured, how a chip measures it, and its limits, with the readings live from a sensor on a USB-to-I2C dongle and things to try. Each topic names the sensors that measure it.
       </p>
     </div>
     <div class="grid gap-4 md:grid-cols-2">

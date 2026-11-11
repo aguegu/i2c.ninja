@@ -18,7 +18,7 @@ const AHT30 = [{
     drawing-caption="Aosong's own small green AHT21B module (its datasheet's Figure 1): pads 1 VDD, 2 SDA, 3 GND, 4 SCL, so three wires cross. Keep it away from warm parts."
   >
     <template #intro>
-      Aosong's humidity and temperature sensors, the AHT21B and the newer AHT30: read the same way, so one page for both. How warm the air is and how much of the moisture it could hold it holds. Live over the USB dongle; beside an SHT20, two makers' answers to the same air.
+      Aosong's humidity and temperature sensors, the AHT21B and the newer AHT30: read the same way, so one page for both. How warm the air is and how much of the moisture it could hold it holds. Live over a USB-to-I2C dongle; beside an SHT20, two makers' answers to the same air.
     </template>
     <template #measures="{ readMs }">
       <p class="mb-2">

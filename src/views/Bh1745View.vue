@@ -58,7 +58,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">BH1745NUC</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        ROHM's colour sensor: four light sensors behind red, green, blue and clear filters, each counting how much light it gets. Point it at a lamp, a window, a coloured card, and watch the balance shift. Live over the USB dongle.
+        ROHM's colour sensor: four light sensors behind red, green, blue and clear filters, each counting how much light it gets. Point it at a lamp, a window, a coloured card, and watch the balance shift. Live over a USB-to-I2C dongle.
       </p>
     </div>
 

@@ -16,7 +16,7 @@ watch(course, async (c) => { source.value = c ? (await c.markdown()).default : '
     <div v-if="course" class="mt-2">
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Course</p>
       <h1 class="text-2xl font-bold">{{ course.title }}</h1>
-      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">You'll need: {{ course.kit }}, and a <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">USB dongle (CH347 or CH341)</RouterLink>.</p>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">You'll need: {{ course.kit }}, and a <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">USB-to-I2C dongle (CH347 or CH341)</RouterLink>.</p>
     </div>
     <MarkdownArticle :source="source" />
   </main>

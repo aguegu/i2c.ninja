@@ -25,6 +25,14 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   order, its setup in two sentences and its wiring drawing (full screen
   from its corner); three columns wide, one on a phone. The CH341A has no
   drawing yet: on Dongles only.
+- **A USB-to-I2C dongle, not a bare "dongle"** (the user: "dongle has an
+  old meaning like software protector or hardware-auth ... We build in
+  public", and "it could also be something like devkit"): each page's
+  first mention names it a USB-to-I2C dongle (or devkit, as the CH347F
+  EVT): the Dongles page's heading and intro, Get started, Devices, Home,
+  About, the physics index, the course, the not-found page, every sensor
+  page ("Live over a USB-to-I2C dongle"), the search descriptions and
+  titles. Home's bridges include the CH347F EVT.
 - **Get started: Where to buy?** (the user: "It could explain about the
   easy to buy part of ch341/ch347 and the various-ness of i2c sensors"),
   before the steps: the dongles common and cheap, found by the chip's name

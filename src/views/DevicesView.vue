@@ -42,7 +42,7 @@ const card = 'flex flex-col rounded-xl border-t-4 bg-white p-4 shadow-sm transit
         </label>
       </div>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        The sensors this site reads live over a USB dongle (a CH347, or a CH341), each with its wiring, its readings explained, and its settings. Every one is field-tested: its driver run on a real module, and its page tried on the bench with that module in hand, before it joined. More join the same way, one at a time.
+        The sensors this site reads live over a USB-to-I2C dongle (a CH347, or a CH341), each with its wiring, its readings explained, and its settings. Every one is field-tested: its driver run on a real module, and its page tried on the bench with that module in hand, before it joined. More join the same way, one at a time.
       </p>
     </div>
     <p v-if="query.trim()" class="-mt-2 text-sm text-slate-500 dark:text-slate-400" aria-live="polite">{{ count }} of {{ DEVICES.length }} sensors</p>

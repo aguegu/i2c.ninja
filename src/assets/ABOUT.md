@@ -3,7 +3,7 @@ Author: Weihong Guan [Github](https://github.com/aguegu/) [X(Twitter)](https://x
 About i2c.ninja
 ---
 
-i2c.ninja shows I2C devices live in the browser: a CH341 USB-to-I2C dongle reached over [WebUSB](https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API), the device drivers from [atiic](https://github.com/aguegu/atiic), each tested on a real device before its page goes up. It needs a Chromium browser ([WebUSB support](https://caniuse.com/webusb)); the [setup](/get-started) says what the dongle and your computer need.
+i2c.ninja shows I2C devices live in the browser: a USB-to-I2C dongle (a CH347 or a CH341) reached over [WebUSB](https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API), the device drivers from [atiic](https://github.com/aguegu/atiic), each tested on a real device before its page goes up. It needs a Chromium browser ([WebUSB support](https://caniuse.com/webusb)); the [setup](/get-started) says what the dongle and your computer need.
 
 It's made for teaching and tinkering: **STEM lessons** where the physics happens on the desk, **digital experiments** with real data from real sensors, and a quick **smoke test** for a module before it goes into a project. Schools, universities and other educational institutions may use it freely (see the license below).
 
@@ -32,7 +32,7 @@ Write to [support@meshmass.com](mailto:support@meshmass.com).
 Legal disclaimer
 ---
 
-This site talks, from your browser, to USB devices you choose: a USB dongle (a CH347 or a CH341) and the I2C devices wired to it. Wiring, powering and driving such hardware can damage it, the computer it is plugged into, or anything it controls. The setup steps change your system's settings (udev rules, kernel modules, USB drivers); you apply them at your own risk.
+This site talks, from your browser, to USB devices you choose: a USB-to-I2C dongle (a CH347 or a CH341) and the I2C devices wired to it. Wiring, powering and driving such hardware can damage it, the computer it is plugged into, or anything it controls. The setup steps change your system's settings (udev rules, kernel modules, USB drivers); you apply them at your own risk.
 
 **The readings are the sensor's, not ours.** i2c.ninja presents what each sensor offers, read and converted as its datasheet describes, and nothing more. It doesn't certify or endorse them, and a calibration a page offers is one you run yourself: a reading is only as good as the module it comes from, its wiring and its surroundings. The code and the drivers are open source, so how every number is made can be checked.
 

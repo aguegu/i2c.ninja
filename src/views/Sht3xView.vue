@@ -13,7 +13,7 @@ import HumidityPage from '../components/HumidityPage.vue';
     drawing-caption="The small blue SHT3x board (printed SHT3X-DIS): its header runs scl, sda, gnd, vcc, so the SDA and SCL wires cross. Its ADDR pin isn't on the header: the board ties it, for 0x44. Keep it away from warm parts."
   >
     <template #intro>
-      Sensirion's next humidity and temperature sensor after the SHT20 (the SHT30, SHT31 and SHT35 differ in accuracy): how warm the air is and how full of water. Faster and more accurate than the SHT20, read four times a second here. Live over the USB dongle; the water in the air and the dew point on <RouterLink to="/physics/humidity" class="text-emerald-700 underline dark:text-emerald-400">Humidity and dew point</RouterLink>.
+      Sensirion's next humidity and temperature sensor after the SHT20 (the SHT30, SHT31 and SHT35 differ in accuracy): how warm the air is and how full of water. Faster and more accurate than the SHT20, read four times a second here. Live over a USB-to-I2C dongle; the water in the air and the dew point on <RouterLink to="/physics/humidity" class="text-emerald-700 underline dark:text-emerald-400">Humidity and dew point</RouterLink>.
     </template>
     <template #measures="{ readMs, hold }">
       <p class="mb-2">
