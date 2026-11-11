@@ -51,3 +51,15 @@ I2C. If an I2C ultrasonic module turns up (or dart grows a timed pin), a
 page measuring the speed of sound: a target at a known distance, the echo
 time, and the speed's change with the room's temperature (an SHT20 or
 AHT21B beside it), 0.6 m/s a degree.
+
+## Machine translation (parked 2026-11-11: "I do not want to over engineer these yet")
+
+"Dongle" became 加密狗 in a browser's translator, so the page text says bridge
+since 1.7.0. Words that may mistranslate the same way, counted in the page
+text then: header(s) 6 (标题 for 排针: "pin header"), breakout 2 (突破:
+"breakout board"), bus alone 18 ("I²C bus"), "CH341T stick" 1, "our bench" 9
+("test bench"). Further steps, smallest first: `translate="no"` on chip, pin
+and header names; the cheatsheets' notes out of the SVGs into the page's
+HTML (images aren't translated); a short EN/中文 glossary (I²C 总线, 排针,
+跳线帽, 上拉电阻, 桥接器); a check page on desktop Chrome's Translator API; a
+/zh edition with hreflang. Wait for a real reader's stumble first.
