@@ -33,6 +33,10 @@ A new dongle, a minor version (the user: "I think i2c.ninja can bump to
   About, the physics index, the course, the not-found page, every sensor
   page ("Live over a USB-to-I2C dongle"), the search descriptions and
   titles. Home's bridges include the CH347F EVT.
+- **Bridges, not Dongles** (the user: "let's change the 'Dongles' title
+  too", then Bridges, the address moved): the page is USB-to-I2C bridges at
+  /bridges, "Bridges" in the nav and footer, /dongles forwarding to it (the
+  cheatsheets stay under /dongles/); Get started's "2. The bridge".
 - **Get started: Where to buy?** (the user: "It could explain about the
   easy to buy part of ch341/ch347 and the various-ness of i2c sensors"),
   before the steps: the dongles common and cheap, found by the chip's name

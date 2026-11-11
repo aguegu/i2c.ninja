@@ -83,13 +83,13 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       <h2 class="mb-2 text-lg font-semibold">Where to buy?</h2>
       <div class="grid gap-4 leading-relaxed md:grid-cols-2">
         <div>
-          <h3 class="mb-1 font-semibold">The dongle</h3>
+          <h3 class="mb-1 font-semibold">The bridge</h3>
           <p>
             CH341 and CH347 boards are common and cheap: online marketplaces
             (Amazon, AliExpress, Taobao) and electronics shops carry them, from
             many sellers under many names. Search by the chip, not the shop: each
             board's card on
-            <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>
+            <RouterLink to="/bridges" class="text-emerald-700 underline dark:text-emerald-400">Bridges</RouterLink>
             gives the words that find it and how to recognise it when it comes.
             The CH347F evaluation board is WCH's own: search for its name,
             <i>WCH CH347F EVT</i>.
@@ -129,7 +129,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </section>
 
     <section :class="card">
-      <h2 class="mb-2 text-lg font-semibold">2. The dongle</h2>
+      <h2 class="mb-2 text-lg font-semibold">2. The bridge</h2>
       <p class="mb-4 leading-relaxed">
         Any of these: set it as its card says, with it unplugged, then four
         wires to the device. Each drawing opens full screen (its corner button).
@@ -148,7 +148,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
 
       <p class="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
         Another board, or not sure which you have?
-        <RouterLink to="/dongles" class="text-emerald-700 underline dark:text-emerald-400">Dongles</RouterLink>:
+        <RouterLink to="/bridges" class="text-emerald-700 underline dark:text-emerald-400">Bridges</RouterLink>:
         the ones we tested side by side, how to recognise each and what to search for.
       </p>
     </section>

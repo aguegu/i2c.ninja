@@ -11,7 +11,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
-    <h1 class="mt-2 text-2xl font-bold">USB-to-I2C dongles</h1>
+    <h1 class="mt-2 text-2xl font-bold">USB-to-I2C bridges</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       A USB-to-I2C dongle, or a devkit such as WCH's CH347F evaluation board, is
       the bridge between the computer and the I2C bus. They
@@ -87,7 +87,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </section>
 
     <p class="text-sm text-slate-500 dark:text-slate-400">
-      A dongle we haven't tried?
+      A bridge we haven't tried?
       <a :href="NEW_ISSUE" :class="link">Open an issue</a>
       with its name and a photo or the listing.
     </p>

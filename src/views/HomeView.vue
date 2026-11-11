@@ -2,7 +2,7 @@
 // The home page, a simple landing page: the hero (what it is, the way in, and
 // the site's own views in turn: HeroCarousel),
 // what's inside as six cards, the hardware it asks for (no board of ours:
-// the common WCH bridges and common modules; to Dongles), and three quotes
+// the common WCH bridges and common modules; to Bridges), and three quotes
 // on measuring and understanding.
 import HeroCarousel from '../components/HeroCarousel.vue';
 import { DEVICES } from '../lib/devices.js';
@@ -55,9 +55,9 @@ const QUOTES = [
       </RouterLink>
     </section>
 
-    <!-- the hardware: no board of ours, common dongles and common modules; to Dongles -->
+    <!-- the hardware: no board of ours, common bridges and common modules; to Bridges -->
     <section class="mx-auto w-full max-w-5xl px-4 pb-12">
-      <RouterLink to="/dongles" class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 sm:flex-row sm:items-center dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
+      <RouterLink to="/bridges" class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 sm:flex-row sm:items-center dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
         <svg viewBox="0 0 24 24" class="h-10 w-10 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v4M15 2v4M7 6h10v5a5 5 0 0 1-10 0zM12 16v6" /></svg>
         <span class="flex flex-col">
           <span class="font-semibold">Common hardware, no lock-in</span>

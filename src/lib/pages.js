@@ -51,8 +51,8 @@ export const PAGES = [
     description: 'The CH347 or CH341 USB-to-I2C dongle set up: the mode switch or the jumpers, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
   },
   {
-    path: '/dongles',
-    title: 'USB-to-I2C dongles: the bridges we tested (CH347F, CH347T, CH341T, CH341A)',
+    path: '/bridges',
+    title: 'USB-to-I2C bridges: the ones we tested (CH347F, CH347T, CH341T, CH341A)',
     description: 'The USB-to-I2C dongles we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
   },
   ...DEVICES.map((d) => ({
@@ -119,7 +119,7 @@ export const PAGES = [
 // card, the blog list) runs past DESCRIBE_MAX
 const DESCRIBE = {
   '/': 'Real sensors live in your browser over a USB-to-I2C dongle, nothing to install: motion, distance, humidity, colour, pulse, power, and the physics behind them.',
-  '/dongles': 'The USB-to-I2C dongles tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
+  '/bridges': 'The USB-to-I2C bridges tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
   '/mpu6050': 'MPU-6050 / MPU-6500 by InvenSense: acceleration and rotation on 3 axes each, and temperature, what tilts a phone or a drone. Live in your browser over USB.',
   '/sht20': 'SHT20 by Sensirion: relative humidity and temperature at a resolution you pick, the air\'s water and when a glass sweats. Live in your browser over USB.',
   '/max30102': 'MAX30102 by Maxim: red and infrared light through a fingertip, the heartbeat as a live trace, and how oximeters see oxygen. Live in your browser over USB.',

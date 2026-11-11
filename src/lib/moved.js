@@ -3,6 +3,7 @@
 // links and search results keep working
 export const MOVED = {
   '/setup': '/get-started', // before 1.0.27
+  '/dongles': '/bridges', // before 1.7.0 (its cheatsheets stay under /dongles/)
   // Learn the IMU's chapters, folded into the pages in 1.3.x
   '/learn/imu': '/learn/motion',
   '/learn/imu/raw-numbers': '/mpu6050#raw',
