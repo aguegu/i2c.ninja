@@ -50,7 +50,7 @@ const QUOTES = [
       <RouterLink to="/physics" class="flex flex-col gap-4 rounded-xl bg-emerald-600/5 p-5 ring-emerald-600 transition hover:bg-emerald-600/10 hover:ring-1 sm:flex-row sm:items-center dark:bg-emerald-400/5 dark:hover:bg-emerald-400/10">
         <svg viewBox="0 0 24 24" class="h-10 w-10 shrink-0 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" /></svg>
         <span class="flex flex-col">
-          <span class="font-semibold">The science first, no programming</span>
+          <span class="font-semibold">The science first, programming optional</span>
           <span class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             A sensor on a USB-to-I²C bridge, and its readings and their pictures are on the page. The lesson goes to the physics and the maths: what is measured, why and how, what the numbers tell, and how to put them to use in the real world.
             No microcontroller board to program, no other tech stack to learn just to get a number.
