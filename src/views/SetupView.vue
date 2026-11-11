@@ -77,7 +77,7 @@ const GAINS = [
   {
     who: 'Teachers',
     icon: 'M3 4h18M4 4v11h16V4M12 15v3M8 21l4-3 4 3M8 11l3-3 2 2 3-3',
-    text: 'Lessons and experiments with nothing to install: a browser and a bridge, and once visited the site works offline. Class demos, lab work and home assignments, the raw readings logged and charted for the students\' reports. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
+    text: 'Lessons and experiments with nothing to install: a browser and a bridge, and once visited the site works offline. Class demos on the projector, every live chart a click from full screen; lab work and home assignments, the raw readings logged and charted for the students\' reports. Its drawings and explanations are free for your slides and handouts, with credit, paid courses included.',
     links: [{ to: '/algorithms', label: 'Algorithms' }, { to: '/blog/three-licenses', label: 'The licenses' }],
   },
   {
