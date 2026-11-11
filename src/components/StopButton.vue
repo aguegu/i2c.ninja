@@ -14,7 +14,7 @@ async function onStop(e) {
 </script>
 
 <template>
-  <button type="button" v-bind="$attrs" class="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 font-medium text-orange-950 hover:bg-orange-400 active:bg-orange-600" @click="onStop">
+  <button type="button" v-bind="$attrs" class="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600 active:bg-orange-700" @click="onStop">
     <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5" /></svg>
     <slot>Stop</slot>
   </button>
