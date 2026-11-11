@@ -83,7 +83,7 @@ const GAINS = [
   {
     who: 'Makers and engineers',
     icon: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z',
-    text: 'A module checked in a minute: found by its ID, its readings live. The drivers behind every page are atiic\'s, MIT, the same code in your own project, in a browser or in Node. And measured facts about the bridges and chips that their datasheets leave out.',
+    text: 'A module checked in a minute: found by its ID, its readings live. The drivers behind every page are atiic\'s, MIT, field-tested here with real modules: use them as they are, or as a reference for your own driver or project. And measured facts about the bridges and chips that their datasheets leave out.',
     links: [{ href: ATIIC, label: 'atiic' }, { to: '/bridges', label: 'Bridges' }],
   },
 ];
