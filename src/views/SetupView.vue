@@ -234,7 +234,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
 
       <div v-else-if="platform === 'macos'" class="max-w-3xl leading-relaxed">
         <p>
-          Nothing to do: macOS lets the browser open the dongle. If WCH's own
+          Nothing to do: macOS lets the browser open the bridge. If WCH's own
           CH341 driver is installed and holds the bridge, the check below says
           it's busy.
         </p>
