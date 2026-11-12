@@ -255,7 +255,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
       </div>
 
       <div v-else class="max-w-3xl leading-relaxed">
-        <p>Nothing to do: Chrome asks once whether this site may use the dongle.</p>
+        <p>Nothing to do: Chrome asks once whether this site may use the bridge.</p>
       </div>
     </section>
 
