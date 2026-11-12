@@ -9,7 +9,7 @@ How a phone, a game controller or a drone knows which way it's turned, from two 
 
 ## 2. Wire it up
 
-1. **The dongle.** Follow [Get started](/get-started) until your browser sees the CH341.
+1. **The bridge.** Follow [Get started](/get-started) until your browser sees the CH341.
 2. **Pick a kit**, either works for the whole course:
    - one board with both sensors: an [MPU-6050 (GY-521) or MPU-6500](/mpu6050);
    - or two boards: an [ADXL345](/adxl345) for acceleration and an [ITG-3200](/itg3200) for turning. Tape them together with their printed x, y and z arrows pointing the same ways.

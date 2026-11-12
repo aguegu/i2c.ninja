@@ -60,7 +60,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     <div class="mt-2">
       <h1 class="text-2xl font-bold">INA231</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over a USB-to-I²C dongle.
+        A current and power monitor: put its shunt resistor in series with a load, and it measures the voltage across the shunt and the voltage on the load's side, and works out the current and power from them. Live over a USB-to-I²C bridge.
       </p>
     </div>
 

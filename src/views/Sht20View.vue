@@ -11,7 +11,7 @@ import HumidityPage from '../components/HumidityPage.vue';
     drawing-caption="The small green SHT20 board: its header runs scl, sda, gnd, vcc, so the SDA and SCL wires cross. Keep it away from warm parts."
   >
     <template #intro>
-      Sensirion's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over a USB-to-I²C dongle.
+      Sensirion's humidity and temperature sensor: how warm the air is, how much of the moisture it could hold it holds, and from the two, the dew point. Live over a USB-to-I²C bridge.
     </template>
     <template #measures="{ readMs, hold }">
       <p class="mb-2">

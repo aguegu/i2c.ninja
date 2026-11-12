@@ -24,7 +24,7 @@ Commercial opportunities are welcome:
 
 - **Vendors**: a sponsored link on a device's page to where to buy that sensor, the bridge or a kit, marked as such.
 - **Your sensor here**: a page for your module, once its driver has run on a real one on the bench.
-- **Kits and teaching**: dongle-and-sensor kits around these pages, for workshops, schools and labs.
+- **Kits and teaching**: bridge-and-sensor kits around these pages, for workshops, schools and labs.
 - **Commercial use** of i2c.ninja's code or content, under a license of its own.
 
 Write to [support@meshmass.com](mailto:support@meshmass.com).

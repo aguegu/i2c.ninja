@@ -27,7 +27,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">MAX30102</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A pulse oximeter and heart-rate sensor, the kind in a smartwatch or a fingertip clip: a red and an infrared LED shine into the skin, a photodiode reads the light that comes back, and each heartbeat shows in it. Live over a USB-to-I²C dongle.
+        A pulse oximeter and heart-rate sensor, the kind in a smartwatch or a fingertip clip: a red and an infrared LED shine into the skin, a photodiode reads the light that comes back, and each heartbeat shows in it. Live over a USB-to-I²C bridge.
       </p>
     </div>
 

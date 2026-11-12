@@ -10,6 +10,11 @@
   plugged in, macOS asks whether to allow it, and until then the bridge
   isn't in the browser's list. Labelled as Apple's documented step (the
   Mac tried is an Intel one).
+- **"Bridge", not "dongle", in the pages' text** (the user's word: a
+  machine translator renders "dongle" as a copy-protection key): the
+  macOS and ChromeOS steps, the not-found page, the seven device pages'
+  "Live over a USB-to-I²C bridge", the motion course's first step and the
+  About page. The blog posts keep theirs (published, one in its address).
 
 ## 1.8.13
 

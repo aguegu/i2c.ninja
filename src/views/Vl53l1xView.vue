@@ -61,7 +61,7 @@ const ambientLevel = computed(() => {
     <div class="mt-2">
       <h1 class="text-2xl font-bold">VL53L1X</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        ST's time-of-flight distance sensor: it times light to whatever it faces and back, and turns the time into millimetres, up to about 4 m. Live over a USB-to-I²C dongle.
+        ST's time-of-flight distance sensor: it times light to whatever it faces and back, and turns the time into millimetres, up to about 4 m. Live over a USB-to-I²C bridge.
       </p>
     </div>
 

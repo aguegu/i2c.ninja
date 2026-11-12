@@ -11,7 +11,7 @@ const route = useRoute();
     <h1 class="mt-2 text-2xl font-bold">Not found</h1>
     <p class="leading-relaxed text-slate-500 dark:text-slate-400">
       There's no page at <code class="font-mono">{{ route.path }}</code>. Try a device, or
-      <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">get started</RouterLink> with a USB-to-I²C dongle.
+      <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">get started</RouterLink> with a USB-to-I²C bridge.
     </p>
     <ul class="flex flex-wrap gap-2">
       <li v-for="l in DEVICE_LINKS" :key="l.to">
