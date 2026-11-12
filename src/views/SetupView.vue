@@ -220,6 +220,13 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <li>Choose WinUSB as the driver, then Install (or Replace) Driver.</li>
         </ol>
         <p>
+          Some antivirus software blocks this install: Zadig builds the driver
+          package on the spot and signs it with a certificate of its own,
+          which a scanner may not trust. If the install fails, or the bridge
+          is back on its old driver afterwards, allow Zadig in the antivirus
+          for the install, then run it again.
+        </p>
+        <p>
           WCH's own CH341 driver and tools then no longer see this bridge,
           until its driver is switched back.
         </p>

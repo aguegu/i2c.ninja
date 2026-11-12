@@ -10,6 +10,10 @@
   plugged in, macOS asks whether to allow it, and until then the bridge
   isn't in the browser's list. Labelled as Apple's documented step (the
   Mac tried is an Intel one).
+- **Windows: Zadig and antivirus software** (the user: "some antivirus
+  software may block the driver installation"): Zadig signs the driver
+  package it builds with its own certificate, which some scanners block; the
+  Windows steps say what that looks like and to allow Zadig for the install.
 - **"Bridge", not "dongle", in the pages' text** (the user's word: a
   machine translator renders "dongle" as a copy-protection key): the
   macOS and ChromeOS steps, the not-found page, the seven device pages'
