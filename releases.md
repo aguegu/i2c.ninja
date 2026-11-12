@@ -14,6 +14,12 @@
   software may block the driver installation"): Zadig signs the driver
   package it builds with its own certificate, which some scanners block; the
   Windows steps say what that looks like and to allow Zadig for the install.
+- **Device pages' structured data: the chip a Thing, not a Product**
+  (Search Console, 2026-11-12: "Either offers, review, or aggregateRating
+  should be specified"): each device page is a TechArticle about the chip;
+  as a Product, Google looked for a price, reviews or a rating for product
+  results. Now `about` is a Thing with its name and its maker in the
+  description; the pages index as articles as before.
 - **"Bridge", not "dongle", in the pages' text** (the user's word: a
   machine translator renders "dongle" as a copy-protection key): the
   macOS and ChromeOS steps, the not-found page, the seven device pages'

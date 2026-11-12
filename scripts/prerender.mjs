@@ -57,12 +57,15 @@ function crumbs(page) {
   return { '@type': 'BreadcrumbList', itemListElement: list.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.url })) };
 }
 
-// schema.org, the page's own kind
+// schema.org, the page's own kind. A device page is a TechArticle about a
+// Thing, the chip, not a Product: Google checks any Product for a price,
+// reviews or a rating (Search Console, 2026-11-12: "Either offers, review,
+// or aggregateRating should be specified"), and the site sells and rates nothing
 function structured(page) {
   const url = ORIGIN + page.path;
   const common = { name: page.heading ?? page.title, description: page.description, url, inLanguage: 'en', isAccessibleForFree: true };
   if (page.path === '/') return { '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, electronics, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } };
-  if (page.kind === 'device') return { '@type': 'TechArticle', headline: page.title, ...common, about: { '@type': 'Product', name: page.about.name, manufacturer: { '@type': 'Organization', name: page.about.maker } }, publisher: PUBLISHER };
+  if (page.kind === 'device') return { '@type': 'TechArticle', headline: page.title, ...common, about: { '@type': 'Thing', name: page.about.name, description: `a chip by ${page.about.maker}` }, publisher: PUBLISHER };
   if (['physics', 'algorithm', 'course'].includes(page.kind)) return { '@type': 'LearningResource', ...common, learningResourceType: page.kind === 'course' ? 'course' : 'interactive resource', educationalUse: 'experiment', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' }, author: AUTHOR, publisher: PUBLISHER };
   if (page.kind === 'post') return { '@type': 'BlogPosting', headline: page.heading, description: page.description, url, datePublished: page.published, author: AUTHOR, publisher: PUBLISHER, ...(page.image && { image: ORIGIN + page.image }) };
   return null;
