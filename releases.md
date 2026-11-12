@@ -1,5 +1,11 @@
 # Releases
 
+## 1.8.14
+
+- **macOS tried**: a CH347 on the user's Mac read through the site with
+  nothing set up, as the setup page's macOS steps say, so they no longer
+  carry "Not tried on our bench yet".
+
 ## 1.8.13
 
 1.8.10 to 1.8.13, deployed together.
