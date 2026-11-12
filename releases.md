@@ -5,6 +5,11 @@
 - **macOS tried**: a CH347 on the user's Mac read through the site with
   nothing set up, as the setup page's macOS steps say, so they no longer
   carry "Not tried on our bench yet".
+- **Apple silicon laptops**: the macOS steps add the one documented
+  difference: from macOS 13 on, the first time a new USB accessory is
+  plugged in, macOS asks whether to allow it, and until then the bridge
+  isn't in the browser's list. Labelled as Apple's documented step (the
+  Mac tried is an Intel one).
 
 ## 1.8.13
 

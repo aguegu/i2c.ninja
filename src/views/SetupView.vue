@@ -10,7 +10,7 @@ import { ATIIC } from '../lib/nav.js';
 const PLATFORMS = [
   { id: 'linux', label: 'Linux', tried: true }, // r8845: Manjaro 7.2.9, Chromium, 2026-11-04
   { id: 'windows', label: 'Windows', tried: true }, // the user, 2026-11-08: a CH347T, once on WinUSB (Zadig); a CH341 not tried
-  { id: 'macos', label: 'macOS', tried: true }, // the user's Mac, 2026-11-12: a CH347, nothing set up, as the steps say
+  { id: 'macos', label: 'macOS', tried: true }, // the user's Mac (Intel), 2026-11-12: a CH347, nothing set up, as the steps say; the Apple silicon accessory prompt is Apple's documented step, not tried
   { id: 'android', label: 'Android', tried: true }, // the user's phone, Chrome over an OTG adapter, 2026-11-05
   { id: 'chromeos', label: 'ChromeOS', tried: false },
 ];
@@ -237,6 +237,12 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           Nothing to do: macOS lets the browser open the dongle. If WCH's own
           CH341 driver is installed and holds the bridge, the check below says
           it's busy.
+        </p>
+        <p class="mt-3">
+          On a laptop with Apple silicon (an M-series chip), macOS 13 and
+          later asks the first time a new USB accessory is plugged in:
+          choose Allow, or the bridge won't show in the browser's list.
+          This is Apple's documented step; our Mac (Intel) never asked it.
         </p>
       </div>
 
