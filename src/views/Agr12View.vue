@@ -42,7 +42,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">AGR12</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Aosong's gauge pressure sensor: the pressure in a tube over the room's air; by part, positive, vacuum or both. Blow into it, suck on it, squeeze a bulb. Live over a USB-to-I²C bridge.
+        Aosong's gauge pressure sensor: the pressure in a tube over the room's air. Its vacuum and two-way siblings, the AGN12 and AGP12, work on this page too: the same pins, the same command (one manual covers all three). Blow into it, suck on it, squeeze a bulb. Live over a USB-to-I²C bridge.
       </p>
     </div>
 
