@@ -83,17 +83,17 @@
   <polygon points="652.9,209.6 721.6,209.6 748.7,236.6 748.7,305.4 721.6,332.5 652.9,332.5 625.8,305.4 625.8,236.6" fill="#e9e3d3" stroke="#7a6f58" stroke-width="2"/>
   <circle cx="687.2440944881889" cy="271.03937007874015" r="14.173228346456693" fill="none" stroke="#7a6f58" stroke-width="1.5" stroke-dasharray="4 3"/>
   <rect x="635" y="242.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="650" y="251.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">3</text>
+  <text x="650" y="251.03937007874015" text-anchor="start" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">3</text>
   <rect x="635" y="266.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="650" y="275.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">2</text>
+  <text x="650" y="275.03937007874015" text-anchor="start" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">2</text>
   <rect x="635" y="290.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="650" y="299.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">1</text>
+  <text x="650" y="299.03937007874015" text-anchor="start" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">1</text>
   <rect x="729.488188976378" y="242.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="744.488188976378" y="251.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">4</text>
+  <text x="724.488188976378" y="251.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">4</text>
   <rect x="729.488188976378" y="266.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="744.488188976378" y="275.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">5</text>
+  <text x="724.488188976378" y="275.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">5</text>
   <rect x="729.488188976378" y="290.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="744.488188976378" y="299.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">6</text>
+  <text x="724.488188976378" y="299.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">6</text>
   <circle cx="666" cy="295.03937007874015" r="4" fill="#222"/>
   <text x="687.2440944881889" y="352.45669291338584" text-anchor="middle" font-size="12" fill="#555">AGR12, from its pins (port dashed, other side)</text>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
