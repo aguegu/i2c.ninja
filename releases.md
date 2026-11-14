@@ -1,7 +1,21 @@
 # Releases
 
-## 1.8.15
+## 1.9.0
 
+Two Aosong sensors: the AGS2602 (TVOC) and the AGR12 (gauge pressure). The
+AGR12 part went out first as 1.8.15 (commit fde008e); the user renumbered
+it 1.9.0.
+
+- **AGS2602 page** (`/ags2602`): Aosong's TVOC sensor live, found by its
+  version's CRC at 0x1A, read every 2 s (its manual's sampling period) at
+  100 kHz: the TVOC in ppb and its film's resistance, two ten-minute charts
+  that mirror each other, and why (the hot metal oxide's resistance falls as
+  VOCs reach it). A warm-up countdown from connecting (its 120 s; 30-60
+  minutes after days unpowered), then its RDY bit. **It needs 5 V**: its
+  drawing has the CH341T's jumper on 5V, ringed in red, GND straight across
+  and VCC around the sensor (`ch32v00x/scripts/wiring/ch341t-ags2602.py`;
+  `ch341t_dongle.draw()` takes `five_volt`). The Air group's blurb adds
+  gases.
 - **AGR12 page** (`/agr12`; `/agn12` and `/agp12` lead there): Aosong's
   gauge pressure sensor live, read at 20 kHz (its 2026 manual: 30 kHz at
   most). Its siblings, the AGN12 (vacuum) and AGP12 (both ways), work on
@@ -18,7 +32,7 @@
 - **Its wiring drawing**: the CH341T to the AGR12 from its pins, drawn to
   the manual's figures (`ch32v00x/scripts/wiring/ch341t-agr12.py`).
 - **The settings table**: "This page uses" stays on one line.
-- **atiic 1.8.1** (from 1.6.1): the Agr12 driver.
+- **atiic 1.8.2** (from 1.6.1): the `Agr12` and `Ags2602` drivers.
 
 ## 1.8.14
 
