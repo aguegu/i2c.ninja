@@ -89,7 +89,7 @@ export const DEVICES = [
   },
   {
     to: '/agr12',
-    name: 'AGR12 / AGN12 / AGP12',
+    name: 'AGR12',
     maker: 'Aosong',
     kind: 'Pressure',
     group: 'Air',

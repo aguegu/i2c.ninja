@@ -1,4 +1,4 @@
-// An AGR12 / AGN12 / AGP12 (I2C version) on the bridge, for a page: there's
+// An AGR12 (I2C version) on the bridge, for a page: there's
 // nothing to identify it by (atiic's Agr12: read alone it answers 0xFF, as an
 // erased EEPROM), so the page is its name. Opened at 20 kHz (its limit is 30
 // kHz), 0x50 checked to answer, refused if 0x51-0x53 answer too (an AT24C04,

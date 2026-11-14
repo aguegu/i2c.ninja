@@ -1,5 +1,5 @@
 <script setup>
-// The AGR12 / AGN12 / AGP12 (I2C version) live on the bridge: gauge pressure,
+// The AGR12 (I2C version) live on the bridge: gauge pressure,
 // the pressure in its port over the room's; not identifiable (the page is its
 // name), the bus at 20 kHz; how it's read, its settings from Aosong's manual
 // (AGR12\AGN12\AGP12 series, 2026-05)
@@ -19,7 +19,7 @@ const PRESSURE_SPAN_KPA = 1; // the chart's least span: 10 of its 0.1 kPa steps
 const PRESSURE = [{ label: 'pressure', color: '--series-1' }];
 // its settings, from Aosong's manual (2026-05; Tables 1, 3, 4, 6 and section 7), and the ones this page uses
 const SPECS = [
-  ['Range', 'by part: AGR12 0-40 to 0-1000 kPa; AGN12 -40 or -100 to 0 kPa; AGP12 ±40 or ±100 kPa (gauge: over the room\'s air)', 'all of it'],
+  ['Range', 'by part: 0-40 to 0-1000 kPa, -40 or -100 to 0 kPa (vacuum), or ±40 or ±100 kPa (gauge: over the room\'s air)', 'all of it'],
   ['Accuracy', '±1.5 % of the span (linearity, repeatability and hysteresis together); ±1 % of the span a year', 'as it comes'],
   ['Resolution', '16 bits inside; 0.1 kPa out', '0.1 kPa'],
   ['Overload', '5 times the full scale (up to 40 kPa), 2 times (100 kPa and over)', '-'],
@@ -40,15 +40,15 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 <template>
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
-      <h1 class="text-2xl font-bold">AGR12 / AGN12 / AGP12</h1>
+      <h1 class="text-2xl font-bold">AGR12</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        Aosong's gauge pressure sensors: the pressure in a tube over the room's air, positive (AGR12), vacuum (AGN12) or both (AGP12). Blow into it, suck on it, squeeze a bulb. Live over a USB-to-I²C bridge.
+        Aosong's gauge pressure sensor: the pressure in a tube over the room's air; by part, positive, vacuum or both. Blow into it, suck on it, squeeze a bulb. Live over a USB-to-I²C bridge.
       </p>
     </div>
 
     <figure :class="card">
       <SvgDrawing src="/setup-agr12.svg" alt="A CH341T bridge wired to an AGR12 seen from its six pins, the port on the other side: VCC to pin 1 beside the dot, GND to pin 2, SCL to pin 3, SDA to pin 4; pins 5 and 6 free" class="mx-auto w-full lg:w-4/5" />
-      <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">The I2C version, its part code ending in C (AGP12-040C, AGR12-100C …): pin 1 VCC, 2 GND, 3 SCL, 4 SDA; 5 and 6 free (its manual, Table 4). VCC to the bridge's 3.3 V: the I2C version takes 3 to 5.25 V, and its own 4.7 kΩ pull-ups hold SCL and SDA at its supply, so 3.3 V keeps the bridge's pins at theirs. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
+      <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">The I2C version, its part code ending in C (AGR12-100C …): pin 1 VCC, 2 GND, 3 SCL, 4 SDA; 5 and 6 free (its manual, Table 4). VCC to the bridge's 3.3 V: the I2C version takes 3 to 5.25 V, and its own 4.7 kΩ pull-ups hold SCL and SDA at its supply, so 3.3 V keeps the bridge's pins at theirs. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
       <p class="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
         <b>Nothing else at 0x50.</b> An AT24C EEPROM answers there too, and nothing read tells the two apart, so this page doesn't look: it takes what answers at 0x50 for the sensor and sends its measurement command, which a small EEPROM would take as a byte to store. It stops if 0x51-0x53 answer (a bigger EEPROM), but an AT24C01 or 02 sits at 0x50 alone. <b>Not on WCH's CH347F EVT board</b>: its own 24C02 is at 0x50, on the bridge itself. Ours took the command into its byte 0xAC from the first reading.
       </p>
@@ -78,7 +78,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <CollapsibleCard id="pressure" title="Gauge pressure">
       <LiveChart title="Gauge pressure" unit="kPa" :series="PRESSURE" :values="r ? [r.pressure] : []" :source="p.pressureSource" :window-ms="WINDOW_MS" :floor="PRESSURE_SPAN_KPA" :digits="1" fit />
       <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        Open to the room it reads 0 (give or take 0.1 kPa): gauge pressure is the difference from the air around it, not the air's own weight (that's an absolute sensor's, the <RouterLink to="/spl06" :class="link">SPL06</RouterLink>'s, about 101 kPa). A breath into a tube on its port pushes a few kPa; sucking on it pulls below 0, which only an AGN12 or AGP12 shows.
+        Open to the room it reads 0 (give or take 0.1 kPa): gauge pressure is the difference from the air around it, not the air's own weight (that's an absolute sensor's, the <RouterLink to="/spl06" :class="link">SPL06</RouterLink>'s, about 101 kPa). A breath into a tube on its port pushes a few kPa; sucking on it pulls below 0, which only the vacuum and two-way parts show.
       </p>
     </CollapsibleCard>
 

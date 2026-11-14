@@ -12,7 +12,7 @@
     </g>
   </defs>
   <rect class="bg" width="860" height="430" fill="#ffffff"/>
-  <text x="430.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + AGR12 / AGP12 (I2C version)</text>
+  <text x="430.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + AGR12 (I2C version)</text>
   <text x="119.13385826771655" y="163.6220472440945" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
   <rect x="190.0" y="150.0" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <rect x="205.11811023622047" y="166.06299212598427" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
@@ -95,7 +95,7 @@
   <rect x="729.488188976378" y="290.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
   <text x="744.488188976378" y="299.03937007874015" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">6</text>
   <circle cx="666" cy="295.03937007874015" r="4" fill="#222"/>
-  <text x="687.2440944881889" y="352.45669291338584" text-anchor="middle" font-size="12" fill="#555">AGR12 / AGP12, from its pins (port dashed, other side)</text>
+  <text x="687.2440944881889" y="352.45669291338584" text-anchor="middle" font-size="12" fill="#555">AGR12, from its pins (port dashed, other side)</text>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M557.7086614173228 247.03937007874015 H632" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 247.03937007874015 H632" stroke="#f2c200" stroke-width="5"/>
     <path d="M557.7086614173228 271.03937007874015 H632" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 271.03937007874015 H632" stroke="#3a3a3a" stroke-width="5"/>
