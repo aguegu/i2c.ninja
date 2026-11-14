@@ -12,7 +12,7 @@ defineProps({
       <tr>
         <th class="w-1/5 py-1.5 pr-4 font-medium">Setting</th>
         <th class="py-1.5 pr-4 font-medium">The chip offers</th>
-        <th class="py-1.5 font-medium">This page uses</th>
+        <th class="whitespace-nowrap py-1.5 font-medium">This page uses</th>
       </tr>
     </thead>
     <tbody>
