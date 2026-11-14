@@ -9,6 +9,7 @@ import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import LiveChart from '../components/LiveChart.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
 import { useAgr12 } from '../lib/useAgr12.js';
@@ -45,13 +46,13 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'leading-relaxed']">
-      <h2 class="mb-2 text-lg font-semibold">Wiring</h2>
-      <p class="mb-2">The I2C version, its part code ending in C (AGP12-040C, AGR12-100C …): pin 1 VCC, 2 GND, 3 SCL, 4 SDA; 5 and 6 free (its manual, Table 4). VCC to the bridge's 3.3 V: the I2C version takes 3 to 5.25 V, and its own 4.7 kΩ pull-ups hold SCL and SDA at its supply, so 3.3 V keeps the bridge's pins at theirs. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</p>
-      <p class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-        <b>Nothing else at 0x50.</b> An AT24C EEPROM answers there too, and nothing read tells the two apart, so this page doesn't look: it takes what answers at 0x50 for the sensor and sends its measurement command, which a small EEPROM would take as a byte to store. It stops if 0x51-0x53 answer (a bigger EEPROM), but an AT24C01 or 02 sits at 0x50 alone.
+    <figure :class="card">
+      <SvgDrawing src="/setup-agr12.svg" alt="A CH341T bridge wired to an AGR12 seen from its six pins, the port on the other side: VCC to pin 1 beside the dot, GND to pin 2, SCL to pin 3, SDA to pin 4; pins 5 and 6 free" class="mx-auto w-full lg:w-4/5" />
+      <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">The I2C version, its part code ending in C (AGP12-040C, AGR12-100C …): pin 1 VCC, 2 GND, 3 SCL, 4 SDA; 5 and 6 free (its manual, Table 4). VCC to the bridge's 3.3 V: the I2C version takes 3 to 5.25 V, and its own 4.7 kΩ pull-ups hold SCL and SDA at its supply, so 3.3 V keeps the bridge's pins at theirs. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
+      <p class="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+        <b>Nothing else at 0x50.</b> An AT24C EEPROM answers there too, and nothing read tells the two apart, so this page doesn't look: it takes what answers at 0x50 for the sensor and sends its measurement command, which a small EEPROM would take as a byte to store. It stops if 0x51-0x53 answer (a bigger EEPROM), but an AT24C01 or 02 sits at 0x50 alone. <b>Not on WCH's CH347F EVT board</b>: its own 24C02 is at 0x50, on the bridge itself. Ours took the command into its byte 0xAC from the first reading.
       </p>
-    </section>
+    </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
@@ -87,7 +88,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Two chips on a small board: a pressure sensor and one that corrects its offset, sensitivity, temperature drift and curve. Over I2C it takes one command, two bytes (0xAC 0x12): its manual asks 80 ms before the answer, three bytes: the pressure in tenths of a kPa, high byte first and signed, then the two XORed as a check. A result reads once: read again and it answers 0xFF 0xFF 0xFF, which the check refuses. So atiic sends the command, waits the 80 ms, reads: about 11 readings a second.
       </p>
       <p>
-        <b>Slow:</b> its manual (2026) allows the bus 30 kHz at most, where most sensors take 100 or 400 kHz (its 2024 edition said 100 kHz), so this page runs the bridge at 20 kHz, the CH341's and CH347's slowest. Faster, it doesn't just fail: on our bench, open to the room, at 100 kHz it read 25.5 kPa in 27 of 50 tries, wrong, and the check passed (0x00 0xFF 0xFF); at 400 kHz 49 of 50 failed. At 20 kHz, 50 of 50 read 0. <b>No ID:</b> read without a command it answers 0xFF, as a blank EEPROM does; hence the warning above.
+        <b>Slow:</b> its manual (2026) allows the bus 30 kHz at most, where most sensors take 100 or 400 kHz (its 2024 edition said 100 kHz), so this page runs the bridge at 20 kHz, the CH341's and CH347's slowest. Faster, it doesn't just fail: on our bench, on a CH347T at 3.3 V, open to the room, at 100 kHz it read 25.5 kPa in 6 of 50 tries, wrong, and the check passed (0x00 0xFF 0xFF); 33 more failed the check. At 400 kHz none of 50 read. At 20 kHz 48 of 50 read 0 or −0.1 kPa, and the 2 the check refused are skipped. <b>No ID:</b> read without a command it answers 0xFF, as a blank EEPROM does; hence the warning above.
       </p>
     </CollapsibleCard>
 
