@@ -1,5 +1,25 @@
 # Releases
 
+## 1.8.15
+
+- **AGR12 page** (`/agr12`; `/agn12` and `/agp12` lead there): Aosong's
+  gauge pressure sensor live, read at 20 kHz (its 2026 manual: 30 kHz at
+  most). Its siblings, the AGN12 (vacuum) and AGP12 (both ways), work on
+  the same page: one manual, the same pins and command. The page, the
+  device list and the drawing name it AGR12 alone (the user).
+- **Measured on our AGP12-040C** (a CH347T at 3.3 V, open to the room): at
+  100 kHz 6 of 50 readings came back 25.5 kPa, wrong, with the check
+  passing, 33 more failed; at 400 kHz none of 50 read; at 20 kHz 48 of 50
+  read 0 or -0.1 kPa, the 2 the check refused skipped.
+- **Never auto-detected**: nothing read tells it from an AT24C EEPROM at
+  0x50, and its command would write into one; the page stops if 0x51-0x53
+  answer, and a short note asks for 0x50 alone (WCH's CH347F EVT board has
+  a 24C02 there: ours took the command into its byte 0xAC).
+- **Its wiring drawing**: the CH341T to the AGR12 from its pins, drawn to
+  the manual's figures (`ch32v00x/scripts/wiring/ch341t-agr12.py`).
+- **The settings table**: "This page uses" stays on one line.
+- **atiic 1.8.1** (from 1.6.1): the Agr12 driver.
+
 ## 1.8.14
 
 - **macOS tried**: a CH347 on the user's Mac read through the site with
