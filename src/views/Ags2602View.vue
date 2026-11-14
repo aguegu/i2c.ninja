@@ -11,7 +11,7 @@ import SpecTable from '../components/SpecTable.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import { hasWebUsb, hex } from '../lib/dongle.js';
-import { useAgs2602, SCL_HZ, READ_MS } from '../lib/useAgs2602.js';
+import { useAgs2602, SCL_HZ, READ_MS, WARMUP_S } from '../lib/useAgs2602.js';
 
 const WINDOW_MS = 600000; // ten minutes: a gas comes and goes over minutes
 const TVOC_SPAN_PPB = 500; // the chart's least span
@@ -33,6 +33,10 @@ const SPECS = [
 
 const p = reactive(useAgs2602({ windowMs: WINDOW_MS }));
 const r = computed(() => p.latest);
+// the warm-up left, s: counted from connecting (the bridge may have powered it
+// longer), refreshed with each reading
+const warmLeft = computed(() => (r.value && p.since !== null ? Math.max(0, WARMUP_S - (performance.now() - p.since) / 1000) : 0));
+const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -49,7 +53,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
     <figure :class="card">
       <SvgDrawing src="/setup-ags2602.svg" alt="A CH341T bridge, its jumpers on I2C and 5V, wired to an AGS2602 seen from its pins: VCC to pin 1, SDA to pin 2, GND to pin 3, SCL to pin 4" class="mx-auto w-full lg:w-4/5" />
-      <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">Pin 1 VCC, 2 SDA, 3 GND, 4 SCL (its manual, Table 2). It needs 5 V (4.75 to 5.25), and its manual asks its SDA and SCL pulled up to it: the CH341T with its jumper on 5V runs its lines at 5 V too. The CH347's lines are 3.3 V. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
+      <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">Pin 1 VCC, 2 SDA, 3 GND, 4 SCL (its manual, Table 2). <b class="text-slate-700 dark:text-slate-200">It needs 5 V</b> (4.75 to 5.25), and its manual asks its SDA and SCL pulled up to it: the CH341T with its jumper on 5V runs its lines at 5 V too. The CH347's lines are 3.3 V. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
     </figure>
 
     <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
@@ -77,7 +81,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <p class="text-sm text-slate-500 dark:text-slate-400">Film resistance</p>
         <p class="font-mono text-2xl tabular-nums">{{ fmt(r?.kohm, 1) }} <span class="text-base">kΩ</span></p>
       </div>
-      <p v-if="r && !r.ready" class="self-center text-sm text-slate-500 dark:text-slate-400">Warming up: it says its reading isn't updated yet (its RDY bit).</p>
+      <p v-if="warmLeft > 0" class="self-center text-sm text-amber-700 dark:text-amber-400">Warming up: {{ mmss(warmLeft) }} left of its {{ WARMUP_S / 60 }} minutes (since you connected). After days unpowered give it 30 to 60. Its first readings run high and settle.</p>
+      <p v-else-if="r && !r.ready" class="self-center text-sm text-slate-500 dark:text-slate-400">Warming up: it says its reading isn't updated yet (its RDY bit).</p>
     </section>
 
     <CollapsibleCard id="tvoc" title="TVOC">

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 430" width="860" height="430" font-family="Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 460" width="860" height="460" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 5V, wired to an AGS2602 seen from its sensor side: VCC to pin 1, SDA to pin 2, GND to pin 3, SCL to pin 4</title>
   <defs>
@@ -11,8 +11,8 @@
       <rect x="2" y="-2" width="4" height="4" fill="#444"/>
     </g>
   </defs>
-  <rect class="bg" width="860" height="430" fill="#ffffff"/>
-  <text x="430.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 5V) + AGS2602</text>
+  <rect class="bg" width="860" height="460" fill="#ffffff"/>
+  <text x="430.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, <tspan fill="#c62828">5V</tspan>) + AGS2602</text>
   <text x="119.13385826771655" y="163.6220472440945" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
   <rect x="190.0" y="150.0" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
   <rect x="205.11811023622047" y="166.06299212598427" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
@@ -80,37 +80,39 @@
   <text x="273.37007874015745" y="184.70866141732284" font-size="9" fill="#fff">TNOW</text>
   <rect x="263.37007874015745" y="292.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="273.37007874015745" y="300.86614173228344" font-size="9" fill="#fff">RDY</text>
-  <rect x="716.7716535433071" y="214.251968503937" width="113.38582677165354" height="113.38582677165354" rx="3" fill="#1b1b1b" stroke="#000" stroke-width="1.5"/>
-  <rect x="768.7401574803151" y="256.7716535433071" width="28.346456692913385" height="28.346456692913385" rx="2" fill="#e9ecef" stroke="#8a9096"/>
-  <rect x="725" y="230.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="740" y="239.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">VCC</text>
-  <text x="716" y="228.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">1</text>
-  <rect x="725" y="254.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="740" y="263.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">SDA</text>
-  <text x="716" y="252.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">2</text>
-  <rect x="725" y="278.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="740" y="287.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">GND</text>
-  <text x="716" y="276.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">3</text>
-  <rect x="725" y="302.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
-  <text x="740" y="311.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">SCL</text>
-  <text x="716" y="300.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">4</text>
-  <text x="773.4645669291339" y="347.6377952755905" text-anchor="middle" font-size="12" fill="#555">AGS2602, sensor up</text>
+  <rect x="374.5748031496063" y="278.07086614173227" width="50" height="37" rx="6" fill="none" stroke="#c62828" stroke-width="2.5"/>
+  <rect x="706.7716535433071" y="202.251968503937" width="113.38582677165354" height="113.38582677165354" rx="3" fill="#1b1b1b" stroke="#000" stroke-width="1.5"/>
+  <rect x="758.7401574803151" y="244.7716535433071" width="28.346456692913385" height="28.346456692913385" rx="2" fill="#e9ecef" stroke="#8a9096"/>
+  <rect x="715" y="218.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
+  <text x="730" y="227.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">VCC</text>
+  <text x="706" y="216.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">1</text>
+  <rect x="715" y="242.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
+  <text x="730" y="251.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">SDA</text>
+  <text x="706" y="240.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">2</text>
+  <rect x="715" y="266.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
+  <text x="730" y="275.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">GND</text>
+  <text x="706" y="264.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">3</text>
+  <rect x="715" y="290.03937007874015" width="10" height="10" fill="url(#pin)" stroke="#8a6d1c"/>
+  <text x="730" y="299.03937007874015" font-size="10" fill="#e5e5e5" font-family="Menlo, Consolas, monospace">SCL</text>
+  <text x="706" y="288.03937007874015" text-anchor="end" font-size="10" fill="#333" font-family="Menlo, Consolas, monospace">4</text>
+  <text x="763.4645669291339" y="353.6377952755905" text-anchor="middle" font-size="12" fill="#555">AGS2602, sensor up</text>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M557.7086614173228 295.03937007874015 H589.7086614173228 V235.03937007874015 H722" stroke="#8e1c1c" stroke-width="7"/><path d="M557.7086614173228 295.03937007874015 H589.7086614173228 V235.03937007874015 H722" stroke="#d32f2f" stroke-width="5"/>
-    <path d="M557.7086614173228 247.03937007874015 H619.7086614173228 V307.03937007874015 H722" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 247.03937007874015 H619.7086614173228 V307.03937007874015 H722" stroke="#f2c200" stroke-width="5"/>
-    <path d="M557.7086614173228 223.03937007874015 H649.7086614173228 V259.03937007874015 H722" stroke="#0d4f8c" stroke-width="7"/><path d="M557.7086614173228 223.03937007874015 H649.7086614173228 V259.03937007874015 H722" stroke="#1e88e5" stroke-width="5"/>
-    <path d="M557.7086614173228 271.03937007874015 H679.7086614173228 V283.03937007874015 H722" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 271.03937007874015 H679.7086614173228 V283.03937007874015 H722" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M557.7086614173228 295.03937007874015 H587.7086614173228 V331.6377952755905 H836.1574803149607 V186.251968503937 H720 V215.03937007874015" stroke="#8e1c1c" stroke-width="7"/><path d="M557.7086614173228 295.03937007874015 H587.7086614173228 V331.6377952755905 H836.1574803149607 V186.251968503937 H720 V215.03937007874015" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M557.7086614173228 247.03937007874015 H627.7086614173228 V295.03937007874015 H712" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 247.03937007874015 H627.7086614173228 V295.03937007874015 H712" stroke="#f2c200" stroke-width="5"/>
+    <path d="M557.7086614173228 223.03937007874015 H667.7086614173228 V247.03937007874015 H712" stroke="#0d4f8c" stroke-width="7"/><path d="M557.7086614173228 223.03937007874015 H667.7086614173228 V247.03937007874015 H712" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M557.7086614173228 271.03937007874015 H712" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 271.03937007874015 H712" stroke="#3a3a3a" stroke-width="5"/>
   </g>
   <use href="#dupont" x="537.7086614173228" y="295.03937007874015"/>
   <use href="#dupont" x="537.7086614173228" y="247.03937007874015"/>
   <use href="#dupont" x="537.7086614173228" y="223.03937007874015"/>
   <use href="#dupont" x="537.7086614173228" y="271.03937007874015"/>
-  <circle cx="730" cy="235.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
-  <circle cx="730" cy="307.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
-  <circle cx="730" cy="259.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
-  <circle cx="730" cy="283.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
+  <circle cx="720" cy="223.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
+  <circle cx="720" cy="295.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
+  <circle cx="720" cy="247.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
+  <circle cx="720" cy="271.03937007874015" r="4" fill="#1b1b1b" stroke="#888" stroke-width="1"/>
   <g font-size="12" fill="#333">
-    <text x="20" y="390">Yellow jumper on I2C, green on 5V, both before plugging in USB. Four wires: VCC to pin 1, SDA to 2, GND to 3, SCL to 4.</text>
-    <text x="20" y="410">It needs 5 V. Pin 1 is at the left with the pins toward you and the sensor up (the manual's Figure 3).</text>
+    <text x="20" y="400" fill="#c62828" font-weight="bold">It needs 5 V: the green jumper on 5V, not 3V3. Yellow on I2C. Both before plugging in USB.</text>
+    <text x="20" y="420">Four wires: VCC to pin 1, SDA to 2, GND to 3, SCL to 4. Pin 1 is at the left with the pins toward you, sensor up (the manual's Figure 3).</text>
+    <text x="20" y="440">Then let it warm up: 2 minutes at least, 30 to 60 after days unpowered. Its first readings run high and settle.</text>
   </g>
 </svg>

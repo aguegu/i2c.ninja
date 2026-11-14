@@ -10,6 +10,7 @@ import { makeSeries } from './series.js';
 
 export const SCL_HZ = Ags2602.chip.maxSclHz; // 100 kHz: the manual's top, board-tested
 export const READ_MS = 2000; // its manual, Table 1: a sampling period of 2 s or more
+export const WARMUP_S = 120; // its manual, Table 1: "预热时间 ≥120s"
 const FAILS_IN_A_ROW = 3;
 const ADDRESS = Ags2602.addresses[0];
 const OHMS_PER_KOHM = 1000;
@@ -22,6 +23,7 @@ export function useAgs2602({ windowMs = 600000 } = {}) {
   const failure = ref(null);
   const latest = ref(null); // { tvoc ppb, ready, kohm }
   const version = ref(null);
+  const since = ref(null); // performance.now() at connecting: the warm-up counted from there
   const failed = ref({ count: 0, of: 0, last: null });
   const series = { tvoc: makeSeries(1, windowMs), kohm: makeSeries(1, windowMs) };
 
@@ -83,6 +85,7 @@ export function useAgs2602({ windowMs = 600000 } = {}) {
       series.kohm.clear();
       latest.value = null;
       failed.value = { count: 0, of: 0, last: null };
+      since.value = performance.now();
       generation++;
       loop(generation);
       state.value = 'running';
@@ -118,7 +121,7 @@ export function useAgs2602({ windowMs = 600000 } = {}) {
   });
 
   return {
-    state, failure, failed, latest, version, address: ADDRESS,
+    state, failure, failed, latest, version, since, address: ADDRESS,
     tvocSource: series.tvoc.source, kohmSource: series.kohm.source,
     connect, disconnect,
   };
