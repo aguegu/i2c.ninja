@@ -30,6 +30,7 @@ const WHAT = {
   '/sht3x': 'SHT3x (SHT30, SHT31, SHT35) humidity and temperature sensor',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
+  '/agr12': 'AGR12 / AGN12 / AGP12 gauge pressure sensor',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',
   '/mlx90614': 'MLX90614 infrared thermometer',

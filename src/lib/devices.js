@@ -88,6 +88,15 @@ export const DEVICES = [
     bus: 'I2C 0x77 / 0x76',
   },
   {
+    to: '/agr12',
+    name: 'AGR12 / AGN12 / AGP12',
+    maker: 'Aosong',
+    kind: 'Pressure',
+    group: 'Air',
+    measures: 'Gauge pressure in a tube: a breath, a squeezed bulb, a suck below the room\'s air.',
+    bus: 'I2C 0x50, 30 kHz at most',
+  },
+  {
     to: '/bh1745',
     name: 'BH1745NUC',
     maker: 'ROHM',
