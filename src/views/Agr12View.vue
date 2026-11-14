@@ -49,8 +49,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <figure :class="card">
       <SvgDrawing src="/setup-agr12.svg" alt="A CH341T bridge wired to an AGR12 seen from its six pins, the port on the other side: VCC to pin 1 beside the dot, GND to pin 2, SCL to pin 3, SDA to pin 4; pins 5 and 6 free" class="mx-auto w-full lg:w-4/5" />
       <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">The I2C version, its part code ending in C (AGR12-100C …): pin 1 VCC, 2 GND, 3 SCL, 4 SDA; 5 and 6 free (its manual, Table 4). VCC to the bridge's 3.3 V: the I2C version takes 3 to 5.25 V, and its own 4.7 kΩ pull-ups hold SCL and SDA at its supply, so 3.3 V keeps the bridge's pins at theirs. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
-      <p class="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-        <b>Nothing else at 0x50.</b> An AT24C EEPROM answers there too, and nothing read tells the two apart, so this page doesn't look: it takes what answers at 0x50 for the sensor and sends its measurement command, which a small EEPROM would take as a byte to store. It stops if 0x51-0x53 answer (a bigger EEPROM), but an AT24C01 or 02 sits at 0x50 alone. <b>Not on WCH's CH347F EVT board</b>: its own 24C02 is at 0x50, on the bridge itself. Ours took the command into its byte 0xAC from the first reading.
+      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Note: keep 0x50 for it alone. An AT24C EEPROM there (WCH's CH347F EVT board has one) would take its command as a byte to store.
       </p>
     </figure>
 
