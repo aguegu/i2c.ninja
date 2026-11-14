@@ -31,6 +31,7 @@ const WHAT = {
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
   '/agr12': 'AGR12 gauge pressure sensor',
+  '/ags2602': 'AGS2602 TVOC sensor',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',
   '/mlx90614': 'MLX90614 infrared thermometer',
