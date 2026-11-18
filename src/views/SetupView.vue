@@ -152,6 +152,39 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </section>
 
     <section :class="card">
+      <h2 class="mb-2 text-lg font-semibold">Or over Bluetooth: a Dart</h2>
+      <p class="mb-3 max-w-3xl leading-relaxed">
+        A <b>Dart</b> is a bridge of our own that also works over Bluetooth LE:
+        no USB bridge and no wires, on a coin cell &mdash; the same sensors, the
+        same pages. On the <b>Connect</b> button you pick it from the caret
+        (<span aria-hidden="true">&#9662;</span>) menu beside it,
+        <i>Dart over Bluetooth</i>, instead of a USB bridge.
+      </p>
+      <p class="mb-3 max-w-3xl leading-relaxed">
+        That menu appears only when the browser has <b>Web Bluetooth</b>: Chrome,
+        Edge or another Chromium, on a computer or on Android. Firefox and Safari
+        have none; on an iPhone or iPad it takes a Web Bluetooth browser, such as
+        Bluefy.
+      </p>
+      <div class="flex max-w-3xl flex-col gap-3 leading-relaxed">
+        <p>
+          Android, macOS and Windows have Web Bluetooth on already. On
+          <b>Linux</b> it is still experimental, so Chrome keeps it behind a
+          flag and the caret stays hidden until you turn it on: open
+          <code>chrome://flags</code>, enable <b>Experimental Web Platform
+          features</b> (or, if your build lists it, <b>Web Bluetooth</b>), and
+          restart the browser. It also wants BlueZ 5.41 or newer.
+        </p>
+        <p>
+          Then turn the computer's or phone's Bluetooth on, open the Connect
+          menu, choose <i>Dart over Bluetooth</i>, and pick your Dart (it shows
+          as <code>Dart-XXXX</code>) in the browser's chooser. No udev rule and
+          no driver: it's Bluetooth, not USB.
+        </p>
+      </div>
+    </section>
+
+    <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">2. The bridge</h2>
       <p class="mb-4 leading-relaxed">
         Any of these: set it as its card says, with it unplugged, then four
