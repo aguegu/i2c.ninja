@@ -1,5 +1,22 @@
 # Releases
 
+## 2.0.1
+
+**Reachable on an iPad.** The connect control appeared only where the browser
+had WebUSB, so a Bluetooth-only browser (Bluefy on iPhone and iPad) saw just a
+"no WebUSB" notice and could never reach a Dart. Now a page offers its Connect
+button whenever *either* transport is present.
+
+- **Connect where there's Bluetooth but no USB**: pages gate on
+  `hasWebUsb || hasWebBluetooth`, not WebUSB alone. In a Bluetooth-only browser
+  the Connect button opens the Dart over Bluetooth directly; the notice shows
+  only when neither transport exists, and names a Web Bluetooth browser
+  (Bluefy) for a Dart. **USB stays primary** everywhere it is available — the
+  button opens a bridge, with the Bluetooth choice in the caret.
+- **Get started** gains an **Over Bluetooth: a Dart** section: the Dart on a
+  coin cell, the browsers with Web Bluetooth, and the `chrome://flags` toggle a
+  Linux desktop Chrome needs (it keeps Web Bluetooth off by default).
+
 ## 2.0.0
 
 **Dart over Bluetooth.** Every live page can now reach a Dart over Bluetooth
