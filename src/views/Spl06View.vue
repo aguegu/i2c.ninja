@@ -10,7 +10,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 import LiveChart from '../components/LiveChart.vue';
 import SpecTable from '../components/SpecTable.vue';
 import { reactive, computed } from 'vue';
-import { hasWebUsb, hex } from '../lib/dongle.js';
+import { canConnect, hex } from '../lib/dongle.js';
 import { useSpl06, MODES } from '../lib/useSpl06.js';
 
 const WINDOW_MS = 120000;
@@ -55,8 +55,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </figcaption>
     </figure>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="p.state !== 'running'" :busy="p.state === 'connecting'" @connect="p.connect">{{ p.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

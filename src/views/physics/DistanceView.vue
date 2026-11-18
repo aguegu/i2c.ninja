@@ -13,7 +13,7 @@ import LiveChart from '../../components/LiveChart.vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import TexMath from '../../components/TexMath.vue';
 import { reactive, ref, computed } from 'vue';
-import { hasWebUsb } from '../../lib/dongle.js';
+import { canConnect } from '../../lib/dongle.js';
 import { useVl53l1x, STATUS } from '../../lib/useVl53l1x.js';
 import { makeSeries } from '../../lib/series.js';
 import { makeMotion } from '../../lib/motion.js';
@@ -91,8 +91,8 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       </p>
     </div>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect a VL53L1X' }}</ConnectButton>

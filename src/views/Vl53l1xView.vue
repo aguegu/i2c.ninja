@@ -10,7 +10,7 @@ import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
-import { hasWebUsb } from '../lib/dongle.js';
+import { canConnect } from '../lib/dongle.js';
 import SpecTable from '../components/SpecTable.vue';
 import { useVl53l1x, STATUS, BUDGETS, ROI_SIDES } from '../lib/useVl53l1x.js';
 
@@ -72,8 +72,8 @@ const ambientLevel = computed(() => {
       </figcaption>
     </figure>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

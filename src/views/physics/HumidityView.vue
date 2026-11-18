@@ -13,7 +13,7 @@ import TexMath from '../../components/TexMath.vue';
 import SaturationCurve from '../../components/SaturationCurve.vue';
 import { reactive, computed } from 'vue';
 import { Sht3x, Sht20, Aht21 } from 'atiic';
-import { hasWebUsb, hex } from '../../lib/dongle.js';
+import { canConnect, hex } from '../../lib/dongle.js';
 import { useHumidity } from '../../lib/humidity.js';
 
 const WINDOW_MS = 300000; // five minutes: a breath, a warm hand, a cold glass
@@ -50,8 +50,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="h.state !== 'running'" :busy="h.state === 'connecting'" @connect="h.connect">{{ h.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

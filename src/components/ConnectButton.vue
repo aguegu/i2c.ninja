@@ -1,13 +1,16 @@
 <script setup>
-// The pages' connect control: a Connect button that opens the USB bridge, and
-// — where the browser has Web Bluetooth — a caret beside it opening a small
-// menu to pick the USB bridge or a Dart over Bluetooth. Emits connect(via),
+// The pages' connect control. The main button opens the primary transport —
+// a USB bridge where WebUSB is present, otherwise a Dart over Bluetooth (a
+// Bluetooth-only browser like Bluefy on iPhone/iPad). When BOTH transports
+// exist, a caret beside it opens a menu to pick either. Emits connect(via),
 // via 'usb' or 'ble'; the label is the slot.
 import { ref } from 'vue';
-import { hasWebBluetooth } from '../lib/dongle.js';
+import { hasWebUsb, hasWebBluetooth } from '../lib/dongle.js';
 defineProps({ busy: { type: Boolean, default: false } });
 const emit = defineEmits(['connect']);
 const open = ref(false);
+const primary = hasWebUsb ? 'usb' : 'ble'; // what the main button opens
+const bothTransports = hasWebUsb && hasWebBluetooth; // a real choice -> a caret
 function pick(via) {
   open.value = false;
   emit('connect', via);
@@ -16,12 +19,13 @@ function pick(via) {
 
 <template>
   <span class="relative inline-flex">
-    <button type="button" class="inline-flex items-center gap-2 bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :class="hasWebBluetooth ? 'rounded-l-lg' : 'rounded-lg'" :disabled="busy" @click="pick('usb')">
+    <button type="button" class="inline-flex items-center gap-2 bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :class="bothTransports ? 'rounded-l-lg' : 'rounded-lg'" :disabled="busy" @click="pick(primary)">
       <svg v-if="busy" viewBox="0 0 24 24" class="h-4 w-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9" /></svg>
+      <svg v-else-if="primary === 'ble'" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10-5 5V2l5 5L7 17" /></svg>
       <svg v-else viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v4M15 2v4M7 6h10v5a5 5 0 0 1-10 0zM12 16v6" /></svg>
       <slot />
     </button>
-    <button v-if="hasWebBluetooth" type="button" class="inline-flex items-center rounded-r-lg border-l border-emerald-500 bg-emerald-600 px-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="busy" aria-haspopup="menu" :aria-expanded="open" aria-label="More connection options" @click="open = !open" @keydown.esc="open = false">
+    <button v-if="bothTransports" type="button" class="inline-flex items-center rounded-r-lg border-l border-emerald-500 bg-emerald-600 px-2 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50" :disabled="busy" aria-haspopup="menu" :aria-expanded="open" aria-label="More connection options" @click="open = !open" @keydown.esc="open = false">
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
     </button>
 

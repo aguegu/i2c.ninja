@@ -172,7 +172,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           <b>Linux</b> it is still experimental, so Chrome keeps it behind a
           flag and the caret stays hidden until you turn it on: open
           <code>chrome://flags</code>, enable <b>Experimental Web Platform
-          features</b> (or, if your build lists it, <b>Web Bluetooth</b>), and
+            features</b> (or, if your build lists it, <b>Web Bluetooth</b>), and
           restart the browser. It also wants BlueZ 5.41 or newer.
         </p>
         <p>

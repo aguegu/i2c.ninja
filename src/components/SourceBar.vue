@@ -6,7 +6,7 @@
 import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
 import LiveSettings from './LiveSettings.vue';
-import { hasWebUsb, hex } from '../lib/dongle.js';
+import { canConnect, hex } from '../lib/dongle.js';
 
 defineProps({ src: { type: Object, required: true } });
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -28,7 +28,7 @@ const note = (parts) => [
 <template>
   <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
     <h2 class="text-lg font-semibold">Live</h2>
-    <template v-if="hasWebUsb">
+    <template v-if="canConnect">
       <ConnectButton v-if="src.state !== 'running'" :busy="src.state === 'connecting'" @connect="src.connect">{{ src.state === 'connecting' ? 'Looking…' : 'Connect and find a sensor' }}</ConnectButton>
       <StopButton v-else @click="src.disconnect" />
       <template v-if="src.state === 'running'">
@@ -42,7 +42,7 @@ const note = (parts) => [
         </template>
       </template>
     </template>
-    <span v-else class="text-sm text-amber-700 dark:text-amber-400">This browser has no WebUSB: open the page in Chrome, Edge or another Chromium.</span>
+    <span v-else class="text-sm text-amber-700 dark:text-amber-400">This browser has no WebUSB and no Web Bluetooth: open the page in Chrome, Edge or another Chromium, or a Web Bluetooth browser like Bluefy for a Dart.</span>
     <LiveSettings class="ml-auto" />
     <div v-if="src.failure" class="w-full rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
       <p class="font-semibold">{{ src.failure.title }}</p>

@@ -10,7 +10,7 @@ import LiveChart from '../components/LiveChart.vue';
 import SpecTable from '../components/SpecTable.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
-import { hasWebUsb, hex } from '../lib/dongle.js';
+import { canConnect, hex } from '../lib/dongle.js';
 import { useAgs2602, SCL_HZ, READ_MS, WARMUP_S } from '../lib/useAgs2602.js';
 
 const WINDOW_MS = 600000; // ten minutes: a gas comes and goes over minutes
@@ -56,8 +56,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <figcaption class="mt-2 leading-relaxed text-slate-500 dark:text-slate-400">Pin 1 VCC, 2 SDA, 3 GND, 4 SCL (its manual, Table 2). <b class="text-slate-700 dark:text-slate-200">It needs 5 V</b> (4.75 to 5.25), and its manual asks its SDA and SCL pulled up to it: the CH341T with its jumper on 5V runs its lines at 5 V too. The CH347's lines are 3.3 V. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.</figcaption>
     </figure>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="p.state !== 'running'" :busy="p.state === 'connecting'" @connect="p.connect">{{ p.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

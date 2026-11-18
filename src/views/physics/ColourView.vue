@@ -14,7 +14,7 @@ import ColourStripe from '../../components/ColourStripe.vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import ColourTriangle from '../../components/ColourTriangle.vue';
 import { reactive, ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue';
-import { hasWebUsb, hex } from '../../lib/dongle.js';
+import { canConnect, hex } from '../../lib/dongle.js';
 import { useBh1745, GAINS } from '../../lib/useBh1745.js';
 
 const WINDOW_MS = 60000;
@@ -105,8 +105,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       </p>
     </div>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @connect="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

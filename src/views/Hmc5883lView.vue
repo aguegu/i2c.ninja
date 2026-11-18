@@ -9,7 +9,7 @@ import { reactive } from 'vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import MagnetometerViews from '../components/MagnetometerViews.vue';
 import SpecTable from '../components/SpecTable.vue';
-import { hasWebUsb } from '../lib/dongle.js';
+import { canConnect } from '../lib/dongle.js';
 import { useHmc5883l } from '../lib/useHmc5883l.js';
 import { useHardIron } from '../lib/useHardIron.js';
 
@@ -47,8 +47,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </figcaption>
     </figure>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="mag.state === 'idle' || mag.state === 'connecting'" :busy="mag.state === 'connecting'" @connect="mag.connect">{{ mag.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

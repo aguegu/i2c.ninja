@@ -8,7 +8,7 @@ import HeroCarousel from '../components/HeroCarousel.vue';
 import { DEVICES } from '../lib/devices.js';
 import { PHYSICS } from '../lib/physics.js';
 
-const hasWebUsb = 'usb' in navigator;
+const canConnect = 'usb' in navigator;
 
 
 // what's inside: a card each, its icon (a 24-unit SVG path), where it goes
@@ -41,7 +41,7 @@ const QUOTES = [
         <RouterLink to="/devices" class="rounded-lg bg-emerald-600 px-5 py-2.5 font-medium text-white hover:bg-emerald-700">Explore sensors</RouterLink>
         <RouterLink to="/get-started" class="rounded-lg bg-emerald-600/10 px-5 py-2.5 font-medium text-emerald-800 hover:bg-emerald-600/20 dark:text-emerald-300">Get started</RouterLink>
       </div>
-      <p v-if="!hasWebUsb" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable).</p>
+      <p v-if="!canConnect" class="mt-4 max-w-xl text-xs text-amber-700 dark:text-amber-400">This browser has no WebUSB or Web Bluetooth: the live pages need Chrome, Edge or another Chromium (Chrome on Android too, with an OTG cable), or a Web Bluetooth browser like Bluefy for a Dart.</p>
       <HeroCarousel class="mt-4" />
     </section>
 

@@ -10,7 +10,7 @@ import StopButton from './StopButton.vue';
 import SvgDrawing from './SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from './LiveChart.vue';
-import { hasWebUsb, hex } from '../lib/dongle.js';
+import { canConnect, hex } from '../lib/dongle.js';
 import { useHumidity } from '../lib/humidity.js';
 
 const props = defineProps({
@@ -59,8 +59,8 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       </template>
     </figure>
 
-    <p v-if="!hasWebUsb" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
+    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @connect="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>

@@ -20,6 +20,11 @@ export const hasWebUsb = typeof navigator !== 'undefined' && 'usb' in navigator;
 // a Dart can also be reached over Bluetooth LE (navigator.bluetooth); the BLE
 // path never uses a worker (Web Bluetooth is main-thread only)
 export const hasWebBluetooth = typeof navigator !== 'undefined' && 'bluetooth' in navigator;
+// a page can connect when either transport is present: WebUSB (a bridge) or
+// Web Bluetooth (a Dart). A Bluetooth-only browser (Bluefy on iPhone/iPad) has
+// the second but not the first, so pages gate their connect UI on this, not on
+// WebUSB alone.
+export const canConnect = hasWebUsb || hasWebBluetooth;
 
 // the platform the page runs on, for the setup steps that differ
 export function detectPlatform() {
