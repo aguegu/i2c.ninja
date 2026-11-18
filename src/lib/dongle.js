@@ -132,8 +132,13 @@ export function explain(e, platform) {
   // a Dart over Bluetooth: its own wording
   if (e.via === 'ble') {
     if (e.stage === 'choose') {
+      // NotFoundError covers both "no adapter" and "the chooser was dismissed
+      // with nothing picked"; the message tells them apart
+      if (cause.name === 'NotFoundError' && /adapter|bluetooth (is )?(off|turned off|not|unavailable)/i.test(cause.message)) {
+        return { title: 'No Bluetooth adapter', detail: 'The browser found no Bluetooth adapter. Turn Bluetooth on. On Linux it must be bluetoothd\'s (not held by a mesh service), and if you freed it after opening the browser, restart the browser so it picks the adapter up.' };
+      }
       return cause.name === 'NotFoundError'
-        ? { title: 'No Dart chosen', detail: 'If none appeared: power the Dart on. It advertises as "Dart-XXXX" while nothing else is connected to it. Bluetooth must be on, and the page served over HTTPS (or localhost).' }
+        ? { title: 'No Dart chosen', detail: 'If none appeared in the chooser: power the Dart on. It advertises as "Dart-XXXX" while nothing else is connected to it.' }
         : { title: 'The Bluetooth chooser failed', detail: 'This browser may not allow Web Bluetooth here (it needs HTTPS or localhost, and a Bluetooth adapter).' };
     }
     return { title: 'Connecting to the Dart over Bluetooth failed', detail: 'Move it closer, power-cycle it, and connect again. If it just disconnected from another tab, give it a few seconds.' };
