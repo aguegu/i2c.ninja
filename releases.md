@@ -4,8 +4,8 @@
 
 **Dart over Bluetooth.** Every live page can now reach a Dart over Bluetooth
 LE, not only a USB bridge — the same I2C sensors, no cable. The connect
-control keeps the USB bridge as its main button and, where the browser has
-Web Bluetooth, adds **"or connect a Dart over Bluetooth"** under it.
+control is the Connect button; where the browser has Web Bluetooth, a caret
+beside it opens a menu to pick **USB bridge** or **Dart over Bluetooth**.
 
 - **The bus over BLE**: atiic's Dart adapter speaks either transport (atiic
   1.8.2, `adapters/dart`); `src/lib/dongle.js` opens one through the Bluetooth
@@ -18,8 +18,9 @@ Web Bluetooth, adds **"or connect a Dart over Bluetooth"** under it.
   reads a period in one round trip, so the main thread keeps up. A Dart that
   drops is noticed (`gattserverdisconnected`).
 - **Every sensor page** gets it through one connect control
-  (`ConnectButton`), so the direct pages and the IMU pages alike offer
-  Bluetooth with no per-page work.
+  (`ConnectButton`, a split button with the Bluetooth choice in its
+  dropdown), so the direct pages and the IMU pages alike offer Bluetooth with
+  no per-page work.
 
 Needs a browser with Web Bluetooth (Chromium: Chrome, Edge), over HTTPS or
 localhost, and a Dart on BLE firmware (advertising as `Dart-XXXX`). The USB
