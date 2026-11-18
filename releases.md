@@ -1,5 +1,12 @@
 # Releases
 
+## 2.0.2
+
+**Get started: iPhone and iPad.** The *Over Bluetooth* section now spells out
+the iOS path — no built-in browser there has Web Bluetooth, so install a Web
+Bluetooth browser (Bluefy), turn Bluetooth on, and open the site inside it.
+Tested on an iPad with Bluefy.
+
 ## 2.0.1
 
 **Reachable on an iPad.** The connect control appeared only where the browser

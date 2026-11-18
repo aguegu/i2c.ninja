@@ -176,6 +176,13 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           restart the browser. It also wants BlueZ 5.41 or newer.
         </p>
         <p>
+          On an <b>iPhone or iPad</b>, no built-in browser has Web Bluetooth
+          (they all run on Safari's engine), so install a Web Bluetooth browser
+          &mdash; <b>Bluefy</b>, from the App Store &mdash; turn Bluetooth on in
+          Settings, and open <b>i2c.ninja</b> inside Bluefy (not Safari). Tested
+          on an iPad with Bluefy.
+        </p>
+        <p>
           Then turn the computer's or phone's Bluetooth on, open the Connect
           menu, choose <i>Dart over Bluetooth</i>, and pick your Dart (it shows
           as <code>Dart-XXXX</code>) in the browser's chooser. No udev rule and
