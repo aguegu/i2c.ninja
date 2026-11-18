@@ -69,11 +69,11 @@ export function useSpl06({ windowMs = 120000, mode: firstMode = 'indoor', onRead
     state.value = 'running';
   }
 
-  async function connect() {
+  async function connect(via = 'usb') {
     failure.value = null;
     state.value = 'connecting';
     try {
-      bus = await openDongle(SCL_HZ);
+      bus = await openDongle(SCL_HZ, via);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';

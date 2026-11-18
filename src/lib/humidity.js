@@ -122,11 +122,11 @@ export function useHumidity(Drivers, { readMs: fixedMs = 2000, windowMs = 120000
     }
   }
 
-  async function connect() {
+  async function connect(via = 'usb') {
     failure.value = null;
     state.value = 'connecting';
     try {
-      bus = await openDongle(SCL_HZ);
+      bus = await openDongle(SCL_HZ, via);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';

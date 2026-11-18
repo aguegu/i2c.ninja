@@ -4,7 +4,7 @@
 // device pages. Both give the same I2C bus: scan, write, read, writeRead.
 import Ch341, { FILTERS as CH341_FILTERS } from 'atiic/adapters/ch341';
 import Ch347, { FILTERS as CH347_FILTERS } from 'atiic/adapters/ch347';
-import Dart, { FILTERS as DART_FILTERS } from 'atiic/adapters/dart';
+import Dart, { FILTERS as DART_FILTERS, BLE_REQUEST } from 'atiic/adapters/dart';
 
 // a CH341 in I2C mode (1a86:5512), a CH347T in mode 1 (55db), a CH347F
 // (55de), a dart (ffff:da92: atiic's docs/dart.md)
@@ -17,6 +17,9 @@ const FILTERS = ADAPTERS.flatMap((a) => a.filters);
 export const adapterFor = (device) => ADAPTERS.find((a) => a.filters.some((f) => f.vendorId === device.vendorId && f.productId === device.productId)).Adapter;
 
 export const hasWebUsb = typeof navigator !== 'undefined' && 'usb' in navigator;
+// a Dart can also be reached over Bluetooth LE (navigator.bluetooth); the BLE
+// path never uses a worker (Web Bluetooth is main-thread only)
+export const hasWebBluetooth = typeof navigator !== 'undefined' && 'bluetooth' in navigator;
 
 // the platform the page runs on, for the setup steps that differ
 export function detectPlatform() {
@@ -30,10 +33,11 @@ export function detectPlatform() {
 
 // a failure on the way to an open bus: where it happened, and why
 export class DongleError extends Error {
-  constructor(stage, cause) {
+  constructor(stage, cause, via = 'usb') {
     super(`${cause.name}: ${cause.message}`);
     this.stage = stage; // 'choose' or 'open'
     this.cause = cause;
+    this.via = via; // 'usb' (a bridge) or 'ble' (a Dart over Bluetooth)
   }
 }
 
@@ -57,9 +61,40 @@ export async function chooseDongle() {
   }
 }
 
-// the chooser (CH341s, CH347s and darts), then the one picked opened as an I2C bus
-// at sclHz
-export async function openDongle(sclHz) {
+// the Bluetooth chooser only (darts by name, NAME_PREFIX): the BluetoothDevice,
+// opened elsewhere (the IMU pages' main-thread sampler, lib/mainSampler.js)
+export async function chooseDongleBle() {
+  try {
+    return { device: await navigator.bluetooth.requestDevice(BLE_REQUEST) };
+  } catch (e) {
+    throw new DongleError('choose', e, 'ble');
+  }
+}
+
+// a Dart over Bluetooth, opened as an I2C bus at sclHz (the device picked in
+// the Bluetooth chooser)
+async function openBle(sclHz) {
+  let device;
+  try {
+    device = await navigator.bluetooth.requestDevice(BLE_REQUEST);
+  } catch (e) {
+    throw new DongleError('choose', e, 'ble');
+  }
+  try {
+    return await new Dart(device).open(sclHz);
+  } catch (e) {
+    try {
+      device.gatt?.disconnect();
+    } catch {
+      // not connected: nothing to disconnect
+    }
+    throw new DongleError('open', e, 'ble');
+  }
+}
+
+// the chooser (CH341s, CH347s and darts over USB, or via 'ble' a Dart over
+// Bluetooth), then the one picked opened as an I2C bus at sclHz
+export async function openDongle(sclHz, via = 'usb') {
   // ?fake / ?fake=kid: no hardware, an MPU-6050 in motion (lib/fakeDongle.js),
   // for measuring the pages; never on i2c.ninja itself
   const fake = fakeMode();
@@ -67,6 +102,7 @@ export async function openDongle(sclHz) {
     const { FakeDongle } = await import('./fakeDongle.js');
     return new FakeDongle(fake);
   }
+  if (via === 'ble') return openBle(sclHz);
   let device;
   try {
     device = await navigator.usb.requestDevice({ filters: FILTERS });
@@ -93,6 +129,15 @@ const PERMISSION_HINT = {
 // { title, detail } for a DongleError (or anything thrown talking to it)
 export function explain(e, platform) {
   const cause = e.cause ?? e;
+  // a Dart over Bluetooth: its own wording
+  if (e.via === 'ble') {
+    if (e.stage === 'choose') {
+      return cause.name === 'NotFoundError'
+        ? { title: 'No Dart chosen', detail: 'If none appeared: power the Dart on. It advertises as "Dart-XXXX" while nothing else is connected to it. Bluetooth must be on, and the page served over HTTPS (or localhost).' }
+        : { title: 'The Bluetooth chooser failed', detail: 'This browser may not allow Web Bluetooth here (it needs HTTPS or localhost, and a Bluetooth adapter).' };
+    }
+    return { title: 'Connecting to the Dart over Bluetooth failed', detail: 'Move it closer, power-cycle it, and connect again. If it just disconnected from another tab, give it a few seconds.' };
+  }
   if (e.stage === 'choose') {
     if (cause.name === 'NotFoundError') {
       return {

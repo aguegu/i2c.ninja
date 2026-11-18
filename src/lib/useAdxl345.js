@@ -51,12 +51,12 @@ export function useAdxl345({ windowMs = 10000 } = {}) {
     state.value = 'running';
   }
 
-  async function connect() {
+  async function connect(via = 'usb') {
     failure.value = null;
     selfTest.value = null;
     state.value = 'connecting';
     try {
-      bus = await openDongle(SCL_HZ);
+      bus = await openDongle(SCL_HZ, via);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';

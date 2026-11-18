@@ -76,7 +76,7 @@ const ambientLevel = computed(() => {
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @click="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="tof.disconnect" />
       <label :class="field">Mode
         <select :value="tof.settings.mode" :class="select" :disabled="busy" @change="tof.setup({ mode: $event.target.value })">

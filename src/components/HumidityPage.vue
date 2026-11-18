@@ -63,7 +63,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @click="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="s.state !== 'running'" :busy="s.state === 'connecting'" @connect="s.connect">{{ s.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="s.disconnect" />
       <label v-if="s.resolutions.length" :class="field">Resolution
         <select :value="s.resolution" :class="select" @change="s.setResolution($event.target.value)">

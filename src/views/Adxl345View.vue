@@ -50,7 +50,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <ConnectButton v-if="adxl.state === 'idle' || adxl.state === 'connecting'" :busy="adxl.state === 'connecting'" @click="adxl.connect">{{ adxl.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="adxl.state === 'idle' || adxl.state === 'connecting'" :busy="adxl.state === 'connecting'" @connect="adxl.connect">{{ adxl.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="adxl.disconnect" />
       <span v-if="adxl.address !== null && adxl.state !== 'idle'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(adxl.address) }} · 400 kHz · ±16 g, full resolution · 100 Hz</span>
       <LiveSettings class="ml-auto" />

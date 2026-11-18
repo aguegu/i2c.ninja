@@ -109,7 +109,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @click="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @connect="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="c.disconnect" />
       <label :class="field">Gain
         <select :value="c.settings.gain" :class="select" @change="c.configure({ gain: Number($event.target.value) })">

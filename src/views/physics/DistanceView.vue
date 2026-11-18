@@ -95,7 +95,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @click="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect a VL53L1X' }}</ConnectButton>
+      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect a VL53L1X' }}</ConnectButton>
       <StopButton v-else @click="tof.disconnect" />
       <label :class="field">Speed and acceleration from
         <select :value="fit" :class="select" @change="setFit(Number($event.target.value))">

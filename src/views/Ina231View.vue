@@ -75,7 +75,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <ConnectButton v-if="ina.state !== 'running'" :busy="ina.state === 'connecting'" @click="ina.connect">{{ ina.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="ina.state !== 'running'" :busy="ina.state === 'connecting'" @connect="ina.connect">{{ ina.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="ina.disconnect" />
       <label :class="field">Shunt
         <select :value="ina.shunt" :class="select" @change="ina.setShunt(Number($event.target.value))">

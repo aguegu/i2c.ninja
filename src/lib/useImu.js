@@ -134,11 +134,11 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     return new Driver(bus, addr);
   }
 
-  async function connect() {
+  async function connect(via = 'usb') {
     failure.value = null;
     state.value = 'connecting';
     try {
-      bus = await openDongle(SCL_HZ);
+      bus = await openDongle(SCL_HZ, via);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';

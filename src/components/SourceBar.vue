@@ -29,7 +29,7 @@ const note = (parts) => [
   <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
     <h2 class="text-lg font-semibold">Live</h2>
     <template v-if="hasWebUsb">
-      <ConnectButton v-if="src.state !== 'running'" :busy="src.state === 'connecting'" @click="src.connect">{{ src.state === 'connecting' ? 'Looking…' : 'Connect and find a sensor' }}</ConnectButton>
+      <ConnectButton v-if="src.state !== 'running'" :busy="src.state === 'connecting'" @connect="src.connect">{{ src.state === 'connecting' ? 'Looking…' : 'Connect and find a sensor' }}</ConnectButton>
       <StopButton v-else @click="src.disconnect" />
       <template v-if="src.state === 'running'">
         <template v-for="p in src.parts" :key="p.key">

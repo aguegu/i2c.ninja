@@ -14,12 +14,12 @@ const result = ref(null); // { ok, title, detail, error? }
 const OK_BOX = 'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-100';
 const FAIL_BOX = 'border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100';
 
-async function check() {
+async function check(via = 'usb') {
   busy.value = true;
   result.value = null;
   let bus = null;
   try {
-    bus = await openDongle(SCL_HZ);
+    bus = await openDongle(SCL_HZ, via);
     const found = await bus.scan();
     result.value = found.length
       ? { ok: true, title: `Working: ${found.length === 1 ? 'a device answers' : `${found.length} devices answer`} at ${found.map(hex).join(', ')}`, detail: 'The browser, the bridge and the bus are all set.' }
@@ -43,7 +43,7 @@ async function check() {
       This browser has no WebUSB. Open this page in Chrome, Edge or another
       Chromium.
     </p>
-    <ConnectButton v-else class="self-start" :busy="busy" @click="check">{{ busy ? 'Checking…' : 'Connect and scan' }}</ConnectButton>
+    <ConnectButton v-else class="self-start" :busy="busy" @connect="check">{{ busy ? 'Checking…' : 'Connect and scan' }}</ConnectButton>
     <div v-if="result" class="rounded-lg border p-3" :class="result.ok ? OK_BOX : FAIL_BOX">
       <p class="font-semibold">{{ result.title }}</p>
       <p v-if="result.detail" class="mt-1">{{ result.detail }}</p>

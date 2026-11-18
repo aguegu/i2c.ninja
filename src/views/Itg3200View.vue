@@ -52,7 +52,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-      <ConnectButton v-if="gyro.state !== 'running'" :busy="gyro.state === 'connecting'" @click="gyro.connect">{{ gyro.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="gyro.state !== 'running'" :busy="gyro.state === 'connecting'" @connect="gyro.connect">{{ gyro.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="gyro.disconnect" />
       <span v-if="gyro.state === 'running'" class="font-mono text-sm tabular-nums">itself {{ gyro.temperature?.toFixed(1) ?? '—' }} °C</span>
       <span v-if="gyro.state === 'running'" class=" font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(gyro.address) }} · 400 kHz · ±2000 °/s · 98 Hz filter</span>

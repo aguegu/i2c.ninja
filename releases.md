@@ -1,5 +1,30 @@
 # Releases
 
+## 2.0.0
+
+**Dart over Bluetooth.** Every live page can now reach a Dart over Bluetooth
+LE, not only a USB bridge — the same I2C sensors, no cable. The connect
+control keeps the USB bridge as its main button and, where the browser has
+Web Bluetooth, adds **"or connect a Dart over Bluetooth"** under it.
+
+- **The bus over BLE**: atiic's Dart adapter speaks either transport (atiic
+  1.8.2, `adapters/dart`); `src/lib/dongle.js` opens one through the Bluetooth
+  chooser (`navigator.bluetooth`, darts by their `Dart-` name) as it does a
+  USB bridge, with its own wording when it can't.
+- **The IMU pages on the main thread over BLE**: the USB pages sample in a
+  worker, but Web Bluetooth can't run in one, so the worker's core is now a
+  shared sampler (`src/lib/sampler.js`) that a main-thread runner
+  (`src/lib/mainSampler.js`) drives for a BLE Dart. The Dart's FIFO pump
+  reads a period in one round trip, so the main thread keeps up. A Dart that
+  drops is noticed (`gattserverdisconnected`).
+- **Every sensor page** gets it through one connect control
+  (`ConnectButton`), so the direct pages and the IMU pages alike offer
+  Bluetooth with no per-page work.
+
+Needs a browser with Web Bluetooth (Chromium: Chrome, Edge), over HTTPS or
+localhost, and a Dart on BLE firmware (advertising as `Dart-XXXX`). The USB
+path is unchanged.
+
 ## 1.9.0
 
 Two Aosong sensors: the AGS2602 (TVOC) and the AGR12 (gauge pressure). The

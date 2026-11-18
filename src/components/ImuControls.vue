@@ -18,7 +18,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
     This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
   </p>
   <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-    <ConnectButton v-if="imu.state !== 'running'" :busy="imu.state === 'connecting'" @click="imu.connect">{{ imu.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+    <ConnectButton v-if="imu.state !== 'running'" :busy="imu.state === 'connecting'" @connect="imu.connect">{{ imu.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
     <StopButton v-else @click="imu.disconnect" />
     <label :class="field">Address
       <select :value="imu.address" :class="select" @change="imu.configure({ address: Number($event.target.value) })">

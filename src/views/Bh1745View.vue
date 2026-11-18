@@ -73,7 +73,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @click="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @connect="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="c.disconnect" />
       <label :class="field">Time
         <select :value="c.settings.timeMs" :class="select" @change="c.configure({ timeMs: Number($event.target.value) })">

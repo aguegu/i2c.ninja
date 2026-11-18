@@ -11,7 +11,8 @@
 import { perFrame } from './frame.js';
 import { noteReading } from './perf.js';
 import { ref, computed, onBeforeUnmount } from 'vue';
-import { hasWebUsb, detectPlatform, chooseDongle, explain, DongleError } from './dongle.js';
+import { hasWebUsb, detectPlatform, chooseDongle, chooseDongleBle, explain, DongleError } from './dongle.js';
+import { MainSampler } from './mainSampler.js';
 import * as SOURCES from './sources.js';
 import { makeSeries } from './series.js';
 import { nameSeries } from './recorder.js';
@@ -52,8 +53,9 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   // fn(t ms, { key: [x, y, z] }) on each round of readings
   const onReading = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
-  let worker = null;
+  let worker = null; // a Worker (USB) or a MainSampler (Bluetooth)
   let chosenDevice = null; // the page's handle of the bridge, to notice its unplugging
+  let bleDevice = null; // a Dart over Bluetooth, to notice its disconnect
 
   // a reading posted by the worker: its time back on this page's clock
   function onReadingPosted(t, v) {
@@ -111,19 +113,27 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     chosen.value = c;
   }
 
-  async function connect() {
+  // over Bluetooth (via 'ble'), the Dart is sampled on the main thread
+  // (lib/mainSampler.js); over USB, in a worker (lib/sampler.worker.js)
+  async function connect(via = 'usb') {
     failure.value = null;
     state.value = 'connecting';
     let picked;
     try {
-      picked = await chooseDongle();
+      picked = via === 'ble' ? await chooseDongleBle() : await chooseDongle();
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';
       return;
     }
     chosenDevice = picked.device ?? null;
-    worker = new Worker(new URL('./sampler.worker.js', import.meta.url), { type: 'module' });
+    if (via === 'ble') {
+      bleDevice = picked.device;
+      bleDevice.addEventListener('gattserverdisconnected', onBleGone);
+      worker = new MainSampler(picked.device);
+    } else {
+      worker = new Worker(new URL('./sampler.worker.js', import.meta.url), { type: 'module' });
+    }
     worker.addEventListener('message', onMessage);
     const answer = expect('found', 'error', 'failure');
     worker.postMessage({ type: 'open', match: picked.match, fake: picked.fake, sclHz: SCL_HZ, kinds: Object.fromEntries(keys.map((k) => [k, nameOf(kinds[k])])) });
@@ -153,9 +163,18 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     await start();
   }
 
+  function onBleGone() {
+    failure.value = { title: 'The Dart disconnected', detail: 'Power-cycle it or move it closer, then connect again.', error: '' };
+    disconnect();
+  }
+
   async function disconnect() {
     state.value = 'idle';
     chosenDevice = null;
+    if (bleDevice) {
+      bleDevice.removeEventListener('gattserverdisconnected', onBleGone);
+      bleDevice = null;
+    }
     const w = worker;
     worker = null;
     if (!w) return;

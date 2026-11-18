@@ -54,7 +54,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       This browser has no WebUSB. Open this page in Chrome, Edge or another Chromium.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="h.state !== 'running'" :busy="h.state === 'connecting'" @click="h.connect">{{ h.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="h.state !== 'running'" :busy="h.state === 'connecting'" @connect="h.connect">{{ h.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="h.disconnect" />
       <div v-if="h.state === 'running' && h.found.length > 1" class="flex rounded-lg border border-slate-300 text-sm dark:border-slate-600" role="group" aria-label="The sensor read">
         <button v-for="n in h.found" :key="n" type="button" class="px-3 py-1 first:rounded-l-lg last:rounded-r-lg" :class="n === h.name ? 'bg-emerald-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-700'" :aria-pressed="n === h.name" @click="h.choose(n)">{{ n }}</button>

@@ -85,11 +85,11 @@ export function useVl53l1x({ windowMs = 15000, settings: initial = DEFAULTS, onV
     }
   }
 
-  async function connect() {
+  async function connect(via = 'usb') {
     failure.value = null;
     state.value = 'connecting';
     try {
-      bus = await openDongle(SCL_HZ);
+      bus = await openDongle(SCL_HZ, via);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';
