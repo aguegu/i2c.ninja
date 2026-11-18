@@ -2,9 +2,15 @@
 
 ## 2.0.2
 
-**Get started: iPhone and iPad.** The *Over Bluetooth* section now spells out
-the iOS path — no built-in browser there has Web Bluetooth, so install a Web
-Bluetooth browser (Bluefy), turn Bluetooth on, and open the site inside it.
+Two things for **Bluefy on an iPhone or iPad**:
+
+- **Get started** spells out the iOS path — no built-in browser there has Web
+  Bluetooth, so install a Web Bluetooth browser (Bluefy), turn Bluetooth on,
+  and open the site inside it.
+- **Full screen on iOS.** The full-screen button on every drawing and chart was
+  hidden on iOS, which has no Fullscreen API; it now falls back to a fixed
+  overlay that fills the viewport, so the button works there too.
+
 Tested on an iPad with Bluefy.
 
 ## 2.0.1
