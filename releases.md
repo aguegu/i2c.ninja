@@ -1,5 +1,28 @@
 # Releases
 
+## 2.3.0
+
+A third algorithm, **9-axis fusion**, and a reworked **attitude indicator**.
+
+- **Attitude and heading: 9-axis fusion** (`/algorithms/nine-axis`): an
+  accelerometer, a gyro and a magnetometer (one BMX055, or boards side by side)
+  in Mahony's filter, the compass steering the heading only, so roll and pitch
+  stay gravity's. The heading is magnetic north, quick as the gyro and drifting
+  nowhere; held still, the filter learns the gyro's offset on all three axes.
+  Zero, Calibrate with the gauge, and a switch to take the compass out and watch
+  the heading creep. The numbers card works the compass's correction step by
+  step; the yaw chart shows the gyro alone, the compass and the fused heading.
+- **North on the views**: N, E, S and W on the glass box's floor and on "The
+  floor, from above", an aircraft's N/E/S/W card on the heading indicator, and a
+  heading tape along the attitude indicator's horizon, as in a glass cockpit.
+- **The attitude indicator, reworked** (everywhere it shows): a roll scale in its
+  own band round the face (10, 20, 30, 45, 60 and 90 degrees either side), an
+  amber roll pointer reading against it, lane lines on the ground, the aircraft
+  symbol see-through, and the pitch ladder to 70 degrees. On the fusion pages it
+  and the heading indicator are larger (288 px), their marks easier to read.
+- **Each chip read at its own pace**: a 10 Hz magnetometer no longer slows the
+  accelerometer and gyro read beside it; its last reading repeats in between.
+
 ## 2.2.0
 
 **BMX055** joins, Bosch's 9-axis module, and a new algorithm: a **tilt-compensated compass**.
