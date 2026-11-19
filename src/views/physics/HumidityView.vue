@@ -12,7 +12,7 @@ import LiveChart from '../../components/LiveChart.vue';
 import TexMath from '../../components/TexMath.vue';
 import SaturationCurve from '../../components/SaturationCurve.vue';
 import { reactive, computed } from 'vue';
-import { Sht3x, Sht20, Aht21 } from 'atiic';
+import { Sht3x, Sht4x, Sht20, Htu21d, Hdc1080, Cht8305, Aht21 } from 'atiic';
 import { canConnect, hex } from '../../lib/dongle.js';
 import { useHumidity } from '../../lib/humidity.js';
 
@@ -32,7 +32,7 @@ const ABSOLUTE_LAW = String.raw`\rho_v = \frac{e \, M_w}{R \, (T + 273.15)}`;
 
 // the most accurate first: the SHT3x (typically +/-2 %RH), the SHT20 and the
 // AHT21B (+/-3)
-const h = reactive(useHumidity([Sht3x, Sht20, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
+const h = reactive(useHumidity([Sht3x, Sht4x, Sht20, Htu21d, Hdc1080, Cht8305, Aht21], { windowMs: WINDOW_MS, resolution: SHT20_RESOLUTION }));
 const r = computed(() => h.latest);
 const fmt = (v, digits) => (v === undefined || v === null ? '—' : v.toFixed(digits));
 

@@ -10,8 +10,10 @@ import { makeSeries } from './series.js';
 const SCL_HZ = 100000;
 // how often a chip without a periodMs() is read, by its datasheet: the
 // AHT21B every 2 s or more (4.4); the SHT3x at 4 measurements a second, its
-// periodic mode's rate under the 10 its Table 10 warns may warm it
-const READ_MS = { AHT21B: 2000, 'AHT21B / AHT30': 2000, SHT3x: 250 };
+// periodic mode's rate under the 10 its Table 10 warns may warm it; the
+// SHT4x once a second, its power figures' rate (3.1); the HDC1080 and the
+// CHT8305C once a second, their makers' limit against self-heating
+const READ_MS = { AHT21B: 2000, 'AHT21B / AHT30': 2000, SHT3x: 250, SHT4x: 1000, HDC1080: 1000, CHT8305C: 1000 };
 // failed readings in a row before a page gives up on the sensor: one now
 // and then is counted and skipped (an SHT3x module on r8845 dropped about 1
 // in 60 for a while, its SDA not driven), a sensor gone stops it at once
