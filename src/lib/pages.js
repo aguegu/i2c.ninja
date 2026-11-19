@@ -141,6 +141,7 @@ const DESCRIBE = {
   '/bridges': 'The USB-to-I2C bridges tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
   '/mpu6050': 'MPU-6050 / MPU-6500 by InvenSense: acceleration and rotation on 3 axes each, and temperature, what tilts a phone or a drone. Live in your browser over USB.',
   '/sht20': 'SHT20 by Sensirion: relative humidity and temperature at a resolution you pick, the air\'s water and when a glass sweats. Live in your browser over USB.',
+  '/lm75': "LM75 and NXP's LM75A: temperature to half or an eighth of a degree, and a thermal watchdog that trips a pin when it gets too hot. Live in your browser.",
   '/max30102': 'MAX30102 by Maxim: red and infrared light through a fingertip, the heartbeat as a live trace, and how oximeters see oxygen. Live in your browser over USB.',
   '/blog/three-licenses': 'Everything here is open; the licenses say what anyone may do: MIT for the drivers, noncommercial for the code, CC BY-NC-SA for the content.',
   '/blog/the-last-generation': 'A terminal Matrix rain from 2013 is made in seconds now. The last generation of human coders? What an agent makes, and why the passion is back.',
