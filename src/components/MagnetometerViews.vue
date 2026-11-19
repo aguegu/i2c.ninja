@@ -3,6 +3,7 @@
 // z, |B|) and its dip with the compass rose beside them, the hard-iron
 // calibration, the field three ways, and the chart. A page brings a useHardIron() (reactive) fed by its readings;
 // running enables the buttons.
+import HardIronGauge from './HardIronGauge.vue';
 import CollapsibleCard from './CollapsibleCard.vue';
 import { computed } from 'vue';
 import LiveChart from './LiveChart.vue';
@@ -71,6 +72,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <p class="mt-2 leading-relaxed">
       The board, its pins and anything steel nearby carry fields of their own, added to Earth's, the same whichever way it's turned: "hard iron". Press Start, turn the board slowly all the way round, flat, then on its edges and upside down, and press Done: each axis's middle, between the largest and smallest it read, is the board's own field, and it's taken off every reading from then on.
     </p>
+    <HardIronGauge v-if="cal.calibrating" :span="cal.span" />
     <table v-if="cal.calibrating && cal.span" class="mt-3 w-full max-w-xl text-left font-mono text-sm tabular-nums">
       <thead class="text-slate-500 dark:text-slate-400"><tr><th class="py-1 font-normal">axis</th><th class="font-normal">smallest</th><th class="font-normal">largest</th><th class="font-normal">middle</th></tr></thead>
       <tbody>

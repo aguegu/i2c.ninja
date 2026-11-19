@@ -7,6 +7,7 @@
 // hard iron calibrated, the level-only and the compensated heading side by
 // side with the tilt and the dip; why a tilted compass lies, the maths, when
 // it can't work, one set of axes, things to try
+import HardIronGauge from '../../components/HardIronGauge.vue';
 import { reactive, computed, ref, onBeforeUnmount } from 'vue';
 import SourceBar from '../../components/SourceBar.vue';
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
@@ -134,6 +135,7 @@ const READING = [
         <button v-if="cal.calibrated" class="text-sm text-slate-500 underline dark:text-slate-400" @click="cal.clear">Clear</button>
         <HintNote>Press Calibrate, turn the board slowly all the way round, flat, then on its edges and upside down, and press Done: the board's own field (hard iron) is taken off. Without it the heading is off, both of them.</HintNote>
       </div>
+      <HardIronGauge v-if="cal.calibrating" :span="cal.span" />
       <HintNote v-if="src.apart" class="mt-3">
         Two boards: line them up so their printed x, y and z arrows point the same ways, and fix them together. The compass takes them as one board; an axis turned the other way is a wrong heading.
       </HintNote>
