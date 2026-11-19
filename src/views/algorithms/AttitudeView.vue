@@ -130,7 +130,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">What it can't see: north</h2>
       <p>
-        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and compass</RouterLink>, and gravity levelling it in <RouterLink to="/algorithms/compass" :class="link">A tilt-compensated compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift. Try kp and ki with the sliders under Mahony's filter above; the whole path, step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
+        Gravity says nothing about a turn about the vertical, so yaw, the heading, has only the gyro: it creeps. A compass fixes it the way gravity fixes roll and pitch (see <RouterLink to="/physics/magnetism" :class="link">Magnetism and compass</RouterLink>, and gravity levelling it in <RouterLink to="/algorithms/compass" :class="link">A tilt-compensated compass</RouterLink>); three sensors fused that way give a full attitude that doesn't drift: <RouterLink to="/algorithms/nine-axis" :class="link">Attitude and heading: 9-axis fusion</RouterLink>. Try kp and ki with the sliders under Mahony's filter above; the whole path, step by step: <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>.
       </p>
     </section>
 

@@ -4,7 +4,7 @@
 // match, or a Dart over BLE); post(msg) emits to the page. The message
 // protocol is lib/useSources.js's:
 //   in:  { type: 'open', ..., sclHz, kinds: { key: 'ACCELEROMETERS', ... } }
-//        { type: 'start', chosen: { key: { ci, address } }, readMs }
+//        { type: 'start', chosen: { key: { ci, address } }, readMs, periods: { key: ms } }
 //        { type: 'stop' }
 //   out: { type: 'found', found: { key: [{ ci, address }] } }
 //        { type: 'reading', t, v }  { type: 'error'|'failure', ... }  { type: 'stopped' }
@@ -34,12 +34,23 @@ export function createSampler({ openBus, post }) {
     return found;
   }
 
-  async function loop(gen, readMs) {
+  // every readMs, each sensor read when its own period (periods[key], ms)
+  // is due, its last reading repeated in between: a slow chip (a
+  // magnetometer at 10 Hz) doesn't slow the others down
+  async function loop(gen, readMs, periods = {}) {
+    const due = {};
+    const last = {};
     try {
       while (gen === generation) {
         const t0 = performance.now();
         const v = {};
-        for (const k of Object.keys(sensors)) v[k] = await sensors[k].read();
+        for (const k of Object.keys(sensors)) {
+          if (!(k in last) || t0 >= due[k]) {
+            last[k] = await sensors[k].read();
+            due[k] = t0 + (periods[k] ?? readMs) - readMs / 2; // half a step early: read on the step nearest its period
+          }
+          v[k] = last[k];
+        }
         post({ type: 'reading', t: performance.timeOrigin + t0, v });
         await delay(Math.max(0, readMs - (performance.now() - t0)));
       }
@@ -84,7 +95,7 @@ export function createSampler({ openBus, post }) {
         sensors = {};
         for (const [key, { ci, address }] of Object.entries(m.chosen)) sensors[key] = await kinds[key][ci].open(bus, address);
         generation++;
-        running = loop(generation, m.readMs);
+        running = loop(generation, m.readMs, m.periods);
       } catch (e) {
         post({ type: 'failure', title: 'The sensor didn\'t start', detail: '', name: e.name, message: e.message });
       }

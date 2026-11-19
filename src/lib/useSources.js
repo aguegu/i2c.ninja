@@ -1,6 +1,7 @@
 // A page's live readings of one or more quantities: connect the bridge,
 // scan the bus for every chip of each (lib/sources.js), read the chosen
-// ones in turn every READ_MS (or the slowest chosen chip's readMs), each as
+// ones every READ_MS (or the fastest chosen chip's readMs; a slower chip's
+// last reading repeated between its own), each as
 // [x, y, z] in its unit, the last windowMs kept for a chart each. kinds:
 // { key: ACCELEROMETERS, ... }. Several found for a quantity: choose(key, i).
 // Two quantities found on one module (lib/sources.js family) are taken
@@ -45,7 +46,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   // read and its kind, "ADXL345 accelerometer x (g)"
   const unnamed = keys.map((k) => nameSeries(sources[k], () => `${pick(k)?.name ?? ''} ${kinds[k].noun}`.trim(), kinds[k].unit, ['x', 'y', 'z']));
   // readings a second: the slowest chosen chip's, else the fastest each may find
-  const rate = computed(() => Math.min(...keys.map((k) => (pick(k) ? perSecond(pick(k).chip) : Math.max(...kinds[k].chips.map(perSecond))))));
+  const rate = computed(() => Math.max(...keys.map((k) => (pick(k) ? perSecond(pick(k).chip) : Math.max(...kinds[k].chips.map(perSecond))))));
   // the chosen chips on separate boards: their axes must be lined up by hand
   const apart = computed(() => keys.length > 1 && keys.every((k) => pick(k)) && !keys.slice(1).every((k) => together(pick(keys[0]), pick(k))));
 
@@ -91,10 +92,11 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     for (const k of keys) series[k].clear();
     publish.cancel();
     latest.value = null;
-    const readMs = Math.max(...keys.map((k) => pick(k).chip.readMs ?? READ_MS));
+    const periods = Object.fromEntries(keys.map((k) => [k, pick(k).chip.readMs ?? READ_MS]));
+    const readMs = Math.min(...Object.values(periods));
     // by the worker's index (found is reactive: its chips are proxies, not the objects)
     const chosenChips = Object.fromEntries(keys.map((k) => [k, { ci: pick(k).ci, address: pick(k).address }]));
-    worker.postMessage({ type: 'start', chosen: chosenChips, readMs });
+    worker.postMessage({ type: 'start', chosen: chosenChips, readMs, periods });
   }
 
   async function choose(key, i) {

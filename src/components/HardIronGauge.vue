@@ -29,7 +29,7 @@ const hint = computed(() => {
     <div v-for="a in AXES" :key="a.k" class="flex items-center gap-3 py-0.5 text-sm">
       <span class="w-4 font-mono">{{ a.k }}</span>
       <div class="h-2 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700" role="progressbar" :aria-label="`${a.k} swing`" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(p[a.k] * 100)">
-        <div class="h-full rounded-full transition-[width] duration-200" :style="{ width: `${p[a.k] * 100}%`, background: a.color }"></div>
+        <div class="h-full rounded-full transition-[width] duration-200" :style="{ width: `${p[a.k] * 100}%`, background: a.color }" />
       </div>
       <span class="w-10 text-right font-mono tabular-nums text-slate-500 dark:text-slate-400">{{ Math.round(p[a.k] * 100) }}%</span>
     </div>

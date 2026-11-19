@@ -6,9 +6,17 @@
 // average (b0) taken off every reading from then on, and the filter started
 // again. The last windowMs of roll and pitch, three ways each, and yaw two
 // ways, kept for charts.
+// nine: a magnetometer too (9 axes), its reading (hard iron off) a fourth
+// argument, null when there's none. The compass then steers the yaw to
+// magnetic north (lib/fusion.js), while compassOn; the yaw is the heading,
+// and is kept three ways: the gyro alone (from the compass's heading at the
+// start), the tilt-compensated compass's (lib/compass.js), fused. On the
+// chart the fused one runs on unwrapped, the others within half a turn of
+// it, so south doesn't jump between -180 and 180.
 import { perFrame } from './frame.js';
 import { ref, watch, onBeforeUnmount } from 'vue';
 import { Mahony } from './fusion.js';
+import { compass, apart } from './compass.js';
 import { rollOf, pitchOf } from './tilt.js';
 import { makeSeries } from './series.js';
 
@@ -18,14 +26,16 @@ const ZERO_MS = 2000; // held still this long to measure b0, as the gyro pages' 
 // an angle in -180..180, as the fused yaw
 const wrap180 = (d) => ((((d + 180) % 360) + 360) % 360) - 180;
 
-export function useFusion(subscribe, { windowMs = 10000 } = {}) {
+export function useFusion(subscribe, { windowMs = 10000, nine = false } = {}) {
   const mahony = new Mahony();
   // its gains, adjustable: kp /s, ki /s^2
   const kp = ref(mahony.kp);
   const ki = ref(mahony.ki);
   watch([kp, ki], ([p, i]) => { mahony.kp = p; mahony.ki = i; });
-  const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s }
-  const fused = ref(null); // { q, held: { q, up } from the reading before (up: the room's z in the board's axes), roll, pitch, yaw } degrees
+  const compassOn = ref(true); // nine: the compass steering the yaw
+  const compassHeading = ref(null); // nine: the tilt-compensated compass's heading, -180..180
+  const input = ref(null); // the latest reading: { accel [x y z] g, gyro [x y z] deg/s, dt s, field (nine, as given) }
+  const fused = ref(null); // { q, held: { q, up, north } from the reading before (up, north: the room's Z and X in the board's axes), roll, pitch, yaw } degrees
   const gravity = ref(null); // { roll, pitch }
   const gyroAlone = ref(null); // { roll, pitch, yaw }
   const b0 = ref([0, 0, 0]); // deg/s, Zero's offset, taken off the gyro
@@ -35,7 +45,8 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
   const learned = ref(null); // the gyro offset Mahony's integral learned, deg/s [x y z]
   const rollSeries = makeSeries(3, windowMs); // gravity's, the gyro alone, fused: the formulas' order
   const pitchSeries = makeSeries(3, windowMs);
-  const yawSeries = makeSeries(2, windowMs); // the gyro alone, fused: gravity can't see yaw
+  const yawSeries = makeSeries(nine ? 3 : 2, windowMs); // the gyro alone, (the compass,) fused: gravity can't see yaw
+  let run = null; // nine: the fused yaw, unwrapped
   let lastT = null;
   let alone = null;
   let steps = 0; // readings the filter has taken since the start (or Start again): plain, read by the numbers card
@@ -46,9 +57,10 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     gravity.value = s.gravity;
     gyroAlone.value = s.gyroAlone;
     learned.value = s.learned;
+    compassHeading.value = s.compassHeading;
   });
 
-  const off = subscribe((t, accel, raw) => {
+  const off = subscribe((t, accel, raw, field = null) => {
     if (zeroing.value) {
       sum ??= { v: [0, 0, 0], n: 0, since: t };
       sum.v = sum.v.map((s, k) => s + raw[k]);
@@ -68,18 +80,24 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     lastT = t;
     const step = dt > 0 && dt <= MAX_STEP_S ? dt : 0;
     // the attitude held from the reading before, and its up: what this reading is compared with
-    const held = mahony.q ? { q: mahony.q, up: mahony.up() } : null;
-    mahony.update(accel, gyro, step);
+    const held = mahony.q ? { q: mahony.q, up: mahony.up(), north: mahony.north() } : null;
+    const steer = nine && compassOn.value ? field : null;
+    mahony.update(accel, gyro, step, steer);
     const g = { roll: rollOf(...accel), pitch: pitchOf(...accel) };
-    if (!alone) alone = { ...g, yaw: 0 };
+    const h = nine && field ? compass(accel, field).heading : null;
+    const psiM = h === null ? null : wrap180(h);
+    if (!alone) alone = { ...g, yaw: psiM ?? 0 };
     alone.roll += gyro[0] * step; // roll turns about +x
     alone.pitch -= gyro[1] * step; // nose up is about -y
     alone.yaw = wrap180(alone.yaw - gyro[2] * step); // turning right is about -z
     const m = mahony.angles();
-    publish.push({ input: { accel, gyro, dt: step }, fused: { q: mahony.q, held, ...m }, gravity: g, gyroAlone: { ...alone }, learned: mahony.learnedOffset() });
+    publish.push({ input: { accel, gyro, dt: step, field }, fused: { q: mahony.q, held, ...m }, gravity: g, gyroAlone: { ...alone }, learned: mahony.learnedOffset(), compassHeading: psiM });
     rollSeries.push(t, [g.roll, alone.roll, m.roll]);
     pitchSeries.push(t, [g.pitch, alone.pitch, m.pitch]);
-    yawSeries.push(t, [alone.yaw, m.yaw]);
+    if (nine) {
+      run = run === null ? m.yaw : run + apart(m.yaw, run);
+      yawSeries.push(t, [run + apart(alone.yaw, m.yaw), psiM === null ? run : run + apart(psiM, m.yaw), run]);
+    } else yawSeries.push(t, [alone.yaw, m.yaw]);
   });
   onBeforeUnmount(() => { off(); publish.cancel(); });
 
@@ -91,6 +109,7 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     mahony.integral = [0, 0, 0];
     lastT = null;
     alone = null;
+    run = null;
     rollSeries.clear();
     pitchSeries.clear();
     yawSeries.clear();
@@ -103,5 +122,5 @@ export function useFusion(subscribe, { windowMs = 10000 } = {}) {
     zeroing.value = true;
   }
 
-  return { steps: () => steps, b0, zeroing, zeroed, zero, input, kp, ki, defaults: { kp: mahony.kp, ki: mahony.ki }, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
+  return { nine, compassOn, compassHeading, steps: () => steps, b0, zeroing, zeroed, zero, input, kp, ki, defaults: { kp: mahony.kp, ki: mahony.ki }, fused, gravity, gyroAlone, learned, rollSource: rollSeries.source, pitchSource: pitchSeries.source, yawSource: yawSeries.source, restart };
 }

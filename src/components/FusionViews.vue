@@ -6,7 +6,9 @@
 // instruments: the attitude indicator (φ, θ) and the heading indicator (ψ),
 // the board in a glass box and its three walls unfolded. A
 // page brings a useFusion() (reactive) fed by its readings; running enables
-// the button.
+// the button. A useFusion({ nine: true }) (a magnetometer too): the compass
+// in the numbers, its error added, yaw three ways (the compass's too), 0
+// the magnetic north.
 import { ref, computed, shallowRef, onMounted, onBeforeUnmount } from 'vue';
 import LiveChart from './LiveChart.vue';
 import TexMath from './TexMath.vue';
@@ -18,6 +20,7 @@ import ProjectionViews from './ProjectionViews.vue';
 import TiltTriangles from './TiltTriangles.vue';
 import TwoUps from './TwoUps.vue';
 import ProjectionBox from './ProjectionBox.vue';
+import { northOf } from '../lib/fusion.js';
 
 const props = defineProps({
   fusion: { type: Object, required: true }, // useFusion(), reactive
@@ -38,7 +41,15 @@ const threeOf = (sym) => [
 ];
 const PHI = threeOf('φ');
 const THETA = threeOf('θ');
-const PSI = threeOf('ψ').slice(1); // no ψ_g: gravity can't see yaw
+// no ψ_g: gravity can't see yaw; with a compass ψ_m, in the field's violet
+const PSI = computed(() => (props.fusion.nine
+  ? [threeOf('ψ')[1], { label: 'ψ', sub: 'm', color: '--series-magnitude' }, threeOf('ψ')[2]]
+  : threeOf('ψ').slice(1)));
+const yawValues = computed(() => {
+  const u = props.fusion;
+  if (!u.fused) return [];
+  return u.nine ? [u.gyroAlone.yaw, u.compassHeading ?? u.fused.yaw, u.fused.yaw] : [u.gyroAlone.yaw, u.fused.yaw];
+});
 const f = (v, n = 0) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n));
 // the latest numbers, as they go into the formulas
 const n = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
@@ -85,7 +96,7 @@ const flatCaptions = computed(() => {
 const NUMBERS_MS = 125;
 const snap = () => {
   const u = props.fusion;
-  return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned, steps: u.steps(), at: performance.now() };
+  return { input: u.input, b0: u.b0, zeroed: u.zeroed, gravity: u.gravity, gyroAlone: u.gyroAlone, fused: u.fused, kp: u.kp, ki: u.ki, learned: u.learned, compassOn: u.compassOn, compassHeading: u.compassHeading, steps: u.steps(), at: performance.now() };
 };
 const slow = shallowRef(snap());
 // how fast the filter computes: its readings a second over the last second,
@@ -124,6 +135,19 @@ const blocks = computed(() => {
   const ah = am ? i.accel.map((c) => c / am) : null;
   const e = ah && u.fused?.held ? cross(ah, u.fused.held.up) : null;
   const t = turnOf(u.fused?.held?.q);
+  const nine = props.fusion.nine;
+  // the compass's say, against q's: north both ways, in the board's axes
+  const held = u.fused?.held;
+  const nHat = nine && i?.field && held ? northOf(i.field, held.up) : null;
+  const em = nHat && held ? cross(nHat, held.north) : null;
+  const eAll = e && em && u.compassOn ? e.map((c, k) => c + em[k]) : e;
+  const compassBlock = { title: 'The compass, for the yaw: north two ways', rows: [
+    { tex: String.raw`\mathbf{B} =`, value: `${vec(i?.field, 1)} µT`, term: 'the magnetometer', note: 'The magnetometer\'s reading, hard iron taken off (Calibrate), in the board\'s axes: Earth\'s field, which points north and dips into the ground' },
+    { tex: String.raw`\hat{\mathbf{n}} = \frac{\mathbf{B} - (\mathbf{B}\cdot\hat{\mathbf{v}})\,\hat{\mathbf{v}}}{\lVert \mathbf{B} - (\mathbf{B}\cdot\hat{\mathbf{v}})\,\hat{\mathbf{v}} \rVert} =`, value: vec(nHat, 3), wide: true, term: 'north, from the field', note: 'The field\'s dip taken off along v̂, q\'s up: what\'s left is level and points to magnetic north. As the field says it' },
+    { tex: String.raw`\hat{\mathbf{N}} = \bigl(1 - 2(q_y^2 + q_z^2),\ 2(q_x q_y - q_w q_z),\ 2(q_x q_z + q_w q_y)\bigr) =`, value: vec(held?.north, 3), wide: true, term: 'north, from q', note: 'The world\'s X, magnetic north here, turned into the board\'s axes: north as q says it. With q right the two norths match' },
+    { tex: String.raw`\mathbf{e}_m = \hat{\mathbf{n}} \times \hat{\mathbf{N}} =`, value: vec(em, 3), term: 'the compass\'s error', note: 'Both norths lie level, so their cross product points straight up (along v̂): it turns q about the vertical only. The compass steers the heading and leaves roll and pitch to gravity' },
+    { tex: String.raw`\psi_m =`, value: u.compassHeading === null || u.compassHeading === undefined ? '—' : `${f(u.compassHeading, 1)}°`, term: 'the compass\'s heading', note: 'The tilt-compensated compass\'s heading on its own (see A tilt-compensated compass): steady over time, but every magnet and steel table nearby moves it' },
+  ] };
   return [
     { title: 'From the sensors, every reading', rows: [
       { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(i?.accel, 3)} g`, term: 'the accelerometer', note: 'The accelerometer\'s raw reading, in g, along the board\'s x, y and z: gravity\'s pull (about 1 g up at rest) plus every push and shake' },
@@ -138,23 +162,26 @@ const blocks = computed(() => {
     { title: 'The gyro alone: ω added up, from gravity\'s start', rows: [
       { tex: String.raw`\varphi_\omega \leftarrow \varphi_\omega + \omega_x\,\Delta t =`, value: `${f(u.gyroAlone?.roll, 1)}°`, term: 'roll, gyro alone', note: 'The roll from the gyro alone: gravity\'s roll at the start, then each reading\'s turn added. Smooth and quick, but its small errors add up: watch it drift' },
       { tex: String.raw`\theta_\omega \leftarrow \theta_\omega - \omega_y\,\Delta t =`, value: `${f(u.gyroAlone?.pitch, 1)}°`, term: 'pitch, gyro alone', note: 'The pitch from the gyro alone, added up the same way; minus ω_y because nose up is a turn about −y in the board\'s axes' },
-      { tex: String.raw`\psi_\omega \leftarrow \psi_\omega - \omega_z\,\Delta t =`, value: `${f(u.gyroAlone?.yaw, 1)}°`, term: 'yaw, gyro alone', note: 'The yaw (the heading) from the gyro alone: from 0, as gravity can\'t see yaw; minus ω_z because turning right is a turn about −z. Nothing corrects it, so it drifts for good' },
+      { tex: String.raw`\psi_\omega \leftarrow \psi_\omega - \omega_z\,\Delta t =`, value: `${f(u.gyroAlone?.yaw, 1)}°`, term: 'yaw, gyro alone', note: nine ? 'The yaw (the heading) from the gyro alone: from the compass\'s heading at the start, then each turn added; minus ω_z because turning right is a turn about −z. Nothing corrects it, so it drifts for good' : 'The yaw (the heading) from the gyro alone: from 0, as gravity can\'t see yaw; minus ω_z because turning right is a turn about −z. Nothing corrects it, so it drifts for good' },
     ] },
     { title: 'The attitude, q: a quaternion, four numbers for how the board sits in the room', rows: [
-      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', term: 'the start', note: 'Where q starts (and Start again): built from gravity\'s roll and pitch above, the yaw 0. Lying flat it\'s (1, 0, 0, 0), no turn at all' },
+      { tex: String.raw`\mathbf{q}_0 = \bigl(\cos\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \cos\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2},\ -\sin\tfrac{\theta_g}{2}\cos\tfrac{\varphi_g}{2},\ \sin\tfrac{\theta_g}{2}\sin\tfrac{\varphi_g}{2}\bigr)`, value: '', term: 'the start', note: nine ? 'Where q starts (and Start again): built from gravity\'s roll and pitch above, the yaw 0, then turned about the vertical to the compass\'s heading' : 'Where q starts (and Start again): built from gravity\'s roll and pitch above, the yaw 0. Lying flat it\'s (1, 0, 0, 0), no turn at all' },
       { tex: String.raw`\mathbf{q} = (q_w,\ q_x,\ q_y,\ q_z) =`, value: vec(u.fused?.held?.q, 3), term: 'the attitude', note: 'The attitude as four numbers, a quaternion: how the board is turned in the room. Each reading starts from the q the filter made the reading before (the last lines below)' },
       { tex: String.raw`\mathbf{v}_W = \mathbf{q} \otimes (0,\ \mathbf{v}_b) \otimes \mathbf{q}^{*}`, value: '', term: 'what q does', note: 'What q is for: it turns a direction in the board\'s axes (b, the body frame) into the world\'s (W); q*, its conjugate, turns back' },
       { tex: String.raw`\beta = 2 \arccos q_w =`, value: t ? `${t.beta.toFixed(1)}°` : '—', term: 'the turn angle', note: 'How far the board has turned from the start, as one single turn about one axis: any attitude can be reached that way' },
       { tex: String.raw`\mathbf{n} = (q_x,\ q_y,\ q_z) \,/\, \sin\tfrac{\beta}{2} =`, value: vec(t?.n, 3), term: 'the turn axis', note: 'The axis of that one turn, a unit direction (none while β is 0). Together: q = (cos β/2, n sin β/2)' },
     ] },
+    ...(nine ? [compassBlock] : []),
     { title: 'Fused: Mahony\'s filter, each reading', rows: [
       { tex: String.raw`k_p =`, value: `${u.kp} /s`, term: 'proportional gain', note: 'The spring: an e of so many radians steers the gyro by kp × e radians a second, so gravity closes a gap in about 1/kp = 1 s' },
       { tex: String.raw`k_i =`, value: `${u.ki} /s²`, term: 'integral gain', note: 'The memory: e held for a second adds ki × e to the steering, for good; it learns a gyro offset in about kp/ki (10 s at 1 and 0.1) (capped at ±10 °/s). Both are this site\'s picks, not the paper\'s or a chip\'s: calm through a shake, level again within a second or two. Try others with the sliders under Mahony\'s filter, below' },
       { tex: String.raw`k_d =`, value: '0', term: 'derivative gain', note: 'No D: the gyro already gives the rate of turning, read directly every reading; a D on e would take a noisier one from the accelerometer\'s jitter' },
       { tex: String.raw`\hat{\mathbf{a}} = \mathbf{a} \,/\, \lVert \mathbf{a} \rVert =`, value: vec(ah, 3), term: 'up, from gravity', note: 'Up, as gravity says: a, the accelerometer\'s reading (the first block), about 1 g up at rest; divided by its length |a|, only its direction is kept' },
       { tex: String.raw`\hat{\mathbf{v}} = \bigl(2(q_x q_z - q_w q_y),\ 2(q_y q_z + q_w q_x),\ 1 - 2(q_x^2 + q_y^2)\bigr) =`, value: vec(u.fused?.held?.up, 3), wide: true, term: 'up, from q', note: 'Up, as q says it: the world\'s Z turned into the board\'s own axes. With q right and the board still, v̂ and â match' },
-      { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(e, 3), term: 'the error', note: 'The error, a cross product: its length says how far apart the two ups are, its direction is the axis to turn q about to bring them together' },
-      { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, term: 'the bias estimate', note: 'B̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
+      nine && u.compassOn
+        ? { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} + \mathbf{e}_m =`, value: vec(eAll, 3), term: 'the error', note: 'Gravity\'s error, a cross product (how far apart the two ups are, and the axis to turn q about to bring them together), plus the compass\'s, about the vertical' }
+        : { tex: String.raw`\mathbf{e} = \hat{\mathbf{a}} \times \hat{\mathbf{v}} =`, value: vec(e, 3), term: 'the error', note: 'The error, a cross product: its length says how far apart the two ups are, its direction is the axis to turn q about to bring them together' },
+      { tex: String.raw`\hat{\mathbf{b}} = -k_i \textstyle\int \mathbf{e}\,dt =`, value: `${vec(u.learned, 2)} °/s`, term: 'the bias estimate', note: nine && u.compassOn ? 'B̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far. With the compass, on all three axes: gravity sees two, the compass the third, about the vertical. The hat here means estimated' : 'B̂ (b-hat): the gyro\'s bias (its offset), estimated: what the I has learned so far, on the axes gravity can see. The hat here means estimated' },
       { tex: String.raw`\boldsymbol{\omega}' = \boldsymbol{\omega} + k_p\,\mathbf{e} + k_i \textstyle\int \mathbf{e}\,dt + k_d \frac{d\mathbf{e}}{dt}`, value: '', term: 'the steered gyro', note: 'The gyro, steered toward gravity: PID: kp e now, ki ∫e over time (that is, −b̂), kd de/dt how fast it changes; here kd = 0, so a PI controller' },
       { tex: String.raw`\mathbf{q} \leftarrow \mathbf{q} + \tfrac{1}{2}\,\mathbf{q} \otimes (0,\ \boldsymbol{\omega}')\,\Delta t =`, value: vec(u.fused?.q, 3), term: 'the update', note: '⊗, the quaternion product: q turned by ω′ over Δt, made unit length, held for the next reading; the fused angles come from it (the last line)' },
       { tex: String.raw`(\varphi_q,\ \theta_q,\ \psi_q) =`, value: fusionAngles(u), term: 'the fused angles', note: 'Roll, pitch and yaw read back from the new q: the attitude fused, steady like gravity\'s and quick like the gyro\'s. The gauges below show them' },
@@ -211,7 +238,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <LiveChart title="θ, the pitch" unit="°" :series="THETA" :values="fusion.fused ? [fusion.gravity.pitch, fusion.gyroAlone.pitch, fusion.fused.pitch] : []" :source="fusion.pitchSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </CollapsibleCard>
   <CollapsibleCard v-if="shown('charts')" id="yaw" title="ψ, the yaw">
-    <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="fusion.fused ? [fusion.gyroAlone.yaw, fusion.fused.yaw] : []" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
+    <LiveChart title="ψ, the yaw" unit="°" :series="PSI" :values="yawValues" :source="fusion.yawSource" :window-ms="windowMs" :floor="ANGLE_FLOOR_DEG" :digits="1" />
   </CollapsibleCard>
   <CollapsibleCard id="result" title="The result, as a pilot reads it">
     <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
@@ -229,11 +256,14 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\psi_q =`" />
           <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.yaw, 0) }}°</span>
-          <span class="block text-xs text-slate-500 dark:text-slate-400">the heading indicator: 0 is where the nose pointed at the start</span>
+          <span class="block text-xs text-slate-500 dark:text-slate-400">{{ fusion.nine ? 'the heading indicator: 0 is magnetic north' : 'the heading indicator: 0 is where the nose pointed at the start' }}</span>
         </figcaption>
       </figure>
     </div>
-    <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+    <p v-if="fusion.nine" class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+      In an aircraft the heading indicator is a gyro too, and in many it is slaved to a magnetic compass that nudges it to north all the time: what the compass does to ψ<sub>q</sub> here.
+    </p>
+    <p v-else class="mt-3 text-sm text-slate-500 dark:text-slate-400">
       In an aircraft the heading indicator is a gyro too: it knows no north and drifts, so pilots set it to the magnetic compass now and then. ψ<sub>q</sub> drifts the same way, and a compass would fix it the same way.
     </p>
   </CollapsibleCard>

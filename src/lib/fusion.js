@@ -39,7 +39,27 @@ export class Complementary {
 // of it summed over time (integral) - which settles where it cancels the
 // gyro's offset: the offset learned while in use, on the axes gravity sees.
 // The integral is capped so a long shake can't wind it up.
+// With a magnetometer too (9 axes): the world's X is magnetic north (Y west,
+// Z up), and a second error steers the heading: north as the field says it
+// (the field's level part, in the board's axes) against north as q says it
+// (the world's X turned into the board's axes). Both lie level, so their
+// cross product points along up: it turns q about the vertical only, and
+// leaves roll and pitch to gravity. The integral then learns the gyro's
+// offset on all three axes.
 export const INTEGRAL_MAX_DPS = 10;
+
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+
+// the field's level part in the board's axes (up a unit vector there), as a
+// unit vector: north as the field says it; null with no level part to speak of
+const MIN_LEVEL = 1e-6;
+export function northOf(field, up) {
+  const k = dot(field, up);
+  const h = field.map((c, i) => c - k * up[i]);
+  const n = Math.hypot(...h);
+  return n > MIN_LEVEL ? h.map((c) => c / n) : null;
+}
 
 export class Mahony {
   constructor(kp = 1, ki = 0.1) {
@@ -55,23 +75,46 @@ export class Mahony {
     return [2 * (x * z - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y)];
   }
 
-  // straight to gravity's tilt, heading 0
-  level(accel) {
+  // north (the world's X) as the board sees it
+  north() {
+    const [w, x, y, z] = this.q;
+    return [1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (x * z + w * y)];
+  }
+
+  // straight to gravity's tilt, heading 0; with a field, the heading it gives
+  level(accel, field = null) {
     const r = rollOf(...accel) * RAD, p = pitchOf(...accel) * RAD;
     // roll about x, then pitch about -y (nose up), applied as q = qPitch * qRoll
     const cr = Math.cos(r / 2), sr = Math.sin(r / 2), cp = Math.cos(p / 2), sp = Math.sin(-p / 2);
     this.q = [cp * cr, cp * sr, sp * cr, -sp * sr];
+    if (field) {
+      // turn about the world's vertical until q's north lies along the field's
+      const n = northOf(field, this.up());
+      if (n) {
+        const off = -Math.atan2(dot(cross(this.north(), n), this.up()), dot(this.north(), n)); // the board turned against the gap: q's north onto n
+        const [w, x, y, z] = this.q, c = Math.cos(off / 2), s = Math.sin(off / 2);
+        // q * (turn by off about the board's up): the same as about the world's Z, after
+        const u = this.up().map((k) => k * s);
+        this.q = [w * c - x * u[0] - y * u[1] - z * u[2], w * u[0] + x * c + y * u[2] - z * u[1], w * u[1] - x * u[2] + y * c + z * u[0], w * u[2] + x * u[1] - y * u[0] + z * c];
+      }
+    }
     return this;
   }
 
-  update(accel, gyro, dt) {
-    if (!this.q) return this.level(accel);
+  // field: the magnetometer's reading, hard iron off (any unit), or null: no compass
+  update(accel, gyro, dt, field = null) {
+    if (!this.q) return this.level(accel, field);
     if (!(dt > 0)) return this;
     let [gx, gy, gz] = gyro.map((g) => g * RAD);
     const m = Math.hypot(...accel);
     if (m > 0) {
       const a = accel.map((v) => v / m), v = this.up();
-      const e = [a[1] * v[2] - a[2] * v[1], a[2] * v[0] - a[0] * v[2], a[0] * v[1] - a[1] * v[0]]; // a x v
+      const e = cross(a, v);
+      const n = field ? northOf(field, v) : null;
+      if (n) {
+        const em = cross(n, this.north()); // along up: a turn about the vertical only
+        for (let k = 0; k < 3; k++) e[k] += em[k];
+      }
       const cap = INTEGRAL_MAX_DPS * RAD;
       this.integral = this.integral.map((s, k) => Math.max(-cap, Math.min(cap, s + this.ki * e[k] * dt)));
       gx += this.kp * e[0] + this.integral[0];
