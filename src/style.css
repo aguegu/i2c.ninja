@@ -62,6 +62,7 @@
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --series-3: #1baf7a;
+  --series-magnitude: #7c3aed; /* violet-600, the field's arrows: a magnitude, not an axis */
   --chart-grid: #e2e8f0; /* slate-200 */
   --chart-text: #64748b; /* slate-500 */
   /* a colour sensor's channels, in the colour each measures (the BH1745NUC
@@ -93,6 +94,7 @@
     --series-1: #3987e5;
     --series-2: #d95926;
     --series-3: #199e70;
+    --series-magnitude: #a78bfa; /* violet-400, 5.4:1 on slate-800 */
     --chart-grid: #334155; /* slate-700 */
     --chart-text: #94a3b8; /* slate-400 */
     --channel-red: #f87171; /* red-400 */
@@ -115,6 +117,7 @@
   --series-1: #3987e5;
   --series-2: #d95926;
   --series-3: #199e70;
+  --series-magnitude: #a78bfa;
   --chart-grid: #334155;
   --chart-text: #94a3b8;
   --channel-red: #f87171;

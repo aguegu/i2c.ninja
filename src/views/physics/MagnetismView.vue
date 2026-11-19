@@ -18,7 +18,7 @@ import { useHardIron } from '../../lib/useHardIron.js';
 const WINDOW_MS = 30000;
 const src = reactive(useSource(MAGNETOMETERS));
 const cal = reactive(useHardIron(src.onReading, { windowMs: WINDOW_MS }));
-const MAGNITUDE = [{ label: '|B|', color: '--series-1' }];
+const MAGNITUDE = [{ label: '|B|', color: '--series-magnitude' }];
 const MAGNITUDE_SPAN_UT = 40; // the chart's least span: Earth's field alone sits mid-chart, flat
 const magnitude = computed(() => (cal.latest ? Math.hypot(cal.latest.x, cal.latest.y, cal.latest.z) : null));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
