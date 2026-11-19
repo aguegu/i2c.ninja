@@ -1,14 +1,15 @@
 <script setup>
 // The SHT4x (SHT40, SHT41, SHT45) on the shared humidity page: its
-// repeatability to pick; no wiring drawing yet
+// repeatability to pick; the purple SHT40 board's wiring (from a shop photo)
 import { Sht4x } from 'atiic';
 import HumidityPage from '../components/HumidityPage.vue';
 </script>
 
 <template>
   <HumidityPage
-    :driver="Sht4x" :response-s="6"
-    drawing-caption="Its module's four pins: VCC (3.3 V), GND, SCL to SCL, SDA to SDA. No drawing of a board yet."
+    :driver="Sht4x" :response-s="6" drawing="/setup-sht4x.svg"
+    drawing-alt="A CH341T bridge on 3.3 V wired to a purple SHT40 module seen from its back: SDA, SCL and GND straight, VCC to VIN past 3Vo; 3Vo left free"
+    drawing-caption="The purple SHT40 board, from its back: SDA, SCL and GND straight, VCC to VIN, one pin past 3Vo. VIN feeds its own regulator and 3Vo is that regulator's output, so leave 3Vo free. Its two small sockets take a Qwiic or STEMMA QT cable instead of the pins."
   >
     <template #intro>
       Sensirion's fourth generation of humidity and temperature sensors (the SHT40, SHT41 and SHT45 differ in accuracy): tiny, frugal and quick, with a heater of its own. Live over a USB-to-I²C bridge.
