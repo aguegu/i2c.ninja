@@ -46,10 +46,7 @@ const SCALE_IN = 92; // a short mark's inner end
 const SCALE_IN_LONG = 88; // a long mark's, and the zero triangle's tip
 const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointing out at the scale
 const POINTER_BASE = 74;
-const RING_IN = 73; // the caret ring's inner edge: the ring, out to the rim, is where the roll pointer turns
-const LADDER_WINDOW = 82; // the pitch ladder's round window: to the rim, over the caret ring
-const CARET_RING = '#1e293b'; // slate-800, the heading indicator's face: the ring the roll pointer turns in, from RING_IN to the rim
-const CARET_RING_OPACITY = 0.4; // a tint: the sky and the ground show through it
+const LADDER_WINDOW = 82; // the pitch ladder's round window: to the rim
 
 const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
@@ -93,9 +90,7 @@ const { full, toggle } = useFullscreen(box);
               </g>
             </g>
           </svg>
-          <!-- the caret ring: fixed, over the horizon, under the pointer -->
-          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-RING_IN} 0 a ${RING_IN} ${RING_IN} 0 1 0 ${2 * RING_IN} 0 a ${RING_IN} ${RING_IN} 0 1 0 ${-2 * RING_IN} 0 Z`" :fill="CARET_RING" :fill-opacity="CARET_RING_OPACITY" fill-rule="evenodd" /></svg>
-          <!-- the pitch ladder: moves with the horizon, over the caret ring, out to the rim -->
+          <!-- the pitch ladder: moves with the horizon, out to the rim -->
           <div class="absolute inset-0" :style="{ clipPath: `circle(${(LADDER_WINDOW / SIZE) * 100}% at 50% 50%)` }">
             <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
               <g v-once>
