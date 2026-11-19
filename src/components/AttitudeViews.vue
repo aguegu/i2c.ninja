@@ -1,6 +1,5 @@
 <script setup>
-// The board turned against a field held still (gravity, or Earth's magnetic
-// field: field="magnetic"), drawn down the page, as three flat
+// The board turned against gravity held still, drawn down the page, as three flat
 // views: from its right side (pitch shows: the nose to the right), from
 // behind (roll shows: its right side on the right), from above (yaw would
 // show; the nose up). The turn comes from the accelerometer alone: the
@@ -9,10 +8,7 @@
 // doesn't change how gravity falls on the axes, so an accelerometer can't
 // see it. Board axes as printed (x the nose, y left, z up); the room's: X
 // ahead, Y left, Z up. A still accelerometer reads up (the springs against
-// gravity, which points down); a magnetometer reads along the field: down
-// the page is the reading's way for it. Its angles are then the board's
-// against the field line, and the turn about the field line is the one it
-// can't see. A button takes the three full screen.
+// gravity, which points down). A button takes the three full screen.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -23,18 +19,16 @@ const props = defineProps({
   x: { type: Number, default: 0 }, // g, the board's axes
   y: { type: Number, default: 0 },
   z: { type: Number, default: 1 },
-  field: { type: String, default: 'gravity' }, // or 'magnetic'
 });
-const magnetic = computed(() => props.field === 'magnetic');
-// the room's up, in the board's axes, as the gravity case reads it
-const up = computed(() => (magnetic.value ? [-props.x, -props.y, -props.z] : [props.x, props.y, props.z]));
+// the room's up, in the board's axes: the reading's direction
+const up = computed(() => [props.x, props.y, props.z]);
 
 const R = 100; // the viewBox's half size
 const S = 50; // px a board unit
 const L = 1.1, W = 0.65, H = 0.07; // half length (x), width (y), thickness (z), as lib/board.js's
 const G_PX = 60; // gravity's arrow, 1 g
 const HEAD_PX = 10;
-const MIN = { gravity: 0.2, magnetic: 5 }; // g, uT: a reading weaker than this keeps the last turn
+const MIN_G = 0.2; // a reading weaker than this keeps the last turn
 const TOP = BOARD.top;
 const SIDE = BOARD.side;
 const BOTTOM = BOARD.bottom;
@@ -69,7 +63,7 @@ const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a
 let last = { X: [1, 0, 0], Y: [0, 1, 0], Z: [0, 0, 1] };
 const frame = computed(() => {
   const a = up.value;
-  if (Math.hypot(...a) < MIN[props.field]) return last;
+  if (Math.hypot(...a) < MIN_G) return last;
   const Z = norm(a);
   const level = [1 - Z[0] * Z[0], -Z[0] * Z[1], -Z[0] * Z[2]]; // the nose with its up part taken off
   if (Math.hypot(...level) < 1e-3) return last;
@@ -82,14 +76,10 @@ const pts2 = (ps) => ps.map((p) => `${(p[0] * S).toFixed(1)},${(p[1] * S).toFixe
 
 const roll = computed(() => rollOf(...up.value));
 const pitch = computed(() => pitchOf(...up.value));
-const NAMES = {
-  gravity: { pitch: 'pitch', roll: 'roll', yaw: 'yaw', above: 'From above', unseen: 'a turn about the vertical: gravity can\'t see it', arrow: 'g', color: '#e11d48' },
-  magnetic: { pitch: 'nose to the field', roll: 'side to the field', yaw: 'about the field', above: 'Along the field', unseen: 'a turn about the field line: the field can\'t see it', arrow: 'B', color: '#7c3aed' },
-};
-const names = computed(() => NAMES[props.field]);
+const names = { pitch: 'pitch', roll: 'roll', yaw: 'yaw', unseen: 'a turn about the vertical: gravity can\'t see it', arrow: 'g', color: '#e11d48' };
 
 const views = computed(() => VIEWS.map((w0) => {
-  const w = w0.key === 'above' ? { ...w0, title: names.value.above } : w0;
+  const w = w0;
   const faces = FACES.map((f) => {
     const room = f.pts.map(toRoom);
     return { ...f, points: pts2(room.map(w.project)), depth: room.reduce((s, v) => s + w.depth(v), 0) / room.length };
