@@ -6,6 +6,7 @@ import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
+import HintNote from '../components/HintNote.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import { canConnect, hex } from '../lib/dongle.js';
@@ -37,19 +38,13 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <figure :class="card">
       <SvgDrawing src="/setup-lm75.svg" alt="A CH341T bridge on 3.3 V wired to a purple LM75 module (CJMCU-75) seen from its back: VCC to VCC, GND to GND, SDA to SDA and SCL to SCL, those two crossing; OS left free; on the back three solder jumpers, A0, A1 and A2, each bridged to its GND pad" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The purple CJMCU-75 board, drawn from its back: four wires, SDA and SCL crossing; its A0, A1, A2 jumpers on the back, each bridged to GND with solder. Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F (see the note below); OS is the watchdog's output. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The purple CJMCU-75 board, drawn from its back: four wires, SDA and SCL crossing; its A0, A1, A2 jumpers on the back, each bridged to GND with solder. Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F; OS is the watchdog's output. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
-    <section class="rounded-lg border border-amber-300 bg-amber-50 p-3 leading-relaxed text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200" aria-labelledby="address-pins">
-      <p id="address-pins" class="font-semibold">Tie A0, A1 and A2: don't leave them open</p>
-      <p class="mt-1">
-        They set its address, 0x48 to 0x4F, and have no pull-ups or pull-downs inside ("should not be left floating in any application", NXP's datasheet). Many modules leave them open, and then the address drifts: ours answered at 0x48, then 0x49, then 0x4A, vanishing for seconds at a time, about three times in five minutes, while the bus, the supply and the wires were fine. Soldered to GND, 0x48 held for a thousand readings out of a thousand.
-      </p>
-      <p class="mt-1">
-        On the purple CJMCU-75 they're three solder jumpers on its back, three pads each (GND, A, VCC): bridge each middle pad to its GND pad with a blob of solder for 0x48, as drawn above, or to VCC for another address; any fixed one works, this page looks at all eight.
-      </p>
-    </section>
+    <HintNote>
+      Its A0, A1 and A2 set its address and need tying: on the CJMCU-75, bridge each to its GND pad on the back, as drawn, for 0x48. Left open, the address can wander and readings drop out.
+    </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
