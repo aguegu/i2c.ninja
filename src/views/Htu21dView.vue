@@ -1,14 +1,15 @@
 <script setup>
 // The HTU21D on the shared humidity page: an SHT20's commands with its own
-// (faster) waits; hold master on a dart; no wiring drawing yet
+// (faster) waits; hold master on a dart; the blue GY-21 board's wiring
 import { Htu21d } from 'atiic';
 import HumidityPage from '../components/HumidityPage.vue';
 </script>
 
 <template>
   <HumidityPage
-    :driver="Htu21d" :response-s="10" resolution="11/11"
-    drawing-caption="Its module's four pins: VCC (3.3 V), GND, SCL to SCL, SDA to SDA. No drawing of a board yet."
+    :driver="Htu21d" :response-s="10" resolution="11/11" drawing="/setup-htu21d.svg"
+    drawing-alt="A CH341T bridge on 3.3 V wired to a blue HTU21D module (GY-21) seen from its back: SDA, SCL, GND and VCC to VIN, four straight wires"
+    drawing-caption="The blue GY-21 board, from its back (the sensor and the pins' names on its front): four straight wires, SDA, SCL, GND and VCC to VIN. VIN feeds its own 3.3 V regulator; ours runs from a 3.3 V bridge. The same board carries an SHT21 or an SI7021."
   >
     <template #intro>
       TE Connectivity's (once Measurement Specialties') humidity and temperature sensor: the air's moisture and warmth, and from the two, the dew point. It speaks the SHT20's language, command for command, and measures in about half the time. Live over a USB-to-I²C bridge.
