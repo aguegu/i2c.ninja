@@ -1,5 +1,30 @@
 # Releases
 
+## 2.2.0
+
+**BMX055** joins, Bosch's 9-axis module, and a new algorithm: a **tilt-compensated compass**.
+
+- **A BMX055 page** (`/bmx055`): accelerometer, gyro and magnetometer in tabs,
+  found by their chip IDs (0x19, 0x69, 0x13 on a CJMCU-900F). The wiring drawing
+  shows the four wires and PS bridged to 3.3V (PS low or floating, the module
+  answers nothing on I²C). A card on its **hard iron**: measured on our module,
+  about 77 µT, twice Earth's level field here, so uncalibrated a heading only
+  rocks about ±30° and never goes round; drawn to scale.
+- **BMX055 on the physics pages**: a live source for acceleration, rotation,
+  magnetism and the attitude algorithm. Its magnetometer is turned into the
+  accelerometer's axes first (Bosch's datasheet, Figure 41).
+- **A tilt-compensated compass** (`/algorithms/compass`): an accelerometer and a
+  magnetometer (one BMX055, or two boards). The level-only and the compensated
+  heading side by side, the live calculation step by step, charts comparing the
+  two headings, the tilt and the dip, and the board in the room in 3D.
+- **Magnetism**: a live chart of |B|, in violet; bring a magnet near and watch it
+  climb.
+- **A calibration gauge** for every magnetometer: a bar per axis for how far it
+  has swung, and which way to turn the board next. An axis counts as full at 70 %
+  of the widest swing, about 45° tilts each way.
+- The magnetometer views drop "the board against the field": Earth's field isn't
+  vertical, so drawing it straight down misled.
+
 ## 2.1.0
 
 A page of its own for **Dart**, and a tour of the browser tech the site runs on.
