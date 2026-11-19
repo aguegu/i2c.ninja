@@ -30,6 +30,7 @@ const router = createRouter({
     { path: '/adxl345', component: () => import('./views/Adxl345View.vue') },
     { path: '/hmc5883l', component: () => import('./views/Hmc5883lView.vue') },
     { path: '/itg3200', component: () => import('./views/Itg3200View.vue') },
+    { path: '/bmx055', component: () => import('./views/Bmx055View.vue') },
     { path: '/physics', component: () => import('./views/physics/IndexView.vue') },
     { path: '/algorithms', component: () => import('./views/algorithms/IndexView.vue') },
     { path: '/learn', component: () => import('./views/learn/LearnView.vue') },

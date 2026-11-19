@@ -38,6 +38,7 @@ const WHAT = {
   '/adxl345': 'ADXL345 accelerometer',
   '/hmc5883l': 'HMC5883L magnetometer (compass)',
   '/itg3200': 'ITG-3200 gyroscope',
+  '/bmx055': 'BMX055 9-axis IMU (accelerometer, gyro, magnetometer)',
 };
 const deviceTitle = (d) => `${WHAT[d.to] ?? d.name}, live in your browser`;
 

@@ -12,6 +12,7 @@ export const PHYSICS = [
     devices: [
       { to: '/adxl345', label: 'ADXL345', note: 'accelerometer' },
       { to: '/mpu6050#accelerometer', label: 'MPU-6050 / MPU-6500', note: 'its accelerometer' },
+      { to: '/bmx055#accelerometer', label: 'BMX055', note: 'its accelerometer' },
     ],
     component: () => import('../views/physics/AccelerationView.vue'),
   },
@@ -24,6 +25,7 @@ export const PHYSICS = [
     devices: [
       { to: '/itg3200', label: 'ITG-3200', note: 'gyroscope' },
       { to: '/mpu6050#gyro', label: 'MPU-6050 / MPU-6500', note: 'its gyro' },
+      { to: '/bmx055#gyro', label: 'BMX055', note: 'its gyro' },
     ],
     component: () => import('../views/physics/RotationView.vue'),
   },
@@ -35,6 +37,7 @@ export const PHYSICS = [
     blurb: 'Earth\'s field and its dip into the ground, how a strip of permalloy feels it, a compass from it, and the board\'s own field.',
     devices: [
       { to: '/hmc5883l', label: 'HMC5883L', note: 'magnetometer' },
+      { to: '/bmx055#magnetometer', label: 'BMX055', note: 'its magnetometer' },
     ],
     component: () => import('../views/physics/MagnetismView.vue'),
   },

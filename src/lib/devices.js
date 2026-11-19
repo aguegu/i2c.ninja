@@ -52,6 +52,15 @@ export const DEVICES = [
     bus: 'I2C 0x1E',
   },
   {
+    to: '/bmx055',
+    name: 'BMX055',
+    maker: 'Bosch',
+    kind: '9-axis IMU',
+    group: 'Motion',
+    measures: 'Acceleration, rotation and Earth\'s magnetic field on 3 axes each: three chips in one package.',
+    bus: 'I2C 0x19 / 0x69 / 0x13',
+  },
+  {
     to: '/sht20',
     name: 'SHT20',
     maker: 'Sensirion',
