@@ -6,9 +6,15 @@
 // at one address), so a page needing two quantities takes them from one board when
 // it can (lib/useSources.js). A page's Live card
 // scans for every chip of its quantity (lib/useSource.js).
-import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l } from 'atiic';
+import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Bmx055Accel, Bmx055Gyro, Bmx055Mag } from 'atiic';
 
 const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1))[0];
+
+// a Bosch BMX055: three chips in one package at three addresses, one family
+// (so a page wanting accel and gyro takes both from the module), each known
+// by its chip ID; its PS pin high, or it isn't on I2C
+const BMX055 = 'BMX055';
+const bmxDetect = (Driver) => (bus, a) => idAt(bus, a, Driver.chip.idRegister).then((id) => id === Driver.chip.whoAmI);
 
 // an MPU-6050 or -6500 by its WHO_AM_I (0x75); the ITG-3200, also at 0x68,
 // reads 0 there and isn't taken for one
@@ -44,17 +50,42 @@ export const ACCELEROMETERS = {
     },
     mpu(Mpu6050, 'MPU-6050', '/mpu6050'),
     mpu(Mpu6500, 'MPU-6500', '/mpu6500'),
+    {
+      name: BMX055,
+      to: '/bmx055',
+      family: BMX055,
+      addresses: Bmx055Accel.addresses,
+      detect: bmxDetect(Bmx055Accel),
+      open: async (bus, a) => {
+        const d = new Bmx055Accel(bus, a);
+        await d.init();
+        return { read: async () => { const { accelerometers: v } = await d.measure(); return [v.x, v.y, v.z]; } };
+      },
+    },
   ],
 };
 
 // the MPUs first: their WHO_AM_I tells them apart; an address one holds isn't
-// asked again (the ITG-3200's wake-up, a write, never reaches an MPU)
+// asked again (the ITG-3200's wake-up, a write, never reaches an MPU). The
+// BMX055's gyro, a read of its chip ID, before the ITG-3200 for the same reason
 export const GYROSCOPES = {
   noun: 'gyroscope',
   unit: '°/s',
   chips: [
     mpu(Mpu6050, 'MPU-6050', '/mpu6050', 'gyroscopes'),
     mpu(Mpu6500, 'MPU-6500', '/mpu6500', 'gyroscopes'),
+    {
+      name: BMX055,
+      to: '/bmx055',
+      family: BMX055,
+      addresses: Bmx055Gyro.addresses,
+      detect: bmxDetect(Bmx055Gyro),
+      open: async (bus, a) => {
+        const d = new Bmx055Gyro(bus, a);
+        await d.init();
+        return { read: async () => { const { gyroscopes: v } = await d.measure(); return [v.x, v.y, v.z]; } };
+      },
+    },
     {
       name: 'ITG-3200',
       to: '/itg3200',
@@ -88,6 +119,32 @@ export const MAGNETOMETERS = {
         const d = new Hmc5883l(bus, a);
         await d.init();
         return { read: async () => { const { magnetometers: v } = await d.measure(); return [v.x, v.y, v.z]; } };
+      },
+    },
+    {
+      name: BMX055,
+      to: '/bmx055',
+      family: BMX055,
+      addresses: Bmx055Mag.addresses,
+      readMs: 100, // its 10 Hz (atiic's setting): faster repeats the sample
+      // asleep its chip ID reads 0: woken first (its idWake)
+      detect: async (bus, a) => {
+        await bus.write(a, Bmx055Mag.chip.idWake);
+        await new Promise((resolve) => setTimeout(resolve, Bmx055Mag.chip.idWakeMs));
+        return (await idAt(bus, a, Bmx055Mag.chip.idRegister)) === Bmx055Mag.chip.whoAmI;
+      },
+      open: async (bus, a) => {
+        const d = new Bmx055Mag(bus, a);
+        await d.init();
+        let last = [0, 0, 0];
+        return {
+          read: async () => {
+            const { magnetometers: v } = await d.measure();
+            // an axis past the chip's range reads null: the reading before holds
+            if (v.x !== null && v.y !== null && v.z !== null) last = [v.x, v.y, v.z];
+            return last;
+          },
+        };
       },
     },
   ],

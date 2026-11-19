@@ -1,6 +1,7 @@
 <script setup>
 // Algorithm: attitude from accel and gyro (6-axis sensor fusion). An accelerometer and a gyro, from one chip (an
-// MPU) or two boards (an ADXL345 and an ITG-3200), fused by Mahony's
+// MPU), one module (a BMX055) or two boards (an ADXL345 and an ITG-3200),
+// fused by Mahony's
 // filter; why each alone falls short, the complementary filter, Mahony's in
 // 3D and what it learns, yaw left to a compass; a Live card scanning for a
 // pair, the fused views, things to try
@@ -52,7 +53,7 @@ const COMPLEMENTARY = String.raw`\varphi_c \leftarrow \alpha\,(\varphi_c + \omeg
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Algorithm</p>
       <h1 class="text-2xl font-bold">Attitude from accel and gyro</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        An accelerometer knows which way is down but jumps at every push; a gyro follows every turn but drifts. Read together and combined (6-axis sensor fusion), they give an attitude: roll, pitch and yaw, that is steady and quick at once: the trick inside every phone, game controller and drone. It runs on one chip that has both, or on two boards side by side.
+        An accelerometer knows which way is down but jumps at every push; a gyro follows every turn but drifts. Read together and combined (6-axis sensor fusion), they give an attitude: roll, pitch and yaw, that is steady and quick at once: the trick inside every phone, game controller and drone. It runs on one chip that has both, on one module that does (a BMX055), or on two boards side by side.
       </p>
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Combines <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> + <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink>.
