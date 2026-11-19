@@ -1,5 +1,14 @@
 # Releases
 
+## 2.3.1
+
+- **Moved pages forward cleanly for search engines.** The old addresses (`/setup`,
+  `/dongles`, `/learn/imu` and its chapters) no longer say `noindex` beside the
+  canonical link to their new pages: Google read the pair as mixed signals and
+  reported them "Excluded by 'noindex' tag". Now an instant forward plus the
+  canonical, which it treats as a permanent redirect. The 404 page keeps its
+  `noindex`.
+
 ## 2.3.0
 
 A third algorithm, **9-axis fusion**, and a reworked **attitude indicator**.
