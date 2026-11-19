@@ -1,13 +1,14 @@
 <script setup>
-// The CHT8305C on the shared humidity page; no wiring drawing yet
+// The CHT8305C on the shared humidity page; the red CH83XX board's wiring (from shop photos)
 import { Cht8305 } from 'atiic';
 import HumidityPage from '../components/HumidityPage.vue';
 </script>
 
 <template>
   <HumidityPage
-    :driver="Cht8305" :response-s="8"
-    drawing-caption="Its module's pins: VCC (3.3 V), GND, SCL to SCL, SDA to SDA; AD0 picks its address (open or GND 0x40, VCC 0x44, SDA 0x48, SCL 0x4C); ALERT signals a limit crossed. No drawing of a board yet."
+    :driver="Cht8305" :response-s="8" drawing="/setup-cht8305.svg"
+    drawing-alt="A CH341T bridge on 3.3 V wired to a small red CHT8305C module seen from its back: SDA, SCL, GND and VCC, four straight wires"
+    drawing-caption="The small red board (marked CH83XX), from its back: four straight wires, SDA, SCL, GND, VCC. It ties the chip's AD0, so it answers at 0x40, and doesn't bring out ALERT; on a bare chip AD0 picks the address (GND or open 0x40, VCC 0x44, SDA 0x48, SCL 0x4C)."
   >
     <template #intro>
       Sensylink's humidity and temperature sensor: the air's moisture and warmth, with an alert pin for when either climbs too high. Live over a USB-to-I²C bridge.
