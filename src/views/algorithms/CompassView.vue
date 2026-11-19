@@ -236,7 +236,7 @@ const READING = [
       <ul class="list-disc space-y-2 pl-5">
         <li><b>A push.</b> The accelerometer can't tell gravity from a push: while the board moves, û is wrong and so is the heading. Held still, or moving smoothly, it's right; a gyro fused in keeps it right through shakes (<RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink> does that for roll and pitch).</li>
         <li><b>The nose straight up or down.</b> Laid level the nose is nothing: no heading to speak of. Near it, the heading turns quickly with small moves.</li>
-        <li><b>Iron nearby, or not calibrated.</b> The board's own field (hard iron) and nearby steel bend the field it reads; calibrate, and keep it away from laptops, magnets and steel tables.</li>
+        <li><b>Iron nearby, or not calibrated.</b> The board's own field (hard iron) and nearby steel bend the field it reads; calibrate, and keep it away from laptops, magnets and steel tables. A heading that only rocks back and forth as you turn the board, never going round, is a board whose own field outweighs Earth's level part (a BMX055 module's can be twice it): calibrated, it goes round.</li>
         <li><b>Magnetic north isn't true north.</b> The gap, the declination, depends on where you are; <a href="https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml" :class="link">NOAA's calculator</a> gives yours, and your dip to compare with δ above.</li>
       </ul>
     </section>
