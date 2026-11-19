@@ -5,6 +5,7 @@ import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import { canConnect, hex } from '../lib/dongle.js';
@@ -34,8 +35,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <figure :class="card">
-      <figcaption class="text-sm text-slate-500 dark:text-slate-400">
-        Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F (see the note below); OS is the watchdog's output. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      <SvgDrawing src="/setup-lm75.svg" alt="A CH341T bridge on 3.3 V wired to a purple LM75 module (CJMCU-75) seen from its back: VCC to VCC, GND to GND, SDA to SDA and SCL to SCL, those two crossing; OS left free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The purple CJMCU-75 board, drawn from its back: four wires, SDA and SCL crossing. Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F (see the note below); OS is the watchdog's output. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
