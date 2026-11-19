@@ -10,7 +10,7 @@
 // heading (degrees, 0 magnetic north; 9-axis fusion): a heading tape on the
 // horizon, as a glass cockpit's: a tick every 10 degrees, N, E, S and W and
 // the tens between every 30, sliding along the horizon as the board turns.
-// The roll scale, fixed on the rim as on an aircraft's: marks at 10, 20, 30,
+// The roll scale, fixed in a band round the face as on an aircraft's: marks at 10, 20, 30,
 // 45, 60 and 90 degrees either side (long at 30, 60 and 90) and a triangle
 // at 0; the pointer turning with the horizon reads the roll against it.
 // Lanes on the ground, as a road ahead in perspective: lines meeting at the
@@ -38,17 +38,17 @@ const LANE_OPACITY = 0.3;
 const TAPE = '#0f172a'; // slate-900: the heading tape apart from the white ladder; 5.3:1 on the sky, where its labels sit, 3.9:1 on the ground
 const AIRCRAFT = '#f59e0b';
 const AIRCRAFT_OPACITY = 0.65; // the horizon and the heading tape show through it
-const RIM_OPACITY = 0.4; // the rim: the face's edge, light, the roll scale over it
 const ROLL_MARKS = [10, 20, 30, 45, 60, 90].flatMap((d) => [d, -d]);
 const ROLL_LONG = [30, 60, 90];
-const SCALE_OUT = 95; // the roll scale's marks: from the rim inward
-const SCALE_IN = 88; // a short mark's inner end
-const SCALE_IN_LONG = 83; // a long mark's
-const POINTER_TIP = 87; // the roll pointer's tip, pointing out at the scale (its zero triangle's tip)
-const POINTER_BASE = 77;
-const LADDER_WINDOW = 76; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
+// the roll scale in its own band outside the face, on the page's background
+const SCALE_OUT = 98; // the marks: from the outer edge inward
+const SCALE_IN = 92; // a short mark's inner end
+const SCALE_IN_LONG = 88; // a long mark's, and the zero triangle's tip
+const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointing out at the scale
+const POINTER_BASE = 74;
+const LADDER_WINDOW = 73; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
 
-const FACE = 96; // the face's radius, in the viewBox's units
+const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
 const HDG_REACH = 240; // the tape drawn this far either side of 0: a heading near 180 still fills the face
 const HDG_TICKS = Array.from({ length: (2 * HDG_REACH) / 10 + 1 }, (_, i) => i * 10 - HDG_REACH);
@@ -106,11 +106,11 @@ const { full, toggle } = useFullscreen(box);
         </div>
       </div>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
-      <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
-        <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" :stroke-opacity="RIM_OPACITY" />
+      <svg v-once class="absolute inset-0 text-slate-500 dark:text-slate-400" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
+        <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
         <!-- the roll scale: fixed, the pointer turns against it -->
-        <line v-for="d in ROLL_MARKS" :key="`r${d}`" x1="0" :y1="-SCALE_OUT" x2="0" :y2="ROLL_LONG.includes(Math.abs(d)) ? -SCALE_IN_LONG : -SCALE_IN" :transform="`rotate(${d})`" stroke="white" :stroke-width="ROLL_LONG.includes(Math.abs(d)) ? 2 : 1.5" stroke-linecap="round" />
-        <path :d="`M 0 ${-POINTER_TIP} L -6 ${-SCALE_OUT} L 6 ${-SCALE_OUT} Z`" fill="white" />
+        <line v-for="d in ROLL_MARKS" :key="`r${d}`" x1="0" :y1="-SCALE_OUT" x2="0" :y2="ROLL_LONG.includes(Math.abs(d)) ? -SCALE_IN_LONG : -SCALE_IN" :transform="`rotate(${d})`" stroke="currentColor" :stroke-width="ROLL_LONG.includes(Math.abs(d)) ? 2 : 1.5" stroke-linecap="round" />
+        <path :d="`M 0 ${-SCALE_IN_LONG} L -6 ${-SCALE_OUT} L 6 ${-SCALE_OUT} Z`" fill="currentColor" />
         <g :opacity="AIRCRAFT_OPACITY">
           <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" :stroke="AIRCRAFT" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
           <circle r="3" :fill="AIRCRAFT" />
