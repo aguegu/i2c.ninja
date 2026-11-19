@@ -95,8 +95,8 @@ const { full, toggle } = useFullscreen(box);
               </g>
             </g>
           </svg>
-          <!-- the roll pointer on the rim turns with the horizon -->
-          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" fill="white" /></svg>
+          <!-- the roll pointer turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
+          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
         </div>
       </div>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
