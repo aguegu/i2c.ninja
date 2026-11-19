@@ -3,9 +3,11 @@
 // a field (the HMC5883L's datasheet: permalloy strips, anisotropic
 // magneto-resistance, set/reset), a compass from it and declination, the
 // board's own field (hard iron); a Live card scanning for any magnetometer,
-// the magnetometer's views, and things to try
+// the magnetometer's views, |B| on a chart of its own (a magnet brought
+// near), and things to try
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
+import LiveChart from '../../components/LiveChart.vue';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import SourceBar from '../../components/SourceBar.vue';
 import MagnetometerViews from '../../components/MagnetometerViews.vue';
@@ -16,6 +18,9 @@ import { useHardIron } from '../../lib/useHardIron.js';
 const WINDOW_MS = 30000;
 const src = reactive(useSource(MAGNETOMETERS));
 const cal = reactive(useHardIron(src.onReading, { windowMs: WINDOW_MS }));
+const MAGNITUDE = [{ label: '|B|', color: '--series-1' }];
+const MAGNITUDE_SPAN_UT = 40; // the chart's least span: Earth's field alone sits mid-chart, flat
+const magnitude = computed(() => (cal.latest ? Math.hypot(cal.latest.x, cal.latest.y, cal.latest.z) : null));
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
 </script>
@@ -35,6 +40,14 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </section>
 
     <MagnetometerViews :cal="cal" :running="src.state === 'running'" :window-ms="WINDOW_MS" />
+
+    <CollapsibleCard id="the-field-s-strength" title="The field's strength, |B|" class="leading-relaxed">
+      <h2 class="mb-2 text-lg font-semibold">The field's strength, |B|</h2>
+      <LiveChart title="|B|" unit="µT" :series="MAGNITUDE" :values="magnitude === null ? [] : [magnitude]" :source="cal.magnitudeSource" :window-ms="WINDOW_MS" :floor="MAGNITUDE_SPAN_UT" :digits="1" fit />
+      <p class="mt-3">
+        |B| = √(x² + y² + z²): how strong the field is, whichever way it points. Calibrated, Earth's field alone stays at its few tens of µT however the board is turned; bring a magnet near and the line climbs. A small magnet's own field falls off with the cube of the distance (far from it, compared with its size): twice as far, about an eighth as strong. Too close and an axis runs off the chip's scale: those readings are left out, and the line stops climbing.
+      </p>
+    </CollapsibleCard>
 
     <CollapsibleCard id="earth-s-field-isn-t-level" title="Earth's field isn't level" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Earth's field isn't level</h2>
@@ -81,6 +94,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Calibrate.</b> Press Start in the Calibrate card, turn the board slowly round flat, then over and round again, so each axis sees its least and its most; press Done. The span table shows each axis's swing, about twice the field along it.</li>
         <li><b>Find north.</b> Hold it level and turn until the heading reads 0: x points to magnetic north. Check it against a phone's compass, set to magnetic north.</li>
         <li><b>Measure your dip.</b> Calibrated and level, read the dip; look up yours on NOAA's calculator. Tip the board until x points along the field: |B| all lands on x.</li>
+        <li><b>Watch a magnet.</b> Calibrate, then bring a small magnet slowly toward the sensor along one line and watch |B| climb from Earth's few tens of µT. Note the distance where it doubles; halve that distance and the magnet's own part grows about eightfold. Turn the magnet round and x, y and z swing as its poles swap.</li>
         <li><b>Bring iron near.</b> Move a screwdriver, a phone or a magnet toward it and watch the field bend; see how far away it must be before the heading stops moving.</li>
       </ol>
     </CollapsibleCard>

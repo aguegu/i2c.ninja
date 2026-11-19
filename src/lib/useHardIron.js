@@ -3,7 +3,8 @@
 // done, their middle is the offset, taken off every reading from then on.
 // Fed by any stream of readings: subscribe(fn(t ms, [x, y, z] uT)) ->
 // unsubscribe (an axis that overflowed: null, the reading skipped). Keeps
-// the calibrated readings for a chart (the last windowMs).
+// the calibrated readings for a chart (the last windowMs), and their
+// magnitude |B| for another.
 import { ref, onBeforeUnmount } from 'vue';
 import { makeSeries } from './series.js';
 
@@ -16,6 +17,7 @@ export function useHardIron(subscribe, { windowMs = 30000 } = {}) {
   const calibrated = ref(false);
   const span = ref(null); // while calibrating: { min: {x,y,z}, max: {x,y,z} }
   const series = makeSeries(3, windowMs);
+  const magnitude = makeSeries(1, windowMs);
 
   const off = subscribe((t, v) => {
     if (!v || v.some((c) => c === null || Number.isNaN(c))) return;
@@ -28,6 +30,7 @@ export function useHardIron(subscribe, { windowMs = 30000 } = {}) {
     const c = Object.fromEntries(AXES.map((k) => [k, m[k] - offset.value[k]]));
     latest.value = c;
     series.push(t, [c.x, c.y, c.z]);
+    magnitude.push(t, [Math.hypot(c.x, c.y, c.z)]);
   });
   onBeforeUnmount(off);
 
@@ -52,5 +55,5 @@ export function useHardIron(subscribe, { windowMs = 30000 } = {}) {
     calibrated.value = false;
   }
 
-  return { latest, offset, calibrating, calibrated, span, source: series.source, start, finish, clear };
+  return { latest, offset, calibrating, calibrated, span, source: series.source, magnitudeSource: magnitude.source, start, finish, clear };
 }
