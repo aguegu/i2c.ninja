@@ -38,6 +38,7 @@ const LANE_OPACITY = 0.3;
 const TAPE = '#0f172a'; // slate-900: the heading tape apart from the white ladder; 5.3:1 on the sky, where its labels sit, 3.9:1 on the ground
 const AIRCRAFT = '#f59e0b';
 const AIRCRAFT_OPACITY = 0.65; // the horizon and the heading tape show through it
+const RIM_OPACITY = 0.4; // the rim: the face's edge, light, the roll scale over it
 const ROLL_MARKS = [10, 20, 30, 45, 60, 90].flatMap((d) => [d, -d]);
 const ROLL_LONG = [30, 60, 90];
 const SCALE_OUT = 95; // the roll scale's marks: from the rim inward
@@ -106,7 +107,7 @@ const { full, toggle } = useFullscreen(box);
       </div>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
       <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
-        <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
+        <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" :stroke-opacity="RIM_OPACITY" />
         <!-- the roll scale: fixed, the pointer turns against it -->
         <line v-for="d in ROLL_MARKS" :key="`r${d}`" x1="0" :y1="-SCALE_OUT" x2="0" :y2="ROLL_LONG.includes(Math.abs(d)) ? -SCALE_IN_LONG : -SCALE_IN" :transform="`rotate(${d})`" stroke="white" :stroke-width="ROLL_LONG.includes(Math.abs(d)) ? 2 : 1.5" stroke-linecap="round" />
         <path :d="`M 0 ${-POINTER_TIP} L -6 ${-SCALE_OUT} L 6 ${-SCALE_OUT} Z`" fill="white" />
