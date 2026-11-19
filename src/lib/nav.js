@@ -25,6 +25,7 @@ export const START_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/get-started', label: 'Set up the bridge' },
   { to: '/bridges', label: 'Bridges' },
+  { to: '/dart', label: 'Dart', note: 'wireless bridge, in development' },
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },
 ];

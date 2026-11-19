@@ -18,14 +18,12 @@ const platform = ref(detectPlatform());
 
 // a rule of its own for each bridge, its file named to sort before
 // 73-seat-late.rules (which turns uaccess into the user's access): the CH341
-// in I2C mode (1a86:5512), the CH347T in mode 1 (55db) and the CH347F (55de),
-// a dart (ffff:da92)
+// in I2C mode (1a86:5512), the CH347T in mode 1 (55db) and the CH347F (55de)
 const udev = (file, vendor, products) => `echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="${vendor}", ATTRS{idProduct}=="${products}", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/${file}
 sudo udevadm control --reload`;
 const UDEV_RULES = [
   { name: 'A CH341', commands: udev('70-ch341.rules', '1a86', '5512') },
   { name: 'A CH347', commands: udev('70-ch347.rules', '1a86', '55db|55de') },
-  { name: 'A dart', commands: udev('70-dart.rules', 'ffff', 'da92') },
 ];
 const RELEASE_COMMAND = `sudo sh -c 'for i in /sys/bus/usb/drivers/spi-ch341/*:*; do [ -e "$i" ] && echo "\${i##*/}" && echo -n "\${i##*/}" > /sys/bus/usb/drivers/spi-ch341/unbind; done'`;
 const BLOCK_COMMANDS = `echo 'blacklist spi_ch341' | sudo tee /etc/modprobe.d/ch341-no-spi.conf
@@ -152,46 +150,6 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
     </section>
 
     <section :class="card">
-      <h2 class="mb-2 text-lg font-semibold">Or over Bluetooth: a Dart</h2>
-      <p class="mb-3 max-w-3xl leading-relaxed">
-        A <b>Dart</b> is a bridge of our own that also works over Bluetooth LE:
-        no USB bridge and no wires, on a coin cell &mdash; the same sensors, the
-        same pages. On the <b>Connect</b> button you pick it from the caret
-        (<span aria-hidden="true">&#9662;</span>) menu beside it,
-        <i>Dart over Bluetooth</i>, instead of a USB bridge.
-      </p>
-      <p class="mb-3 max-w-3xl leading-relaxed">
-        That menu appears only when the browser has <b>Web Bluetooth</b>: Chrome,
-        Edge or another Chromium, on a computer or on Android. Firefox and Safari
-        have none; on an iPhone or iPad it takes a Web Bluetooth browser, such as
-        Bluefy.
-      </p>
-      <div class="flex max-w-3xl flex-col gap-3 leading-relaxed">
-        <p>
-          Android, macOS and Windows have Web Bluetooth on already. On
-          <b>Linux</b> it is still experimental, so Chrome keeps it behind a
-          flag and the caret stays hidden until you turn it on: open
-          <code>chrome://flags</code>, enable <b>Experimental Web Platform
-            features</b> (or, if your build lists it, <b>Web Bluetooth</b>), and
-          restart the browser. It also wants BlueZ 5.41 or newer.
-        </p>
-        <p>
-          On an <b>iPhone or iPad</b>, no built-in browser has Web Bluetooth
-          (they all run on Safari's engine), so install a Web Bluetooth browser
-          &mdash; <b>Bluefy</b>, from the App Store &mdash; turn Bluetooth on in
-          Settings, and open <b>i2c.ninja</b> inside Bluefy (not Safari). Tested
-          on an iPad with Bluefy.
-        </p>
-        <p>
-          Then turn the computer's or phone's Bluetooth on, open the Connect
-          menu, choose <i>Dart over Bluetooth</i>, and pick your Dart (it shows
-          as <code>Dart-XXXX</code>) in the browser's chooser. No udev rule and
-          no driver: it's Bluetooth, not USB.
-        </p>
-      </div>
-    </section>
-
-    <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">2. The bridge</h2>
       <p class="mb-4 leading-relaxed">
         Any of these: set it as its card says, with it unplugged, then four
@@ -244,7 +202,7 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
           files do. One rule set up before 1.6.1, for all three in
           <code>70-ch341.rules</code>, keeps working.
         </p>
-        <p>A CH347 or a dart is ready then. A CH341 has step 3.1 too.</p>
+        <p>A CH347 is ready then. A CH341 has step 3.1 too.</p>
       </div>
 
       <div v-else-if="platform === 'windows'" class="flex max-w-3xl flex-col gap-3 leading-relaxed">
@@ -273,9 +231,6 @@ const code = 'whitespace-pre-wrap break-all rounded-lg bg-slate-100 p-3 font-mon
         <p class="text-sm text-slate-500 dark:text-slate-400">
           Tried on our bench with a CH347T (its Interface 2 on WinUSB); a CH341
           the same way, not tried yet.
-        </p>
-        <p>
-          A dart needs none of this: it asks Windows for WinUSB itself.
         </p>
       </div>
 

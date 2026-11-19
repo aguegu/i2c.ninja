@@ -38,6 +38,7 @@ const router = createRouter({
     ...PHYSICS.filter((p) => p.component).map((p) => ({ path: `/physics/${p.slug}`, component: p.component })),
     ...ALGORITHMS.filter((p) => p.component).map((p) => ({ path: `/algorithms/${p.slug}`, component: p.component })),
     { path: '/bridges', component: () => import('./views/DonglesView.vue') },
+    { path: '/dart', component: () => import('./views/DartView.vue') },
     { path: '/about', component: () => import('./views/AboutView.vue') },
     { path: '/:pathMatch(.*)*', component: () => import('./views/NotFoundView.vue') }, // last: an address the site doesn't have
   ],

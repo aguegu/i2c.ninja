@@ -57,6 +57,11 @@ export const PAGES = [
     title: 'USB-to-I2C bridges: the ones we tested (CH347F, CH347T, CH341T, CH341A)',
     description: 'The USB-to-I2C bridges we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',
   },
+  {
+    path: '/dart',
+    title: 'Dart: a wireless USB-to-I2C bridge over Bluetooth LE (in development)',
+    description: 'Dart, our own USB-to-I2C bridge, also runs i2c.ninja over Bluetooth LE — no wires, on a coin cell. In development: how to connect over Bluetooth and over USB.',
+  },
   ...DEVICES.map((d) => ({
     path: d.to,
     title: deviceTitle(d),
