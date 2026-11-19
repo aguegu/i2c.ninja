@@ -1,5 +1,17 @@
 # Releases
 
+## 2.3.2
+
+- **The attitude indicator on the home page**: a slide of its own in the
+  carousel, banking, pitching and turning through north, its heading tape
+  sliding along the horizon; a click to the 9-axis page.
+- **"9-axis attitude and heading"**: the 9-axis page's new, shorter title, so it
+  doesn't wrap in the menus and cards (its address stays `/algorithms/nine-axis`).
+- **The footer's site map on one grid**: six columns on a wide screen (the
+  devices three, then physics, algorithms with learn, get started with
+  elsewhere), three on a tablet, every heading in line; about 40 % shorter. A
+  phone still folds each group to its heading.
+
 ## 2.3.1
 
 - **Moved pages forward cleanly for search engines.** The old addresses (`/setup`,
