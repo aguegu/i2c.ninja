@@ -10,6 +10,9 @@
 // heading (degrees, 0 magnetic north; 9-axis fusion): a heading tape on the
 // horizon, as a glass cockpit's: a tick every 10 degrees, N, E, S and W and
 // the tens between every 30, sliding along the horizon as the board turns.
+// The roll scale, fixed on the rim as on an aircraft's: marks at 10, 20, 30,
+// 45, 60 and 90 degrees either side (long at 30, 60 and 90) and a triangle
+// at 0; the pointer turning with the horizon reads the roll against it.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -31,6 +34,14 @@ const GROUND = '#9b6b3d';
 const TAPE = '#0f172a'; // slate-900: the heading tape apart from the white ladder; 5.3:1 on the sky, where its labels sit, 3.9:1 on the ground
 const AIRCRAFT = '#f59e0b';
 const AIRCRAFT_OPACITY = 0.65; // the horizon and the heading tape show through it
+const ROLL_MARKS = [10, 20, 30, 45, 60, 90].flatMap((d) => [d, -d]);
+const ROLL_LONG = [30, 60, 90];
+const SCALE_OUT = 95; // the roll scale's marks: from the rim inward
+const SCALE_IN = 88; // a short mark's inner end
+const SCALE_IN_LONG = 83; // a long mark's
+const POINTER_TIP = 87; // the roll pointer's tip, pointing out at the scale (its zero triangle's tip)
+const POINTER_BASE = 77;
+const LADDER_WINDOW = 76; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
 
 const FACE = 96; // the face's radius, in the viewBox's units
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
@@ -62,12 +73,19 @@ const { full, toggle } = useFullscreen(box);
               <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
               <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
               <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
-              <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
-                <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
-                <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
-              </g>
             </g>
           </svg>
+          <!-- the pitch ladder: moves with the horizon, seen through a round window inside the roll scale -->
+          <div class="absolute inset-0" :style="{ clipPath: `circle(${(LADDER_WINDOW / SIZE) * 100}% at 50% 50%)` }">
+            <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
+              <g v-once>
+                <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
+                  <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
+                  <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+                </g>
+              </g>
+            </svg>
+          </div>
           <!-- the heading tape on the horizon: moves with it, and along it as the board turns -->
           <svg v-if="heading !== null" :class="LAYER" :style="tape" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
             <g v-once>
@@ -78,12 +96,15 @@ const { full, toggle } = useFullscreen(box);
             </g>
           </svg>
           <!-- the roll pointer on the rim turns with the horizon -->
-          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path d="M 0 -94 L -6 -82 L 6 -82 Z" fill="white" /></svg>
+          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" fill="white" /></svg>
         </div>
       </div>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
       <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
+        <!-- the roll scale: fixed, the pointer turns against it -->
+        <line v-for="d in ROLL_MARKS" :key="`r${d}`" x1="0" :y1="-SCALE_OUT" x2="0" :y2="ROLL_LONG.includes(Math.abs(d)) ? -SCALE_IN_LONG : -SCALE_IN" :transform="`rotate(${d})`" stroke="white" :stroke-width="ROLL_LONG.includes(Math.abs(d)) ? 2 : 1.5" stroke-linecap="round" />
+        <path :d="`M 0 ${-POINTER_TIP} L -6 ${-SCALE_OUT} L 6 ${-SCALE_OUT} Z`" fill="white" />
         <g :opacity="AIRCRAFT_OPACITY">
           <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" :stroke="AIRCRAFT" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
           <circle r="3" :fill="AIRCRAFT" />
