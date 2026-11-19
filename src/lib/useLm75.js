@@ -13,7 +13,9 @@ const SCL_HZ = 100000;
 const OTHERS = [Cht8305, Ina231]; // chips with an ID at these addresses: not taken for an LM75
 // failed readings in a row before the page gives up: one now and then is
 // skipped (an LM75 run at 5 V from a 3.3 V bridge misses some: its inputs
-// want 0.7 x V_S high), as the humidity pages do
+// want 0.7 x V_S high), as the humidity pages do. A module with A0-A2 left
+// open drifts: ours answered 0x49, then 0x4A, for seconds at a time, until
+// they were soldered to GND (NXP 7.3: "should not be left floating")
 const FAILS_IN_A_ROW = 3;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -53,7 +55,7 @@ export function useLm75({ windowMs = 120000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: `Reading the LM75 failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the bridge unplugged, or a wire pulled? Run from 5 V, its inputs want more than a 3.3 V bridge gives: power it from 3.3 V. Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the LM75 failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Are its A0, A1 and A2 tied to GND or VCC? Left open (as on many modules), its address drifts and it vanishes for seconds: solder them. Run from 5 V, its inputs want more than a 3.3 V bridge gives: power it from 3.3 V. Or a wire pulled. Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }

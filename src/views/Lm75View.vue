@@ -35,7 +35,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
     <figure :class="card">
       <figcaption class="text-sm text-slate-500 dark:text-slate-400">
-        Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F, and must be tied to GND or VCC, not left open; OS is the watchdog's output. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F, and must be tied to GND or VCC: many modules leave them open, and then its address drifts and it vanishes for seconds at a time (solder all three to GND for 0x48); OS is the watchdog's output. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
