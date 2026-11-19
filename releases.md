@@ -1,5 +1,12 @@
 # Releases
 
+## 2.3.4
+
+- **SHT4x: its wiring drawing**, the purple SHT40 board from its back: SDA,
+  SCL and GND straight, VCC to VIN, one pin past 3Vo (its regulator's
+  output, left free); its two JST-SH sockets take a Qwiic or STEMMA QT cable
+  instead. Every sensor page has its drawing now.
+
 ## 2.3.3
 
 Five more sensors, with what their benches taught.
