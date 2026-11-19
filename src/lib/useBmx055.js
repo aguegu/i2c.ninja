@@ -5,13 +5,15 @@
 // drivers: +/-4 g, +/-500 deg/s, the field at its 10 Hz. The accelerometer
 // and the gyro read every READ_MS, the magnetometer every MAG_MS; each gyro
 // reading to onGyro's listeners (a page adds the turns up: lib/useTurned.js),
-// each field to onMag's (the board's own field taken off: lib/useHardIron.js).
+// each field to onMag's (the board's own field taken off: lib/useHardIron.js),
+// turned into the accelerometer's axes, as the package's three share none.
 // The module's PS pin must be high, or it isn't on I2C at all.
 import { perFrame } from './frame.js';
 import { ref, onBeforeUnmount } from 'vue';
 import { Bmx055Accel, Bmx055Gyro, Bmx055Mag } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
 import { makeSeries } from './series.js';
+import { bmx055Field } from './sources.js';
 
 const SCL_HZ = 400000; // all three chips' fast mode
 const READ_MS = 10; // accelerometer and gyro: 100 reads a second
@@ -71,9 +73,11 @@ export function useBmx055({ windowMs = 10000 } = {}) {
         if (t0 >= magDue) {
           magDue = t0 + MAG_MS;
           const { magnetometers: m } = await mag.measure();
-          // an axis that overflowed reads null: that sample is left out
+          // an axis that overflowed reads null: that sample is left out. The
+          // field turned into the accelerometer's and gyro's axes (sources.js)
           if (m.x !== null && m.y !== null && m.z !== null) {
-            for (const fn of magListeners) fn(t0, [m.x, m.y, m.z]);
+            const f = bmx055Field(m);
+            for (const fn of magListeners) fn(t0, f);
           }
         }
         await delay(Math.max(0, READ_MS - (performance.now() - t0)));

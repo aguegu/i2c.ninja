@@ -12,6 +12,15 @@ export const ALGORITHMS = [
     combines: ['acceleration', 'rotation'],
     component: () => import('../views/algorithms/AttitudeView.vue'),
   },
+  {
+    slug: 'compass',
+    title: 'A tilt-compensated compass',
+    short: 'Compass',
+    icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM12 6l2.5 6-2.5 6-2.5-6z',
+    blurb: 'A heading that holds as the board tilts: gravity levels Earth\'s dipping field, and gives its dip too. On a BMX055, or any pair.',
+    combines: ['acceleration', 'magnetism'],
+    component: () => import('../views/algorithms/CompassView.vue'),
+  },
 ];
 
 export const ALGORITHM_LINKS = ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title, short: p.short }));

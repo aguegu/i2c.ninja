@@ -11,9 +11,14 @@ import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Bmx055Accel, Bmx055Gyro, 
 const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1))[0];
 
 // a Bosch BMX055: three chips in one package at three addresses, one family
-// (so a page wanting accel and gyro takes both from the module), each known
-// by its chip ID; its PS pin high, or it isn't on I2C
+// (so a page wanting two quantities takes both from the module), each known
+// by its chip ID; its PS pin high, or it isn't on I2C. Its magnetometer is
+// turned inside the package against the accelerometer and gyro (Bosch's
+// BST-BMX055-DS000 rev 1.1, 14.2, Figure 41 and Table 71: a_x along -B_y,
+// a_y along B_x, a_z along B_z): bmx055Field() gives the field in theirs,
+// so the module's three quantities share one set of axes
 const BMX055 = 'BMX055';
+export const bmx055Field = (m) => [-m.y, m.x, m.z];
 const bmxDetect = (Driver) => (bus, a) => idAt(bus, a, Driver.chip.idRegister).then((id) => id === Driver.chip.whoAmI);
 
 // an MPU-6050 or -6500 by its WHO_AM_I (0x75); the ITG-3200, also at 0x68,
@@ -141,7 +146,7 @@ export const MAGNETOMETERS = {
           read: async () => {
             const { magnetometers: v } = await d.measure();
             // an axis past the chip's range reads null: the reading before holds
-            if (v.x !== null && v.y !== null && v.z !== null) last = [v.x, v.y, v.z];
+            if (v.x !== null && v.y !== null && v.z !== null) last = bmx055Field(v);
             return last;
           },
         };
