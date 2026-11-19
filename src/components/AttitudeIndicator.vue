@@ -48,6 +48,7 @@ const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointi
 const POINTER_BASE = 74;
 const LADDER_WINDOW = 73; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
 const CARET_RING = '#1e293b'; // slate-800, the heading indicator's face: the ring the roll pointer turns in, from the ladder's window to the rim
+const CARET_RING_OPACITY = 0.4; // a tint: the sky and the ground show through it
 
 const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
@@ -103,7 +104,7 @@ const { full, toggle } = useFullscreen(box);
             </g>
           </svg>
           <!-- the caret ring: fixed, over the horizon, under the pointer -->
-          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${2 * LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${-2 * LADDER_WINDOW} 0 Z`" :fill="CARET_RING" fill-rule="evenodd" /></svg>
+          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${2 * LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${-2 * LADDER_WINDOW} 0 Z`" :fill="CARET_RING" :fill-opacity="CARET_RING_OPACITY" fill-rule="evenodd" /></svg>
           <!-- the roll pointer turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
           <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
         </div>
