@@ -29,7 +29,7 @@ const props = defineProps({
 const SIZE = 200;
 const R = SIZE / 2;
 const PX_PER_DEG = 1; // the pitch ladder's scale: the face's 96 px radius shows +/-90 degrees and a little
-const LADDER = [-90, -80, -70, -60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+const LADDER = [-70, -60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50, 60, 70]; // to 70: 80 and 90 would sit under the roll pointer
 const LABELLED = 30; // a long, numbered mark every 30 degrees (90's number would sit under the rim)
 const SKY = '#4a90d9';
 const GROUND = '#9b6b3d';
@@ -46,8 +46,9 @@ const SCALE_IN = 92; // a short mark's inner end
 const SCALE_IN_LONG = 88; // a long mark's, and the zero triangle's tip
 const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointing out at the scale
 const POINTER_BASE = 74;
-const LADDER_WINDOW = 73; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
-const CARET_RING = '#1e293b'; // slate-800, the heading indicator's face: the ring the roll pointer turns in, from the ladder's window to the rim
+const RING_IN = 73; // the caret ring's inner edge: the ring, out to the rim, is where the roll pointer turns
+const LADDER_WINDOW = 82; // the pitch ladder's round window: to the rim, over the caret ring
+const CARET_RING = '#1e293b'; // slate-800, the heading indicator's face: the ring the roll pointer turns in, from RING_IN to the rim
 const CARET_RING_OPACITY = 0.4; // a tint: the sky and the ground show through it
 
 const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
@@ -83,17 +84,6 @@ const { full, toggle } = useFullscreen(box);
               <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
             </g>
           </svg>
-          <!-- the pitch ladder: moves with the horizon, seen through a round window inside the roll scale -->
-          <div class="absolute inset-0" :style="{ clipPath: `circle(${(LADDER_WINDOW / SIZE) * 100}% at 50% 50%)` }">
-            <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
-              <g v-once>
-                <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
-                  <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
-                  <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
-                </g>
-              </g>
-            </svg>
-          </div>
           <!-- the heading tape on the horizon: moves with it, and along it as the board turns -->
           <svg v-if="heading !== null" :class="LAYER" :style="tape" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
             <g v-once>
@@ -104,7 +94,18 @@ const { full, toggle } = useFullscreen(box);
             </g>
           </svg>
           <!-- the caret ring: fixed, over the horizon, under the pointer -->
-          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${2 * LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${-2 * LADDER_WINDOW} 0 Z`" :fill="CARET_RING" :fill-opacity="CARET_RING_OPACITY" fill-rule="evenodd" /></svg>
+          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-RING_IN} 0 a ${RING_IN} ${RING_IN} 0 1 0 ${2 * RING_IN} 0 a ${RING_IN} ${RING_IN} 0 1 0 ${-2 * RING_IN} 0 Z`" :fill="CARET_RING" :fill-opacity="CARET_RING_OPACITY" fill-rule="evenodd" /></svg>
+          <!-- the pitch ladder: moves with the horizon, over the caret ring, out to the rim -->
+          <div class="absolute inset-0" :style="{ clipPath: `circle(${(LADDER_WINDOW / SIZE) * 100}% at 50% 50%)` }">
+            <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
+              <g v-once>
+                <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
+                  <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
+                  <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+                </g>
+              </g>
+            </svg>
+          </div>
           <!-- the roll pointer turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
           <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
         </div>
