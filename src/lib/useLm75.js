@@ -10,6 +10,10 @@ import { makeSeries } from './series.js';
 
 const SCL_HZ = 100000;
 const OTHERS = [Cht8305, Ina231]; // chips with an ID at these addresses: not taken for an LM75
+// failed readings in a row before the page gives up: one now and then is
+// skipped (an LM75 run at 5 V from a 3.3 V bridge misses some: its inputs
+// want 0.7 x V_S high), as the humidity pages do
+const FAILS_IN_A_ROW = 3;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -21,23 +25,33 @@ export function useLm75({ windowMs = 120000 } = {}) {
   const latest = ref(null); // C
   const limits = ref(null); // { hysteresis, overtemperature } C
   const series = makeSeries(1, windowMs);
+  const skipped = ref(0); // readings that failed and were skipped
 
   let bus = null;
   let lm = null;
   let generation = 0;
 
   async function loop(gen) {
+    let inARow = 0;
     try {
       while (gen === generation) {
         const t0 = performance.now();
-        const c = await lm.temperature();
-        series.push(t0, [c]);
-        latest.value = c;
+        try {
+          const c = await lm.temperature();
+          inARow = 0;
+          series.push(t0, [c]);
+          latest.value = c;
+        } catch (e) {
+          if (gen !== generation) return;
+          inARow++;
+          skipped.value++;
+          if (inARow >= FAILS_IN_A_ROW) throw e;
+        }
         await delay(Math.max(0, Lm75.CONVERSION_MS - (performance.now() - t0)));
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the LM75 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the LM75 failed ${FAILS_IN_A_ROW} times in a row`, detail: 'Was the bridge unplugged, or a wire pulled? Run from 5 V, its inputs want more than a 3.3 V bridge gives: power it from 3.3 V. Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -84,6 +98,7 @@ export function useLm75({ windowMs = 120000 } = {}) {
       limits.value = await lm.limits();
       series.clear();
       latest.value = null;
+      skipped.value = 0;
       generation++;
       loop(generation);
       state.value = 'running';
@@ -118,5 +133,5 @@ export function useLm75({ windowMs = 120000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, address, latest, limits, source: series.source, connect, disconnect };
+  return { state, failure, address, latest, limits, skipped, source: series.source, connect, disconnect };
 }

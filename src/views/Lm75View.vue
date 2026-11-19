@@ -32,7 +32,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
 
     <figure :class="card">
       <figcaption class="text-sm text-slate-500 dark:text-slate-400">
-        Its module's pins: VCC (3.3 V), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F, and must be tied to GND or VCC, not left open; OS is the watchdog's output. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        Its module's pins: VCC to 3.3 V (it runs from 3 to 5.5 V, but at 5 V its inputs want 3.5 V for a high, more than a 3.3 V bridge gives), GND, SCL to SCL, SDA to SDA; A0, A1, A2 pick its address, 0x48 to 0x4F, and must be tied to GND or VCC, not left open; OS is the watchdog's output. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
@@ -43,6 +43,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <ConnectButton v-if="t.state !== 'running'" :busy="t.state === 'connecting'" @connect="t.connect">{{ t.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="t.disconnect" />
       <span v-if="t.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(t.address) }} · a reading every 0.3 s</span>
+      <span v-if="t.skipped" class="text-sm text-slate-400 dark:text-slate-500">· {{ t.skipped }} {{ t.skipped === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="t.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
