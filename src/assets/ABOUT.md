@@ -23,7 +23,8 @@ i2c.ninja leans on recent browser APIs so there's nothing to install — each is
 - **[WebUSB](https://caniuse.com/webusb)** — talks to the USB-to-I²C bridge (a CH347 or CH341) straight from the page, with no driver app.
 - **[Web Bluetooth](https://caniuse.com/web-bluetooth)** — reaches a [Dart](/dart) over Bluetooth LE, no wires at all.
 - **[Fullscreen](https://caniuse.com/fullscreen)** — every drawing and live chart opens full screen.
-- **[Service Workers](https://caniuse.com/serviceworkers)** — the site installs as an app and works offline once visited.
+- **[Service Workers](https://caniuse.com/serviceworkers)** — the site works offline once visited.
+- **[Web App Manifest](https://caniuse.com/web-app-manifest)** — install it as an app, in its own window: the address bar's install button, or Add to Home screen on a phone.
 - **[Web Workers](https://caniuse.com/webworkers)** — sampling and recording run off the main thread, so the charts stay smooth.
 - **[Screen Wake Lock](https://caniuse.com/wake-lock)** — the screen stays awake while a reading records.
 - **[Async Clipboard](https://caniuse.com/async-clipboard)** — one tap copies a page's share link.
