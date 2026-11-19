@@ -2,7 +2,8 @@
 // atiic's range check, the CHT8305C and INA231 asked first there as they
 // carry IDs), its power-up state written back (it has no reset command), read
 // every CONVERSION_MS (it converts on its own, a read gives the last), its
-// watchdog limits read once; the last windowMs kept.
+// watchdog limits read once; the last windowMs kept. bits: 9 (an LM75) or 11
+// (NXP's LM75A): nothing on the bus tells them apart, so the page asks.
 import { ref, onBeforeUnmount } from 'vue';
 import { Lm75, Cht8305, Ina231 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
@@ -26,6 +27,7 @@ export function useLm75({ windowMs = 120000 } = {}) {
   const limits = ref(null); // { hysteresis, overtemperature } C
   const series = makeSeries(1, windowMs);
   const skipped = ref(0); // readings that failed and were skipped
+  const bits = ref(9); // 9: an LM75, 0.5 C; 11: an LM75A, 0.125 C
 
   let bus = null;
   let lm = null;
@@ -93,7 +95,7 @@ export function useLm75({ windowMs = 120000 } = {}) {
         await disconnect();
         return;
       }
-      lm = new Lm75(bus, address.value);
+      lm = new Lm75(bus, address.value, { bits: bits.value });
       await lm.init();
       limits.value = await lm.limits();
       series.clear();
@@ -106,6 +108,13 @@ export function useLm75({ windowMs = 120000 } = {}) {
       failure.value = { title: 'The LM75 didn\'t start', detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
+  }
+
+  // the chip it is, from now on (the chart cleared: its steps change)
+  function setBits(n) {
+    bits.value = n;
+    if (lm) lm.bits = n;
+    series.clear();
   }
 
   async function disconnect() {
@@ -133,5 +142,5 @@ export function useLm75({ windowMs = 120000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, address, latest, limits, skipped, source: series.source, connect, disconnect };
+  return { state, failure, address, latest, limits, skipped, bits, setBits, source: series.source, connect, disconnect };
 }

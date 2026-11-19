@@ -13,6 +13,9 @@ import { useLm75 } from '../lib/useLm75.js';
 const WINDOW_MS = 120000;
 const SPAN_C = 2;
 const fmt = (v, d = 1) => (v === undefined || v === null ? '—' : v.toFixed(d));
+const CHIPS = [{ bits: 9, label: 'LM75 (9 bits, 0.5 °C)' }, { bits: 11, label: 'LM75A (11 bits, 0.125 °C)' }];
+const field = 'flex items-center gap-2 text-sm';
+const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark:border-slate-600 dark:bg-slate-800';
 
 const t = reactive(useLm75({ windowMs: WINDOW_MS }));
 const series = [{ label: 'temperature', color: '--series-2' }];
@@ -26,7 +29,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="mt-2">
       <h1 class="text-2xl font-bold">LM75</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        The classic I²C temperature sensor, made by many since the 1990s: the temperature in half-degree steps, and a thermal watchdog, a pin that trips when it gets too hot, to switch on a fan or shut a system down. Live over a USB-to-I²C bridge.
+        The classic I²C temperature sensor, made by many since the 1990s, and NXP's LM75A after it: the temperature in half- or eighth-degree steps, and a thermal watchdog, a pin that trips when it gets too hot, to switch on a fan or shut a system down. Live over a USB-to-I²C bridge.
       </p>
     </div>
 
@@ -42,6 +45,11 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <section v-else class="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
       <ConnectButton v-if="t.state !== 'running'" :busy="t.state === 'connecting'" @connect="t.connect">{{ t.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="t.disconnect" />
+      <label :class="field">Chip
+        <select :value="t.bits" :class="select" @change="t.setBits(Number($event.target.value))">
+          <option v-for="c in CHIPS" :key="c.bits" :value="c.bits">{{ c.label }}</option>
+        </select>
+      </label>
       <span v-if="t.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(t.address) }} · a reading every 0.3 s</span>
       <span v-if="t.skipped" class="text-sm text-slate-400 dark:text-slate-500">· {{ t.skipped }} {{ t.skipped === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
@@ -55,7 +63,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">Temperature</p>
-        <p class="font-mono text-4xl tabular-nums">{{ fmt(r) }} <span class="text-lg">°C</span></p>
+        <p class="font-mono text-4xl tabular-nums">{{ fmt(r, t.bits === 11 ? 3 : 1) }} <span class="text-lg">°C</span></p>
       </section>
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">Trips at (T<sub>OS</sub>)</p>
@@ -68,8 +76,8 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <CollapsibleCard id="temperature" title="Temperature">
-      <LiveChart title="Temperature" unit="°C" :series="series" :values="r !== null && r !== undefined ? [r] : []" :source="t.source" :window-ms="WINDOW_MS" :floor="SPAN_C" :digits="1" fit />
-      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Hold the chip between two fingers: it climbs half a degree at a time, and falls back slowly when you let go.</p>
+      <LiveChart title="Temperature" unit="°C" :series="series" :values="r !== null && r !== undefined ? [r] : []" :source="t.source" :window-ms="WINDOW_MS" :floor="SPAN_C" :digits="t.bits === 11 ? 3 : 1" fit />
+      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Hold the chip between two fingers: it climbs {{ t.bits === 11 ? 'an eighth of' : 'half' }} a degree at a time, and falls back slowly when you let go.</p>
     </CollapsibleCard>
 
     <CollapsibleCard id="how-it-measures" title="How it measures" class="leading-relaxed">
@@ -78,7 +86,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <b>Its own temperature.</b> A silicon junction's voltage changes with temperature by a steady amount, about 2 mV a degree; the chip compares it with a voltage that doesn't (a band-gap reference) and converts the difference, every 100 ms or so, to 9 bits: half a degree a step, −55 to +125 °C, within ±2 °C. What it measures is its own silicon, so mostly the circuit board it sits on: the heat reaches it through its leads.
       </p>
       <p class="mb-2">
-        <b>Two bytes, two's complement:</b> the temperature register holds the 9 bits at the top of 16. 0x1900 is +25 °C, 0xE700 is −25 °C (negative numbers count down from 0x10000). The last seven bits are "don't care". Many modules sold as LM75 carry an LM75A or a clone that fills them in, 0.125 °C a step; this page reads the original's 9.
+        <b>Two bytes, two's complement:</b> the LM75's temperature register holds 9 bits at the top of 16, half a degree a step: 0x1900 is +25 °C, 0xE700 is −25 °C (negative numbers count down from 0x10000); its last seven bits are "don't care". NXP's LM75A, a pin-for-pin replacement and what most modules carry now, fills two more, 11 bits, an eighth of a degree a step, its last five 0. Nothing on the bus tells the two apart, so pick yours above (the chip's marking says): read as an LM75, an LM75A shows half-degrees; read as an LM75A, an LM75's don't-care bits could show as noise. Its limits are 9 bits on both.
       </p>
       <p class="mb-2">
         <b>The watchdog:</b> its OS pin goes active when the temperature rises over T<sub>OS</sub> (80 °C from power-up) and clears when it falls below T<sub>HYST</sub> (75 °C): the gap, hysteresis, keeps it from chattering around one value, as a thermostat does. It works without any host, so a board can switch its fan on by itself. Readings over the limit can be counted first (1, 2, 4 or 6 in a row) against noise.

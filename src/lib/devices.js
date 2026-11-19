@@ -125,11 +125,11 @@ export const DEVICES = [
   },
   {
     to: '/lm75',
-    name: 'LM75',
-    maker: 'Analog Devices',
+    name: 'LM75 / LM75A',
+    maker: 'Analog Devices, NXP',
     kind: 'Temperature',
     group: 'Air',
-    measures: 'Temperature in half-degree steps, and a thermal watchdog that trips a pin when it gets too hot.',
+    measures: 'Temperature to half or an eighth of a degree, and a watchdog that trips a pin when it gets too hot.',
     bus: 'I2C 0x48-0x4F',
   },
   {

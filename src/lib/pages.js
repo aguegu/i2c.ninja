@@ -32,7 +32,7 @@ const WHAT = {
   '/htu21d': 'HTU21D humidity and temperature sensor',
   '/hdc1080': 'HDC1080 humidity and temperature sensor',
   '/cht8305': 'CHT8305C humidity and temperature sensor',
-  '/lm75': 'LM75 temperature sensor and thermal watchdog',
+  '/lm75': 'LM75 / LM75A temperature sensor and thermal watchdog',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
   '/agr12': 'AGR12 gauge pressure sensor',

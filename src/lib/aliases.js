@@ -14,6 +14,7 @@ export const ALIASES = {
   '/sht45': '/sht4x',
   '/htu21': '/htu21d',
   '/cht8305c': '/cht8305',
+  '/lm75a': '/lm75',
   '/spl06-001': '/spl06',
   '/agn12': '/agr12',
   '/agp12': '/agr12',
