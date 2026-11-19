@@ -1,5 +1,28 @@
 # Releases
 
+## 2.3.3
+
+Five more sensors, with what their benches taught.
+
+- **SHT4x** (`/sht4x`, also `/sht40`, `/sht41`, `/sht45`): Sensirion's fourth
+  generation, its repeatability to pick, a reading a second.
+- **HTU21D** (`/htu21d`): the SHT20's commands, measured in half the time;
+  hold master on a Dart. Told from an SHT20 at 0x40 by its electronic ID.
+- **HDC1080** (`/hdc1080`): TI's, by registers; once a second, TI's advice.
+- **CHT8305C** (`/cht8305`): Sensylink's, its alert limits explained.
+- **LM75 / LM75A** (`/lm75`): temperature and its thermal watchdog's limits,
+  the chip picked (9 bits, 0.5 °C, or NXP's LM75A, 11 bits, 0.125 °C:
+  nothing on the bus tells them apart). A hint to tie its A0-A2: left open,
+  ours wandered to 0x49 and 0x4A for seconds at a time.
+- **Wiring drawings** for the LM75 (CJMCU-75, its A0-A2 jumpers bridged),
+  CHT8305C, HDC1080 and HTU21D boards, traced from their photos.
+- **BMX055**: tie SDO1, SDO2 and CSB3 with PS (the drawing's wire from 3.3V
+  taps all four): left floating, an address wanders, and readings or a
+  calibration drop out. The calibration gauge counts an axis full at 90 % of
+  the widest swing again.
+- The humidity physics page finds all seven humidity sensors; atiic 1.8.8
+  (the five drivers; the 0x40 checks never throw or claim another chip).
+
 ## 2.3.2
 
 - **The attitude indicator on the home page**: a slide of its own in the
