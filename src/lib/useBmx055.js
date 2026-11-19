@@ -99,7 +99,7 @@ export function useBmx055({ windowMs = 10000 } = {}) {
       const found = { accel: await find(Bmx055Accel), gyro: await find(Bmx055Gyro), mag: await find(Bmx055Mag) };
       const missing = Object.entries(found).filter(([, a]) => a === null).map(([k]) => k);
       if (missing.length === 3) {
-        failure.value = { title: 'No BMX055 answers', detail: 'None of its three chips reads its ID. Is its PS pin high (to 3V3, or a Dart\'s IO3)? Floating or low, the module is on SPI and answers nothing on I2C. Then the four wires and the module\'s power.', error: '' };
+        failure.value = { title: 'No BMX055 answers', detail: 'None of its three chips reads its ID. Is its PS pin high (to 3V3, or a Dart\'s IO2)? Floating or low, the module is on SPI and answers nothing on I2C. Then the four wires and the module\'s power.', error: '' };
         await disconnect();
         return;
       }

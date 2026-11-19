@@ -70,7 +70,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <section :class="card">
       <h2 class="mb-2 text-lg font-semibold">Five wires, not four</h2>
       <p class="max-w-3xl leading-relaxed">
-        Its board (a CJMCU-900F) brings out <b>3V3, GND, SCL, SDA</b> — and <b>PS</b>, which picks the interface: <b>high for I²C</b>, low for SPI. Left floating it answers nothing on I²C, so tie <b>PS to 3V3</b>; on a <RouterLink to="/dart" :class="link">Dart</RouterLink>, its <b>IO3</b> (held high by its firmware) does the same.
+        Its board (a CJMCU-900F) brings out <b>3V3, GND, SCL, SDA</b> — and <b>PS</b>, which picks the interface: <b>high for I²C</b>, low for SPI. Left floating it answers nothing on I²C, so tie <b>PS to 3V3</b>; on a <RouterLink to="/dart" :class="link">Dart</RouterLink>, its <b>IO2</b> (held high by its firmware) does the same.
         SDO1, SDO2 and CSB1-3 stay free: the chips then answer at 0x19, 0x69 and 0x13.
       </p>
       <p class="mt-2 max-w-3xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
