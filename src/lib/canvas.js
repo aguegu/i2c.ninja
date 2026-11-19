@@ -6,7 +6,7 @@
 // (cached as layers by the view) drawn again on a resize or a theme change.
 import { onMounted, onBeforeUnmount } from 'vue';
 
-export const CHART_COLORS = ['--series-1', '--series-2', '--series-3'];
+export const CHART_COLORS = ['--series-1', '--series-2', '--series-3', '--chart-text'];
 
 // the page's colours and font, as the canvas's CSS has them
 export function readStyle(el) {

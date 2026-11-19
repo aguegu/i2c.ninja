@@ -6,7 +6,8 @@
 // you). World axes in capitals at the walls' edges; the board's own (body)
 // axes in lowercase from its centre. q turns the board's axes into the
 // world's. captions: per wall { sym, sub, value, name } under it. A button
-// takes the three full screen.
+// takes the three full screen. compass: the world's X is magnetic north
+// (9-axis fusion): N, E, S and W on the floor, as on the glass box's.
 //
 // Each drawn on a canvas (lib/canvas.js): the wall with its grid and the
 // world's axes, and the axis seen end on, drawn once into layers of their
@@ -21,6 +22,7 @@ import { readStyle, fitPixels, viewFit, path, text, layerLike, useLiveCanvas } f
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
   captions: { type: Object, default: null }, // { floor, side, back }
+  compass: { type: Boolean, default: false },
 });
 
 const S = 50; // px a unit, as the walls' 1.7 units = 85 px
@@ -44,6 +46,10 @@ const VIEWS = [
   { key: 'back', title: 'The wall behind, from its nose', h: [0, 1, 0], v: [0, 0, 1], eye: [1, 0, 0], along: 'X', away: 'X points at you' },
 ];
 
+// the compass points on the floor, X north and Y west, inside its edges as
+// on the glass box (ProjectionBox's ROSE)
+const ROSE = [['N', [0.8 * D, 0, 0]], ['W', [0, 0.8 * D, 0]], ['S', [-0.8 * D, 0, 0]], ['E', [0, -0.8 * D, 0]]];
+const ROSE_DROP = 4; // the letters' baseline below their point: centred on it
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const flat = (w, p) => [S * dot(p, w.h), -S * dot(p, w.v)];
 // an arrow ending at e from o (screen px): its head's points and where its label goes
@@ -89,6 +95,12 @@ function drawLayers(i, c, fit) {
   g.globalAlpha = 0.2;
   for (const t of GRID) { path(g, [[t, -WALL], [t, WALL]]); g.stroke(); path(g, [[-WALL, t], [WALL, t]]); g.stroke(); }
   g.globalAlpha = 1;
+  if (props.compass && w.key === 'floor') {
+    for (const [key, v] of ROSE) {
+      const [x, y] = flat(w, v);
+      text(g, style, key, x, y + ROSE_DROP, 12, 'center', col('--chart-text'), key === 'N');
+    }
+  }
   for (const a of f.world) {
     g.strokeStyle = col(a.color); g.lineWidth = 2.5; path(g, [a.o, a.e]); g.stroke();
     g.fillStyle = col(a.color); path(g, a.head, true); g.fill();
@@ -145,6 +157,7 @@ function draw(fresh) {
 }
 const later = useLiveCanvas(box, draw);
 watch(() => props.q, later);
+watch(() => props.compass, () => { layers = []; later(); });
 </script>
 
 <template>
