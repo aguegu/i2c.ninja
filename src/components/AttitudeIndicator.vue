@@ -18,6 +18,7 @@ const props = defineProps({
   roll: { type: Number, default: 0 }, // degrees, right side down +
   pitch: { type: Number, default: 0 }, // degrees, nose up +
   heading: { type: Number, default: null }, // degrees, turning right +; null: no heading tape
+  large: { type: Boolean, default: false }, // 288 px across, not 208: its marks easier to read
 });
 
 const SIZE = 200;
@@ -49,7 +50,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees${heading === null ? '' : `, heading ${(((heading % 360) + 360) % 360).toFixed(0)} degrees`}`">
+    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : large ? 'aspect-square w-72 max-w-full' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees${heading === null ? '' : `, heading ${(((heading % 360) + 360) % 360).toFixed(0)} degrees`}`">
       <!-- the face, round: its moving layers clipped to it -->
       <div class="absolute overflow-hidden rounded-full" :style="{ inset: `${((R - FACE) / SIZE) * 100}%` }">
         <div class="absolute" :style="{ inset: `${-((R - FACE) / (2 * FACE)) * 100}%` }">

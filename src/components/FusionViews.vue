@@ -244,7 +244,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
     <div class="flex flex-wrap justify-center gap-x-10 gap-y-4">
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
-        <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" :heading="fusion.nine ? (fusion.fused?.yaw ?? null) : null" />
+        <AttitudeIndicator large :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" :heading="fusion.nine ? (fusion.fused?.yaw ?? null) : null" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\varphi_q,\ \theta_q =`" />
           <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.roll, 0) }}°, {{ f(fusion.fused?.pitch, 0) }}°</span>
@@ -252,7 +252,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         </figcaption>
       </figure>
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
-        <HeadingIndicator :heading="fusion.fused?.yaw ?? null" :compass="fusion.nine" />
+        <HeadingIndicator large :heading="fusion.fused?.yaw ?? null" :compass="fusion.nine" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\psi_q =`" />
           <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.yaw, 0) }}°</span>

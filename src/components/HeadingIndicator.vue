@@ -17,6 +17,7 @@ import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 const props = defineProps({
   heading: { type: Number, default: null },
   compass: { type: Boolean, default: false },
+  large: { type: Boolean, default: false }, // 288 px across, not 208: its marks easier to read
 });
 
 const SIZE = 200;
@@ -39,7 +40,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="heading === null ? 'Heading: none yet' : `Heading: ${shown.toFixed(0)} degrees from ${compass ? 'magnetic north' : 'the start'}`">
+    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : large ? 'aspect-square w-72 max-w-full' : 'h-52 w-52'" role="img" :aria-label="heading === null ? 'Heading: none yet' : `Heading: ${shown.toFixed(0)} degrees from ${compass ? 'magnetic north' : 'the start'}`">
       <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><circle :r="FACE" :fill="FACE_FILL" /></svg>
       <!-- the card: turns -->
       <svg class="absolute inset-0 will-change-transform" :style="card" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
