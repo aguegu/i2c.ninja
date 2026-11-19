@@ -14,6 +14,7 @@ import GyroViews from '../components/GyroViews.vue';
 import MagnetometerViews from '../components/MagnetometerViews.vue';
 import SpecTable from '../components/SpecTable.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
+import HintNote from '../components/HintNote.vue';
 import { canConnect, hex } from '../lib/dongle.js';
 import { useBmx055 } from '../lib/useBmx055.js';
 import { useTurned } from '../lib/useTurned.js';
@@ -65,7 +66,7 @@ const SPECS = [
   ['Gyro', '±125 to ±2000 °/s, 16 bits', '±500 °/s, a 100 Hz data rate and a 32 Hz filter'],
   ['Magnetometer', 'its readings corrected by the factory trim stored in the chip (Bosch\'s compensation)', 'normal mode at 10 Hz, the regular preset (9 and 15 repetitions)'],
   ['Temperature', 'from the accelerometer, 0.5 °C a step', 'shown beside the tabs'],
-  ['Addresses', 'accelerometer 0x18/0x19, gyro 0x68/0x69, magnetometer 0x10-0x13, set by its SDO and CSB pins', 'found by each chip\'s ID: 0x19, 0x69, 0x13 on a CJMCU-900F'],
+  ['Addresses', 'accelerometer 0x18/0x19 (SDO1), gyro 0x68/0x69 (SDO2), magnetometer 0x10-0x13 (SDO1, CSB3): each pin low or high, tied', 'found by each chip\'s ID: 0x19, 0x69, 0x13 with the three tied high'],
   ['Interface', 'I2C (PS high) or SPI (PS low)', 'I2C, 400 kHz'],
 ];
 
@@ -84,12 +85,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-bmx055.svg" alt="A CH341T bridge on 3V3 wired to a BMX055 module (CJMCU-900F) seen from its pins: VCC to 3.3V, GND to GND, SCL to SCL, SDA to SDA; on the module a short wire bridges 3.3V to PS" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-bmx055.svg" alt="A CH341T bridge on 3V3 wired to a BMX055 module (CJMCU-900F) seen from its pins: VCC to 3.3V, GND to GND, SCL to SCL, SDA to SDA; on the module one wire ties 3.3V to PS, SDO1, SDO2 and CSB3" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires — VCC to 3.3V, GND, SCL, SDA — with the bridge's green jumper on 3V3: the BMX055 takes 3.6 V at most. Its <b>PS</b> pin picks the interface, <b>high for I²C</b>, low for SPI; left floating it answers nothing, so bridge it to <b>3.3V</b> on the module (a short wire from pin 1 to pin 5). On a <RouterLink to="/dart" :class="link">Dart</RouterLink>, wire PS to its <b>IO2</b> instead: its firmware holds it high. SDO1, SDO2 and CSB1-3 stay free, so the chips answer at 0x19, 0x69 and 0x13.
+        Four wires — VCC to 3.3V, GND, SCL, SDA — with the bridge's green jumper on 3V3: the BMX055 takes 3.6 V at most. On the module, one wire from <b>3.3V</b> ties four pins high: <b>PS</b> (high for I²C; floating, it answers nothing) and <b>SDO1, SDO2, CSB3</b>, so its chips answer at 0x19, 0x69 and 0x13. CSB1 and CSB2 stay free. On a <RouterLink to="/dart" :class="link">Dart</RouterLink>, PS can go to its <b>IO2</b> instead, which its firmware holds high.
         Never take PS low while it runs: the accelerometer then stays on SPI until the module is powered off and on. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
+
+    <HintNote>
+      SDO1, SDO2 and CSB3 set the three chips' addresses and need tying, high as drawn (or low, for 0x18, 0x68 and 0x10). Left open, an address can wander mid-reading, and readings or a calibration drop out.
+    </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.

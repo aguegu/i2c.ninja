@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" width="860" height="520" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
-  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired to a BMX055 module (CJMCU-900F) seen from its pins: VCC to 3.3V, GND to GND, SCL to SCL, SDA to SDA; on the module a short wire bridges 3.3V to PS</title>
+  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired to a BMX055 module (CJMCU-900F) seen from its pins: VCC to 3.3V, GND to GND, SCL to SCL, SDA to SDA; on the module one wire ties 3.3V to PS, SDO1, SDO2 and CSB3</title>
   <defs>
     <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f3d77a"/>
@@ -110,11 +110,14 @@
     <text x="618.9" y="126.03937007874015" text-anchor="end">CSB3</text>
   </g>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M646 350.03937007874015 H674 V254.03937007874015 H646" stroke="#8e1c1c" stroke-width="5"/><path d="M646 350.03937007874015 H674 V254.03937007874015 H646" stroke="#ef5350" stroke-width="3"/>
+    <path d="M646 350.03937007874015 H674 V134.03937007874015 M674 254.03937007874015 H646 M674 230.03937007874015 H646 M674 206.03937007874015 H646 M674 134.03937007874015 H646" stroke="#8e1c1c" stroke-width="5"/><path d="M646 350.03937007874015 H674 V134.03937007874015 M674 254.03937007874015 H646 M674 230.03937007874015 H646 M674 206.03937007874015 H646 M674 134.03937007874015 H646" stroke="#ef5350" stroke-width="3"/>
   </g>
   <circle cx="646" cy="350.03937007874015" r="3.5" fill="#c9c9c9" stroke="#777"/>
   <circle cx="646" cy="254.03937007874015" r="3.5" fill="#c9c9c9" stroke="#777"/>
-  <text x="682" y="306.0" font-size="11" fill="#ffffff">bridge</text>
+  <circle cx="646" cy="230.03937007874015" r="3.5" fill="#c9c9c9" stroke="#777"/>
+  <circle cx="646" cy="206.03937007874015" r="3.5" fill="#c9c9c9" stroke="#777"/>
+  <circle cx="646" cy="134.03937007874015" r="3.5" fill="#c9c9c9" stroke="#777"/>
+  <text x="682" y="306.0" font-size="11" fill="#ffffff">to 3.3V</text>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M557.7086614173228 278.03937007874015 H632" stroke="#0d4f8c" stroke-width="7"/><path d="M557.7086614173228 278.03937007874015 H632" stroke="#1e88e5" stroke-width="5"/>
     <path d="M557.7086614173228 302.03937007874015 H632" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 302.03937007874015 H632" stroke="#f2c200" stroke-width="5"/>
@@ -132,7 +135,7 @@
   <text x="690.1" y="382.0" text-anchor="middle" font-size="12" fill="#555">CJMCU-900F, from its pins (chip dashed, other side)</text>
   <g font-size="12" fill="#333">
     <text x="20" y="460">Yellow jumper on I2C, green on 3V3 (the BMX055 takes 3.6V at most), both before plugging in USB.</text>
-    <text x="20" y="480">Four wires: VCC to 3.3V, GND, SCL, SDA. PS must be high for I2C (floating, it answers nothing):</text>
-    <text x="20" y="500">bridge it to 3.3V on the module, a short wire from pin 1 to pin 5. SDO1, SDO2 and CSB1-3 stay free: 0x19, 0x69, 0x13.</text>
+    <text x="20" y="480">Four wires: VCC to 3.3V, GND, SCL, SDA. On the module, tie PS (high for I2C) and SDO1, SDO2, CSB3 (the addresses)</text>
+    <text x="20" y="500">to 3.3V, one wire from pin 1: 0x19, 0x69, 0x13. Left floating, the addresses drift. CSB1 and CSB2 stay free.</text>
   </g>
 </svg>
