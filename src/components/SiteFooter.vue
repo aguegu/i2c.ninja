@@ -1,10 +1,11 @@
 <script setup>
 // The footer: the site map (every page, from lib/nav.js), share this page,
 // and the license.
-// Kept short as the devices and physics topics grow: they fill rows across
-// the full width (the devices a column per group, its name on top; the topics
-// by their short names); the other groups share
-// the row under them. On a phone those groups fold to their headings (open from sm up).
+// One grid, every group on its columns: six on a wide screen (the devices
+// three, their groups in them; physics; algorithms and learn; get started
+// and elsewhere), three on a narrower one (the devices a row, the rest under
+// their columns). On a phone the groups fold to their headings (open from sm
+// up).
 import { DEVICE_LINK_GROUPS, PHYSICS_LINKS, ALGORITHM_LINKS, START_LINKS, ELSEWHERE_LINKS } from '../lib/nav.js';
 import { COURSE_LINKS } from '../lib/courses.js';
 import ShareRow from './ShareRow.vue';
@@ -13,11 +14,13 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
 const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
-const GROUPS = [
-  { head: 'Algorithms', to: '/algorithms', links: ALGORITHM_LINKS },
-  { head: 'Learn', links: COURSE_LINKS },
-  { head: 'Get started', links: start },
-  { head: 'Elsewhere', links: ELSEWHERE_LINKS },
+// the devices' groups in three columns: the two biggest alone, the rest stacked in the third
+const DEVICE_COLUMNS = [[DEVICE_LINK_GROUPS[0]], [DEVICE_LINK_GROUPS[1]], DEVICE_LINK_GROUPS.slice(2)];
+// the other columns, beside the devices' three on a wide screen, under them on a narrower one
+const COLUMNS = [
+  [{ head: 'Physics', to: '/physics', links: PHYSICS_LINKS }],
+  [{ head: 'Algorithms', to: '/algorithms', links: ALGORITHM_LINKS }, { head: 'Learn', links: COURSE_LINKS }],
+  [{ head: 'Get started', links: start }, { head: 'Elsewhere', links: ELSEWHERE_LINKS }],
 ];
 // open from Tailwind's sm (40rem) up; folded below, until tapped
 const SM = '(min-width: 40rem)';
@@ -30,33 +33,28 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onChange));
 
 <template>
   <footer class="mt-2 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-    <nav class="mx-auto flex max-w-5xl flex-col gap-1.5 px-4 py-6 text-sm leading-6 sm:gap-5" aria-label="Site map">
-      <details class="group" :open="wide">
+    <nav class="mx-auto grid max-w-5xl gap-x-4 gap-y-1.5 px-4 py-6 text-sm leading-6 sm:grid-cols-3 sm:gap-y-6 lg:grid-cols-6" aria-label="Site map">
+      <!-- the devices: three columns of the grid's, their groups in them (Light, Body and Electricity sharing the third) -->
+      <details class="group sm:col-span-3" :open="wide">
         <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">
           <RouterLink to="/devices" class="pointer-events-auto hover:text-emerald-600">Devices</RouterLink>
           <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
         </summary>
-        <div class="grid gap-x-4 sm:grid-cols-5">
-          <div v-for="g in DEVICE_LINK_GROUPS" :key="g.head">
-            <p class="flex items-center gap-1.5 pt-1 text-[11px] tracking-wide text-slate-400 uppercase sm:pt-0"><span class="inline-block size-2 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.head }}</p>
-            <ul class="flex flex-wrap gap-x-4 pb-1 sm:block sm:pb-0">
-              <li v-for="l in g.links" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
-            </ul>
+        <div class="grid gap-x-4 sm:grid-cols-3">
+          <div v-for="(col, i) in DEVICE_COLUMNS" :key="i" class="sm:space-y-3">
+            <div v-for="g in col" :key="g.head">
+              <p class="flex items-center gap-1.5 pt-1 text-[11px] tracking-wide text-slate-400 uppercase sm:pt-0"><span class="inline-block size-2 shrink-0 rounded-full" :style="{ background: `var(${g.color})` }" aria-hidden="true" />{{ g.head }}</p>
+              <ul class="flex flex-wrap gap-x-4 pb-1 sm:block sm:pb-0">
+                <li v-for="l in g.links" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.label.replace(' / MPU-6500', '') }}</RouterLink></li>
+              </ul>
+            </div>
           </div>
         </div>
       </details>
-      <details class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
-        <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">
-          <RouterLink to="/physics" class="pointer-events-auto hover:text-emerald-600">Physics</RouterLink>
-          <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
-        </summary>
-        <ul class="grid grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] gap-x-4 pb-1 sm:pb-0">
-          <li v-for="l in PHYSICS_LINKS" :key="l.to"><RouterLink :to="l.to" :class="link">{{ l.short }}</RouterLink></li>
-        </ul>
-      </details>
-      <div class="grid gap-x-8 sm:grid-cols-4 sm:gap-y-5">
-        <details v-for="g in GROUPS" :key="g.head" class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
-          <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none sm:mb-1.5']">
+      <!-- the rest: a column each, two groups stacked in some -->
+      <div v-for="(col, i) in COLUMNS" :key="i" class="sm:space-y-3">
+        <details v-for="g in col" :key="g.head" class="group border-t border-slate-100 py-1.5 sm:border-0 sm:py-0 dark:border-slate-700" :open="wide">
+          <summary :class="[head, 'flex cursor-pointer list-none items-center justify-between sm:pointer-events-none']">
             <RouterLink v-if="g.to" :to="g.to" class="pointer-events-auto hover:text-emerald-600">{{ g.head }}</RouterLink>
             <template v-else>{{ g.head }}</template>
             <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-open:rotate-180 sm:hidden" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
