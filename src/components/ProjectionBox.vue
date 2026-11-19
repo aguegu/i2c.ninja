@@ -7,7 +7,8 @@
 // its centre, turned with it. Turned by q (the board's axes into the
 // world's), seen from in front of it and to its left. The walls take the
 // axes' chart colours (x blue, y orange, z green). A button takes it full
-// screen.
+// screen. compass: the world's X is magnetic north (9-axis fusion): N, E,
+// S and W printed on the floor, inside its edges, like a compass rose.
 //
 // Drawn on a canvas, not in SVG (bench/ measured a live SVG's restyle and
 // repaint as most of a busy frame): the walls and the world's axes drawn
@@ -23,6 +24,7 @@ import { BOARD, FACES, ARROW, BODY_AXES } from '../lib/board.js';
 
 const props = defineProps({
   q: { type: Array, default: () => [1, 0, 0, 0] },
+  compass: { type: Boolean, default: false },
 });
 
 const S = 52; // px a unit
@@ -85,6 +87,11 @@ const AXES = [
   { key: 'Y', on: [-D, 0, -D], dir: [0, 1, 0], color: '--series-2' },
   { key: 'Z', on: [-D, -D, 0], dir: [0, 0, 1], color: '--series-3' },
 ].map((a) => ({ ...a, ...arrowTo(at(a.on.map((c, k) => c + CORNER * a.dir[k])), at(a.on.map((c, k) => c + AXIS_TO * a.dir[k])), 9, 4, 10) }));
+// the compass points on the floor, X north and Y west: inside its edges,
+// clear of the walls and around the board's shadow
+const ROSE_AT = 0.8 * D;
+const ROSE = [['N', [ROSE_AT, 0, -D]], ['W', [0, ROSE_AT, -D]], ['S', [-ROSE_AT, 0, -D]], ['E', [0, -ROSE_AT, -D]]].map(([key, v]) => ({ key, at: xy(v) }));
+const ROSE_DROP = 4; // the letters' baseline below their point: centred on it
 // the board's own (body) axes, lowercase, from its centre: turned with it
 const BODY_LEN = 1.45; // out past the board's edges (half length 1.1), clear of the white arrow
 const BODY_COLOR = Object.fromEntries(BODY_AXES.map((a) => [a.key, a.color.slice(4, -1)])); // var(--series-n) -> --series-n
@@ -118,7 +125,7 @@ let frame = 0;
 const color = (name) => colors[name];
 function readColors(c) {
   const css = getComputedStyle(c);
-  colors = Object.fromEntries(['--series-1', '--series-2', '--series-3'].map((n) => [n, css.getPropertyValue(n).trim()]));
+  colors = Object.fromEntries(['--series-1', '--series-2', '--series-3', '--chart-text'].map((n) => [n, css.getPropertyValue(n).trim()]));
   fontFamily = css.fontFamily || 'sans-serif';
 }
 // the drawing's units onto a context, fitted and centred (as SVG's xMidYMid meet)
@@ -156,6 +163,7 @@ function makeLayers(w, h) {
       text(g, wall.label, (l + r) / 2, y, 10, 'center', c);
     } else text(g, wall.label, wall.tag[0], wall.tag[1], 10, wall.key === 'side' ? 'left' : 'right', c);
   }
+  if (props.compass) for (const r of ROSE) text(g, r.key, r.at[0], r.at[1] + ROSE_DROP, 12, 'center', color('--chart-text'), r.key === 'N');
   g = la.getContext('2d');
   place(g);
   for (const a of AXES) {
@@ -218,6 +226,7 @@ function draw() {
 const later = () => { if (!frame) frame = requestAnimationFrame(draw); };
 
 watch(() => props.q, later);
+watch(() => props.compass, () => { layers = null; later(); });
 let observers = [];
 onMounted(() => {
   const c = canvas.value;
@@ -243,7 +252,7 @@ onBeforeUnmount(() => {
 <template>
   <div ref="box" class="relative flex justify-center live-view" :class="full && 'h-full! w-full! items-center bg-white p-4 dark:bg-slate-900'">
     <!-- its own shape, the drawing's: a flex parent sizing it to its content still gets the whole drawing -->
-    <canvas ref="canvas" class="aspect-[340/312] max-w-full" :class="full ? 'h-[85vh]' : 'h-80'" role="img" aria-label="The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side" />
+    <canvas ref="canvas" class="aspect-[340/312] max-w-full" :class="full ? 'h-[85vh]' : 'h-80'" role="img" :aria-label="`The board in 3D in the corner of three walls, its projection on each: on the floor from above, on the wall ahead from behind it, on the wall to its left from its right side${compass ? '; north, east, south and west marked on the floor' : ''}`" />
     <FullscreenButton v-if="canFullscreen" :full="full" class="absolute top-0 right-0" @toggle="toggle" />
   </div>
 </template>

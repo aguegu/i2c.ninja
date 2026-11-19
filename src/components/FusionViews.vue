@@ -270,8 +270,8 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   <CollapsibleCard v-if="shown('box') || shown('flat')" id="box" title="The board in a glass box">
     <h2 class="mb-2 text-lg font-semibold">The board in a glass box</h2>
     <figure v-if="shown('box')" class="flex flex-col items-center">
-      <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" />
-      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: seen from in front, its true projection on the floor (from above), the wall to its right (from its left side) and the wall behind it (from its nose). The world's axes leave the walls' corner. X, Y, Z: the world's axes; x, y, z: the board's own</figcaption>
+      <ProjectionBox :q="fusion.fused?.q ?? [1, 0, 0, 0]" :compass="fusion.nine" />
+      <figcaption class="mt-1 max-w-xl text-center text-xs text-slate-500 dark:text-slate-400">the board in a glass box, as in an engineering drawing: seen from in front, its true projection on the floor (from above), the wall to its right (from its left side) and the wall behind it (from its nose). The world's axes leave the walls' corner. X, Y, Z: the world's axes; x, y, z: the board's own{{ fusion.nine ? '. Here X is magnetic north and Y west: N, E, S and W on the floor' : '' }}</figcaption>
     </figure>
     <div v-if="shown('flat')" class="mt-4">
       <ProjectionViews :q="fusion.fused?.q ?? [1, 0, 0, 0]" :captions="flatCaptions" />
