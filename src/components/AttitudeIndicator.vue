@@ -28,6 +28,9 @@ const LADDER = [-90, -80, -70, -60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50,
 const LABELLED = 30; // a long, numbered mark every 30 degrees (90's number would sit under the rim)
 const SKY = '#4a90d9';
 const GROUND = '#9b6b3d';
+const TAPE = '#0f172a'; // slate-900: the heading tape apart from the white ladder; 5.3:1 on the sky, where its labels sit, 3.9:1 on the ground
+const AIRCRAFT = '#f59e0b';
+const AIRCRAFT_OPACITY = 0.65; // the horizon and the heading tape show through it
 
 const FACE = 96; // the face's radius, in the viewBox's units
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
@@ -69,8 +72,8 @@ const { full, toggle } = useFullscreen(box);
           <svg v-if="heading !== null" :class="LAYER" :style="tape" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
             <g v-once>
               <g v-for="d in HDG_TICKS" :key="d" :transform="`translate(${d * HDG_PX_PER_DEG} 0)`">
-                <line x1="0" :y1="d % 30 ? -3 : -4" x2="0" :y2="d % 30 ? 3 : 4" stroke="white" :stroke-width="d % 30 ? 1 : 1.5" />
-                <text v-if="!(d % 30)" x="0" y="-6" text-anchor="middle" fill="white" font-size="9" :font-weight="d % 90 ? 'normal' : 'bold'">{{ hdgMark(d) }}</text>
+                <line x1="0" :y1="d % 30 ? -3 : -4" x2="0" :y2="d % 30 ? 3 : 4" :stroke="TAPE" :stroke-width="d % 30 ? 1 : 1.5" />
+                <text v-if="!(d % 30)" x="0" y="-6" text-anchor="middle" :fill="TAPE" font-size="9" :font-weight="d % 90 ? 'normal' : 'bold'">{{ hdgMark(d) }}</text>
               </g>
             </g>
           </svg>
@@ -81,8 +84,10 @@ const { full, toggle } = useFullscreen(box);
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
       <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
-        <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-        <circle r="3" fill="#f59e0b" />
+        <g :opacity="AIRCRAFT_OPACITY">
+          <path d="M -60 0 H -18 L -10 8 M 60 0 H 18 L 10 8" fill="none" :stroke="AIRCRAFT" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          <circle r="3" :fill="AIRCRAFT" />
+        </g>
       </svg>
     </div>
     <p v-if="full" class="font-mono text-2xl tabular-nums">roll {{ roll.toFixed(0) }}° · pitch {{ pitch.toFixed(0) }}°</p>
