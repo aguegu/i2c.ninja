@@ -112,7 +112,7 @@ sudo udevadm control --reload`;
         <p>
           <b>Bluetooth:</b> no built-in browser has Web Bluetooth (they all run
           on Safari's engine), so install a Web Bluetooth browser &mdash;
-          <b>Bluefy</b>, from the App Store &mdash; turn Bluetooth on in
+          <a href="https://apps.apple.com/app/bluefy-web-ble-browser/id1492822055" :class="link"><b>Bluefy</b></a>, from the App Store &mdash; turn Bluetooth on in
           Settings, and open <b>i2c.ninja</b> inside Bluefy (not Safari). Tested
           on an iPad with Bluefy.
         </p>
