@@ -14,13 +14,12 @@ const AXES = [
   { k: 'y', color: 'var(--series-2)' },
   { k: 'z', color: 'var(--series-3)' },
 ];
-const ENOUGH = 0.9; // every axis this far: done is worth pressing
 
 const p = computed(() => swingProgress(props.span));
 const behind = computed(() => AXES.map((a) => a.k).reduce((m, k) => (p.value[k] < p.value[m] ? k : m)));
 const hint = computed(() => {
   if (!props.span || p.value.all === 0) return 'Turn the board slowly: flat all the way round first.';
-  if (p.value.all >= ENOUGH) return 'Every axis has swung its full way: press Done.';
+  if (p.value.all >= 1) return 'Every axis has swung far enough: press Done.';
   return `${behind.value} has swung least so far: turn the board so its ${behind.value} arrow points every way, up and down too.`;
 });
 </script>
@@ -34,6 +33,6 @@ const hint = computed(() => {
       </div>
       <span class="w-10 text-right font-mono tabular-nums text-slate-500 dark:text-slate-400">{{ Math.round(p[a.k] * 100) }}%</span>
     </div>
-    <p class="mt-1 text-sm" :class="p.all >= ENOUGH ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'">{{ hint }}</p>
+    <p class="mt-1 text-sm" :class="p.all >= 1 ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-300'">{{ hint }}</p>
   </div>
 </template>

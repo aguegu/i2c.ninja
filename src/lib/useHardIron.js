@@ -10,16 +10,17 @@ import { makeSeries } from './series.js';
 
 const AXES = ['x', 'y', 'z'];
 const EARTH_MIN_UT = 25; // Earth's field is 25 to 65 uT: turned every way, an axis swings at least twice this
+const FULL_SHARE = 0.7; // an axis that has swung this share of the widest counts as full: about +-45 deg tilts each way, no awkward poses
 
-// how far each axis has swung while calibrating, 0..1, against the widest
-// swing so far (an axis that has seen the field both ways swings about twice
-// it), and never against less than twice Earth's weakest field, so a board
-// still barely moved reads low; all: the least of the three
+// how far each axis has swung while calibrating, 0..1, against FULL_SHARE of
+// the widest swing so far (an axis that has seen the field both ways swings
+// about twice it), and never against less than twice Earth's weakest field,
+// so a board still barely moved reads low; all: the least of the three
 export function swingProgress(span) {
   if (!span) return { x: 0, y: 0, z: 0, all: 0 };
   const swing = Object.fromEntries(AXES.map((k) => [k, span.max[k] - span.min[k]]));
   const full = Math.max(...Object.values(swing), 2 * EARTH_MIN_UT);
-  const p = Object.fromEntries(AXES.map((k) => [k, Math.min(1, swing[k] / full)]));
+  const p = Object.fromEntries(AXES.map((k) => [k, Math.min(1, swing[k] / (FULL_SHARE * full))]));
   return { ...p, all: Math.min(p.x, p.y, p.z) };
 }
 
