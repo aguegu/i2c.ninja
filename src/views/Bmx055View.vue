@@ -148,7 +148,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </div>
       <SpecTable :rows="SPECS" />
       <p class="mt-3 text-sm">
-        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink> · <RouterLink to="/physics/magnetism" :class="link">Magnetism and compass</RouterLink> · <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink> · <RouterLink to="/algorithms/compass" :class="link">A tilt-compensated compass</RouterLink> · <RouterLink to="/algorithms/nine-axis" :class="link">Attitude and heading: 9-axis fusion</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
+        <b>See also:</b> <RouterLink to="/physics/acceleration" :class="link">Acceleration and gravity</RouterLink> · <RouterLink to="/physics/rotation" :class="link">Rotation and gyroscope</RouterLink> · <RouterLink to="/physics/magnetism" :class="link">Magnetism and compass</RouterLink> · <RouterLink to="/algorithms/attitude" :class="link">Attitude from accel and gyro</RouterLink> · <RouterLink to="/algorithms/compass" :class="link">A tilt-compensated compass</RouterLink> · <RouterLink to="/algorithms/nine-axis" :class="link">9-axis attitude and heading</RouterLink> · <RouterLink to="/learn/motion" :class="link">the Motion course</RouterLink>
       </p>
     </section>
   </main>

@@ -1,13 +1,15 @@
 <script setup>
 // The home page's hero visual: the site's own views in turn, each driven by a
 // gentle made-up motion (no sensor), with its page a click away: the glass
-// box, the gyro's rings, the compass, the saturation curve, Maxwell's colour
+// box, the attitude indicator (banking, pitching and turning through north,
+// its heading tape sliding), the gyro's rings, the compass, the saturation curve, Maxwell's colour
 // triangle, a dropped ball's x, v and a. On to the next every ADVANCE_S, paused while the
 // pointer or focus is on it; arrows, dots and a swipe change it. Only the
 // slide shown is drawn and animated. Reduced motion: still pictures, no
 // advancing.
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import ProjectionBox from './ProjectionBox.vue';
+import AttitudeIndicator from './AttitudeIndicator.vue';
 import GyroBall from './GyroBall.vue';
 import CompassRose from './CompassRose.vue';
 import SaturationCurve from './SaturationCurve.vue';
@@ -41,6 +43,13 @@ const swayPhases = (s) => [ROLL_DEG, PITCH_DEG * Math.sin((TAU * s) / PITCH_S), 
 const swayRates = (s) => [0, ((PITCH_DEG * TAU) / PITCH_S) * Math.cos((TAU * s) / PITCH_S), ((SWAY_DEG * TAU) / SWAY_S) * Math.cos((TAU * s) / SWAY_S)];
 // the compass: a slow turn
 const COMPASS_DEG_S = 12;
+// the attitude indicator: a slow turn right with a gentle bank and pitch
+const BANK_DEG = 20;
+const BANK_S = 8;
+const NOSE_DEG = 10;
+const NOSE_S = 6;
+const TURN_DEG_S = 15;
+const flight = (s) => ({ roll: BANK_DEG * Math.sin((TAU * s) / BANK_S), pitch: NOSE_DEG * Math.sin((TAU * s) / NOSE_S), heading: (s * TURN_DEG_S) % 360 });
 // the air: a room at 22 C, 45 %, a breath now and then
 const ROOM_C = 22;
 const ROOM_RH = 45;
@@ -71,6 +80,7 @@ const topic = (list, base, slug) => {
 };
 const SLIDES = [
   { key: 'attitude', ...topic(ALGORITHMS, 'algorithms', 'attitude') },
+  { key: 'nine-axis', ...topic(ALGORITHMS, 'algorithms', 'nine-axis') },
   { key: 'rotation', ...topic(PHYSICS, 'physics', 'rotation') },
   { key: 'magnetism', ...topic(PHYSICS, 'physics', 'magnetism') },
   { key: 'humidity', ...topic(PHYSICS, 'physics', 'humidity') },
@@ -124,6 +134,7 @@ const button = 'rounded-full p-2 text-slate-500 hover:bg-slate-200/60 hover:text
          don't; full screen is on each view's page) -->
     <div class="relative flex h-80 touch-pan-y items-center justify-center select-none [&_button]:hidden" :aria-live="paused || reduced ? 'polite' : 'off'" role="group" aria-roledescription="slide" :aria-label="`${index + 1} of ${SLIDES.length}: ${slide.page}`" @pointerdown="onDown" @pointerup="onUp">
       <ProjectionBox v-if="slide.key === 'attitude'" class="w-full" :q="pose(s)" />
+      <AttitudeIndicator v-else-if="slide.key === 'nine-axis'" large v-bind="flight(s)" />
       <GyroBall v-else-if="slide.key === 'rotation'" class="h-full" :rates="swayRates(s)" :phases="swayPhases(s)" />
       <CompassRose v-else-if="slide.key === 'magnetism'" size="h-72 w-72" :heading="(s * COMPASS_DEG_S) % 360" />
       <SaturationCurve v-else-if="slide.key === 'humidity'" :height="SATURATION_HEIGHT" :temperature="ROOM_C" :humidity="humidity" />

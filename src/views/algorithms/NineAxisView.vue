@@ -52,7 +52,7 @@ const COMPASS_ERROR = String.raw`\hat{\mathbf{n}} = \frac{\mathbf{B}_h}{\lVert \
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <p class="text-xs font-medium tracking-wide text-emerald-700 uppercase dark:text-emerald-400">Algorithm</p>
-      <h1 class="text-2xl font-bold">Attitude and heading: 9-axis fusion</h1>
+      <h1 class="text-2xl font-bold">9-axis attitude and heading</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         Gravity steadies roll and pitch but can't see a turn about the vertical; a compass can. Add a magnetometer to the accelerometer and the gyro, and one filter gives the whole attitude: roll, pitch and a heading to magnetic north, quick as the gyro, and drifting nowhere. An attitude and heading reference system (AHRS), the kind in a drone or a phone. On one module with all three (a BMX055), or on boards side by side.
       </p>

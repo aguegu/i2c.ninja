@@ -23,7 +23,7 @@ export const ALGORITHMS = [
   },
   {
     slug: 'nine-axis',
-    title: 'Attitude and heading: 9-axis fusion',
+    title: '9-axis attitude and heading',
     short: '9-axis',
     icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM3 13l18-3M12 5l2 5h-4z',
     blurb: 'Accelerometer, gyro and compass in one filter: roll, pitch and a heading to north that neither drifts nor jumps.',
