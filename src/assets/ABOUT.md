@@ -15,6 +15,19 @@ There is no backend: the site runs entirely in your browser, and nothing about y
 
 Built with [Vue](https://vuejs.org), [Vite](https://vite.dev), [Tailwind CSS](https://tailwindcss.com) and [atiic](https://github.com/aguegu/atiic). The source: [github.com/aguegu/i2c.ninja](https://github.com/aguegu/i2c.ninja). **Using i2c.ninja is free for anyone, with any bridge, paid courses and workshops included, and a course may put its drawings and text in its own slides and handouts, with credit.** Beyond that, the licenses are about copying it. The code is under the [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) license; the content (the text of the pages, the drawings, the blog) under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/): both free for noncommercial use, schools and universities included, and the content yours to adapt for a class, with credit. A copy of the site, its code in your product, or its drawings and text in material sold on its own (a book, a course pack) take a commercial license: write to [support@meshmass.com](mailto:support@meshmass.com). atiic stays MIT.
 
+Browser features
+---
+
+i2c.ninja leans on recent browser APIs so there's nothing to install — each is live in Chromium browsers today, some more widely than others (support per [caniuse](https://caniuse.com)):
+
+- **[WebUSB](https://caniuse.com/webusb)** — talks to the USB-to-I²C bridge (a CH347 or CH341) straight from the page, with no driver app.
+- **[Web Bluetooth](https://caniuse.com/web-bluetooth)** — reaches a [Dart](/dart) over Bluetooth LE, no wires at all.
+- **[Fullscreen](https://caniuse.com/fullscreen)** — every drawing and live chart opens full screen.
+- **[Service Workers](https://caniuse.com/serviceworkers)** — the site installs as an app and works offline once visited.
+- **[Web Workers](https://caniuse.com/webworkers)** — sampling and recording run off the main thread, so the charts stay smooth.
+- **[Screen Wake Lock](https://caniuse.com/wake-lock)** — the screen stays awake while a reading records.
+- **[Async Clipboard](https://caniuse.com/async-clipboard)** — one tap copies a page's share link.
+
 Commercial
 ---
 
