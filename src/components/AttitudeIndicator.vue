@@ -47,9 +47,9 @@ const SCALE_IN_LONG = 88; // a long mark's, and the zero triangle's tip
 const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointing out at the scale
 const POINTER_BASE = 74;
 const LADDER_WINDOW = 73; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
+const CARET_RING = '#1e293b'; // slate-800, the heading indicator's face: the ring the roll pointer turns in, from the ladder's window to the rim
 
-const FACE = 84; // the rim's radius, in the viewBox's units: the roll scale's band outside it
-const HORIZON = LADDER_WINDOW; // the horizon's circle, inside the caret ring: the ring between it and the rim left clear for the roll pointer
+const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
 const HDG_REACH = 240; // the tape drawn this far either side of 0: a heading near 180 still fills the face
 const HDG_TICKS = Array.from({ length: (2 * HDG_REACH) / 10 + 1 }, (_, i) => i * 10 - HDG_REACH);
@@ -71,9 +71,9 @@ const { full, toggle } = useFullscreen(box);
 <template>
   <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
     <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : large ? 'aspect-square w-72 max-w-full' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees${heading === null ? '' : `, heading ${(((heading % 360) + 360) % 360).toFixed(0)} degrees`}`">
-      <!-- the horizon, round: its moving layers clipped to it -->
-      <div class="absolute overflow-hidden rounded-full" :style="{ inset: `${((R - HORIZON) / SIZE) * 100}%` }">
-        <div class="absolute" :style="{ inset: `${-((R - HORIZON) / (2 * HORIZON)) * 100}%` }">
+      <!-- the face, round: its moving layers clipped to it -->
+      <div class="absolute overflow-hidden rounded-full" :style="{ inset: `${((R - FACE) / SIZE) * 100}%` }">
+        <div class="absolute" :style="{ inset: `${-((R - FACE) / (2 * FACE)) * 100}%` }">
           <svg :class="LAYER" :style="horizon" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
             <g v-once>
               <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
@@ -102,10 +102,12 @@ const { full, toggle } = useFullscreen(box);
               </g>
             </g>
           </svg>
+          <!-- the caret ring: fixed, over the horizon, under the pointer -->
+          <svg class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path v-once :d="`M ${-FACE - 2} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${2 * (FACE + 2)} 0 a ${FACE + 2} ${FACE + 2} 0 1 0 ${-2 * (FACE + 2)} 0 Z M ${-LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${2 * LADDER_WINDOW} 0 a ${LADDER_WINDOW} ${LADDER_WINDOW} 0 1 0 ${-2 * LADDER_WINDOW} 0 Z`" :fill="CARET_RING" fill-rule="evenodd" /></svg>
+          <!-- the roll pointer turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
+          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
         </div>
       </div>
-      <!-- the roll pointer, in the clear caret ring, turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
-      <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
       <svg v-once class="absolute inset-0 text-slate-500 dark:text-slate-400" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
