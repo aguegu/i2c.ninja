@@ -1,5 +1,22 @@
 # Releases
 
+## 2.1.0
+
+A page of its own for **Dart**, and a tour of the browser tech the site runs on.
+
+- **Dart has its own page** (`/dart`): what it is — our wireless USB-to-I²C
+  bridge over Bluetooth LE, still in development — and how to connect over
+  Bluetooth and over USB, with the per-OS setup in tabs (Linux, Windows, macOS,
+  Android, iPhone/iPad) like Get started. **Bluefy** links to its App Store
+  page. Reached from the Bridges page and the footer.
+- **Get started is back to the USB bridges alone.** The long Dart-over-Bluetooth
+  section that sat between the numbered steps moved to the Dart page, along with
+  the dart udev rule and the inline dart mentions — so a not-yet-shipping bridge
+  no longer distracts someone setting up a real one.
+- **About lists the browser features** i2c.ninja relies on, each linked to
+  [caniuse](https://caniuse.com): WebUSB, Web Bluetooth, Fullscreen, Service
+  Workers, Web App Manifest, Web Workers, Screen Wake Lock, Async Clipboard.
+
 ## 2.0.2
 
 Two things for **Bluefy on an iPhone or iPad**:
