@@ -13,6 +13,7 @@ import AccelerometerViews from '../components/AccelerometerViews.vue';
 import GyroViews from '../components/GyroViews.vue';
 import MagnetometerViews from '../components/MagnetometerViews.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { canConnect, hex } from '../lib/dongle.js';
 import { useBmx055 } from '../lib/useBmx055.js';
 import { useTurned } from '../lib/useTurned.js';
@@ -67,16 +68,13 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="card">
-      <h2 class="mb-2 text-lg font-semibold">Five wires, not four</h2>
-      <p class="max-w-3xl leading-relaxed">
-        Its board (a CJMCU-900F) brings out <b>3V3, GND, SCL, SDA</b> — and <b>PS</b>, which picks the interface: <b>high for I²C</b>, low for SPI. Left floating it answers nothing on I²C, so tie <b>PS to 3V3</b>; on a <RouterLink to="/dart" :class="link">Dart</RouterLink>, its <b>IO2</b> (held high by its firmware) does the same.
-        SDO1, SDO2 and CSB1-3 stay free: the chips then answer at 0x19, 0x69 and 0x13.
-      </p>
-      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-        Never take PS low while it runs: the gyro and magnetometer come back when it goes high again, but the accelerometer stays on SPI until the module is powered off and on. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-      </p>
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-bmx055.svg" alt="A CH341T bridge on 3V3 wired to a BMX055 module (CJMCU-900F) seen from its pins: VCC to 3.3V, GND to GND, SCL to SCL, SDA to SDA; on the module a short wire bridges 3.3V to PS" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Four wires — VCC to 3.3V, GND, SCL, SDA — with the bridge's green jumper on 3V3: the BMX055 takes 3.6 V at most. Its <b>PS</b> pin picks the interface, <b>high for I²C</b>, low for SPI; left floating it answers nothing, so bridge it to <b>3.3V</b> on the module (a short wire from pin 1 to pin 5). On a <RouterLink to="/dart" :class="link">Dart</RouterLink>, wire PS to its <b>IO2</b> instead: its firmware holds it high. SDO1, SDO2 and CSB1-3 stay free, so the chips answer at 0x19, 0x69 and 0x13.
+        Never take PS low while it runs: the accelerometer then stays on SPI until the module is powered off and on. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
