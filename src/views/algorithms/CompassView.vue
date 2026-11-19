@@ -14,6 +14,7 @@ import LiveChart from '../../components/LiveChart.vue';
 import InfoTip from '../../components/InfoTip.vue';
 import HintNote from '../../components/HintNote.vue';
 import CompassRose from '../../components/CompassRose.vue';
+import CompassScene from '../../components/CompassScene.vue';
 import TexMath from '../../components/TexMath.vue';
 import { ACCELEROMETERS, MAGNETOMETERS } from '../../lib/sources.js';
 import { useSources } from '../../lib/useSources.js';
@@ -161,6 +162,14 @@ const READING = [
         Held level the two agree. Tip the board and the left one swings while the right one holds; "apart" is how far they disagree. The dip, the field's angle below level, should stay put however you hold it{{ cal.calibrated ? '' : ' (once calibrated)' }}: it's a property of where you are, not of the board.
       </p>
     </section>
+
+    <CollapsibleCard id="in-3d" title="In 3D: the board in the room">
+      <h2 class="mb-2 text-lg font-semibold">In 3D: the board in the room</h2>
+      <CompassScene class="mx-auto" :steps="live.latest?.c ?? null" :b="live.latest?.b ?? null" />
+      <p class="mt-3 text-sm leading-relaxed">
+        The room stays put, the floor marked with magnetic north, east, south and west; the board is drawn as you hold it. <b class="text-[var(--series-magnitude)]">Violet</b>: the field B, dipping δ into the floor, and its level part B<sub>h</sub> along the floor to north; the dotted drop between their tips is the field's vertical part. <b class="text-[var(--series-2)]">Orange</b>: the field as the board's own plane sees it, what the level-only heading uses: on north while the board lies flat, swung off it once the board tilts. <b class="text-[var(--series-3)]">Green</b>: the nose laid level, x<sub>h</sub>, and the heading ψ from north to it, clockwise seen from above.
+      </p>
+    </CollapsibleCard>
 
     <CollapsibleCard id="numbers" title="The numbers, and what's done with them" class="live-view">
       <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
