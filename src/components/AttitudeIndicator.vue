@@ -13,6 +13,8 @@
 // The roll scale, fixed on the rim as on an aircraft's: marks at 10, 20, 30,
 // 45, 60 and 90 degrees either side (long at 30, 60 and 90) and a triangle
 // at 0; the pointer turning with the horizon reads the roll against it.
+// Lanes on the ground, as a road ahead in perspective: lines meeting at the
+// horizon straight ahead, banking and pitching with it.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -31,6 +33,8 @@ const LADDER = [-90, -80, -70, -60, -50, -40, -30, -20, -10, 10, 20, 30, 40, 50,
 const LABELLED = 30; // a long, numbered mark every 30 degrees (90's number would sit under the rim)
 const SKY = '#4a90d9';
 const GROUND = '#9b6b3d';
+const LANES = [-1.5, -0.75, -0.25, 0.25, 0.75, 1.5]; // each lane line's sideways run per unit down: a road ahead in perspective
+const LANE_OPACITY = 0.3;
 const TAPE = '#0f172a'; // slate-900: the heading tape apart from the white ladder; 5.3:1 on the sky, where its labels sit, 3.9:1 on the ground
 const AIRCRAFT = '#f59e0b';
 const AIRCRAFT_OPACITY = 0.65; // the horizon and the heading tape show through it
@@ -72,6 +76,7 @@ const { full, toggle } = useFullscreen(box);
             <g v-once>
               <rect :x="-SIZE * 2" :y="-SIZE * 2" :width="SIZE * 4" :height="SIZE * 2" :fill="SKY" />
               <rect :x="-SIZE * 2" y="0" :width="SIZE * 4" :height="SIZE * 2" :fill="GROUND" />
+              <line v-for="c in LANES" :key="`l${c}`" x1="0" y1="0" :x2="c * SIZE * 2" :y2="SIZE * 2" stroke="white" :stroke-opacity="LANE_OPACITY" />
               <line :x1="-SIZE * 2" y1="0" :x2="SIZE * 2" y2="0" stroke="white" stroke-width="2" />
             </g>
           </svg>
