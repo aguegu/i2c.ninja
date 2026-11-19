@@ -44,11 +44,11 @@ const ROLL_LONG = [30, 60, 90];
 const SCALE_OUT = 98; // the marks: from the outer edge inward
 const SCALE_IN = 92; // a short mark's inner end
 const SCALE_IN_LONG = 88; // a long mark's, and the zero triangle's tip
-const POINTER_TIP = 87; // the roll pointer's tip: in the band too, outside the rim, pointing out at the scale
-const POINTER_BASE = 78;
-const LADDER_WINDOW = 72; // the pitch ladder's round window: inside the rim
+const POINTER_TIP = 82; // the roll pointer's tip, inside the face's rim, pointing out at the scale
+const POINTER_BASE = 74;
+const LADDER_WINDOW = 73; // the pitch ladder's round window: inside the pointer, so the top rungs never run into it
 
-const FACE = 74; // the face's radius, in the viewBox's units: the band outside it holds the roll pointer and the scale
+const FACE = 84; // the face's radius, in the viewBox's units: the roll scale's band outside it
 const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
 const HDG_REACH = 240; // the tape drawn this far either side of 0: a heading near 180 still fills the face
 const HDG_TICKS = Array.from({ length: (2 * HDG_REACH) / 10 + 1 }, (_, i) => i * 10 - HDG_REACH);
@@ -101,10 +101,10 @@ const { full, toggle } = useFullscreen(box);
               </g>
             </g>
           </svg>
+          <!-- the roll pointer turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
+          <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
         </div>
       </div>
-      <!-- the roll pointer, in the band outside the face, turns with the horizon: the aircraft's colour, as it reads the aircraft's roll -->
-      <svg :class="LAYER" :style="rollMark" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><path :d="`M 0 ${-POINTER_TIP} L -6 ${-POINTER_BASE} L 6 ${-POINTER_BASE} Z`" :fill="AIRCRAFT" :opacity="AIRCRAFT_OPACITY" /></svg>
       <!-- the rim and the aircraft: fixed, painted and rendered once -->
       <svg v-once class="absolute inset-0 text-slate-500 dark:text-slate-400" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <circle :r="FACE" fill="none" stroke="#334155" stroke-width="4" />
