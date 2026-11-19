@@ -22,19 +22,25 @@ export function levelHeading(b) {
 }
 
 // { heading (degrees, as levelHeading's, or null), dip (degrees below level,
-// or null), level (the field's level part, its unit) } from up and b
+// or null), level (the field's level part, its unit) } from up and b; and
+// the steps on the way, for a page to show: U (up, unit), vertical (B.U),
+// flat (B_h), north, east, nose (x_h)
 export function compass(up, b) {
   const n = Math.hypot(...up);
-  if (n < MIN_UP_G) return { heading: null, dip: null, level: null };
+  if (n < MIN_UP_G) return { heading: null, dip: null, level: null, U: null, vertical: null, flat: null, north: null, east: null, nose: null };
   const U = up.map((c) => c / n); // the vertical, up, in the board's axes
   const vertical = dot(b, U);
   const flat = along(b, U); // the field's level part: points to magnetic north
   const level = Math.hypot(...flat);
   const dip = Math.atan2(-vertical, level) * DEG; // + : the field dips into the ground
-  if (level < MIN_LEVEL_UT) return { heading: null, dip, level };
+  const nose = along([1, 0, 0], U); // the nose laid level
+  const steps = { U, vertical, flat, nose };
+  if (level < MIN_LEVEL_UT) return { heading: null, dip, level, ...steps, north: null, east: null };
   const north = flat.map((c) => c / level);
   const east = cross(north, U);
-  const nose = along([1, 0, 0], U); // the nose laid level
-  if (Math.hypot(...nose) < 1e-3) return { heading: null, dip, level }; // pointing straight up or down
-  return { heading: deg360(Math.atan2(dot(nose, east), dot(nose, north))), dip, level };
+  if (Math.hypot(...nose) < 1e-3) return { heading: null, dip, level, ...steps, north, east }; // pointing straight up or down
+  return { heading: deg360(Math.atan2(dot(nose, east), dot(nose, north))), dip, level, ...steps, north, east };
 }
+
+// a's angle to b, -180 to 180 degrees: how far apart two headings are, signed
+export const apart = (a, b) => ((((a - b) % 360) + 540) % 360) - 180; // any a and b, even unwrapped past 360

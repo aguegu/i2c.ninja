@@ -62,3 +62,10 @@ test('no heading with the nose straight up, or with no gravity to level by', () 
   assert.equal(compass(up, b).heading, null);
   assert.equal(compass([0, 0, 0.05], [30, 0, -40]).heading, null);
 });
+
+test('apart: signed, -180 to 180, for any two headings, unwrapped ones too', async () => {
+  const { apart } = await import('../src/lib/compass.js');
+  for (const [a, b, want] of [[10, 350, 20], [350, 10, -20], [10, 725, 5], [-700, 10, 10], [180, 0, -180], [90, 90, 0]]) {
+    assert.ok(Math.abs(apart(a, b) - want) < 1e-9, `apart(${a}, ${b}) = ${apart(a, b)}, not ${want}`);
+  }
+});

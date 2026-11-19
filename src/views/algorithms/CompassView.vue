@@ -7,21 +7,26 @@
 // hard iron calibrated, the level-only and the compensated heading side by
 // side with the tilt and the dip; why a tilted compass lies, the maths, when
 // it can't work, one set of axes, things to try
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, onBeforeUnmount } from 'vue';
 import SourceBar from '../../components/SourceBar.vue';
+import CollapsibleCard from '../../components/CollapsibleCard.vue';
+import LiveChart from '../../components/LiveChart.vue';
+import InfoTip from '../../components/InfoTip.vue';
 import HintNote from '../../components/HintNote.vue';
 import CompassRose from '../../components/CompassRose.vue';
 import TexMath from '../../components/TexMath.vue';
 import { ACCELEROMETERS, MAGNETOMETERS } from '../../lib/sources.js';
 import { useSources } from '../../lib/useSources.js';
 import { useHardIron } from '../../lib/useHardIron.js';
-import { compass, levelHeading } from '../../lib/compass.js';
+import { compass, levelHeading, apart } from '../../lib/compass.js';
 import { rollOf, pitchOf } from '../../lib/tilt.js';
+import { useCompass } from '../../lib/useCompass.js';
 
 const WINDOW_MS = 30000;
 const src = reactive(useSources({ accel: ACCELEROMETERS, mag: MAGNETOMETERS }, { windowMs: WINDOW_MS }));
 const cal = reactive(useHardIron((fn) => src.onReading((t, v) => fn(t, v.mag)), { windowMs: WINDOW_MS }));
 const running = computed(() => src.state === 'running');
+const live = reactive(useCompass(src, cal, { windowMs: WINDOW_MS }));
 
 const up = computed(() => src.latest?.accel ?? null);
 const field = computed(() => (cal.latest ? [cal.latest.x, cal.latest.y, cal.latest.z] : null));
@@ -29,11 +34,64 @@ const level = computed(() => (field.value ? levelHeading(field.value) : null));
 const comp = computed(() => (up.value && field.value ? compass(up.value, field.value) : null));
 const roll = computed(() => (up.value ? rollOf(...up.value) : null));
 const pitch = computed(() => (up.value ? pitchOf(...up.value) : null));
-const apartBy = computed(() => {
-  if (level.value === null || comp.value?.heading == null) return null;
-  return Math.abs(((level.value - comp.value.heading + 540) % 360) - 180);
-});
+const apartBy = computed(() => (level.value === null || comp.value?.heading == null ? null : Math.abs(apart(level.value, comp.value.heading))));
 const fmt = (v, d = 0) => (v === undefined || v === null ? '—' : v.toFixed(d));
+
+// the charts: each heading two ways, the tilt, the dip
+const HEADINGS = [{ label: 'ψ', sub: 'level', color: '--series-2' }, { label: 'ψ', color: '--series-3' }];
+const TILTS = [{ label: 'φ', color: '--series-1' }, { label: 'θ', color: '--series-2' }];
+const DIPS = [{ label: 'δ', color: '--series-magnitude' }];
+const HEADING_SPAN_DEG = 60; // the heading chart's least span
+const TILT_FLOOR_DEG = 45; // the tilt chart's least half-range
+const DIP_SPAN_DEG = 10; // the dip chart's least span: a steady dip shows flat
+
+// the numbers card: the latest reading's, taken a few times a second so they
+// can be read; each value's cell keeps its widest so far (a monospaced font),
+// so a growing digit or sign doesn't shift the rows
+const NUMBERS_MS = 250;
+const snap = ref(null);
+const timer = setInterval(() => { snap.value = live.latest; }, NUMBERS_MS);
+onBeforeUnmount(() => clearInterval(timer));
+const widths = new Map();
+const widest = (key, text) => { const w = Math.max(widths.get(key) ?? 0, [...text].length); widths.set(key, w); return w; };
+const num = (v, d = 3) => (v === undefined || v === null ? '—' : v.toFixed(d));
+const sgn = (v, d = 1) => (v === undefined || v === null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(d));
+const vec = (v, d = 3) => (v ? `(${v.map((c) => num(c, d)).join(', ')})` : '—');
+const blocks = computed(() => {
+  const u = snap.value;
+  const c = u?.c;
+  const o = u?.offset;
+  return [
+    { title: 'From the sensors, every reading', rows: [
+      { tex: String.raw`\mathbf{a} = (a_x,\ a_y,\ a_z) =`, value: `${vec(u?.a, 3)} g`, term: 'the accelerometer', note: 'The accelerometer\'s reading, in g, along the board\'s x, y and z: at rest, about 1 g up' },
+      { tex: String.raw`\mathbf{B}_{\text{raw}} =`, value: `${vec(u?.raw, 1)} µT`, term: 'the magnetometer', note: 'The magnetometer\'s reading, in microtesla, in the same axes (a BMX055\'s turned into its accelerometer\'s first): Earth\'s field plus the board\'s own' },
+      { tex: String.raw`\mathbf{B}_0 =`, value: `${vec(o ? [o.x, o.y, o.z] : null, 1)} µT`, term: 'Calibrate\'s offset', note: cal.calibrated ? 'The board\'s own field (hard iron): the middle of each axis\'s swing while you turned it round, taken off every reading since' : 'The board\'s own field (hard iron): not measured yet, so 0. Press Calibrate and turn the board every way round' },
+      { tex: String.raw`\mathbf{B} = \mathbf{B}_{\text{raw}} - \mathbf{B}_0 =`, value: `${vec(u?.b, 1)} µT`, term: 'the field', note: 'Earth\'s field alone, in the board\'s axes: what the rest is worked out from' },
+    ] },
+    { title: 'Level only: the board taken as flat', rows: [
+      { tex: String.raw`\psi_{\text{level}} = \operatorname{atan2}(B_y,\ B_x) =`, value: `${num(u?.level, 1)}°`, term: 'level-only heading', note: 'The heading as if the board lay flat: right when it does, off by more than the tilt when it doesn\'t' },
+    ] },
+    { title: 'Up, from gravity', rows: [
+      { tex: String.raw`\hat{\mathbf{u}} = \mathbf{a} \,/\, |\mathbf{a}| =`, value: vec(c?.U, 3), term: 'up', note: 'Up in the board\'s axes: the accelerometer\'s reading, only its direction kept. Right while the board is still: a push reads as a tilt' },
+      { tex: String.raw`\varphi = \operatorname{atan2}(a_y,\ a_z),\ \ \theta = \operatorname{atan2}\!\left(a_x,\ \sqrt{a_y^2 + a_z^2}\right) =`, value: `${sgn(u?.roll)}°, ${sgn(u?.pitch)}°`, wide: true, term: 'the tilt', note: 'Roll and pitch, for reference: the compass doesn\'t need them, û does the levelling' },
+    ] },
+    { title: 'The field, levelled', rows: [
+      { tex: String.raw`\mathbf{B}\cdot\hat{\mathbf{u}} =`, value: `${sgn(c?.vertical, 1)} µT`, term: 'its vertical part', note: 'The field along up: negative where it dips into the ground (the northern hemisphere)' },
+      { tex: String.raw`\mathbf{B}_h = \mathbf{B} - (\mathbf{B}\cdot\hat{\mathbf{u}})\,\hat{\mathbf{u}} =`, value: `${vec(c?.flat, 1)} µT`, term: 'its level part', note: 'The field with its vertical part taken off: it lies level and points to magnetic north, however the board is tilted' },
+      { tex: String.raw`|\mathbf{B}_h| =`, value: `${num(c?.level, 1)} µT`, term: 'how strong, level', note: 'The level part\'s strength: what a compass needle feels. Near the magnetic poles it gets small and the heading noisy' },
+      { tex: String.raw`\mathbf{x}_h = \hat{\mathbf{x}} - (\hat{\mathbf{x}}\cdot\hat{\mathbf{u}})\,\hat{\mathbf{u}} =`, value: vec(c?.nose, 3), term: 'the nose laid level', note: 'The board\'s nose, x, with its vertical part taken off: the direction the board faces, on the ground' },
+    ] },
+    { title: 'North, east, and the heading', rows: [
+      { tex: String.raw`\hat{\mathbf{n}} = \mathbf{B}_h \,/\, |\mathbf{B}_h| =`, value: vec(c?.north, 3), term: 'north', note: 'Magnetic north, level, as a unit direction in the board\'s axes' },
+      { tex: String.raw`\hat{\mathbf{e}} = \hat{\mathbf{n}} \times \hat{\mathbf{u}} =`, value: vec(c?.east, 3), term: 'east', note: 'East: a quarter turn clockwise from north about up, seen from above' },
+      { tex: String.raw`\psi = \operatorname{atan2}(\mathbf{x}_h\cdot\hat{\mathbf{e}},\ \mathbf{x}_h\cdot\hat{\mathbf{n}}) =`, value: `${num(c?.heading, 1)}°`, term: 'the heading', note: 'The nose\'s angle from magnetic north, clockwise seen from above: the tilt-compensated heading' },
+      { tex: String.raw`\delta = \operatorname{atan2}(-\mathbf{B}\cdot\hat{\mathbf{u}},\ |\mathbf{B}_h|) =`, value: `${sgn(c?.dip, 1)}°`, term: 'the dip', note: 'The field\'s angle below level: where you are, not how the board is held. It should stay put as you tilt' },
+      { tex: String.raw`\psi_{\text{level}} - \psi =`, value: u && c?.heading != null ? `${sgn(apart(u.level, c.heading), 1)}°` : '—', term: 'how far apart', note: 'The level-only heading\'s error: about 0 held level, more than the tilt when tipped sideways' },
+    ] },
+  ];
+});
+const formula = 'grid grid-cols-[auto_auto_1fr] items-baseline gap-x-2 overflow-x-auto rounded-lg bg-slate-100 px-3 py-2 font-mono text-sm leading-6 whitespace-nowrap dark:bg-slate-900';
+const valueClass = 'text-emerald-700 dark:text-emerald-400';
 
 const LEVEL = String.raw`\psi_{\text{level}} = \operatorname{atan2}(B_y,\ B_x)`;
 const UP = String.raw`\hat{\mathbf{u}} = \frac{\mathbf{a}}{|\mathbf{a}|}, \qquad \mathbf{B}_h = \mathbf{B} - (\mathbf{B}\cdot\hat{\mathbf{u}})\,\hat{\mathbf{u}}, \qquad \mathbf{x}_h = \hat{\mathbf{x}} - (\hat{\mathbf{x}}\cdot\hat{\mathbf{u}})\,\hat{\mathbf{u}}`;
@@ -103,6 +161,40 @@ const READING = [
         Held level the two agree. Tip the board and the left one swings while the right one holds; "apart" is how far they disagree. The dip, the field's angle below level, should stay put however you hold it{{ cal.calibrated ? '' : ' (once calibrated)' }}: it's a property of where you are, not of the board.
       </p>
     </section>
+
+    <CollapsibleCard id="numbers" title="The numbers, and what's done with them" class="live-view">
+      <h2 class="mb-2 text-lg font-semibold">The numbers, and what's done with them</h2>
+      <div class="flex flex-col gap-3">
+        <div v-for="blk in blocks" :key="blk.title">
+          <p class="mb-1 text-sm font-semibold">{{ blk.title }}</p>
+          <div :class="formula">
+            <template v-for="r in blk.rows" :key="r.tex">
+              <span v-if="r.wide" class="col-span-2"><TexMath :expr="r.tex" /> <span class="inline-block" :class="valueClass" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span></span>
+              <template v-else>
+                <TexMath :expr="r.tex" /><span :class="valueClass" :style="{ minWidth: `${widest(r.tex, r.value)}ch` }">{{ r.value }}</span>
+              </template>
+              <InfoTip :text="r.note" class="cursor-help justify-self-end text-right font-sans text-xs text-slate-500 underline decoration-dotted underline-offset-2 dark:text-slate-400">{{ r.term }}</InfoTip>
+            </template>
+          </div>
+        </div>
+      </div>
+    </CollapsibleCard>
+
+    <CollapsibleCard id="heading" title="ψ, the heading two ways">
+      <LiveChart title="ψ, the heading two ways" unit="°" :series="HEADINGS" :values="live.latest && live.latest.c.heading !== null ? [live.latest.level, live.latest.c.heading] : []" :source="live.headingSource" :window-ms="WINDOW_MS" :floor="HEADING_SPAN_DEG" :digits="0" fit />
+      <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        Level, the two lines lie on one another; tip the board and they part, the gap the level-only heading's error. Past north the lines run on (370° is 10°) instead of jumping back; the legend reads as a compass does.
+      </p>
+    </CollapsibleCard>
+    <CollapsibleCard id="tilt" title="φ and θ, the tilt">
+      <LiveChart title="φ and θ, the tilt" unit="°" :series="TILTS" :values="live.latest ? [live.latest.roll, live.latest.pitch] : []" :source="live.tiltSource" :window-ms="WINDOW_MS" :floor="TILT_FLOOR_DEG" :digits="1" />
+    </CollapsibleCard>
+    <CollapsibleCard id="dip" title="δ, the dip">
+      <LiveChart title="δ, the dip" unit="°" :series="DIPS" :values="live.latest && live.latest.c.dip !== null ? [live.latest.c.dip] : []" :source="live.dipSource" :window-ms="WINDOW_MS" :floor="DIP_SPAN_DEG" :digits="1" fit />
+      <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        The dip belongs to the place, not the board: calibrated, it stays flat however the board is tilted or turned. A line that moves with the tilt means the calibration, or the axes, are off.
+      </p>
+    </CollapsibleCard>
 
     <section :class="[card, 'leading-relaxed']">
       <h2 class="mb-2 text-lg font-semibold">Why a tilted compass lies</h2>
