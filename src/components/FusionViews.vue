@@ -244,11 +244,11 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <h2 class="mb-2 text-lg font-semibold">The result, as a pilot reads it</h2>
     <div class="flex flex-wrap justify-center gap-x-10 gap-y-4">
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
-        <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" />
+        <AttitudeIndicator :roll="fusion.fused?.roll ?? 0" :pitch="fusion.fused?.pitch ?? 0" :heading="fusion.nine ? (fusion.fused?.yaw ?? null) : null" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\varphi_q,\ \theta_q =`" />
           <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.roll, 0) }}°, {{ f(fusion.fused?.pitch, 0) }}°</span>
-          <span class="block text-xs text-slate-500 dark:text-slate-400">the attitude indicator: the horizon tilts with φ, drops as the nose comes up with θ</span>
+          <span class="block text-xs text-slate-500 dark:text-slate-400">the attitude indicator: the horizon tilts with φ, drops as the nose comes up with θ{{ fusion.nine ? '; the heading marked along it, as in a glass cockpit' : '' }}</span>
         </figcaption>
       </figure>
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">

@@ -7,6 +7,9 @@
 // transform (the GPU turns them, nothing repaints), the rim and the
 // aircraft painted once over them; Vue renders what doesn't move once
 // (v-once), only the transforms change.
+// heading (degrees, 0 magnetic north; 9-axis fusion): a heading tape on the
+// horizon, as a glass cockpit's: a tick every 10 degrees, N, E, S and W and
+// the tens between every 30, sliding along the horizon as the board turns.
 import { ref, computed } from 'vue';
 import FullscreenButton from './FullscreenButton.vue';
 import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
@@ -14,6 +17,7 @@ import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 const props = defineProps({
   roll: { type: Number, default: 0 }, // degrees, right side down +
   pitch: { type: Number, default: 0 }, // degrees, nose up +
+  heading: { type: Number, default: null }, // degrees, turning right +; null: no heading tape
 });
 
 const SIZE = 200;
@@ -25,8 +29,18 @@ const SKY = '#4a90d9';
 const GROUND = '#9b6b3d';
 
 const FACE = 96; // the face's radius, in the viewBox's units
+const HDG_PX_PER_DEG = 2; // the tape's scale: the face shows about +/-48 degrees of heading
+const HDG_REACH = 240; // the tape drawn this far either side of 0: a heading near 180 still fills the face
+const HDG_TICKS = Array.from({ length: (2 * HDG_REACH) / 10 + 1 }, (_, i) => i * 10 - HDG_REACH);
+const CARDINALS = { 0: 'N', 90: 'E', 180: 'S', 270: 'W' };
+const hdgMark = (d) => { const a = ((d % 360) + 360) % 360; return CARDINALS[a] ?? a / 10; };
 // the transforms, the shift as a share of the gauge so it scales with it
 const horizon = computed(() => ({ transform: `rotate(${-props.roll}deg) translateY(${(props.pitch * PX_PER_DEG / SIZE) * 100}%)` }));
+// the tape: the horizon's own transform, then along the horizon by the heading (-180..180)
+const tape = computed(() => {
+  const h = ((((props.heading ?? 0) + 180) % 360) + 360) % 360 - 180;
+  return { transform: `rotate(${-props.roll}deg) translateY(${(props.pitch * PX_PER_DEG / SIZE) * 100}%) translateX(${(-h * HDG_PX_PER_DEG / SIZE) * 100}%)` };
+});
 const rollMark = computed(() => ({ transform: `rotate(${-props.roll}deg)` }));
 const LAYER = 'absolute inset-0 will-change-transform';
 const box = ref(null);
@@ -35,7 +49,7 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees`">
+    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="`Attitude: roll ${roll.toFixed(0)} degrees, pitch ${pitch.toFixed(0)} degrees${heading === null ? '' : `, heading ${(((heading % 360) + 360) % 360).toFixed(0)} degrees`}`">
       <!-- the face, round: its moving layers clipped to it -->
       <div class="absolute overflow-hidden rounded-full" :style="{ inset: `${((R - FACE) / SIZE) * 100}%` }">
         <div class="absolute" :style="{ inset: `${-((R - FACE) / (2 * FACE)) * 100}%` }">
@@ -47,6 +61,15 @@ const { full, toggle } = useFullscreen(box);
               <g v-for="d in LADDER" :key="d" :transform="`translate(0 ${-d * PX_PER_DEG})`">
                 <line :x1="d % LABELLED ? -10 : -24" y1="0" :x2="d % LABELLED ? 10 : 24" y2="0" stroke="white" :stroke-width="d % LABELLED ? 1 : 1.5" />
                 <text v-if="!(d % LABELLED) && Math.abs(d) < 90" x="28" y="3.5" fill="white" font-size="10">{{ Math.abs(d) }}</text>
+              </g>
+            </g>
+          </svg>
+          <!-- the heading tape on the horizon: moves with it, and along it as the board turns -->
+          <svg v-if="heading !== null" :class="LAYER" :style="tape" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" overflow="visible" aria-hidden="true">
+            <g v-once>
+              <g v-for="d in HDG_TICKS" :key="d" :transform="`translate(${d * HDG_PX_PER_DEG} 0)`">
+                <line x1="0" :y1="d % 30 ? -3 : -4" x2="0" :y2="d % 30 ? 3 : 4" stroke="white" :stroke-width="d % 30 ? 1 : 1.5" />
+                <text v-if="!(d % 30)" x="0" y="-6" text-anchor="middle" fill="white" font-size="9" :font-weight="d % 90 ? 'normal' : 'bold'">{{ hdgMark(d) }}</text>
               </g>
             </g>
           </svg>
