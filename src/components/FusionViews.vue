@@ -252,7 +252,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         </figcaption>
       </figure>
       <figure v-if="shown('gauges')" class="flex flex-col items-center gap-1">
-        <HeadingIndicator :heading="fusion.fused?.yaw ?? null" />
+        <HeadingIndicator :heading="fusion.fused?.yaw ?? null" :compass="fusion.nine" />
         <figcaption class="text-center text-sm">
           <TexMath :expr="String.raw`\psi_q =`" />
           <span class="ml-1.5 font-mono tabular-nums">{{ f(fusion.fused?.yaw, 0) }}°</span>

@@ -4,7 +4,8 @@
 // fixed aircraft, read at the top. In an aircraft it's a gyro too: no north
 // of its own, it drifts and is set to the compass now and then; here 0 is
 // the board's heading at the start. heading: degrees, turning right + (null:
-// none yet). A button takes it full screen, the heading written large there.
+// none yet). compass: 0 is magnetic north (9-axis fusion), and the card
+// reads as an aircraft's does: N, E, S and W in place of 0, 9, 18 and 27. A button takes it full screen, the heading written large there.
 // Drawn as layers: the card turns by a CSS transform (the GPU turns it,
 // nothing repaints), the face under it and the aircraft over it painted
 // once; Vue renders them and the card's marks once (v-once), only the
@@ -15,6 +16,7 @@ import { canFullscreen, useFullscreen } from '../lib/fullscreen.js';
 
 const props = defineProps({
   heading: { type: Number, default: null },
+  compass: { type: Boolean, default: false },
 });
 
 const SIZE = 200;
@@ -23,6 +25,8 @@ const FACE = 96;
 const RING = 88; // the card's rim, its marks inside
 const TICKS = Array.from({ length: 72 }, (_, i) => i * 5);
 const NUMBERS = Array.from({ length: 12 }, (_, i) => i * 30);
+const CARDINALS = { 0: 'N', 90: 'E', 180: 'S', 270: 'W' };
+const mark = (d) => (props.compass && CARDINALS[d]) || d / 10;
 const FACE_FILL = '#1e293b';
 const MARKS = 'white';
 const AIRCRAFT = '#f59e0b';
@@ -35,13 +39,13 @@ const { full, toggle } = useFullscreen(box);
 
 <template>
   <div ref="box" class="relative live-view" :class="full && 'flex! h-full! w-full! flex-col items-center justify-center gap-4 bg-white p-4 dark:bg-slate-900'">
-    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="heading === null ? 'Heading: none yet' : `Heading: ${shown.toFixed(0)} degrees from the start`">
+    <div class="relative" :class="full ? 'h-[min(80vh,80vw)] w-[min(80vh,80vw)]' : 'h-52 w-52'" role="img" :aria-label="heading === null ? 'Heading: none yet' : `Heading: ${shown.toFixed(0)} degrees from ${compass ? 'magnetic north' : 'the start'}`">
       <svg v-once class="absolute inset-0" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true"><circle :r="FACE" :fill="FACE_FILL" /></svg>
       <!-- the card: turns -->
       <svg class="absolute inset-0 will-change-transform" :style="card" :viewBox="`${-R} ${-R} ${SIZE} ${SIZE}`" aria-hidden="true">
         <g v-once>
           <line v-for="d in TICKS" :key="d" x1="0" :y1="-RING" x2="0" :y2="d % 10 ? -RING + 6 : -RING + 11" :transform="`rotate(${d})`" :stroke="MARKS" :stroke-width="d % 10 ? 1 : 1.5" />
-          <text v-for="d in NUMBERS" :key="`n${d}`" x="0" :y="-RING + 26" :transform="`rotate(${d})`" text-anchor="middle" font-size="14" font-weight="bold" :fill="MARKS">{{ d / 10 }}</text>
+          <text v-for="d in NUMBERS" :key="`n${d}`" x="0" :y="-RING + 26" :transform="`rotate(${d})`" text-anchor="middle" font-size="14" font-weight="bold" :fill="MARKS">{{ mark(d) }}</text>
         </g>
       </svg>
       <!-- the lubber line at the top, the aircraft and the rim: fixed -->
