@@ -42,12 +42,22 @@ export function useLm75({ windowMs = 120000 } = {}) {
     }
   }
 
+  // a check that throws (the INA231's reads before it asks) is a no: an
+  // address that answered its probe but not a read isn't that chip
+  const is = async (D, a) => {
+    try {
+      return await D.chip.identify(bus, a);
+    } catch {
+      return false;
+    }
+  };
+
   async function find() {
     for (const a of Lm75.addresses) {
       if (!(await bus.acks(a))) continue;
       let other = false;
-      for (const D of OTHERS) if (D.addresses.includes(a) && (await D.chip.identify(bus, a))) other = true;
-      if (!other && (await Lm75.chip.identify(bus, a))) return a;
+      for (const D of OTHERS) if (D.addresses.includes(a) && (await is(D, a))) other = true;
+      if (!other && (await is(Lm75, a))) return a;
     }
     return null;
   }
