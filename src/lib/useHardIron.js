@@ -10,7 +10,7 @@ import { makeSeries } from './series.js';
 
 const AXES = ['x', 'y', 'z'];
 const EARTH_MIN_UT = 25; // Earth's field is 25 to 65 uT: turned every way, an axis swings at least twice this
-const FULL_SHARE = 0.7; // an axis that has swung this share of the widest counts as full: about +-45 deg tilts each way, no awkward poses
+const FULL_SHARE = 0.9; // an axis that has swung this share of the widest counts as full: turned nearly all the way each way (0.7, +-45 deg, while a loose BMX055 dropped out turning)
 
 // how far each axis has swung while calibrating, 0..1, against FULL_SHARE of
 // the widest swing so far (an axis that has seen the field both ways swings
