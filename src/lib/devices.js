@@ -241,6 +241,15 @@ export const DEVICES = [
     bus: 'I2C 0x29',
   },
   {
+    to: '/vl6180x',
+    name: 'VL6180X',
+    maker: 'STMicroelectronics',
+    kind: 'Proximity',
+    group: 'Light',
+    measures: 'How close something is, to 100 mm, by timing light: what turns a phone\'s screen off at your ear.',
+    bus: 'I2C 0x29',
+  },
+  {
     to: '/mlx90614',
     name: 'MLX90614',
     maker: 'Melexis',

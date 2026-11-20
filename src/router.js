@@ -38,6 +38,7 @@ const router = createRouter({
     { path: '/max30102', component: () => import('./views/Max30102View.vue') },
     { path: '/max30100', component: () => import('./views/Max30100View.vue') },
     { path: '/vl53l1x', component: () => import('./views/Vl53l1xView.vue') },
+    { path: '/vl6180x', alias: aliasesOf('/vl6180x'), component: () => import('./views/Vl6180xView.vue') },
     { path: '/mlx90614', component: () => import('./views/Mlx90614View.vue') },
     { path: '/adxl345', component: () => import('./views/Adxl345View.vue') },
     { path: '/hmc5883l', component: () => import('./views/Hmc5883lView.vue') },

@@ -31,7 +31,8 @@ test('by type, group, maker, what it measures', () => {
   assert.ok(find('motion').includes('/hmc5883l'));
   assert.deepEqual(find('magnetometer'), ['/hmc5883l', '/qmc5883l']);
   assert.deepEqual(find('lux'), ['/opt3001']);
-  assert.deepEqual(find('proximity'), ['/ap3216c']);
+  assert.deepEqual(find('proximity'), ['/ap3216c', '/vl6180x']);
+  assert.deepEqual(find('0x29'), ['/tcs34725', '/vl53l1x', '/vl6180x']);
   assert.deepEqual(find('ams'), ['/tcs34725', '/as7341']);
   assert.deepEqual(find('tcs34727'), ['/tcs34725']);
   assert.deepEqual(find('sensirion'), ['/sht20', '/sht3x', '/sht4x', '/sgp40', '/sgp30']);

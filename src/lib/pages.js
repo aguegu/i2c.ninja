@@ -47,6 +47,7 @@ const WHAT = {
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/max30100': 'MAX30100 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',
+  '/vl6180x': 'VL6180X time-of-flight proximity sensor',
   '/mlx90614': 'MLX90614 infrared thermometer',
   '/adxl345': 'ADXL345 accelerometer',
   '/hmc5883l': 'HMC5883L magnetometer (compass)',
