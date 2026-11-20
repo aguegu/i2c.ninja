@@ -35,6 +35,8 @@ const WHAT = {
   '/cht8305': 'CHT8305C humidity and temperature sensor',
   '/lm75': 'LM75 / LM75A temperature sensor and thermal watchdog',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
+  '/tcs34725': 'TCS34725 / TCS34727 colour (RGB) light sensor',
+  '/as7341': 'AS7341 11-channel spectral sensor (spectrometer)',
   '/opt3001': 'OPT3001 ambient light sensor (lux)',
   '/ap3216c': 'AP3216C ambient light and proximity sensor',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
