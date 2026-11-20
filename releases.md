@@ -1,5 +1,16 @@
 # Releases
 
+## 2.3.9
+
+- **VL6180X** (`/vl6180x`, also `/vl6180`): ST's close-range time-of-flight
+  sensor: the distance to 100 mm as a number and a gauge, "nothing in
+  reach" said plainly rather than a number, its distance over time, its
+  ambient light; how it times its light and the start-up settings it needs
+  (ST's AN4545). A note that our board's light sensor reads 0 in every
+  setting (its unmarked chip perhaps a VL6180, ranging only). Its wiring
+  drawing, the black board from its back. On the distance topic beside the
+  VL53L1X. atiic 1.8.15.
+
 ## 2.3.8
 
 - **AS7341: its LED** switchable on its page (off, 4, 8, 12 or 20 mA: the
