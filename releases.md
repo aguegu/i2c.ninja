@@ -1,5 +1,21 @@
 # Releases
 
+## 2.3.5
+
+Two more sensors, each with its wiring drawing.
+
+- **QMC5883L** (`/qmc5883l`, also `/qmc5883`, `/gy-271`): QST's
+  magnetometer, what most GY-271 "HMC5883L" modules carry now; ±2 gauss at
+  50 Hz, the compass and hard-iron calibration as the HMC5883L's, and how to
+  tell the two apart (0x0D or 0x1E). A magnetometer source too: the
+  magnetism page, the compass and the 9-axis fusion find it.
+- **OPT3001** (`/opt3001`): TI's ambient light in lux, as the eye sees it,
+  with an everyday level beside the reading; 800 or 100 ms conversions; its
+  exponent-and-mantissa result explained. On the colour and light topic.
+- **Wiring drawings**: the blue GY-271 from its back turned half round, the
+  purple CJMCU-3001 from its back; four straight wires each.
+- Device descriptions keep "Earth's" capitalised; atiic 1.8.10.
+
 ## 2.3.4
 
 - **SHT4x: its wiring drawing**, the purple SHT40 board from its back: SDA,
