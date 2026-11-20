@@ -23,6 +23,7 @@ const router = createRouter({
     { path: '/agr12', alias: aliasesOf('/agr12'), component: () => import('./views/Agr12View.vue') },
     { path: '/ags2602', component: () => import('./views/Ags2602View.vue') },
     { path: '/sgp40', component: () => import('./views/Sgp40View.vue') },
+    { path: '/sgp30', component: () => import('./views/Sgp30View.vue') },
     { path: '/bh1745', alias: aliasesOf('/bh1745'), component: () => import('./views/Bh1745View.vue') },
     { path: '/opt3001', component: () => import('./views/Opt3001View.vue') },
     { path: '/ap3216c', alias: aliasesOf('/ap3216c'), component: () => import('./views/Ap3216cView.vue') },

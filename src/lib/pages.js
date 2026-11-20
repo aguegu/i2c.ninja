@@ -41,6 +41,7 @@ const WHAT = {
   '/agr12': 'AGR12 gauge pressure sensor',
   '/ags2602': 'AGS2602 TVOC sensor',
   '/sgp40': 'SGP40 VOC sensor',
+  '/sgp30': 'SGP30 air quality sensor (CO2eq, TVOC)',
   '/max30102': 'MAX30102 heart-rate and pulse oximeter sensor',
   '/max30100': 'MAX30100 heart-rate and pulse oximeter sensor',
   '/vl53l1x': 'VL53L1X time-of-flight distance sensor',

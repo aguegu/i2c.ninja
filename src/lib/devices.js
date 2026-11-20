@@ -178,6 +178,15 @@ export const DEVICES = [
     bus: 'I2C 0x59',
   },
   {
+    to: '/sgp30',
+    name: 'SGP30',
+    maker: 'Sensirion',
+    kind: 'Air quality',
+    group: 'Air',
+    measures: 'CO₂ equivalent and total VOCs, worked out on the chip from its hydrogen and ethanol signals.',
+    bus: 'I2C 0x58',
+  },
+  {
     to: '/bh1745',
     name: 'BH1745NUC',
     maker: 'ROHM',
