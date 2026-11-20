@@ -3,9 +3,7 @@
 // 16-bit register address), set up by atiic's driver (ST's AN4545 settings
 // when fresh out of reset), then a range and an ambient light reading back
 // to back; the last windowMs kept for the chart. 'max convergence' and 'no
-// target' both mean nothing in reach. rangeOnly: ranges alone, no ALS reading
-// between (quicker: a page working on the distances); onValid(t ms, mm):
-// called with each range in reach.
+// target' both mean nothing in reach.
 import { ref, onBeforeUnmount } from 'vue';
 import { Vl6180x, Tcs34725 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
@@ -15,7 +13,7 @@ const SCL_HZ = 400000;
 const ADDRESS = Vl6180x.addresses[0];
 const RATE_EVERY_MS = 1000;
 
-export function useVl6180x({ windowMs = 15000, rangeOnly = false, onValid = null } = {}) {
+export function useVl6180x({ windowMs = 15000 } = {}) {
   const platform = detectPlatform();
   const state = ref('idle');
   const failure = ref(null);
@@ -31,13 +29,10 @@ export function useVl6180x({ windowMs = 15000, rangeOnly = false, onValid = null
     let reads = 0, rateFrom = performance.now();
     try {
       while (gen === generation) {
-        const m = rangeOnly ? await dev.range() : await dev.measure();
+        const m = await dev.measure();
         if (gen !== generation) return;
         const t = performance.now();
-        if (m.near) {
-          series.push(t, [m.mm]);
-          onValid?.(t, m.mm);
-        }
+        if (m.near) series.push(t, [m.mm]);
         latest.value = m;
         reads++;
         if (t - rateFrom >= RATE_EVERY_MS) { rate.value = (reads * 1000) / (t - rateFrom); reads = 0; rateFrom = t; }

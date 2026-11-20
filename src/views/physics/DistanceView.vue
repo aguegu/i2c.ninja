@@ -4,8 +4,7 @@
 // position, speed (a line fitted to the last few readings) and acceleration
 // (a parabola fitted to a few more), how noise grows with each derivative,
 // and a drop to see g. Short distance mode, 33 ms a reading (30 a second,
-// ~1 mm of noise at a metre on r8845's module); or a VL6180X, ranging alone,
-// to about 10 cm (lib/useDistanceSensor.js: whichever answers)
+// ~1 mm of noise at a metre on r8845's module)
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
 import ConnectButton from '../../components/ConnectButton.vue';
 import StopButton from '../../components/StopButton.vue';
@@ -15,7 +14,7 @@ import SvgDrawing from '../../components/SvgDrawing.vue';
 import TexMath from '../../components/TexMath.vue';
 import { reactive, ref, computed } from 'vue';
 import { canConnect } from '../../lib/dongle.js';
-import { useDistanceSensor } from '../../lib/useDistanceSensor.js';
+import { useVl53l1x, STATUS } from '../../lib/useVl53l1x.js';
 import { makeSeries } from '../../lib/series.js';
 import { makeMotion } from '../../lib/motion.js';
 
@@ -71,7 +70,7 @@ function setFit(i) {
   latestA.value = null;
 }
 
-const tof = reactive(useDistanceSensor({ windowMs: WINDOW_MS, settings: SETTINGS, onValid }));
+const tof = reactive(useVl53l1x({ windowMs: WINDOW_MS, settings: SETTINGS, onValid }));
 const r = computed(() => tof.latest);
 // the light's round trip to the target and back
 const roundTripNs = computed(() => (r.value?.valid ? (2 * r.value.distance) / LIGHT_MM_PER_NS : null));
@@ -88,7 +87,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Distance and time of flight</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        A time-of-flight sensor measures distance by timing something out to whatever it faces and back: light, or sound. Read it often enough and the distances tell more than where something is: how fast it moves, and how fast that changes. Here with the <RouterLink to="/vl53l1x" :class="link">VL53L1X</RouterLink>, 30 readings a second to over a metre, or the <RouterLink to="/vl6180x" :class="link">VL6180X</RouterLink>, up close to about 10 cm: whichever is connected.
+        A time-of-flight sensor measures distance by timing something out to whatever it faces and back: light, or sound. Read it often enough and the distances tell more than where something is: how fast it moves, and how fast that changes. Here with the <RouterLink to="/vl53l1x" :class="link">VL53L1X</RouterLink>, 30 readings a second.
       </p>
     </div>
 
@@ -96,14 +95,14 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
     </p>
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
+      <ConnectButton v-if="tof.state === 'idle' || tof.state === 'connecting'" :busy="tof.state === 'connecting'" @connect="tof.connect">{{ tof.state === 'connecting' ? 'Connecting…' : 'Connect a VL53L1X' }}</ConnectButton>
       <StopButton v-else @click="tof.disconnect" />
       <label :class="field">Speed and acceleration from
         <select :value="fit" :class="select" @change="setFit(Number($event.target.value))">
           <option v-for="(f, i) in FITS" :key="i" :value="i">{{ f.label }}</option>
         </select>
       </label>
-      <span v-if="tof.state === 'running'" class="font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400"><RouterLink :to="tof.part === 'VL6180X' ? '/vl6180x' : '/vl53l1x'" class="underline">{{ tof.part }}</RouterLink><template v-if="tof.part === 'VL53L1X'"> · short mode · 33 ms</template> · {{ tof.rate.toFixed(1) }} readings/s</span>
+      <span v-if="tof.state === 'running'" class="font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">short mode · 33 ms · {{ tof.rate.toFixed(1) }} readings/s</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="tof.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
@@ -116,7 +115,7 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       <div>
         <p class="text-sm text-slate-500 dark:text-slate-400">position x</p>
         <p class="text-3xl">{{ r?.valid ? r.distance : '—' }} <span class="text-base">mm</span></p>
-        <p v-if="r && !r.valid" class="text-xs text-amber-700 dark:text-amber-400">{{ r.status }}</p>
+        <p v-if="r && !r.valid" class="text-xs text-amber-700 dark:text-amber-400">{{ STATUS[r.status] ?? `status ${r.status}` }}</p>
       </div>
       <div>
         <p class="text-sm text-slate-500 dark:text-slate-400">speed v</p>
@@ -199,7 +198,6 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
         <li><b>Walk it.</b> Move a book slowly away from it and back, at a steady pace: v reads a flat line above zero, then below; a stays near zero except where you turn round.</li>
         <li><b>Drop it.</b> Tape the sensor to a table's edge looking down at the floor. Hold a book just under it and let go: in free fall a jumps to about {{ G }} m/s² for a moment (the fall from a metre lasts under half a second), and v climbs in a straight line. A falling book needs no spring or chip inside to show g: just its distances in time.</li>
         <li><b>Bounce.</b> Drop a ball under it instead: v flips sign at each bounce, and a spikes far past g as the floor stops it.</li>
-        <li><b>Up close, with a VL6180X.</b> It reaches about 10 cm, so the walk and the drop are out of its range: tap a finger down towards it and back instead. x dips in millimetres, v swings below zero and back above, and a peaks at each turn.</li>
       </ol>
     </CollapsibleCard>
     <p class="text-sm">
