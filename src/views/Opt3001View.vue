@@ -1,12 +1,13 @@
 <script setup>
 // The OPT3001 live on a bridge: light as the eye sees it, in lux, its
 // automatic range, its conversion time, how its result is a floating-point
-// number; no wiring drawing yet
+// number; its wiring drawn (ch32v00x scripts/wiring/ch341t-opt3001.py)
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import { canConnect, hex } from '../lib/dongle.js';
@@ -58,9 +59,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
-      Four wires: VCC to VCC (3.3 V), GND, SCL to SCL, SDA to SDA; INT stays free. Its ADDR pin picks the address: tied to GND, 0x44 (as most modules do). No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-opt3001.svg" alt="A CH341T bridge on 3.3 V wired to a purple OPT3001 module (CJMCU-3001) seen from its back, its pins ADD, INT, SDA, SCL, GND, VCC beside the bridge's six: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC, four straight wires; ADD and INT free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The purple CJMCU-3001 board, drawn from its back: its six pins sit beside the bridge's six, so four straight wires: VCC (3.3 V), GND, SCL, SDA. ADD picks the address and the board pulls it to GND, 0x44; INT is the limits' alarm. Both stay free. The sensor is on the other side: keep it uncovered. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
