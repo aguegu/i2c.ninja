@@ -108,6 +108,17 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/ElectricityView.vue'),
   },
+  {
+    slug: 'spectrum',
+    title: 'The spectrum of light',
+    short: 'Spectrum',
+    icon: 'M12 4L4 18h16zM2 9.5L8 11M14.5 12.5L22 9M15 14.5L22 13M15.5 16.5L22 17',
+    blurb: 'Light as wavelengths, each lamp its own mix: daylight, a filament, a white LED, a screen; objects coloured by what they reflect.',
+    devices: [
+      { to: '/as7341', label: 'AS7341', note: 'spectrum, eight bands and NIR' },
+    ],
+    component: () => import('../views/physics/SpectrumView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title, short: p.short, icon: p.icon }));
