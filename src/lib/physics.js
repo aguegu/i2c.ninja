@@ -50,7 +50,6 @@ export const PHYSICS = [
     blurb: 'Distance by timing light there and back, then speed and acceleration from the distances, and how noise grows with each step.',
     devices: [
       { to: '/vl53l1x', label: 'VL53L1X', note: 'time-of-flight distance' },
-      { to: '/vl6180x', label: 'VL6180X', note: 'proximity, to 100 mm' },
     ],
     component: () => import('../views/physics/DistanceView.vue'),
   },
