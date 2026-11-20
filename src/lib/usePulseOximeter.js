@@ -14,19 +14,22 @@ const READ_MS = 50; // the FIFOs hold 32 and 16 samples, 320 and 160 ms at 100 a
 const ANALYSE_S = 8;
 const TEMPERATURE_EVERY_MS = 5000;
 const ADDRESS = 0x57;
-// the chips, by name: the driver, and a finger on it as the IR it returns,
-// counts (fingerIr)
+// the chips, by name: the driver, its set-up (init), a finger on it as the
+// IR it returns (fingerIr, counts), and the heartbeat chart's least span
+// (beatSpan, counts: so noise isn't a pulse)
 export const PULSE_CHIPS = {
   // r8845's module: ~2,300 bare, ~108,000 with a fingertip at the default 7 mA (18 bits)
-  MAX30102: { Driver: Max30102, fingerIr: 30000 },
-  // r8845's module: ~90 bare at the default 7.6 mA (16 bits)
-  MAX30100: { Driver: Max30100, fingerIr: 5000 },
+  MAX30102: { Driver: Max30102, init: {}, fingerIr: 30000, beatSpan: 100 },
+  // r8845's module, a fingertip (16 bits): at 7.6 mA (atiic's default) IR
+  // ~15,800, its ripple 45 counts; at 14.2 mA ~32,400 (half scale) and 180;
+  // 27.1 mA all but full scale (65,535), 50 mA stuck there. Bare: ~90
+  MAX30100: { Driver: Max30100, init: { red: 14.2, ir: 14.2 }, fingerIr: 5000, beatSpan: 50 },
 };
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
-  const { Driver, fingerIr } = PULSE_CHIPS[name];
+  const { Driver, init, fingerIr } = PULSE_CHIPS[name];
   const platform = detectPlatform();
   const state = ref('idle');
   const failure = ref(null);
@@ -95,7 +98,7 @@ export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
         return;
       }
       m = new Driver(bus, ADDRESS);
-      await m.init(); // checks its part ID
+      await m.init(init); // checks its part ID
       red = []; ir = []; times = [];
       Object.values(series).forEach((s) => s.clear());
       generation++;

@@ -17,7 +17,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
       </figcaption>
     </template>
     <template #light>
-      The LEDs, red at 660 nm and infrared at 880 nm (its datasheet), pulse 100 times a second; the photodiode counts the light that scatters back (16 bits, up to 65,535: two fewer than the MAX30102's, and a FIFO half as deep, 16 samples). Bare, it sees very little (under a hundred counts on ours).
+      The LEDs, red at 660 nm and infrared at 880 nm (its datasheet), pulse 100 times a second; the photodiode counts the light that scatters back (16 bits, up to 65,535: two fewer than the MAX30102's, and a FIFO half as deep, 16 samples). Bare, it sees very little (under a hundred counts on ours). Its LEDs run at 14.2 mA here: on ours a fingertip then sends back about half the scale, and each beat ripples by some 180 counts; at 7.6 mA the ripple was a quarter of that, and from 27 mA up the reading hits the top of its 16 bits and the ripple is lost.
     </template>
   </PulseOximeterPage>
 </template>

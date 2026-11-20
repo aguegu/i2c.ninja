@@ -11,14 +11,13 @@ import SvgDrawing from './SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from './LiveChart.vue';
 import { canConnect } from '../lib/dongle.js';
-import { usePulseOximeter } from '../lib/usePulseOximeter.js';
+import { usePulseOximeter, PULSE_CHIPS } from '../lib/usePulseOximeter.js';
 
 const props = defineProps({
   name: { type: String, required: true }, // a PULSE_CHIPS name
 });
 
 const WINDOW_MS = 8000;
-const BEAT_SPAN = 100; // counts: the ripple's least span, so noise isn't a pulse
 const RAW_SPAN = 1000;
 const BEAT = [{ label: 'heartbeat (IR ripple)', color: '--series-2' }];
 const RAW = [{ label: 'red', color: '--series-2' }, { label: 'IR', color: '--series-1' }];
@@ -76,7 +75,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     </div>
 
     <CollapsibleCard id="the-heartbeat" title="The heartbeat">
-      <LiveChart title="The heartbeat" unit="counts" :series="BEAT" :values="[]" :source="m.beatSource" :window-ms="WINDOW_MS" :floor="BEAT_SPAN" :digits="0" fit />
+      <LiveChart title="The heartbeat" unit="counts" :series="BEAT" :values="[]" :source="m.beatSource" :window-ms="WINDOW_MS" :floor="PULSE_CHIPS[name].beatSpan" :digits="0" fit />
     </CollapsibleCard>
     <CollapsibleCard id="the-light-it-reads" title="The light it reads">
       <LiveChart title="The light it reads" unit="counts" :series="RAW" :values="r ? [r.red, r.ir] : []" :source="m.rawSource" :window-ms="WINDOW_MS" :floor="RAW_SPAN" :digits="0" fit />
