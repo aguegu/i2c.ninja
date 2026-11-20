@@ -71,7 +71,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </figure>
 
     <HintNote>
-      Its white LED lights whatever the sensor faces: good for a card's colour, wrong for a screen's or a lamp's, which it adds white to. Tie LED to GND to turn it off.
+      Its white LED lights whatever the sensor faces: good for a card's colour, wrong for a screen's or a lamp's, which it adds white to. The LED pin switches it: low, off; left free, on. Tie it to GND, or wire it to a microcontroller's pin to switch it from code. On a Dart, PB12 is held low from start-up: LED there keeps it off.
     </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
