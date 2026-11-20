@@ -1,5 +1,17 @@
 # Releases
 
+## 2.3.8
+
+- **AS7341: its LED** switchable on its page (off, 4, 8, 12 or 20 mA: the
+  chip drives the black AS734x board's white LED, whose rating isn't
+  printed, so the page stays low), set between readings; atiic 1.8.14's
+  `As7341.led()`.
+- **AS7341: the bands over time**, a small chart each, titled by band and
+  wavelength: eight spectral neighbours can't be told apart by colour alone.
+  The band colours are tokens in `style.css` (`--band-f1` to `--band-f8`,
+  light and dark), the spectrum's bars on them too.
+- Its status line shortened, the settings cog back beside the controls.
+
 ## 2.3.7
 
 Two light sensors, and the colour page reads either colour sensor.
