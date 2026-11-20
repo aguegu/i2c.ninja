@@ -1,0 +1,27 @@
+<script setup>
+// The INA226's board (eight pins in a row: IN+, IN-, VBS, ALE, SDA, SCL,
+// GND, VCC; an R100 shunt) on the shared power monitor page; no wiring
+// drawing yet
+import PowerMonitorPage from '../components/PowerMonitorPage.vue';
+</script>
+
+<template>
+  <PowerMonitorPage title="INA226">
+    <template #board>
+      <div class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        <p class="mb-2">
+          The blue INA226 board: eight pins in a row, IN+, IN−, VBS, ALE, SDA, SCL, GND, VCC, and two big pads for IN+ and IN− beside its R100 shunt (0.1 Ω). No drawing of it yet.
+        </p>
+        <ul class="mb-2 list-disc space-y-1 pl-5">
+          <li><b>To the bridge:</b> VCC to 3.3 V, GND, SCL, SDA. ALE (its alert pin) stays free.</li>
+          <li><b>The current:</b> the shunt in series with the load, on the supply's + side: the supply's + to IN+, IN− to the load's +.</li>
+          <li><b>The voltage:</b> VBS (its VBUS) to IN−, to read what the load gets.</li>
+          <li><b>One ground:</b> the supply's − to the load's −, and to GND: without it the bus voltage means nothing.</li>
+        </ul>
+        <p>
+          Up to about 0.82 A with its R100 (±81.92 mV across 0.1 Ω) and 36 V. A first test: a 5 V USB supply and a 100 Ω resistor (½ W) as the load, about 50 mA. Another board, a 7-pin header: the <RouterLink to="/ina231" class="text-emerald-700 underline dark:text-emerald-400">INA231 page</RouterLink>. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        </p>
+      </div>
+    </template>
+  </PowerMonitorPage>
+</template>

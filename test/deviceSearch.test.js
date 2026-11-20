@@ -44,11 +44,11 @@ test('by I2C address, a range counting each in it', () => {
   assert.deepEqual(addressesOf('I2C 0x68 / 0x69'), [0x68, 0x69]);
   assert.equal(addressesOf('I2C 0x40-0x4F').length, 16);
   assert.deepEqual(find('0x38'), ['/aht21', '/bh1745']);
-  assert.deepEqual(find('0x44'), ['/sht3x', '/sht4x', '/cht8305', '/opt3001', '/ina231']);
+  assert.deepEqual(find('0x44'), ['/sht3x', '/sht4x', '/cht8305', '/opt3001', '/ina226', '/ina231']);
   assert.deepEqual(find('0x0D'), ['/qmc5883l']);
-  assert.deepEqual(find('ina226'), ['/ina231']);
-  assert.deepEqual(find('0x40'), ['/sht20', '/htu21d', '/hdc1080', '/cht8305', '/ina231']);
-  assert.deepEqual(find('0x48'), ['/cht8305', '/lm75', '/ina231']);
+  assert.deepEqual(find('ina226'), ['/ina226']);
+  assert.deepEqual(find('0x40'), ['/sht20', '/htu21d', '/hdc1080', '/cht8305', '/ina226', '/ina231']);
+  assert.deepEqual(find('0x48'), ['/cht8305', '/lm75', '/ina226', '/ina231']);
 });
 
 test('every word must match', () => {
