@@ -1,13 +1,14 @@
 <script setup>
 // The QMC5883L live on a bridge: Earth's field on three axes, a compass from
 // it (held level), the board's own field calibrated out (MagnetometerViews),
-// its settings; no wiring drawing yet
+// its settings; its wiring drawn (ch32v00x scripts/wiring/ch341t-qmc5883l.py)
 import LiveSettings from '../components/LiveSettings.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import { reactive } from 'vue';
 import MagnetometerViews from '../components/MagnetometerViews.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { canConnect } from '../lib/dongle.js';
 import { useQmc5883l, RATE_HZ } from '../lib/useQmc5883l.js';
 import { useHardIron } from '../lib/useHardIron.js';
@@ -39,9 +40,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
-      Four wires: VCC to VCC (3.3 V), GND, SCL to SCL, SDA to SDA; DRDY stays free. No drawing of a board yet. The axes printed on the module are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-qmc5883l.svg" alt="A CH341T bridge on 3.3 V wired to a blue QMC5883L module (GY-271, SY-152 on its back) seen from its back, turned half round, its pins DRDY, SDA, SCL, GND, VCC beside the bridge's: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC, four straight wires; DRDY free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The blue GY-271 board, drawn from its back turned half round, so its printing reads upside down: four straight wires, VCC (3.3 V), GND, SCL, SDA; DRDY stays free. The X, Y, Z arrows printed on its front are the axes read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
