@@ -85,8 +85,8 @@
   <rect x="263.37007874015745" y="307.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
   <text x="273.37007874015745" y="315.86614173228344" font-size="9" fill="#fff">RDY</text>
   <rect x="627.7" y="224.4" width="122.8" height="99.2" rx="4" fill="#1f5fbf" stroke="#0f3a7a" stroke-width="2"/>
-  <circle cx="689.1" cy="305.7" r="17.0" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="689.1" cy="305.7" r="13.7" fill="#ffffff" stroke="#7a8088"/>
+  <circle cx="729.8" cy="302.9" r="17.0" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="729.8" cy="302.9" r="13.7" fill="#ffffff" stroke="#7a8088"/>
   <circle cx="640" cy="238.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
   <circle cx="640" cy="262.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
   <circle cx="640" cy="286.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
