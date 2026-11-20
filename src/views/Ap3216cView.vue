@@ -1,12 +1,14 @@
 <script setup>
 // The AP3216C live on a bridge: ambient light as a level, the IR it sees,
-// and proximity by its own IR LED; its four ranges; no wiring drawing yet
+// and proximity by its own IR LED; its four ranges; its wiring drawn
+// (ch32v00x scripts/wiring/ch341t-ap3216c.py)
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SpecTable from '../components/SpecTable.vue';
 import HintNote from '../components/HintNote.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import { canConnect } from '../lib/dongle.js';
@@ -49,9 +51,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
-      Its CJMCU-3216 board: VCC to 3.3 V (its chip takes 2.4 to 3.6 V), GND, SCL to SCL, SDA to SDA, and VLED to 3.3 V too: VLED feeds its IR LED, so without it proximity stays at 0. INT stays free. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-ap3216c.svg" alt="A CH341T bridge on 3.3 V wired to a purple AP3216C module (CJMCU-3216) seen from its back: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VCC crossing, and on the module a wire from VCC to VL; INT free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The purple CJMCU-3216, drawn from its back (where its pins read VL, GND, VCC, SCL, SDA, INT): SDA and SCL straight, GND and VCC crossing, VCC at 3.3 V (its chip takes 2.4 to 3.6 V). On the module a wire from VCC to VL, labelled VLED on the front: it feeds the IR LED, and without it proximity stays at 0. INT stays free. Its outline is traced from <a href="https://wolles-elektronikkiste.de/en/ap3216-cjmcu-3216-ambient-light-and-proximity-sensor" :class="link">Wolles Elektronikkiste</a>'s photo. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
 
     <HintNote>
       Proximity hasn't been tried on our bench yet: our board's VLED isn't wired, so it reads 0 there. Light and IR are checked.
