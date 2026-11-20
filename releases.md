@@ -1,5 +1,23 @@
 # Releases
 
+## 2.3.7
+
+Two light sensors, and the colour page reads either colour sensor.
+
+- **TCS34725** (`/tcs34725`, also `/tcs34727`, `/tcs3472`): ams's colour
+  sensor and its 1.8 V-I2C twin: clear, red, green and blue counts with
+  their tint, its integration and gain. Its board's white LED, lit unless
+  its LED pin is low: a note on when to turn it off (a screen, a lamp) and
+  how (GND, a microcontroller's pin, a Dart's PB12).
+- **AS7341** (`/as7341`): ams's spectral sensor, its eight bands drawn as a
+  spectrum with Clear and NIR, its gain; a screen's red, green and blue to
+  try. Its board's LED is the chip's own to drive: dark here.
+- **Colour and light** reads a TCS34725 as well as a BH1745NUC, whichever
+  answers, each with its own gains and pace; its screen test says to turn
+  the TCS34725 board's LED off.
+- **Wiring drawings** for the purple TCS34725 RGB Sensor board (its LED and
+  sensor drawn) and the black AS734x board. atiic 1.8.13.
+
 ## 2.3.6
 
 Four more sensors, each with its wiring drawing.
