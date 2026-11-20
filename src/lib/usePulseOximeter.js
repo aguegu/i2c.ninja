@@ -12,24 +12,30 @@ import { split, beats, heartRate, ratioOfRatios } from './ppg.js';
 const SCL_HZ = 400000;
 const READ_MS = 50; // the FIFOs hold 32 and 16 samples, 320 and 160 ms at 100 a second
 const ANALYSE_S = 8;
-const TEMPERATURE_EVERY_MS = 5000;
 const ADDRESS = 0x57;
 // the chips, by name: the driver, its set-up (init), a finger on it as the
-// IR it returns (fingerIr, counts), and the heartbeat chart's least span
-// (beatSpan, counts: so noise isn't a pulse)
+// IR it returns (fingerIr, counts), the heartbeat chart's least span
+// (beatSpan, counts: so noise isn't a pulse), and how often its die
+// temperature is read (temperatureEveryMs; null: once, on connecting) with
+// the samples spoilt by it dropped (temperatureSpoils)
 export const PULSE_CHIPS = {
   // r8845's module: ~2,300 bare, ~108,000 with a fingertip at the default 7 mA (18 bits)
-  MAX30102: { Driver: Max30102, init: {}, fingerIr: 30000, beatSpan: 100 },
+  MAX30102: { Driver: Max30102, init: {}, fingerIr: 30000, beatSpan: 100, temperatureEveryMs: 5000, temperatureSpoils: 0 },
   // r8845's module, a fingertip (16 bits): at 7.6 mA (atiic's default) IR
   // ~15,800, its ripple 45 counts; at 14.2 mA ~32,400 (half scale) and 180;
-  // 27.1 mA all but full scale (65,535), 50 mA stuck there. Bare: ~90
-  MAX30100: { Driver: Max30100, init: { red: 14.2, ir: 14.2 }, fingerIr: 5000, beatSpan: 50 },
+  // 27.1 mA all but full scale (65,535), 50 mA stuck there. Bare: ~90.
+  // Its temperature starts by a write to its mode register, and any write
+  // there spoils the next sample (ours: IR 27,100 to 14,100, the next 22,500,
+  // the same value rewritten too): read once, on connecting, and three
+  // dropped (those two, and one more for a good sample that may land between
+  // the FIFO's read and the write)
+  MAX30100: { Driver: Max30100, init: { red: 14.2, ir: 14.2 }, fingerIr: 5000, beatSpan: 50, temperatureEveryMs: null, temperatureSpoils: 3 },
 };
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
-  const { Driver, init, fingerIr } = PULSE_CHIPS[name];
+  const { Driver, init, fingerIr, temperatureEveryMs, temperatureSpoils } = PULSE_CHIPS[name];
   const platform = detectPlatform();
   const state = ref('idle');
   const failure = ref(null);
@@ -44,11 +50,12 @@ export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
   let red = [], ir = [], times = [];
 
   async function loop(gen) {
-    let tempAt = 0, temperature = null;
+    let tempAt = null, temperature = null, spoilt = 0;
     try {
       while (gen === generation) {
         const t0 = performance.now();
-        const got = await m.readFifo();
+        const got = (await m.readFifo()).slice(spoilt);
+        spoilt = 0;
         got.forEach((s, i) => {
           const t = t0 - (got.length - 1 - i) * (1000 / m.rate);
           red.push(s.red); ir.push(s.ir); times.push(t);
@@ -56,7 +63,11 @@ export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
         });
         const keep = Math.round(m.rate * ANALYSE_S);
         if (red.length > keep) { red = red.slice(-keep); ir = ir.slice(-keep); times = times.slice(-keep); }
-        if (t0 - tempAt >= TEMPERATURE_EVERY_MS) { temperature = await m.temperature(); tempAt = t0; }
+        if (tempAt === null || (temperatureEveryMs && t0 - tempAt >= temperatureEveryMs)) {
+          temperature = await m.temperature();
+          tempAt = t0;
+          spoilt = temperatureSpoils;
+        }
         if (got.length && ir.length > m.rate * 2) {
           const sIr = split(ir, m.rate), sRed = split(red, m.rate);
           const finger = ir.at(-1) > fingerIr;
