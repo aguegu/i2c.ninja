@@ -9,20 +9,22 @@ import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SpecTable from '../components/SpecTable.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
+import LiveChart from '../components/LiveChart.vue';
 import { reactive, computed } from 'vue';
 import { canConnect } from '../lib/dongle.js';
 import { useAs7341, GAINS, BANDS, LED_MA } from '../lib/useAs7341.js';
 
-// the eight bands, each the colour its light looks (roughly, for display)
+// the eight bands, each the colour its light looks (roughly, for display;
+// style.css's --band-f1..f8, light and dark)
 const SPECTRUM = [
-  { key: 'f1', color: '#7a00e6' },
-  { key: 'f2', color: '#2a3bff' },
-  { key: 'f3', color: '#00b4ff' },
-  { key: 'f4', color: '#21d14a' },
-  { key: 'f5', color: '#9ad400' },
-  { key: 'f6', color: '#ffc400' },
-  { key: 'f7', color: '#ff5a00' },
-  { key: 'f8', color: '#d80000' },
+  { key: 'f1', color: '--band-f1' },
+  { key: 'f2', color: '--band-f2' },
+  { key: 'f3', color: '--band-f3' },
+  { key: 'f4', color: '--band-f4' },
+  { key: 'f5', color: '--band-f5' },
+  { key: 'f6', color: '--band-f6' },
+  { key: 'f7', color: '--band-f7' },
+  { key: 'f8', color: '--band-f8' },
 ];
 // the chart: its viewBox, the bars' room, a label row below
 const VW = 640, VH = 260, BAR_TOP = 26, BAR_BOTTOM = 220, GAP = 14;
@@ -41,7 +43,9 @@ const SPECS = [
 const field = 'flex items-center gap-2 text-sm';
 const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark:border-slate-600 dark:bg-slate-800';
 
-const s = reactive(useAs7341());
+const WINDOW_MS = 60000;
+const BAND_SPAN = 5; // counts: a band's chart's least span
+const s = reactive(useAs7341({ windowMs: WINDOW_MS }));
 const r = computed(() => s.latest);
 const top = computed(() => (r.value ? Math.max(1, ...SPECTRUM.map((b) => r.value[b.key])) : 1));
 const bars = computed(() => SPECTRUM.map((b, i) => {
@@ -104,7 +108,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <svg :viewBox="`0 0 ${VW} ${VH}`" class="w-full" role="img" :aria-label="r ? `Eight bands: ${bars.map((b) => `${b.nm} nm ${b.v}`).join(', ')}` : 'The spectrum, once connected'">
         <line :x1="GAP / 2" :x2="VW - GAP / 2" :y1="BAR_BOTTOM" :y2="BAR_BOTTOM" stroke="currentColor" stroke-opacity="0.25" />
         <g v-for="b in bars" :key="b.key">
-          <rect :x="b.x" :y="b.y" :width="BAR_W" :height="Math.max(b.h, 0)" rx="4" :fill="b.color" />
+          <rect :x="b.x" :y="b.y" :width="BAR_W" :height="Math.max(b.h, 0)" rx="4" :fill="`var(${b.color})`" />
           <text :x="b.x + BAR_W / 2" :y="b.y - 6" text-anchor="middle" font-size="14" fill="currentColor" class="font-mono">{{ r ? b.v : '' }}</text>
           <text :x="b.x + BAR_W / 2" :y="BAR_BOTTOM + 18" text-anchor="middle" font-size="13" fill="currentColor">{{ b.key.toUpperCase() }}</text>
           <text :x="b.x + BAR_W / 2" :y="BAR_BOTTOM + 34" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity="0.6">{{ b.nm }} nm</text>
@@ -116,6 +120,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <p v-if="r?.saturated" class="text-amber-700 dark:text-amber-400">A channel is at its top: a lower gain brings it back.</p>
       </div>
     </section>
+
+    <CollapsibleCard id="bands-over-time" title="The bands over time">
+      <h2 class="mb-2 text-lg font-semibold">The bands over time</h2>
+      <div class="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-4">
+        <LiveChart v-for="b in bars" :key="b.key" :title="`${b.key.toUpperCase()} · ${b.nm} nm`" unit="counts" :series="[{ label: b.key.toUpperCase(), color: b.color }]" :values="r ? [b.v] : []" :source="s.sources[b.key]" :window-ms="WINDOW_MS" :floor="BAND_SPAN" :digits="0" fit />
+      </div>
+      <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        A minute of each band, every chart on its own scale so its rise and fall show; the spectrum above compares the bands with each other. Pass a coloured card over it, or step the screen through red, green and blue: each colour lifts its own bands.
+      </p>
+    </CollapsibleCard>
 
     <CollapsibleCard id="try-it" title="Try it: a screen's red, green and blue" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">Try it: a screen's red, green and blue</h2>

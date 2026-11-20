@@ -71,6 +71,17 @@
   --channel-green: #16a34a; /* green-600 */
   --channel-blue: #2563eb; /* blue-600 */
   --channel-clear: #64748b; /* slate-500 */
+  /* a spectral sensor's eight bands (the AS7341 page), each the colour of
+     its light, 415 to 680 nm: like the channels, the hue is the data, and
+     each line is labelled by its band in the legend */
+  --band-f1: #7c3aed; /* violet-600 */
+  --band-f2: #4338ca; /* indigo-700 */
+  --band-f3: #0284c7; /* sky-600 */
+  --band-f4: #16a34a; /* green-600 */
+  --band-f5: #65a30d; /* lime-600 */
+  --band-f6: #ca8a04; /* yellow-600 */
+  --band-f7: #ea580c; /* orange-600 */
+  --band-f8: #b91c1c; /* red-700 */
   /* the device groups (lib/devices.js), a hue each: Tailwind steps picked
      by the dataviz validator, all pairs (normal-vision floor 15.8, CVD 13.2
      light; 19.1 and 11.0 dark), always beside the group's name (some under
@@ -101,6 +112,14 @@
     --channel-green: #4ade80; /* green-400 */
     --channel-blue: #60a5fa; /* blue-400 */
     --channel-clear: #94a3b8; /* slate-400 */
+    --band-f1: #a78bfa; /* violet-400 */
+    --band-f2: #818cf8; /* indigo-400 */
+    --band-f3: #38bdf8; /* sky-400 */
+    --band-f4: #4ade80; /* green-400 */
+    --band-f5: #a3e635; /* lime-400 */
+    --band-f6: #facc15; /* yellow-400 */
+    --band-f7: #fb923c; /* orange-400 */
+    --band-f8: #f87171; /* red-400 */
     --group-motion: #3b82f6; /* blue-500 */
     --group-air: #0d9488; /* teal-600 */
     --group-light: #d97706; /* amber-600 */
@@ -124,6 +143,14 @@
   --channel-green: #4ade80;
   --channel-blue: #60a5fa;
   --channel-clear: #94a3b8;
+  --band-f1: #a78bfa; /* violet-400 */
+  --band-f2: #818cf8; /* indigo-400 */
+  --band-f3: #38bdf8; /* sky-400 */
+  --band-f4: #4ade80; /* green-400 */
+  --band-f5: #a3e635; /* lime-400 */
+  --band-f6: #facc15; /* yellow-400 */
+  --band-f7: #fb923c; /* orange-400 */
+  --band-f8: #f87171; /* red-400 */
   --group-motion: #3b82f6; /* blue-500 */
   --group-air: #0d9488; /* teal-600 */
   --group-light: #d97706; /* amber-600 */
