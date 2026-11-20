@@ -139,8 +139,6 @@
   <text x="429" y="90" font-size="15" font-weight="bold" fill="#333">−</text>
   <path d="M-7 -6 L7 0 L-7 6 Z" transform="translate(592 197.01968503937007) rotate(90)" fill="#ffffff" stroke="#8e1c1c" stroke-width="1.5" stroke-linejoin="round"/>
   <path d="M-7 -6 L7 0 L-7 6 Z" transform="translate(574 216.01968503937007) rotate(-90)" fill="#ffffff" stroke="#8e1c1c" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M-7 -6 L7 0 L-7 6 Z" transform="translate(616.0 172) rotate(180)" fill="#ffffff" stroke="#8e1c1c" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M-7 -6 L7 0 L-7 6 Z" transform="translate(546.0 186) rotate(180)" fill="#ffffff" stroke="#8e1c1c" stroke-width="1.5" stroke-linejoin="round"/>
   <circle cx="738" cy="70" r="4.5" fill="#000"/>
   <rect x="624" y="96" width="130" height="50" rx="6" fill="#f4f4f4" stroke="#777" stroke-width="2"/>
   <text x="689.0" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">supply</text>
