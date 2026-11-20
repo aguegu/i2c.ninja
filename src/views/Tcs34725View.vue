@@ -1,7 +1,8 @@
 <script setup>
 // The TCS3472 (TCS34725, TCS34727) live on a bridge: clear, red, green and
 // blue light as counts, a rough colour from them, its integration and gain
-// to pick, how it's read, its settings; no wiring drawing yet
+// to pick, how it's read, its settings; its board's wiring and white LED
+// (ch32v00x scripts/wiring/ch341t-tcs34725.py)
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
@@ -9,6 +10,8 @@ import StopButton from '../components/StopButton.vue';
 import LiveChart from '../components/LiveChart.vue';
 import ColourStripe from '../components/ColourStripe.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
+import HintNote from '../components/HintNote.vue';
 import { reactive, computed } from 'vue';
 import { canConnect } from '../lib/dongle.js';
 import { useTcs34725, STEPS, GAINS } from '../lib/useTcs34725.js';
@@ -60,9 +63,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
-      Four wires: VIN (3.3 V), GND, SCL to SCL, SDA to SDA; the rest stay free. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-tcs34725.svg" alt="A CH341T bridge on 3.3 V wired to a purple TCS34725 module seen from its front, its white LED and the sensor up: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VIN each a row down past its 3V3 pin; LED, INT and 3V3 free" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The purple "TCS34725 RGB Sensor" board (Adafruit's breakout's layout), drawn from its front: SDA and SCL straight, GND and VIN each a row down past 3V3, which is its regulator's output and stays free. VIN takes 3.3 to 5 V, and its logic is level-shifted ("5V safe"), so even a TCS34727, whose I²C is 1.8 V, sits happily on a 3.3 V bridge. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
+
+    <HintNote>
+      Its white LED lights whatever the sensor faces: good for a card's colour, wrong for a screen's or a lamp's, which it adds white to. Tie LED to GND to turn it off.
+    </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
