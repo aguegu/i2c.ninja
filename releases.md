@@ -1,5 +1,20 @@
 # Releases
 
+## 2.3.10
+
+- **INA226** (`/ina226`) and **INA231** (`/ina231`): a page each for their
+  boards, the INA226's eight pins in a row (IN+, IN-, VBS, ALE, SDA, SCL, GND,
+  VCC) and the INA231's 7-pin header, on one shared page underneath (the two
+  chips alike from the master's side). Each says which chip answered, by the
+  INA226's die ID, and takes its voltage limit (36 V, or 28 V).
+- **The INA226's wiring drawing**, the blue board from its front: the four
+  I2C wires straight, a supply and a load above it (supply + to IN+, IN- to
+  load +, load - to supply - and GND), VBS tied to IN-, an arrow on each IN
+  wire for the current's direction.
+- **The footer**: the devices over four of its seven columns, near even in
+  height: Motion with Body, Air over two columns with Electricity under it,
+  Light alone; about 150 px shorter on a wide screen.
+
 ## 2.3.9
 
 - **VL6180X** (`/vl6180x`, also `/vl6180`): ST's close-range time-of-flight
