@@ -64,7 +64,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
   <main class="mx-auto flex max-w-5xl flex-col gap-4 p-4">
     <div class="mt-2">
       <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
-      <h1 class="text-2xl font-bold">Electricity: current, voltage and power</h1>
+      <h1 class="text-2xl font-bold">Current, voltage and power</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
         A current is charge on the move, a voltage what pushes it, a resistance what holds it back: Ohm's law ties the three together. Watch them live through a load you wire up, see power and energy add up, and find a resistor's value from its own current. Here with the <RouterLink to="/ina226" :class="link">INA226</RouterLink> (or the <RouterLink to="/ina231" :class="link">INA231</RouterLink>), its shunt between a supply and a load: its page shows the wiring.
       </p>

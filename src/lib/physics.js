@@ -98,7 +98,7 @@ export const PHYSICS = [
   },
   {
     slug: 'electricity',
-    title: 'Electricity: current, voltage and power',
+    title: 'Current, voltage and power',
     short: 'Electricity',
     icon: 'M13 2L4 14h7l-1 8 9-12h-7z',
     blurb: 'Current, voltage and resistance live from a load you wire up: Ohm\'s law, how a current is measured, and power and energy adding up.',
