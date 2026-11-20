@@ -91,7 +91,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
           <option v-for="mA in LED_MA" :key="mA" :value="mA">{{ mA }} mA</option>
         </select>
       </label>
-      <span v-if="s.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">0x39 · 400 kHz · 50 ms a measurement, two a reading</span>
+      <span v-if="s.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">0x39 · 400 kHz · 2 × 50 ms</span>
       <LiveSettings class="ml-auto" />
     </section>
     <div v-if="s.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
