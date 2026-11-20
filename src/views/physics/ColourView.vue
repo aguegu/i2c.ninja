@@ -1,8 +1,9 @@
 <script setup>
 // Physics: colour and light. Light as a spectrum, three kinds of cone,
 // adding light (screens) against taking it away (cards, filters), how a
-// colour sensor imitates the eye (the BH1745NUC: red, green, blue and clear
-// photodiodes behind filters, its datasheet) and where it differs; live:
+// colour sensor imitates the eye (a BH1745NUC or a TCS34725: red, green,
+// blue and clear photodiodes behind filters, their datasheets) and where it
+// differs; live (lib/useColourSensor.js, whichever answers):
 // what it sees as a tint and as shares of red, green and blue, a point in
 // Maxwell's colour triangle, a white balance ("call this white"), a mixer of
 // your own, and the screen itself as a light to measure
@@ -15,10 +16,10 @@ import SvgDrawing from '../../components/SvgDrawing.vue';
 import ColourTriangle from '../../components/ColourTriangle.vue';
 import { reactive, ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue';
 import { canConnect, hex } from '../../lib/dongle.js';
-import { useBh1745, GAINS } from '../../lib/useBh1745.js';
+import { useColourSensor } from '../../lib/useColourSensor.js';
 
 const WINDOW_MS = 60000;
-const c = reactive(useBh1745({ windowMs: WINDOW_MS }));
+const c = reactive(useColourSensor({ windowMs: WINDOW_MS }));
 const r = computed(() => c.latest);
 
 // the white balance: the counts under the light taken as white; each
@@ -101,7 +102,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
       <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Colour and light</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        White light is many colours at once, and the eye judges colour with just three kinds of sensor. A colour sensor does the same: three filtered light sensors, red, green and blue. See what it sees as a mix of the three, make mixes of your own, and turn the screen itself into a light to measure. Here with the <RouterLink to="/bh1745" :class="link">BH1745NUC</RouterLink>.
+        White light is many colours at once, and the eye judges colour with just three kinds of sensor. A colour sensor does the same: three filtered light sensors, red, green and blue. See what it sees as a mix of the three, make mixes of your own, and turn the screen itself into a light to measure. Here with the <RouterLink to="/bh1745" :class="link">BH1745NUC</RouterLink> or the <RouterLink to="/tcs34725" :class="link">TCS34725</RouterLink>, whichever is connected.
       </p>
     </div>
 
@@ -111,12 +112,12 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
     <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
       <ConnectButton v-if="c.state !== 'running'" :busy="c.state === 'connecting'" @connect="c.connect">{{ c.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
       <StopButton v-else @click="c.disconnect" />
-      <label :class="field">Gain
-        <select :value="c.settings.gain" :class="select" @change="c.configure({ gain: Number($event.target.value) })">
-          <option v-for="g in GAINS" :key="g" :value="g">{{ g }}×</option>
+      <label v-if="c.chip" :class="field">Gain
+        <select :value="c.gain" :class="select" @change="c.setGain(Number($event.target.value))">
+          <option v-for="g in c.chip.gains" :key="g" :value="g">{{ g }}×</option>
         </select>
       </label>
-      <span v-if="c.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">BH1745NUC at {{ hex(c.address) }} · a reading every {{ c.settings.timeMs / 1000 }} s</span>
+      <span v-if="c.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400"><RouterLink :to="c.chip.to" class="underline">{{ c.chip.part ?? c.chip.name }}</RouterLink> at {{ hex(c.chip.address) }} · a reading every {{ c.chip.readMs / 1000 }} s</span>
       <span v-if="c.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${c.failed.count} of ${c.failed.of} readings didn't come through and were skipped; the last: ${c.failed.last}`">· {{ c.failed.count }} {{ c.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
     </section>
@@ -208,7 +209,7 @@ const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-
         <b>The sensor imitates the eye</b> with four light sensors, photodiodes, behind filters: red, green and blue pass their part of the spectrum, and an infrared-cut filter keeps out infrared, which the eye doesn't see but a bare photodiode would. Its filters aren't the eye's cones, though: two lights that look the same to you can read differently to it, and a true colour measurement needs a calibration this page doesn't have.
       </p>
       <p>
-        <b>Clear</b> is its fourth sensor, without a colour filter: a wide band across the whole visible spectrum, for how bright the light is whatever its colour. In this chip it's far less sensitive than the others (the datasheet's table: about 160 counts where green gives 3350), so its numbers only compare with themselves.
+        <b>Clear</b> is its fourth sensor, without a colour filter: a wide band across the whole visible spectrum, for how bright the light is whatever its colour. In the BH1745NUC it's far less sensitive than the others (its datasheet's table: about 160 counts where green gives 3350), so its numbers only compare with themselves; in the TCS34725 it's the largest of the four (on ours, 73 where red, green and blue read 23 to 26).
       </p>
     </CollapsibleCard>
 
