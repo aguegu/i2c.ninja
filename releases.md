@@ -1,5 +1,14 @@
 # Releases
 
+## 2.3.13
+
+- **Search descriptions** name the new kinds: the home page (compass, air
+  quality, spectrum), the devices page (air quality, light, spectrum) and
+  the physics page (motion, air, light, electricity); the site's keywords
+  the sensor kinds and Web Bluetooth.
+- **Device groups**: Air says air quality (VOCs, CO₂ equivalent), Light
+  spectrum and proximity.
+
 ## 2.3.12
 
 - **The spectrum of light** (`/physics/spectrum`): a new physics topic on the
