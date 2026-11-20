@@ -43,7 +43,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
     <figure :class="card">
       <SvgDrawing src="/setup-hmc5883l.svg" alt="A CH341T bridge wired to an HMC5883L breakout whose pins run RDY, SCL, SDA, 3vo, GND, VIN: VCC to VIN, GND to GND, SCL to SCL, SDA to SDA; RDY and 3vo free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Four wires: VCC to VIN, GND, SCL and SDA; RDY and 3vo stay free. The axes printed on it are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
+        Four wires: VCC to VIN, GND, SCL and SDA; RDY and 3vo stay free. The axes printed on it are the ones read below: X its nose, Y to the left, Z out of the board. Keep it away from steel, magnets and the laptop: they add their own fields. Many boards sold as HMC5883L (GY-271) carry QST's <RouterLink to="/qmc5883l" class="text-emerald-700 underline dark:text-emerald-400">QMC5883L</RouterLink> instead, at 0x0D: its own page reads it. New to the bridge? <RouterLink to="/get-started" class="text-emerald-700 underline dark:text-emerald-400">Get started</RouterLink>.
       </figcaption>
     </figure>
 
@@ -60,6 +60,7 @@ const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
       <p class="font-semibold">{{ mag.failure.title }}</p>
       <p v-if="mag.failure.detail" class="mt-1">{{ mag.failure.detail }}</p>
       <p v-if="mag.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ mag.failure.error }}</p>
+      <p v-if="mag.failure.title === 'No HMC5883L answers'" class="mt-2">A board answering at 0x0D: try the <RouterLink to="/qmc5883l" class="underline">QMC5883L page</RouterLink>.</p>
     </div>
 
     <MagnetometerViews :cal="cal" :running="mag.state === 'running'" :window-ms="WINDOW_MS" />
