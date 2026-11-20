@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 450" width="860" height="450" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
-  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired to a purple AP3216C module (CJMCU-3216) seen from its back: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VCC crossing, and on the module a wire from VCC to VL (its IR LED's supply); INT free</title>
+  <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired to a purple AP3216C module (CJMCU-3216) seen from its back: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VCC crossing, its VL and INT free, the two pads on its back bridged with solder (VCC to VLED, its IR LED's supply)</title>
   <defs>
     <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f3d77a"/>
@@ -89,8 +89,7 @@
   <circle cx="778.2" cy="322.7" r="15.1" fill="#ffffff" stroke="#7a8088"/>
   <circle cx="778.2" cy="224.0" r="19.8" fill="url(#pad)" stroke="#7a8088"/>
   <circle cx="778.2" cy="224.0" r="15.1" fill="#ffffff" stroke="#7a8088"/>
-  <rect x="691.6" y="327.9" width="13.2" height="13.2" fill="url(#pad)" stroke="#7a8088"/>
-  <rect x="706.7" y="327.9" width="13.2" height="13.2" fill="url(#pad)" stroke="#7a8088"/>
+  <rect x="691.6" y="327.9" width="28.3" height="13.2" rx="3" fill="url(#pad)" stroke="#7a8088"/>
   <text transform="translate(747.3 271.2) rotate(-90)" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#ffffff">CJMCU-3216</text>
   <circle cx="650" cy="214.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
   <circle cx="650" cy="238.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
@@ -111,7 +110,6 @@
     <path d="M557.7086614173228 262.03937007874015 H642" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 262.03937007874015 H642" stroke="#f2c200" stroke-width="5"/>
     <path d="M557.7086614173228 286.03937007874015 H566 L600 310.03937007874015 H642" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 286.03937007874015 H566 L600 310.03937007874015 H642" stroke="#3a3a3a" stroke-width="5"/>
     <path d="M557.7086614173228 310.03937007874015 H566 L600 286.03937007874015 H642" stroke="#8e1c1c" stroke-width="7"/><path d="M557.7086614173228 310.03937007874015 H566 L600 286.03937007874015 H642" stroke="#d32f2f" stroke-width="5"/>
-    <path d="M650 286.03937007874015 H666 V334.03937007874015 H650" stroke="#8e1c1c" stroke-width="5"/><path d="M650 286.03937007874015 H666 V334.03937007874015 H650" stroke="#ef5350" stroke-width="3"/>
   </g>
   <use href="#dupont" x="537.7086614173228" y="238.03937007874015"/>
   <use href="#dupont" x="537.7086614173228" y="262.03937007874015"/>
@@ -121,9 +119,9 @@
   <circle cx="650" cy="262.03937007874015" r="4" fill="#1b1b1b"/>
   <circle cx="650" cy="310.03937007874015" r="4" fill="#1b1b1b"/>
   <circle cx="650" cy="286.03937007874015" r="4" fill="#1b1b1b"/>
-  <text x="636.8" y="364.9" font-size="12" fill="#555">CJMCU-3216, from its back</text>
+  <text x="809.7" y="364.9" text-anchor="end" font-size="12" fill="#555">CJMCU-3216, from its back: pads bridged</text>
   <g font-size="12" fill="#333">
     <text x="20" y="410">Yellow jumper on I2C, green on 3V3, both before plugging in USB. SDA and SCL straight, GND and VCC crossing.</text>
-    <text x="20" y="430">On the module, VCC to VL: its IR LED's supply, for proximity. INT stays free. The sensor faces the other way.</text>
+    <text x="20" y="430">The two pads on its back bridged with solder: VCC feeds VLED, its IR LED, for proximity. VL and INT stay free.</text>
   </g>
 </svg>

@@ -52,14 +52,14 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-ap3216c.svg" alt="A CH341T bridge on 3.3 V wired to a purple AP3216C module (CJMCU-3216) seen from its back: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VCC crossing, and on the module a wire from VCC to VL; INT free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-ap3216c.svg" alt="A CH341T bridge on 3.3 V wired to a purple AP3216C module (CJMCU-3216) seen from its back: SDA to SDA and SCL to SCL straight, GND to GND and VCC to VCC crossing; the two pads on its back bridged with solder; VL and INT free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The purple CJMCU-3216, drawn from its back (where its pins read VL, GND, VCC, SCL, SDA, INT): SDA and SCL straight, GND and VCC crossing, VCC at 3.3 V (its chip takes 2.4 to 3.6 V). On the module a wire from VCC to VL, labelled VLED on the front: it feeds the IR LED, and without it proximity stays at 0. INT stays free. Its outline is traced from <a href="https://wolles-elektronikkiste.de/en/ap3216-cjmcu-3216-ambient-light-and-proximity-sensor" :class="link">Wolles Elektronikkiste</a>'s photo. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The purple CJMCU-3216, drawn from its back (where its pins read VL, GND, VCC, SCL, SDA, INT): SDA and SCL straight, GND and VCC crossing, VCC at 3.3 V: the board has no regulator, the chip takes 2.4 to 3.6 V, so never 5 V. The two square pads on its back join VCC to VLED (VL here), the IR LED's supply: bridged with solder, as drawn, four wires do; or leave them open and wire VLED to 3.3 V too. A logic pin can't feed it: the LED pulses up to about 110 mA. VL and INT stay free. Its outline is traced from <a href="https://wolles-elektronikkiste.de/en/ap3216-cjmcu-3216-ambient-light-and-proximity-sensor" :class="link">Wolles Elektronikkiste</a>'s photo. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
     <HintNote>
-      Proximity hasn't been tried on our bench yet: our board's VLED isn't wired, so it reads 0 there. Light and IR are checked.
+      Proximity needs its IR LED powered: bridge the two pads on the back, or wire VLED to 3.3 V. Left open, proximity reads 0 while light and IR still work.
     </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
