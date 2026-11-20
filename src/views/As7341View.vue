@@ -66,7 +66,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <figure :class="card">
       <SvgDrawing src="/setup-as7341.svg" alt="A CH341T bridge on 3.3 V wired to a black AS7341 module (AS734x, a mounting ear at each end) seen from its back: SDA to SDA, SCL to SCL, GND to GND, VCC to VIN, four straight wires; GPIO and INT free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The black "AS734x" board, drawn from its back, turned so its pins face the bridge: four straight wires, VIN, GND, SCL, SDA; GPIO and INT stay free. The chip itself runs on 1.8 V: the board carries a regulator, so VIN takes 3.3 V. Its white LED and the sensor are on the front. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The black "AS734x" board, drawn from its back, turned so its pins face the bridge: four straight wires, VIN, GND, SCL, SDA; GPIO and INT stay free. The chip itself runs on 1.8 V: the board carries a regulator, so VIN takes 3.3 V. Its white LED and the sensor are on the front. The LED is the chip's own to drive (its LDR pin): off unless a register turns it on, 4 to 258 mA (tried on ours at 4 mA), so it stays dark here and adds nothing to the screen test. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
