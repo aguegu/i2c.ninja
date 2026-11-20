@@ -1,16 +1,18 @@
 <script setup>
 // The INA226's board (eight pins in a row: IN+, IN-, VBS, ALE, SDA, SCL,
-// GND, VCC; an R100 shunt) on the shared power monitor page; no wiring
-// drawing yet
+// GND, VCC; an R100 shunt) on the shared power monitor page; its wiring drawn
+// (ch32v00x scripts/wiring/ch341t-ina226.py)
 import PowerMonitorPage from '../components/PowerMonitorPage.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 </script>
 
 <template>
   <PowerMonitorPage title="INA226">
     <template #board>
-      <div class="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+      <SvgDrawing src="/setup-ina226.svg" alt="A CH341T bridge on 3.3 V wired to a blue INA226 module seen from its front: SDA, SCL, GND and VCC straight across; IN+ led to the supply's plus, IN minus to the load's plus, VBS tied to IN minus on the module, ALE free" class="mx-auto w-full lg:w-3/5" />
+      <div class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
         <p class="mb-2">
-          The blue INA226 board: eight pins in a row, IN+, IN−, VBS, ALE, SDA, SCL, GND, VCC, and two big pads for IN+ and IN− beside its R100 shunt (0.1 Ω). No drawing of it yet.
+          The blue INA226 board, drawn from its front: eight pins in a row, IN+, IN−, VBS, ALE, SDA, SCL, GND, VCC, and two big pads for IN+ and IN− beside its R100 shunt (0.1 Ω), for thick wires.
         </p>
         <ul class="mb-2 list-disc space-y-1 pl-5">
           <li><b>To the bridge:</b> VCC to 3.3 V, GND, SCL, SDA. ALE (its alert pin) stays free.</li>
