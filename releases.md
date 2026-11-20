@@ -1,5 +1,29 @@
 # Releases
 
+## 2.3.6
+
+Four more sensors, each with its wiring drawing.
+
+- **MAX30100** (`/max30100`): the MAX30102's elder, on the same pulse page
+  now shared by both (its intro, board and light their own). Its LEDs at
+  14.2 mA: a fingertip at half its 16-bit scale and a heartbeat ripple four
+  times 7.6 mA's (measured). Its die temperature read once, on connecting:
+  any write to its mode register spoils the next sample, which showed as a
+  dip every 5 s.
+- **SGP40** (`/sgp40`): Sensirion's VOC sensor, its raw signal every second
+  (lower is more VOCs), its self test and serial on connecting; the VOC
+  Index explained.
+- **SGP30** (`/sgp30`): CO2eq and TVOC worked out on the chip, its raw H2
+  and ethanol signals beside them, its first 15 s counted down.
+- **AP3216C** (`/ap3216c`, also `/ap3216`): light as a level at four ranges,
+  infrared, and proximity by its own IR LED, which needs feeding: the two
+  pads on the CJMCU-3216's back bridged, or VLED to 3.3 V (not a logic pin).
+- **Wiring drawings** for the purple MAX30100 board (its SCL printed SCT),
+  the CJMCU-3216 (traced from Wolles Elektronikkiste's photo, its pads
+  bridged), the GY-SGP30 and the GY-SGP40.
+- The HMC5883L page points to the QMC5883L's, which many GY-271 boards
+  carry. atiic 1.8.12.
+
 ## 2.3.5
 
 Two more sensors, each with its wiring drawing.
