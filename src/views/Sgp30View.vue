@@ -1,13 +1,15 @@
 <script setup>
 // The SGP30 live on a bridge: CO2eq and TVOC worked out on the chip, its raw
 // H2 and ethanol signals beside them; its self test and serial; its first 15
-// s; how its baseline works; no wiring drawing yet
+// s; how its baseline works; its wiring drawn
+// (ch32v00x scripts/wiring/ch341t-sgp30.py)
 import LiveSettings from '../components/LiveSettings.vue';
 import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import LiveChart from '../components/LiveChart.vue';
 import SpecTable from '../components/SpecTable.vue';
+import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import { canConnect } from '../lib/dongle.js';
 import { useSgp30, SCL_HZ, READ_MS, INIT_S } from '../lib/useSgp30.js';
@@ -49,9 +51,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       </p>
     </div>
 
-    <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
-      Four wires: VIN, GND, SCL to SCL, SDA to SDA. The chip itself runs on 1.8 V: its modules carry a regulator and shift the I²C lines, so VIN takes 3.3 V. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
-    </section>
+    <figure :class="card">
+      <SvgDrawing src="/setup-sgp30.svg" alt="A CH341T bridge on 3.3 V wired to a blue SGP30 module (GY-SGP30) seen from its back, turned a quarter: SDA to SDA, SCL to SCL, GND to GND, VCC to VIN, four straight wires" class="mx-auto w-full lg:w-3/5" />
+      <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        The blue GY-SGP30 board, drawn from its back turned a quarter (its pins' names and the sensor on the other side): four straight wires, VIN to 3.3 V, GND, SCL, SDA. The chip itself runs on 1.8 V: its modules carry a regulator and shift the I²C lines, so VIN takes 3.3 V. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+      </figcaption>
+    </figure>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
