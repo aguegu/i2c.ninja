@@ -31,8 +31,10 @@ test('by type, group, maker, what it measures', () => {
   assert.ok(find('motion').includes('/hmc5883l'));
   assert.deepEqual(find('magnetometer'), ['/hmc5883l', '/qmc5883l']);
   assert.deepEqual(find('lux'), ['/opt3001']);
-  assert.deepEqual(find('sensirion'), ['/sht20', '/sht3x', '/sht4x']);
-  assert.deepEqual(find('heartbeat'), ['/max30102']);
+  assert.deepEqual(find('proximity'), ['/ap3216c']);
+  assert.deepEqual(find('sensirion'), ['/sht20', '/sht3x', '/sht4x', '/sgp40']);
+  assert.deepEqual(find('pulse'), ['/max30102', '/max30100']);
+  assert.deepEqual(find('heartbeat'), ['/max30102', '/max30100']);
 });
 
 test('by I2C address, a range counting each in it', () => {

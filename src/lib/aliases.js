@@ -17,6 +17,7 @@ export const ALIASES = {
   '/lm75a': '/lm75',
   '/qmc5883': '/qmc5883l',
   '/gy-271': '/qmc5883l',
+  '/ap3216': '/ap3216c',
   '/spl06-001': '/spl06',
   '/agn12': '/agr12',
   '/agp12': '/agr12',

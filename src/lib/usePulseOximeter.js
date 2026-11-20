@@ -1,25 +1,32 @@
-// A MAX30102 on the CH341 bridge, for a page: found by its part ID at 0x57,
-// set up by atiic's driver (red and IR, 100 samples a second), its FIFO
-// read every READ_MS; the last ANALYSE_S of samples worked into a heartbeat
-// (lib/ppg.js), the last windowMs kept for the charts.
+// A MAX30102 or MAX30100 on a bridge, for a page: found by its part ID at
+// 0x57, set up by atiic's driver (red and IR, 100 samples a second; the two
+// drivers share their calls), its FIFO read every READ_MS; the last
+// ANALYSE_S of samples worked into a heartbeat (lib/ppg.js), the last
+// windowMs kept for the charts.
 import { ref, onBeforeUnmount } from 'vue';
-import { Max30102 } from 'atiic';
+import { Max30102, Max30100 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
 import { makeSeries } from './series.js';
 import { split, beats, heartRate, ratioOfRatios } from './ppg.js';
 
 const SCL_HZ = 400000;
-const READ_MS = 50; // the FIFO holds 32 samples, 320 ms at 100 a second
+const READ_MS = 50; // the FIFOs hold 32 and 16 samples, 320 and 160 ms at 100 a second
 const ANALYSE_S = 8;
 const TEMPERATURE_EVERY_MS = 5000;
-// a finger on it: the IR it returns, counts (r8845's module: ~2,300 bare,
-// ~108,000 with a fingertip at the default 7 mA)
-const FINGER_IR = 30000;
 const ADDRESS = 0x57;
+// the chips, by name: the driver, and a finger on it as the IR it returns,
+// counts (fingerIr)
+export const PULSE_CHIPS = {
+  // r8845's module: ~2,300 bare, ~108,000 with a fingertip at the default 7 mA (18 bits)
+  MAX30102: { Driver: Max30102, fingerIr: 30000 },
+  // r8845's module: ~90 bare at the default 7.6 mA (16 bits)
+  MAX30100: { Driver: Max30100, fingerIr: 5000 },
+};
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function useMax30102({ windowMs = 8000 } = {}) {
+export function usePulseOximeter(name, { windowMs = 8000 } = {}) {
+  const { Driver, fingerIr } = PULSE_CHIPS[name];
   const platform = detectPlatform();
   const state = ref('idle');
   const failure = ref(null);
@@ -49,7 +56,7 @@ export function useMax30102({ windowMs = 8000 } = {}) {
         if (t0 - tempAt >= TEMPERATURE_EVERY_MS) { temperature = await m.temperature(); tempAt = t0; }
         if (got.length && ir.length > m.rate * 2) {
           const sIr = split(ir, m.rate), sRed = split(red, m.rate);
-          const finger = ir.at(-1) > FINGER_IR;
+          const finger = ir.at(-1) > fingerIr;
           // the ripple as a chart: the newest samples' (re-worked each read)
           series.beat.clear();
           sIr.ac.forEach((v, i) => series.beat.push(times[i], [finger ? v : 0]));
@@ -66,7 +73,7 @@ export function useMax30102({ windowMs = 8000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the MAX30102 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the ${name} failed`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -83,11 +90,11 @@ export function useMax30102({ windowMs = 8000 } = {}) {
     }
     try {
       if (!(await bus.acks(ADDRESS))) {
-        failure.value = { title: 'No MAX30102 answers', detail: 'Nothing at 0x57: check the four wires (VIN, GND, SCL, SDA) and the module\'s power.', error: '' };
+        failure.value = { title: `No ${name} answers`, detail: 'Nothing at 0x57: check the four wires (VIN, GND, SCL, SDA) and the module\'s power.', error: '' };
         await disconnect();
         return;
       }
-      m = new Max30102(bus, ADDRESS);
+      m = new Driver(bus, ADDRESS);
       await m.init(); // checks its part ID
       red = []; ir = []; times = [];
       Object.values(series).forEach((s) => s.clear());
@@ -95,7 +102,7 @@ export function useMax30102({ windowMs = 8000 } = {}) {
       loop(generation);
       state.value = 'running';
     } catch (e) {
-      failure.value = { title: 'The MAX30102 didn\'t start', detail: '', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `The ${name} didn't start`, detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }

@@ -169,6 +169,15 @@ export const DEVICES = [
     bus: 'I2C 0x1A, 5 V',
   },
   {
+    to: '/sgp40',
+    name: 'SGP40',
+    maker: 'Sensirion',
+    kind: 'VOC',
+    group: 'Air',
+    measures: 'Volatile organic compounds as a raw signal that falls as they rise: sanitiser, a felt pen, cooking, breath.',
+    bus: 'I2C 0x59',
+  },
+  {
     to: '/bh1745',
     name: 'BH1745NUC',
     maker: 'ROHM',
@@ -185,6 +194,15 @@ export const DEVICES = [
     group: 'Light',
     measures: 'How bright it is as the eye sees it, in lux, from moonlight to direct sun with no range to pick.',
     bus: 'I2C 0x44-0x47',
+  },
+  {
+    to: '/ap3216c',
+    name: 'AP3216C',
+    maker: 'Lite-On',
+    kind: 'Light and proximity',
+    group: 'Light',
+    measures: 'How bright it is, the infrared about, and whether something is close by its own IR: a phone\'s screen sensor.',
+    bus: 'I2C 0x1E',
   },
   {
     to: '/vl53l1x',
@@ -211,6 +229,15 @@ export const DEVICES = [
     kind: 'Pulse',
     group: 'Body',
     measures: 'Red and infrared light through a fingertip: the heartbeat as a live trace, and how oximeters see oxygen.',
+    bus: 'I2C 0x57',
+  },
+  {
+    to: '/max30100',
+    name: 'MAX30100',
+    maker: 'Maxim (Analog Devices)',
+    kind: 'Pulse',
+    group: 'Body',
+    measures: 'The MAX30102\'s elder: red and infrared light through a fingertip, each heartbeat in it.',
     bus: 'I2C 0x57',
   },
   {

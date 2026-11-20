@@ -79,6 +79,7 @@ export const PHYSICS = [
     devices: [
       { to: '/bh1745', label: 'BH1745NUC', note: 'colour' },
       { to: '/opt3001', label: 'OPT3001', note: 'ambient light, lux' },
+      { to: '/ap3216c', label: 'AP3216C', note: 'light and proximity' },
     ],
     component: () => import('../views/physics/ColourView.vue'),
   },
