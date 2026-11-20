@@ -11,7 +11,7 @@ import SpecTable from '../components/SpecTable.vue';
 import SvgDrawing from '../components/SvgDrawing.vue';
 import { reactive, computed } from 'vue';
 import { canConnect } from '../lib/dongle.js';
-import { useAs7341, GAINS, BANDS } from '../lib/useAs7341.js';
+import { useAs7341, GAINS, BANDS, LED_MA } from '../lib/useAs7341.js';
 
 // the eight bands, each the colour its light looks (roughly, for display)
 const SPECTRUM = [
@@ -66,7 +66,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <figure :class="card">
       <SvgDrawing src="/setup-as7341.svg" alt="A CH341T bridge on 3.3 V wired to a black AS7341 module (AS734x, a mounting ear at each end) seen from its back: SDA to SDA, SCL to SCL, GND to GND, VCC to VIN, four straight wires; GPIO and INT free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The black "AS734x" board, drawn from its back, turned so its pins face the bridge: four straight wires, VIN, GND, SCL, SDA; GPIO and INT stay free. The chip itself runs on 1.8 V: the board carries a regulator, so VIN takes 3.3 V. Its white LED and the sensor are on the front. The LED is the chip's own to drive (its LDR pin): off unless a register turns it on, 4 to 258 mA (tried on ours at 4 mA), so it stays dark here and adds nothing to the screen test. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The black "AS734x" board, drawn from its back, turned so its pins face the bridge: four straight wires, VIN, GND, SCL, SDA; GPIO and INT stay free. The chip itself runs on 1.8 V: the board carries a regulator, so VIN takes 3.3 V. Its white LED and the sensor are on the front. The LED is the chip's own to drive (its LDR pin): the LED setting above switches it, off by default. Keep it off for a screen or a lamp; on, it lights a card or a fruit for its colours. The chip drives up to 258 mA, but the board's LED has no rating printed, so the page offers 20 mA at most. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 
@@ -79,6 +79,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <label :class="field">Gain
         <select :value="s.gain" :class="select" @change="s.setGain(Number($event.target.value))">
           <option v-for="g in GAINS" :key="g" :value="g">{{ g }}×</option>
+        </select>
+      </label>
+      <label :class="field">LED
+        <select :value="s.led" :class="select" @change="s.setLed(Number($event.target.value))">
+          <option :value="0">off</option>
+          <option v-for="mA in LED_MA" :key="mA" :value="mA">{{ mA }} mA</option>
         </select>
       </label>
       <span v-if="s.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">0x39 · 400 kHz · 50 ms a measurement, two a reading</span>

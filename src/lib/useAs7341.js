@@ -1,7 +1,9 @@
 // An AS7341 on a bridge, for a page: found at 0x39 by its ID, set up by
 // atiic's driver at a gain (the integration its 50 ms), read back to back:
 // each reading two measurements through its SMUX (F1-F4, then F5-F8; Clear
-// and NIR in both), about 130 ms together.
+// and NIR in both), about 130 ms together. Its LED driver (the AS734x
+// board's white LED) set between readings: its registers sit in a bank the
+// measuring doesn't use.
 import { ref, onBeforeUnmount } from 'vue';
 import { As7341 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain } from './dongle.js';
@@ -10,6 +12,9 @@ const SCL_HZ = 400000;
 const ADDRESS = As7341.addresses[0];
 export const GAINS = As7341.GAINS;
 export const BANDS = As7341.BANDS; // nm: f1..f8, nir
+// the LED's currents offered, mA: the chip drives to 258, the board's LED's
+// own rating unknown, so the page stays low
+export const LED_MA = [4, 8, 12, 20];
 
 export function useAs7341() {
   const platform = detectPlatform();
@@ -17,6 +22,8 @@ export function useAs7341() {
   const failure = ref(null);
   const latest = ref(null); // { f1..f8, clear, nir, saturated }
   const gain = ref(64);
+  const led = ref(0); // mA, 0 off
+  let ledAsked = null; // a change waiting for the gap between readings
 
   let bus = null;
   let dev = null;
@@ -25,6 +32,11 @@ export function useAs7341() {
   async function loop(gen) {
     try {
       while (gen === generation) {
+        if (ledAsked !== null) {
+          const mA = ledAsked;
+          ledAsked = null;
+          await dev.led(mA);
+        }
         const r = await dev.measure();
         if (gen !== generation) return;
         latest.value = r;
@@ -39,6 +51,7 @@ export function useAs7341() {
   async function start() {
     dev = new As7341(bus, ADDRESS, { gain: gain.value });
     await dev.init();
+    await dev.led(led.value);
     generation++;
     loop(generation);
     state.value = 'running';
@@ -66,6 +79,12 @@ export function useAs7341() {
       failure.value = { title: 'The AS7341 didn\'t start', detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
+  }
+
+  // the LED, mA (0 off): set before the next reading
+  function setLed(mA) {
+    led.value = mA;
+    if (state.value === 'running') ledAsked = mA;
   }
 
   async function setGain(g) {
@@ -111,5 +130,5 @@ export function useAs7341() {
     disconnect();
   });
 
-  return { state, failure, latest, gain, setGain, connect, disconnect };
+  return { state, failure, latest, gain, setGain, led, setLed, connect, disconnect };
 }
