@@ -96,6 +96,18 @@ export const PHYSICS = [
     ],
     component: () => import('../views/physics/PressureView.vue'),
   },
+  {
+    slug: 'electricity',
+    title: 'Electricity: current, voltage and power',
+    short: 'Electricity',
+    icon: 'M13 2L4 14h7l-1 8 9-12h-7z',
+    blurb: 'Current, voltage and resistance live from a load you wire up: Ohm\'s law, how a current is measured, and power and energy adding up.',
+    devices: [
+      { to: '/ina226', label: 'INA226', note: 'current and power monitor' },
+      { to: '/ina231', label: 'INA231', note: 'current and power monitor' },
+    ],
+    component: () => import('../views/physics/ElectricityView.vue'),
+  },
 ];
 
 export const PHYSICS_LINKS = PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title, short: p.short, icon: p.icon }));
