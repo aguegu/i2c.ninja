@@ -15,13 +15,14 @@ const link = 'text-slate-600 hover:text-emerald-600 dark:text-slate-300';
 const head = 'mb-1.5 text-xs font-semibold tracking-wide text-slate-400 uppercase';
 const start = START_LINKS.filter((l) => l.to !== '/'); // the logo is home
 // the devices' groups in four columns, near even in height: Motion with Body
-// under it; Air, the biggest, over two columns under its one heading; Light
-// with Electricity under it. A group the list doesn't have yet is left out
+// under it; Air, the biggest, over two columns under its one heading, and
+// Electricity under it the same way; Light alone. A group the list doesn't
+// have yet is left out
 const byName = Object.fromEntries(DEVICE_LINK_GROUPS.map((g) => [g.head, g]));
 const DEVICE_COLUMNS = [
   { groups: ['Motion', 'Body'], wide: false },
-  { groups: ['Air'], wide: true },
-  { groups: ['Light', 'Electricity'], wide: false },
+  { groups: ['Air', 'Electricity'], wide: true },
+  { groups: ['Light'], wide: false },
 ].map((c) => ({ ...c, groups: c.groups.map((n) => byName[n]).filter(Boolean) }));
 // the other columns, beside the devices' three on a wide screen, under them on a narrower one
 const COLUMNS = [
