@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480" font-family="Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 545" width="900" height="545" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
   <title>A CH341T 2-in-1 dongle, yellow jumper on I2C and green on 3V3, wired to a blue INA226 module seen from its front: SDA to SDA, SCL to SCL, GND to GND, VCC to VCC, four straight wires; IN+ led to the supply plus and IN minus to the load plus, VBS tied to IN minus on the module, ALE free</title>
   <defs>
@@ -15,129 +15,139 @@
       <rect x="2" y="-2" width="4" height="4" fill="#444"/>
     </g>
   </defs>
-  <rect class="bg" width="860" height="480" fill="#ffffff"/>
-  <text x="430.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + INA226</text>
-  <text x="119.13385826771655" y="228.6220472440945" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
-  <rect x="190.0" y="215.0" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
-  <rect x="205.11811023622047" y="231.06299212598427" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
-  <rect x="205.11811023622047" y="359.56692913385825" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
-  <rect x="225.79527559055117" y="260.8267716535433" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
-  <rect x="225.79527559055117" y="284.4488188976378" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
-  <rect x="225.79527559055117" y="308.07086614173227" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
-  <rect x="225.79527559055117" y="331.6929133858268" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
-  <rect x="48.267716535433095" y="238.6220472440945" width="179.52755905511808" height="122.83464566929133" rx="4" fill="#cfd4da" stroke="#8a9096"/>
-  <rect x="79.4488188976378" y="266.87401574803147" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
-  <rect x="79.4488188976378" y="312.3228346456693" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
-  <text transform="translate(136.1417322834646 300.03937007874015) rotate(-90)" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7178">USB-A</text>
-  <text x="190.0" y="403.0787401574803" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
-  <rect x="494.7086614173228" y="226.03937007874015" width="22" height="148.0" fill="#161616"/>
+  <rect class="bg" width="900" height="545" fill="#ffffff"/>
+  <text x="450.0" y="34" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">CH341T (I2C mode, 3.3V) + INA226</text>
+  <text x="119.13385826771655" y="258.62204724409446" text-anchor="middle" font-size="12" fill="#555">to the PC</text>
+  <rect x="190.0" y="245.0" width="330.7086614173228" height="170.0787401574803" rx="6" fill="#1f5fa8" stroke="#163f70" stroke-width="2"/>
+  <rect x="205.11811023622047" y="261.06299212598424" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="205.11811023622047" y="389.56692913385825" width="18.89763779527559" height="9.448818897637794" rx="2" fill="#d9dde1" stroke="#8a9096"/>
+  <rect x="225.79527559055117" y="290.8267716535433" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="225.79527559055117" y="314.4488188976378" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="225.79527559055117" y="338.07086614173227" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="225.79527559055117" y="361.6929133858268" width="13.338582677165354" height="7.559055118110236" fill="#c9ccd1"/>
+  <rect x="48.267716535433095" y="268.62204724409446" width="179.52755905511808" height="122.83464566929133" rx="4" fill="#cfd4da" stroke="#8a9096"/>
+  <rect x="79.4488188976378" y="296.87401574803147" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <rect x="79.4488188976378" y="342.3228346456693" width="18.4251968503937" height="20.88188976377953" fill="#6b7178"/>
+  <text transform="translate(136.1417322834646 330.03937007874015) rotate(-90)" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7178">USB-A</text>
+  <text x="190.0" y="433.0787401574803" font-size="12" fill="#555">CH341T 2-in-1 module (USB to I2C / TTL)</text>
+  <rect x="494.7086614173228" y="256.03937007874015" width="22" height="148.0" fill="#161616"/>
   <g fill="url(#pin)">
-    <rect x="505.7086614173228" y="238.03937007874015" width="34.0" height="4"/>
-    <rect x="505.7086614173228" y="262.03937007874015" width="34.0" height="4"/>
-    <rect x="505.7086614173228" y="286.03937007874015" width="34.0" height="4"/>
-    <rect x="505.7086614173228" y="310.03937007874015" width="34.0" height="4"/>
-    <rect x="505.7086614173228" y="334.03937007874015" width="34.0" height="4"/>
-    <rect x="505.7086614173228" y="358.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="268.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="292.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="316.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="340.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="364.03937007874015" width="34.0" height="4"/>
+    <rect x="505.7086614173228" y="388.03937007874015" width="34.0" height="4"/>
   </g>
   <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace" text-anchor="end">
-    <text x="488.7086614173228" y="244.03937007874015">RXD</text>
-    <text x="488.7086614173228" y="268.03937007874015">TXD</text>
-    <text x="488.7086614173228" y="292.03937007874015">SDA</text>
-    <text x="488.7086614173228" y="316.03937007874015">SCL</text>
-    <text x="488.7086614173228" y="340.03937007874015">GND</text>
-    <text x="488.7086614173228" y="364.03937007874015">VCC</text>
+    <text x="488.7086614173228" y="274.03937007874015">RXD</text>
+    <text x="488.7086614173228" y="298.03937007874015">TXD</text>
+    <text x="488.7086614173228" y="322.03937007874015">SDA</text>
+    <text x="488.7086614173228" y="346.03937007874015">SCL</text>
+    <text x="488.7086614173228" y="370.03937007874015">GND</text>
+    <text x="488.7086614173228" y="394.03937007874015">VCC</text>
   </g>
-  <rect x="363.3858267716535" y="268.1968503937008" width="68.03149606299212" height="50.07874015748031" rx="2" fill="#1d1d1d"/>
-  <rect x="365.28740157480314" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="365.28740157480314" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="372.09055118110234" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="372.09055118110234" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="378.89370078740154" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="378.89370078740154" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="385.69685039370074" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="385.69685039370074" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="392.49999999999994" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="392.49999999999994" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="399.3031496062992" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="399.3031496062992" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="406.1062992125984" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="406.1062992125984" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="412.9094488188976" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="412.9094488188976" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="419.7125984251968" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="419.7125984251968" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <rect x="426.51574803149606" y="263.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="426.51574803149606" y="318.2755905511811" width="3" height="5" fill="#c9ccd1"/>
-  <text x="397.4015748031496" y="296.23622047244095" text-anchor="middle" font-size="9" font-weight="bold" fill="#e5e5e5">CH341T</text>
-  <rect x="294.40944881889754" y="245.61417322834646" width="44.40944881889764" height="101.1023622047244" rx="21.732283464566926" fill="#e9ecef" stroke="#8a9096"/>
-  <text transform="translate(319.6141732283464 296.1653543307087) rotate(-90)" text-anchor="middle" font-size="8" fill="#555">12.000</text>
-  <rect x="278.90551181102364" y="289.8346456692913" width="7" height="11" rx="1" fill="#b45309"/>
-  <rect x="355.5748031496063" y="224.00787401574803" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
-  <rect x="407.0748031496063" y="227.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="383.0748031496063" y="227.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="359.0748031496063" y="227.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="380.5748031496063" y="225.00787401574803" width="38" height="14" rx="2.5" fill="#f2c200" fill-opacity="0.45" stroke="#f2c200" stroke-width="1.5"/>
-  <rect x="383.5748031496063" y="228.50787401574803" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
-  <circle cx="387.5748031496063" cy="232.00787401574803" r="1.8" fill="#7a5b10"/>
-  <circle cx="411.5748031496063" cy="232.00787401574803" r="1.8" fill="#7a5b10"/>
-  <rect x="355.5748031496063" y="360.07086614173227" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
-  <rect x="407.0748031496063" y="363.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="383.0748031496063" y="363.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="359.0748031496063" y="363.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
-  <rect x="356.5748031496063" y="361.07086614173227" width="38" height="14" rx="2.5" fill="#22a34a" fill-opacity="0.45" stroke="#22a34a" stroke-width="1.5"/>
-  <rect x="359.5748031496063" y="364.57086614173227" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
-  <circle cx="363.5748031496063" cy="368.07086614173227" r="1.8" fill="#7a5b10"/>
-  <circle cx="387.5748031496063" cy="368.07086614173227" r="1.8" fill="#7a5b10"/>
-  <text x="411.5748031496063" y="250.00787401574803" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="363.5748031496063" y="250.00787401574803" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
-  <text x="411.5748031496063" y="357.07086614173227" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="363.5748031496063" y="357.07086614173227" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
-  <rect x="263.37007874015745" y="233.70866141732284" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
-  <text x="273.37007874015745" y="249.70866141732284" font-size="9" fill="#fff">TNOW</text>
-  <rect x="263.37007874015745" y="357.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
-  <text x="273.37007874015745" y="365.86614173228344" font-size="9" fill="#fff">RDY</text>
-  <rect x="634.4" y="178.8" width="183.3" height="193.7" rx="3" fill="#1f5fbf" stroke="#0f3a7a" stroke-width="2"/>
-  <circle cx="796.9" cy="211.9" r="15.1" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="796.9" cy="211.9" r="9.9" fill="#ffffff" stroke="#7a8088"/>
-  <circle cx="796.9" cy="356.4" r="15.1" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="796.9" cy="356.4" r="9.9" fill="#ffffff" stroke="#7a8088"/>
-  <circle cx="796.9" cy="260.1" r="14.2" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="796.9" cy="260.1" r="9.0" fill="#ffffff" stroke="#7a8088"/>
-  <circle cx="796.9" cy="306.4" r="14.2" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="796.9" cy="306.4" r="9.0" fill="#ffffff" stroke="#7a8088"/>
-  <rect x="744.0" y="247.8" width="27.4" height="65.2" rx="2" fill="#2b2b2b" stroke="#9aa0a6"/>
-  <text transform="translate(757.7 280.4) rotate(90)" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#ffffff">R100</text>
-  <rect x="706.2" y="202.4" width="27.4" height="39.7" rx="1.5" fill="#1b1b1b"/>
-  <circle cx="650" cy="192.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="216.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="240.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="264.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="288.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="312.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="336.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
-  <circle cx="650" cy="360.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <rect x="363.3858267716535" y="298.1968503937008" width="68.03149606299212" height="50.07874015748031" rx="2" fill="#1d1d1d"/>
+  <rect x="365.28740157480314" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="365.28740157480314" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="372.09055118110234" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="372.09055118110234" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="378.89370078740154" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="378.89370078740154" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="385.69685039370074" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="385.69685039370074" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="392.49999999999994" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="392.49999999999994" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="399.3031496062992" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="399.3031496062992" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="406.1062992125984" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="406.1062992125984" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="412.9094488188976" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="412.9094488188976" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="419.7125984251968" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="419.7125984251968" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <rect x="426.51574803149606" y="293.1968503937008" width="3" height="5" fill="#c9ccd1"/><rect x="426.51574803149606" y="348.2755905511811" width="3" height="5" fill="#c9ccd1"/>
+  <text x="397.4015748031496" y="326.23622047244095" text-anchor="middle" font-size="9" font-weight="bold" fill="#e5e5e5">CH341T</text>
+  <rect x="294.40944881889754" y="275.61417322834643" width="44.40944881889764" height="101.1023622047244" rx="21.732283464566926" fill="#e9ecef" stroke="#8a9096"/>
+  <text transform="translate(319.6141732283464 326.1653543307086) rotate(-90)" text-anchor="middle" font-size="8" fill="#555">12.000</text>
+  <rect x="278.90551181102364" y="319.8346456692913" width="7" height="11" rx="1" fill="#b45309"/>
+  <rect x="355.5748031496063" y="254.00787401574803" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="407.0748031496063" y="257.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="383.0748031496063" y="257.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="359.0748031496063" y="257.50787401574803" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="380.5748031496063" y="255.00787401574803" width="38" height="14" rx="2.5" fill="#f2c200" fill-opacity="0.45" stroke="#f2c200" stroke-width="1.5"/>
+  <rect x="383.5748031496063" y="258.50787401574803" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="387.5748031496063" cy="262.00787401574803" r="1.8" fill="#7a5b10"/>
+  <circle cx="411.5748031496063" cy="262.00787401574803" r="1.8" fill="#7a5b10"/>
+  <rect x="355.5748031496063" y="390.07086614173227" width="64" height="16" rx="2.5" fill="#000" fill-opacity="0.22" stroke="#0f172a" stroke-width="1"/>
+  <rect x="407.0748031496063" y="393.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="383.0748031496063" y="393.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="359.0748031496063" y="393.57086614173227" width="9" height="9" fill="#f3d77a" stroke="#b8922a"/>
+  <rect x="356.5748031496063" y="391.07086614173227" width="38" height="14" rx="2.5" fill="#22a34a" fill-opacity="0.45" stroke="#22a34a" stroke-width="1.5"/>
+  <rect x="359.5748031496063" y="394.57086614173227" width="32" height="7" rx="3" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.8"/>
+  <circle cx="363.5748031496063" cy="398.07086614173227" r="1.8" fill="#7a5b10"/>
+  <circle cx="387.5748031496063" cy="398.07086614173227" r="1.8" fill="#7a5b10"/>
+  <text x="411.5748031496063" y="280.00787401574803" text-anchor="middle" font-size="9" fill="#fff">I2C</text><text x="363.5748031496063" y="280.00787401574803" text-anchor="middle" font-size="9" fill="#fff">TTL</text>
+  <text x="411.5748031496063" y="387.07086614173227" text-anchor="middle" font-size="9" fill="#fff">5V</text><text x="363.5748031496063" y="387.07086614173227" text-anchor="middle" font-size="9" fill="#fff">3V3</text>
+  <rect x="263.37007874015745" y="263.70866141732284" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="273.37007874015745" y="279.70866141732284" font-size="9" fill="#fff">TNOW</text>
+  <rect x="263.37007874015745" y="387.86614173228344" width="6" height="8" fill="#f1f1f1" stroke="#999"/>
+  <text x="273.37007874015745" y="395.86614173228344" font-size="9" fill="#fff">RDY</text>
+  <rect x="634.4" y="208.8" width="183.3" height="193.7" rx="3" fill="#1f5fbf" stroke="#0f3a7a" stroke-width="2"/>
+  <circle cx="796.9" cy="241.9" r="15.1" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="796.9" cy="241.9" r="9.9" fill="#ffffff" stroke="#7a8088"/>
+  <circle cx="796.9" cy="386.4" r="15.1" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="796.9" cy="386.4" r="9.9" fill="#ffffff" stroke="#7a8088"/>
+  <circle cx="796.9" cy="290.1" r="14.2" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="796.9" cy="290.1" r="9.0" fill="#ffffff" stroke="#7a8088"/>
+  <circle cx="796.9" cy="336.4" r="14.2" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="796.9" cy="336.4" r="9.0" fill="#ffffff" stroke="#7a8088"/>
+  <rect x="744.0" y="277.8" width="27.4" height="65.2" rx="2" fill="#2b2b2b" stroke="#9aa0a6"/>
+  <text transform="translate(757.7 310.4) rotate(90)" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#ffffff">R100</text>
+  <rect x="706.2" y="232.4" width="27.4" height="39.7" rx="1.5" fill="#1b1b1b"/>
+  <circle cx="650" cy="222.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="246.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="270.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="294.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="318.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="342.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="366.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
+  <circle cx="650" cy="390.03937007874015" r="6.5" fill="url(#pad)" stroke="#7a8088"/>
   <g font-size="11" fill="#333" font-family="Menlo, Consolas, monospace">
-    <text x="628.4" y="184.03937007874015" text-anchor="end">IN+</text>
-    <text x="628.4" y="208.03937007874015" text-anchor="end">IN-</text>
-    <text x="628.4" y="232.03937007874015" text-anchor="end">VBS</text>
-    <text x="628.4" y="256.03937007874015" text-anchor="end">ALE</text>
-    <text x="628.4" y="280.03937007874015" text-anchor="end">SDA</text>
-    <text x="628.4" y="304.03937007874015" text-anchor="end">SCL</text>
-    <text x="628.4" y="328.03937007874015" text-anchor="end">GND</text>
-    <text x="628.4" y="352.03937007874015" text-anchor="end">VCC</text>
+    <text x="628.4" y="214.03937007874015" text-anchor="end">IN+</text>
+    <text x="628.4" y="238.03937007874015" text-anchor="end">IN-</text>
+    <text x="628.4" y="262.03937007874015" text-anchor="end">VBS</text>
+    <text x="628.4" y="286.03937007874015" text-anchor="end">ALE</text>
+    <text x="628.4" y="310.03937007874015" text-anchor="end">SDA</text>
+    <text x="628.4" y="334.03937007874015" text-anchor="end">SCL</text>
+    <text x="628.4" y="358.03937007874015" text-anchor="end">GND</text>
+    <text x="628.4" y="382.03937007874015" text-anchor="end">VCC</text>
   </g>
   <g stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M557.7086614173228 288.03937007874015 H642" stroke="#0d4f8c" stroke-width="7"/><path d="M557.7086614173228 288.03937007874015 H642" stroke="#1e88e5" stroke-width="5"/>
-    <path d="M557.7086614173228 312.03937007874015 H642" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 312.03937007874015 H642" stroke="#f2c200" stroke-width="5"/>
-    <path d="M557.7086614173228 336.03937007874015 H642" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 336.03937007874015 H642" stroke="#3a3a3a" stroke-width="5"/>
-    <path d="M557.7086614173228 360.03937007874015 H642" stroke="#8e1c1c" stroke-width="7"/><path d="M557.7086614173228 360.03937007874015 H642" stroke="#d32f2f" stroke-width="5"/>
-    <path d="M642 192.03937007874015 H588 V152.81102362204723" stroke="#c2185b" stroke-width="7"/><path d="M642 192.03937007874015 H588 V152.81102362204723" stroke="#ec407a" stroke-width="5"/>
-    <path d="M642 216.03937007874015 H556 V152.81102362204723" stroke="#6a1b9a" stroke-width="7"/><path d="M642 216.03937007874015 H556 V152.81102362204723" stroke="#ab47bc" stroke-width="5"/>
-    <path d="M650 240.03937007874015 H664 V216.03937007874015 H650" stroke="#6a1b9a" stroke-width="5"/><path d="M650 240.03937007874015 H664 V216.03937007874015 H650" stroke="#ab47bc" stroke-width="3"/>
+    <path d="M557.7086614173228 318.03937007874015 H642" stroke="#0d4f8c" stroke-width="7"/><path d="M557.7086614173228 318.03937007874015 H642" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M557.7086614173228 342.03937007874015 H642" stroke="#a88600" stroke-width="7"/><path d="M557.7086614173228 342.03937007874015 H642" stroke="#f2c200" stroke-width="5"/>
+    <path d="M557.7086614173228 366.03937007874015 H642" stroke="#000" stroke-width="7"/><path d="M557.7086614173228 366.03937007874015 H642" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M557.7086614173228 390.03937007874015 H642" stroke="#8e1c1c" stroke-width="7"/><path d="M557.7086614173228 390.03937007874015 H642" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M596 142 V222.03937007874015 H642" stroke="#8e1c1c" stroke-width="7"/><path d="M596 142 V222.03937007874015 H642" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M642 246.03937007874015 H514 V142" stroke="#8e1c1c" stroke-width="7"/><path d="M642 246.03937007874015 H514 V142" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M416 92 V66 H847.7165354330708 V436.51181102362204 H575 V397.03937007874015 A7 7 0 0 1 575 383.03937007874015 V366.03937007874015" stroke="#000" stroke-width="7"/><path d="M416 92 V66 H847.7165354330708 V436.51181102362204 H575 V397.03937007874015 A7 7 0 0 1 575 383.03937007874015 V366.03937007874015" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M694 92 V66" stroke="#000" stroke-width="7"/><path d="M694 92 V66" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M650 270.03937007874015 H664 V246.03937007874015 H650" stroke="#8e1c1c" stroke-width="5"/><path d="M650 270.03937007874015 H664 V246.03937007874015 H650" stroke="#d32f2f" stroke-width="3"/>
   </g>
-  <circle cx="588" cy="152.81102362204723" r="4" fill="#1b1b1b"/>
-  <text x="588" y="142.81102362204723" text-anchor="start" font-size="12" fill="#333">IN+ from the supply's +</text>
-  <circle cx="556" cy="152.81102362204723" r="4" fill="#1b1b1b"/>
-  <text x="556" y="142.81102362204723" text-anchor="end" font-size="12" fill="#333">IN- to the load's +</text>
-  <use href="#dupont" x="537.7086614173228" y="288.03937007874015"/>
-  <use href="#dupont" x="537.7086614173228" y="312.03937007874015"/>
-  <use href="#dupont" x="537.7086614173228" y="336.03937007874015"/>
-  <use href="#dupont" x="537.7086614173228" y="360.03937007874015"/>
-  <circle cx="650" cy="288.03937007874015" r="4" fill="#1b1b1b"/>
-  <circle cx="650" cy="312.03937007874015" r="4" fill="#1b1b1b"/>
-  <circle cx="650" cy="336.03937007874015" r="4" fill="#1b1b1b"/>
-  <circle cx="650" cy="360.03937007874015" r="4" fill="#1b1b1b"/>
-  <text x="817.7" y="392.5" text-anchor="end" font-size="12" fill="#555">INA226 board, from its front</text>
+  <circle cx="575" cy="366.03937007874015" r="4.5" fill="#000"/>
+  <circle cx="694" cy="66" r="4.5" fill="#000"/>
+  <rect x="580" y="92" width="130" height="50" rx="6" fill="#f4f4f4" stroke="#777" stroke-width="2"/>
+  <text x="645.0" y="114" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">supply</text>
+  <text x="645.0" y="131" text-anchor="middle" font-size="11" fill="#555">e.g. 5 V</text>
+  <rect x="400" y="92" width="130" height="50" rx="6" fill="#f4f4f4" stroke="#777" stroke-width="2"/>
+  <text x="465.0" y="114" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">load</text>
+  <text x="465.0" y="131" text-anchor="middle" font-size="11" fill="#555">e.g. 100 Ω, ½ W</text>
+  <text x="605" y="158" font-size="15" font-weight="bold" fill="#c62828">+</text>
+  <text x="523" y="158" font-size="15" font-weight="bold" fill="#c62828">+</text>
+  <text x="703" y="86" font-size="15" font-weight="bold" fill="#333">−</text>
+  <text x="425" y="86" font-size="15" font-weight="bold" fill="#333">−</text>
+  <use href="#dupont" x="537.7086614173228" y="318.03937007874015"/>
+  <use href="#dupont" x="537.7086614173228" y="342.03937007874015"/>
+  <use href="#dupont" x="537.7086614173228" y="366.03937007874015"/>
+  <use href="#dupont" x="537.7086614173228" y="390.03937007874015"/>
+  <circle cx="650" cy="318.03937007874015" r="4" fill="#1b1b1b"/>
+  <circle cx="650" cy="342.03937007874015" r="4" fill="#1b1b1b"/>
+  <circle cx="650" cy="366.03937007874015" r="4" fill="#1b1b1b"/>
+  <circle cx="650" cy="390.03937007874015" r="4" fill="#1b1b1b"/>
+  <text x="817.7" y="422.5" text-anchor="end" font-size="12" fill="#555">INA226 board, from its front</text>
   <g font-size="12" fill="#333">
-    <text x="20" y="440">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four straight wires: SDA, SCL, GND, VCC.</text>
-    <text x="20" y="460">IN+ from the supply's +, IN- to the load's +, VBS to IN-; the supply's - to GND. ALE free. Up to 36 V, about 0.82 A.</text>
+    <text x="20" y="505">Yellow jumper on I2C, green on 3V3, both before plugging in USB. Four straight wires: SDA, SCL, GND, VCC.</text>
+    <text x="20" y="525">IN+ from the supply's +, IN- to the load's +, VBS to IN-; the supply's - to GND. ALE free. Up to 36 V, about 0.82 A.</text>
   </g>
 </svg>

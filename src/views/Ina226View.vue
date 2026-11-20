@@ -9,7 +9,7 @@ import SvgDrawing from '../components/SvgDrawing.vue';
 <template>
   <PowerMonitorPage title="INA226">
     <template #board>
-      <SvgDrawing src="/setup-ina226.svg" alt="A CH341T bridge on 3.3 V wired to a blue INA226 module seen from its front: SDA, SCL, GND and VCC straight across; IN+ led to the supply's plus, IN minus to the load's plus, VBS tied to IN minus on the module, ALE free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-ina226.svg" alt="A CH341T bridge on 3.3 V wired to a blue INA226 module seen from its front: SDA, SCL, GND and VCC straight across; above, a supply and a load: the supply plus to IN+, IN minus to the load plus, the load minus to the supply minus, and that to GND; VBS tied to IN minus on the module, ALE free" class="mx-auto w-full lg:w-3/5" />
       <div class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
         <p class="mb-2">
           The blue INA226 board, drawn from its front: eight pins in a row, IN+, IN−, VBS, ALE, SDA, SCL, GND, VCC, and two big pads for IN+ and IN− beside its R100 shunt (0.1 Ω), for thick wires.
