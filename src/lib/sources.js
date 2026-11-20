@@ -6,7 +6,7 @@
 // at one address), so a page needing two quantities takes them from one board when
 // it can (lib/useSources.js). A page's Live card
 // scans for every chip of its quantity (lib/useSource.js).
-import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Bmx055Accel, Bmx055Gyro, Bmx055Mag } from 'atiic';
+import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Qmc5883l, Bmx055Accel, Bmx055Gyro, Bmx055Mag } from 'atiic';
 
 const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1))[0];
 
@@ -122,6 +122,18 @@ export const MAGNETOMETERS = {
       detect: (bus, a) => Hmc5883l.chip.identify(bus, a),
       open: async (bus, a) => {
         const d = new Hmc5883l(bus, a);
+        await d.init();
+        return { read: async () => { const { magnetometers: v } = await d.measure(); return [v.x, v.y, v.z]; } };
+      },
+    },
+    {
+      name: 'QMC5883L',
+      to: '/qmc5883l',
+      addresses: Qmc5883l.addresses,
+      readMs: 20, // its 50 Hz (atiic's default): faster repeats the sample
+      detect: (bus, a) => Qmc5883l.chip.identify(bus, a),
+      open: async (bus, a) => {
+        const d = new Qmc5883l(bus, a, { range: '2G' });
         await d.init();
         return { read: async () => { const { magnetometers: v } = await d.measure(); return [v.x, v.y, v.z]; } };
       },

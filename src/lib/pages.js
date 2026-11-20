@@ -17,7 +17,8 @@ export const ORIGIN = 'https://i2c.ninja';
 export const DESCRIBE_MAX = 160;
 const LIVE = 'Live in your browser over USB.';
 // a sentence's first word in lower case, after a colon (not an acronym's)
-const lower = (t) => (/^[A-Z][a-z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t);
+// a sentence's first letter lowered to follow "by Maker: "; a proper noun (Earth) kept
+const lower = (t) => (/^[A-Z][a-z]/.test(t) && !/^Earth\b/.test(t) ? t[0].toLowerCase() + t.slice(1) : t);
 // the physics topics that name a device (its page, without a tab)
 const topicsOf = (to) => PHYSICS.filter((p) => p.component && p.devices.some((d) => d.to.split('#')[0] === to)).map((p) => ({ to: `/physics/${p.slug}`, label: p.title }));
 
@@ -34,6 +35,7 @@ const WHAT = {
   '/cht8305': 'CHT8305C humidity and temperature sensor',
   '/lm75': 'LM75 / LM75A temperature sensor and thermal watchdog',
   '/bh1745': 'BH1745NUC colour (RGB) light sensor',
+  '/opt3001': 'OPT3001 ambient light sensor (lux)',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
   '/agr12': 'AGR12 gauge pressure sensor',
   '/ags2602': 'AGS2602 TVOC sensor',
@@ -42,6 +44,7 @@ const WHAT = {
   '/mlx90614': 'MLX90614 infrared thermometer',
   '/adxl345': 'ADXL345 accelerometer',
   '/hmc5883l': 'HMC5883L magnetometer (compass)',
+  '/qmc5883l': 'QMC5883L magnetometer (compass, GY-271)',
   '/itg3200': 'ITG-3200 gyroscope',
   '/bmx055': 'BMX055 9-axis IMU (accelerometer, gyro, magnetometer)',
 };

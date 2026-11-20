@@ -9,7 +9,7 @@ import { COURSES } from './courses.js';
 export const DEVICE_GROUPS = [
   { name: 'Motion', color: '--group-motion', blurb: 'How it moves, turns and points: acceleration, rotation, and Earth\'s magnetic field.' },
   { name: 'Air', color: '--group-air', blurb: 'The air around it: humidity, temperature, pressure and gases.' },
-  { name: 'Light', color: '--group-light', blurb: 'Sensing by light: colour, distance by timing light, temperature by infrared.' },
+  { name: 'Light', color: '--group-light', blurb: 'Sensing by light: brightness, colour, distance by timing light, temperature by infrared.' },
   { name: 'Body', color: '--group-body', blurb: 'The body: the pulse, by light through the skin.' },
   { name: 'Electricity', color: '--group-electricity', blurb: 'Voltage, current and power.' },
 ];
@@ -50,6 +50,15 @@ export const DEVICES = [
     group: 'Motion',
     measures: 'Earth\'s magnetic field on three axes, so a compass; calibrated against the board\'s own field.',
     bus: 'I2C 0x1E',
+  },
+  {
+    to: '/qmc5883l',
+    name: 'QMC5883L',
+    maker: 'QST',
+    kind: 'Magnetometer',
+    group: 'Motion',
+    measures: 'Earth\'s magnetic field on three axes, so a compass: what most GY-271 "HMC5883L" modules carry now.',
+    bus: 'I2C 0x0D',
   },
   {
     to: '/bmx055',
@@ -167,6 +176,15 @@ export const DEVICES = [
     group: 'Light',
     measures: 'Red, green, blue and clear light as counts: the tint of a lamp, a window, a coloured card.',
     bus: 'I2C 0x38 / 0x39',
+  },
+  {
+    to: '/opt3001',
+    name: 'OPT3001',
+    maker: 'Texas Instruments',
+    kind: 'Ambient light',
+    group: 'Light',
+    measures: 'How bright it is as the eye sees it, in lux, from moonlight to direct sun with no range to pick.',
+    bus: 'I2C 0x44-0x47',
   },
   {
     to: '/vl53l1x',

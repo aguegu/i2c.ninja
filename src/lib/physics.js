@@ -37,6 +37,7 @@ export const PHYSICS = [
     blurb: 'Earth\'s field and its dip into the ground, how a strip of permalloy feels it, a compass from it, and the board\'s own field.',
     devices: [
       { to: '/hmc5883l', label: 'HMC5883L', note: 'magnetometer' },
+      { to: '/qmc5883l', label: 'QMC5883L', note: 'magnetometer' },
       { to: '/bmx055#magnetometer', label: 'BMX055', note: 'its magnetometer' },
     ],
     component: () => import('../views/physics/MagnetismView.vue'),
@@ -77,6 +78,7 @@ export const PHYSICS = [
     blurb: 'White light as many colours, the eye\'s three kinds of sensor, mixing light by adding it, and a colour sensor doing what the eye does, with the screen as its light.',
     devices: [
       { to: '/bh1745', label: 'BH1745NUC', note: 'colour' },
+      { to: '/opt3001', label: 'OPT3001', note: 'ambient light, lux' },
     ],
     component: () => import('../views/physics/ColourView.vue'),
   },
