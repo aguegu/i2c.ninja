@@ -25,7 +25,7 @@ const topicsOf = (to) => PHYSICS.filter((p) => p.component && p.devices.some((d)
 // what each device page is, as someone searching would put it
 const WHAT = {
   '/mpu6050': 'MPU-6050 / MPU-6500 accelerometer and gyro',
-  '/ina231': 'INA231 current and power monitor',
+  '/ina231': 'INA226 / INA231 current and power monitor',
   '/sht20': 'SHT20 humidity and temperature sensor',
   '/aht21': 'AHT21B / AHT30 humidity and temperature sensor',
   '/sht3x': 'SHT3x (SHT30, SHT31, SHT35) humidity and temperature sensor',

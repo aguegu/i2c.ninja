@@ -1,4 +1,6 @@
-// An INA231 on the CH341 bridge, for a page: found by its ID among
+// An INA226 or INA231 on a bridge, for a page (the two alike from the master's
+// side, but for the INA226's IDs at FEh-FFh; part tells them by its die ID,
+// 2260h): found by its ID among
 // 0x40-0x4F, set up by atiic's driver for a shunt, read every READ_MS: bus
 // voltage, shunt voltage, current, power; the last windowMs kept for the
 // charts, and the energy and charge since connecting (or a reset) summed.
@@ -14,12 +16,15 @@ const MS_PER_HOUR = 3600000;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const INA226_DIE_ID = 0x2260; // its Die ID register (FFh), SBOS547C
+
 export function useIna231({ windowMs = 10000 } = {}) {
   const platform = detectPlatform();
   const state = ref('idle'); // idle, connecting, running
   const failure = ref(null);
   const shunt = ref(0.1); // ohms: R100
   const address = ref(null);
+  const part = ref(null); // 'INA226' (die ID 2260h at FFh) or 'INA231'
   const calibration = ref(null); // what the driver wrote: Equation 1
   const currentLsb = ref(null);
   // { bus V, shunt V, current A, power W }
@@ -55,7 +60,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
       }
     } catch (e) {
       if (gen !== generation) return;
-      failure.value = { title: 'Reading the INA231 failed', detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `Reading the ${part.value ?? 'INA226'} failed`, detail: 'Was the bridge unplugged, or a wire pulled? Connect again.', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -90,9 +95,17 @@ export function useIna231({ windowMs = 10000 } = {}) {
       for (const a of acks) {
         if (await Ina231.chip.identify(bus, a)) { address.value = a; break; }
       }
+      if (address.value !== null) {
+        try {
+          const [h, l] = await bus.writeRead(address.value, [0xff], 2);
+          part.value = ((h << 8) | l) === INA226_DIE_ID ? 'INA226' : 'INA231';
+        } catch {
+          part.value = 'INA231'; // FFh unanswered: not an INA226
+        }
+      }
       if (address.value === null) {
         failure.value = {
-          title: 'No INA231 answers',
+          title: 'No INA226 or INA231 answers',
           detail: 'Nothing at 0x40-0x4F reads TI\'s ID: check the four I2C wires and the module\'s power.',
           error: acks.length ? `answering there: ${acks.map(hex).join(', ')}` : '',
         };
@@ -103,7 +116,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
       await start();
       state.value = 'running';
     } catch (e) {
-      failure.value = { title: 'The INA231 didn\'t start', detail: '', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `The ${part.value ?? 'INA226'} didn't start`, detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -133,7 +146,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
     try {
       await start();
     } catch (e) {
-      failure.value = { title: 'The INA231 didn\'t take the new shunt', detail: '', error: `${e.name}: ${e.message}` };
+      failure.value = { title: `The ${part.value ?? 'INA226'} didn't take the new shunt`, detail: '', error: `${e.name}: ${e.message}` };
       await disconnect();
     }
   }
@@ -151,7 +164,7 @@ export function useIna231({ windowMs = 10000 } = {}) {
   });
 
   return {
-    state, failure, shunt, address, calibration, currentLsb, latest, energy, rate,
+    state, failure, shunt, address, part, calibration, currentLsb, latest, energy, rate,
     currentSource: series.current.source, powerSource: series.power.source, busSource: series.bus.source,
     connect, disconnect, setShunt, resetEnergy,
   };

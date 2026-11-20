@@ -46,6 +46,7 @@ test('by I2C address, a range counting each in it', () => {
   assert.deepEqual(find('0x38'), ['/aht21', '/bh1745']);
   assert.deepEqual(find('0x44'), ['/sht3x', '/sht4x', '/cht8305', '/opt3001', '/ina231']);
   assert.deepEqual(find('0x0D'), ['/qmc5883l']);
+  assert.deepEqual(find('ina226'), ['/ina231']);
   assert.deepEqual(find('0x40'), ['/sht20', '/htu21d', '/hdc1080', '/cht8305', '/ina231']);
   assert.deepEqual(find('0x48'), ['/cht8305', '/lm75', '/ina231']);
 });

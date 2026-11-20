@@ -278,11 +278,11 @@ export const DEVICES = [
   },
   {
     to: '/ina231',
-    name: 'INA231',
+    name: 'INA226 / INA231',
     maker: 'Texas Instruments',
     kind: 'Power monitor',
     group: 'Electricity',
-    measures: 'Voltage, current and power through a shunt resistor, and the energy used: a USB meter of your own.',
+    measures: 'Voltage, current and power through a shunt, and the energy used: a USB meter of your own.',
     bus: 'I2C 0x40-0x4F',
   },
 ];
