@@ -6,6 +6,7 @@ import CollapsibleCard from '../components/CollapsibleCard.vue';
 import ConnectButton from '../components/ConnectButton.vue';
 import StopButton from '../components/StopButton.vue';
 import SpecTable from '../components/SpecTable.vue';
+import HintNote from '../components/HintNote.vue';
 import { reactive, computed } from 'vue';
 import LiveChart from '../components/LiveChart.vue';
 import { canConnect } from '../lib/dongle.js';
@@ -51,6 +52,10 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <section :class="[card, 'text-sm leading-relaxed text-slate-500 dark:text-slate-400']">
       Its CJMCU-3216 board: VCC to 3.3 V (its chip takes 2.4 to 3.6 V), GND, SCL to SCL, SDA to SDA, and VLED to 3.3 V too: VLED feeds its IR LED, so without it proximity stays at 0. INT stays free. No drawing of a board yet. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
     </section>
+
+    <HintNote>
+      Proximity hasn't been tried on our bench yet: our board's VLED isn't wired, so it reads 0 there. Light and IR are checked.
+    </HintNote>
 
     <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
       This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
