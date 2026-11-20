@@ -62,7 +62,7 @@ export const PAGES = [
   {
     path: '/',
     title: 'Sensors live and explained, for STEM lessons and the bench',
-    description: 'Real sensors live in your browser over a USB-to-I2C bridge, nothing to install: motion, compass, distance, humidity, colour, pulse, power, with the physics behind them.',
+    description: 'Real sensors live in your browser over a USB-to-I2C bridge, nothing to install: motion, compass, distance, air, colour, spectrum, pulse, power, and the physics behind.',
   },
   {
     path: '/get-started',
@@ -97,12 +97,12 @@ export const PAGES = [
   {
     path: '/devices',
     title: 'Devices: I2C sensors live in the browser',
-    description: 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, magnetism, humidity, colour, distance, pulse, power. Each with its wiring, readings and settings.',
+    description: 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, compass, humidity, air quality, light, spectrum, distance, pulse, power. Each with its wiring.',
   },
   {
     path: '/physics',
     title: 'Physics: the ideas behind the sensors, live',
-    description: 'The ideas behind the sensors, a page each: what is measured, how a chip measures it, its limits, with live readings and things to try. Motion to air pressure.',
+    description: 'The ideas behind the sensors, a page each: what is measured, how a chip measures it, its limits, live readings, things to try. Motion, air, light, electricity.',
     links: PHYSICS.filter((p) => p.component).map((p) => ({ to: `/physics/${p.slug}`, label: p.title })),
   },
   {
@@ -148,7 +148,7 @@ export const PAGES = [
 // search descriptions where the page's own blurb or summary (shown on its
 // card, the blog list) runs past DESCRIBE_MAX
 const DESCRIBE = {
-  '/': 'Real sensors live in your browser over a USB-to-I2C bridge, nothing to install: motion, distance, humidity, colour, pulse, power, and the physics behind them.',
+  '/': 'Real I2C sensors live in your browser over USB, nothing to install: motion, compass, distance, air quality, colour, spectrum, pulse, power, and their physics.',
   '/bridges': 'The USB-to-I2C bridges tested on our bench: the CH347F EVT first, then the CH347T, CH341T and CH341A, with cheatsheets and how to recognise each.',
   '/mpu6050': 'MPU-6050 / MPU-6500 by InvenSense: acceleration and rotation on 3 axes each, and temperature, what tilts a phone or a drone. Live in your browser over USB.',
   '/sht20': 'SHT20 by Sensirion: relative humidity and temperature at a resolution you pick, the air\'s water and when a glass sweats. Live in your browser over USB.',
@@ -159,7 +159,7 @@ const DESCRIBE = {
   '/blog/three-sensors-from-2012': 'An accelerometer, a compass and a gyro, fourteen years in a drawer, and the device pages, the physics and the algorithm page they led to.',
   '/blog/a-dongle-for-a-bridge': 'A homemade bridge replaced by a cheap CH341T USB board, opened from the browser over WebUSB, on Linux, Windows and Android.',
   '/blog/reloaded': 'Why atiic and i2c.ninja exist: drivers for a decade of I2C chips, loyal to their datasheets, started over, and a site made for education.',
-  '/devices': 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, magnetism, humidity, colour, distance, pulse, power, with wiring, readings and settings.',
+  '/devices': 'The I2C sensors i2c.ninja reads live over a USB-to-I2C bridge: motion, compass, humidity, air quality, light, spectrum, distance, pulse, power, with wiring.',
   '/learn': 'Step-by-step courses through the site: the physics, the wiring, what the sensors give, the maths that joins them, and practice, live in the browser.',
   '/learn/motion': 'An accelerometer and a gyro, step by step: physics, wiring, raw numbers, calibration and fusion, then practice. With an MPU-6050, or an ADXL345 and ITG-3200.',
   '/physics/humidity': 'How much water the air holds, why relative humidity falls as air warms with the same water in it, and the dew point. Live, with things to try.',

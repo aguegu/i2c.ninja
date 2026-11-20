@@ -64,7 +64,7 @@ function crumbs(page) {
 function structured(page) {
   const url = ORIGIN + page.path;
   const common = { name: page.heading ?? page.title, description: page.description, url, inLanguage: 'en', isAccessibleForFree: true };
-  if (page.path === '/') return { '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, electronics, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } };
+  if (page.path === '/') return { '@type': 'WebSite', name: SITE, url: `${ORIGIN}/`, description: page.description, keywords: 'STEM education, physics experiments, sensors, I2C, WebUSB, Web Bluetooth, electronics, accelerometer, gyroscope, compass, humidity, air quality, colour, spectrometer, time of flight, pulse oximeter, current and power, smoke test', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' } };
   if (page.kind === 'device') return { '@type': 'TechArticle', headline: page.title, ...common, about: { '@type': 'Thing', name: page.about.name, description: `a chip by ${page.about.maker}` }, publisher: PUBLISHER };
   if (['physics', 'algorithm', 'course'].includes(page.kind)) return { '@type': 'LearningResource', ...common, learningResourceType: page.kind === 'course' ? 'course' : 'interactive resource', educationalUse: 'experiment', audience: { '@type': 'EducationalAudience', educationalRole: 'teacher, student' }, author: AUTHOR, publisher: PUBLISHER };
   if (page.kind === 'post') return { '@type': 'BlogPosting', headline: page.heading, description: page.description, url, datePublished: page.published, author: AUTHOR, publisher: PUBLISHER, ...(page.image && { image: ORIGIN + page.image }) };

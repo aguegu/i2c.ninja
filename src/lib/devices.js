@@ -8,8 +8,8 @@ import { COURSES } from './courses.js';
 // a group with no device yet isn't shown
 export const DEVICE_GROUPS = [
   { name: 'Motion', color: '--group-motion', blurb: 'How it moves, turns and points: acceleration, rotation, and Earth\'s magnetic field.' },
-  { name: 'Air', color: '--group-air', blurb: 'The air around it: humidity, temperature, pressure and gases.' },
-  { name: 'Light', color: '--group-light', blurb: 'Sensing by light: brightness, colour, distance by timing light, temperature by infrared.' },
+  { name: 'Air', color: '--group-air', blurb: 'The air around it: humidity, temperature, pressure, and air quality (VOCs, CO₂ equivalent).' },
+  { name: 'Light', color: '--group-light', blurb: 'Sensing by light: brightness, colour and spectrum, proximity and distance by timing light, temperature by infrared.' },
   { name: 'Body', color: '--group-body', blurb: 'The body: the pulse, by light through the skin.' },
   { name: 'Electricity', color: '--group-electricity', blurb: 'Voltage, current and power.' },
 ];
