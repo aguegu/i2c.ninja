@@ -1,5 +1,16 @@
 # Releases
 
+## 2.3.12
+
+- **The spectrum of light** (`/physics/spectrum`): a new physics topic on the
+  AS7341. Its eight bands and the near infrared as one live shape, each bar a
+  share of the strongest visible band; up to four spectra held and named to
+  compare. What light is made of (wavelength, a photon's energy E = hc/λ);
+  lamps each with their own spectrum (daylight, a filament and Wien's law, a
+  white LED's blue peak and phosphor, a screen's three primaries); objects
+  coloured by what they reflect (a leaf's red edge, two whites alike to an
+  eye); infrared; things to try with nothing but what's around.
+
 ## 2.3.11
 
 - **Current, voltage and power** (`/physics/electricity`): a new physics
