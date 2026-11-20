@@ -1,5 +1,17 @@
 # Releases
 
+## 2.3.11
+
+- **Current, voltage and power** (`/physics/electricity`): a new physics
+  topic on the INA226 or INA231. Voltage, current, power and the load's
+  resistance (R = V / I) live, half a minute of current charted; charge,
+  current, voltage and resistance; Ohm's law with your own V-I graph (add a
+  point per resistor or supply, a line fitted through the origin, its slope
+  the resistance); how the shunt measures a current; power and energy
+  (mWh, mAh) summed; things to try: series, parallel, an LED, a stalled fan.
+- **Distance topic**: the VL6180X off its device list (its 10 cm don't fit
+  a page about motion); its own page `/vl6180x` stays.
+
 ## 2.3.10
 
 - **INA226** (`/ina226`) and **INA231** (`/ina231`): a page each for their
