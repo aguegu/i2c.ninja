@@ -183,7 +183,8 @@ const compare = computed(() => {
     const before = old[r.key][i], after = now[r.key][i];
     // a scale's change as a share; an offset's in its unit
     const change = r.rel ? (after / before - 1) * 100 : (after - before) * r.k;
-    return { label: `${r.label} ${a}`, unit: r.unit, before: r.rel ? before.toFixed(4) : (before * r.k).toFixed(r.n), after: r.rel ? after.toFixed(4) : (after * r.k).toFixed(r.n), change, n: r.n };
+    const show = (v) => (r.rel ? v.toFixed(4) : f(v * r.k, r.n)); // offsets signed, as the change
+    return { label: `${r.label} ${a}`, unit: r.unit, before: show(before), after: show(after), change, n: r.n };
   }));
   return rows.length ? { rows, savedAt: old.savedAt } : null;
 });
