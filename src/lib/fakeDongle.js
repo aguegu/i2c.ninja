@@ -1,6 +1,6 @@
 // A bridge that isn't there, to drive the live pages without hardware (the
-// ?perf meter and bench/ measure them so): ?fake (a calm sway) or ?fake=kid
-// (shaken hard, as a child would), never on i2c.ninja (lib/dongle.js). It
+// ?perf meter and bench/ measure them so): ?fake (a calm sway), ?fake=kid
+// (shaken hard, as a child would) or ?fake=still (flat, not moving), never on i2c.ninja (lib/dongle.js). It
 // answers as atiic's bus does, with an MPU-6050 at 0x68 on it: WHO_AM_I,
 // the config writes kept (so the ranges the driver sets are the ones it
 // encodes with), and the 14 data bytes made from a motion: the gyro its
@@ -17,6 +17,7 @@ const D2R = Math.PI / 180;
 const MOTIONS = {
   calm: { roll: [[25, 0.15]], pitch: [[15, 0.11]], yaw: [[40, 0.07]], shake: 0 },
   kid: { roll: [[70, 2.1], [20, 5.3]], pitch: [[50, 1.7], [15, 4.1]], yaw: [[120, 1.3], [30, 3.7]], shake: 0.8 },
+  still: { roll: [], pitch: [], yaw: [], shake: 0 }, // flat and still: for the calibration's tests
 };
 
 const wave = (terms, s, phase) => terms.reduce((v, [amp, hz], i) => v + amp * Math.sin(2 * Math.PI * hz * s + phase + i), 0);

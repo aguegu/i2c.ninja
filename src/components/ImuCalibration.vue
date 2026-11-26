@@ -169,6 +169,24 @@ const savedParts = computed(() => {
 });
 
 const f = (v, n = 3) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(n);
+// before saving over a kept calibration: kept, new and the change, per value
+// measured now (one not measured now stays as it was, not listed)
+const ROWS = [
+  { key: 'accelOffsetG', label: 'accel offset', unit: 'mg', k: 1000, n: 1 },
+  { key: 'accelScale', label: 'accel scale', unit: '%', k: 100, n: 2, rel: true },
+  { key: 'gyroOffsetDps', label: 'gyro offset', unit: '°/s', k: 1, n: 2 },
+];
+const compare = computed(() => {
+  const old = saved.value, now = measured.value;
+  if (!old) return null;
+  const rows = ROWS.filter((r) => now[r.key] && old[r.key]).flatMap((r) => AXES.map((a, i) => {
+    const before = old[r.key][i], after = now[r.key][i];
+    // a scale's change as a share; an offset's in its unit
+    const change = r.rel ? (after / before - 1) * 100 : (after - before) * r.k;
+    return { label: `${r.label} ${a}`, unit: r.unit, before: r.rel ? before.toFixed(4) : (before * r.k).toFixed(r.n), after: r.rel ? after.toFixed(4) : (after * r.k).toFixed(r.n), change, n: r.n };
+  }));
+  return rows.length ? { rows, savedAt: old.savedAt } : null;
+});
 const prose = 'max-w-3xl leading-relaxed';
 const button = 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700';
 const primary = 'rounded-lg bg-emerald-600 px-3 py-1.5 text-sm text-white hover:bg-emerald-700 disabled:opacity-50';
@@ -268,8 +286,29 @@ const td = 'px-2 py-1';
         temperature.
       </p>
       <pre class="overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark:bg-slate-900">{{ values }}</pre>
+      <div v-if="compare" class="mt-3">
+        <p :class="['mb-2 text-sm', prose]">Saving replaces what's kept for this sensor (saved {{ new Date(compare.savedAt).toLocaleString() }}). Kept, new, and the change:</p>
+        <table class="font-mono text-sm tabular-nums">
+          <thead>
+            <tr class="text-left text-slate-500 dark:text-slate-400">
+              <th class="py-1 pr-6 font-sans font-normal" />
+              <th class="py-1 pr-6 text-right font-normal">kept</th>
+              <th class="py-1 pr-6 text-right font-normal">new</th>
+              <th class="py-1 text-right font-normal">change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in compare.rows" :key="r.label">
+              <td class="py-0.5 pr-6 font-sans">{{ r.label }}<span class="text-slate-500 dark:text-slate-400">{{ r.unit === '%' ? '' : `, ${r.unit}` }}</span></td>
+              <td class="py-0.5 pr-6 text-right">{{ r.before }}</td>
+              <td class="py-0.5 pr-6 text-right">{{ r.after }}</td>
+              <td class="py-0.5 text-right">{{ r.change >= 0 ? '+' : '−' }}{{ Math.abs(r.change).toFixed(r.n) }} {{ r.unit }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="mt-3 flex flex-wrap items-center gap-2">
-        <button :class="primary" :disabled="!canSave" @click="save">Save for this sensor</button>
+        <button :class="primary" :disabled="!canSave" @click="save">{{ compare ? 'Save over the kept one' : 'Save for this sensor' }}</button>
         <button :class="button" :disabled="!saved" @click="forget">Forget</button>
         <span v-if="imu.bridge && imu.chipName" class="text-sm text-slate-500 dark:text-slate-400">
           kept in this browser for the {{ imu.chipName }} at {{ hex(imu.address) }} on {{ imu.bridge.label }}<template v-if="!imu.bridge.id">: units of it can't be told apart</template>
