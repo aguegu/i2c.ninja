@@ -205,7 +205,7 @@ const td = 'px-2 py-1';
       </p>
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
         <div class="flex shrink-0 flex-col items-center gap-2 lg:w-96">
-          <Board3D :q="target ? target.q : [1, 0, 0, 0]" />
+          <Board3D :q="target ? target.q : [1, 0, 0, 0]" table face-viewer />
         </div>
         <div class="flex min-w-0 flex-1 flex-col gap-3">
           <p class="text-sm text-slate-500 dark:text-slate-400">{{ done }} of 6 recorded</p>

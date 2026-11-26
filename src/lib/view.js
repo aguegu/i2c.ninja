@@ -2,7 +2,7 @@
 // right, 25 degrees up, looking at it (in the board's frame: x the nose,
 // y left, z up). project() gives screen x, y (y down) and depth (larger is
 // nearer the camera). A true rotation, so right-handed.
-const VIEW_AZ_DEG = -140; // from the nose, about z
+export const VIEW_AZ_DEG = -140; // from the nose, about z
 const VIEW_EL_DEG = 25;
 const RAD = Math.PI / 180;
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
