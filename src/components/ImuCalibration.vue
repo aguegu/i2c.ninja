@@ -9,7 +9,7 @@
 import CollapsibleCard from './CollapsibleCard.vue';
 import { reactive, ref, computed, onBeforeUnmount } from 'vue';
 import Board3D from './Board3D.vue';
-import AxisCalLine from './AxisCalLine.vue';
+import AxisCalLine, { exaggerationFor } from './AxisCalLine.vue';
 import { AXES, faceUp, faceKey, fitAccel, correct, tiltError } from '../lib/calibration.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
 import { loadCalibration, saveCalibration, forgetCalibration } from '../lib/calibrationStore.js';
@@ -114,6 +114,7 @@ function startOver() {
 }
 
 const fit = computed(() => fitAccel(faces));
+const exaggerate = computed(() => exaggerationFor(faces, AXES));
 const gyroOffset = computed(() => gyroRuns.value.at(-1) ?? null);
 const spread = (vals) => Math.max(...vals) - Math.min(...vals);
 const check = computed(() => {
@@ -227,11 +228,11 @@ const td = 'px-2 py-1';
 
       <div class="mt-5 flex flex-col gap-3">
         <p :class="prose">
-          Each axis on a line, its errors drawn 10 times larger. The dots: where it read pointing down and pointing up,
+          Each axis on a line, its errors drawn {{ exaggerate === 1 ? 'to scale' : `${exaggerate} times larger` }}. The dots: where it read pointing down and pointing up,
           against the ideal −1 g and +1 g. Halfway between them is its <b>offset</b> (orange: at 0 if it had none); the
           gap between them is twice its <b>scale</b> (2 g if it were perfect).
         </p>
-        <AxisCalLine v-for="(a, k) in AXES" :key="a" :axis="a" :color="COLORS[k]" :up="faces[`+${a}`]?.[k] ?? null" :down="faces[`-${a}`]?.[k] ?? null" />
+        <AxisCalLine v-for="(a, k) in AXES" :key="a" :axis="a" :color="COLORS[k]" :up="faces[`+${a}`]?.[k] ?? null" :down="faces[`-${a}`]?.[k] ?? null" :exaggerate="exaggerate" />
         <p :class="formula">offset = (up + down) / 2      scale = (up − down) / 2      corrected = (reading − offset) / scale</p>
         <p v-if="check" :class="prose">
           The check: gravity is the same 1 g in every position, so the total |a| should be too. Raw it varied by

@@ -1,8 +1,28 @@
+<script>
+// the largest factor of STEPS that keeps every drawn reading within ROOM g
+// of its ±1 g mark and every drawn offset within ±ROOM: for the page to pass
+// to all three axes alike
+const STEPS = [10, 5, 2, 1];
+const ROOM = 0.5;
+export function exaggerationFor(faces, axes) {
+  let worst = 0;
+  axes.forEach((a, k) => {
+    const up = faces[`+${a}`]?.[k], down = faces[`-${a}`]?.[k];
+    if (up !== undefined) worst = Math.max(worst, Math.abs(up - 1));
+    if (down !== undefined) worst = Math.max(worst, Math.abs(down + 1));
+    if (up !== undefined && down !== undefined) worst = Math.max(worst, Math.abs((up + down) / 2));
+  });
+  return STEPS.find((k) => k * worst <= ROOM) ?? 1;
+}
+</script>
+
 <script setup>
 // One axis of the accelerometer's calibration on a number line: where it
 // read pointing up and pointing down, against the ideal +1 g and -1 g, the
 // midpoint between them (the offset) and the span (twice the scale). The
-// errors are tiny, so they're drawn EXAGGERATE times larger.
+// errors are small, so they're drawn `exaggerate` times larger: one factor
+// for all three axes, picked by the page (exaggerationFor) to fit the
+// largest error on the line.
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -10,14 +30,14 @@ const props = defineProps({
   color: { type: String, required: true }, // a CSS var name, e.g. --series-1
   up: { type: Number, default: null }, // g, the reading pointing up
   down: { type: Number, default: null }, // g, pointing down
+  exaggerate: { type: Number, default: 10 },
 });
 
-const EXAGGERATE = 10;
 const W = 520, H = 70, PAD = 30;
 const RANGE = 1.6; // the line's half span, in drawn g
 const xOf = (g) => PAD + ((g + RANGE) / (2 * RANGE)) * (W - 2 * PAD);
 // a reading drawn at its ideal place, plus its error exaggerated
-const drawn = (reading, ideal) => ideal + EXAGGERATE * (reading - ideal);
+const drawn = (reading, ideal) => ideal + props.exaggerate * (reading - ideal);
 
 const marks = computed(() => {
   const m = {};
@@ -26,7 +46,7 @@ const marks = computed(() => {
   if (props.up !== null && props.down !== null) {
     m.offset = (props.up + props.down) / 2;
     m.scale = (props.up - props.down) / 2;
-    m.mid = xOf(EXAGGERATE * m.offset);
+    m.mid = xOf(props.exaggerate * m.offset);
   }
   return m;
 });
