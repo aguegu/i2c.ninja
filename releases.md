@@ -1,5 +1,14 @@
 # Releases
 
+## 2.4.1
+
+- **Acceleration and gravity** (`/physics/acceleration`): an **|a| chart**,
+  √(x² + y² + z²) from the calibrated readings: 1 g at rest however it's
+  tilted, more when shaken, toward 0 g in free fall. Its scale starts at 0
+  (LiveChart's new `fromZero`), so a drop shows as a dip to 0 between 1 g and
+  the landing's spike; the caption gives the height from the dip's length,
+  h = ½ g t².
+
 ## 2.4.0
 
 A new minor: calibrations kept per sensor, across visits, and a page for them.
