@@ -17,7 +17,11 @@ import { loadCalibration, saveCalibration, forgetCalibration } from '../lib/cali
 const RECORD_MS = 1000; // a position averaged over this long, still
 const GYRO_RECORD_MS = 2000;
 const STILL_RANGE_DPS = 3; // the gyro varying more than this on any axis: moving, start again
-const STILL_G = 0.15; // |a| further than this from 1 g: being pushed
+// |a| further than this from 1 g: being pushed. Not tighter: a chip in
+// spec can read well off 1 g before calibration (the MPU-6500's datasheet
+// allows 1 ± 0.154 g: ±3 % sensitivity, ±2 % cross-axis, ±60 mg zero-g per
+// axis), and the gyro already tells moving
+const STILL_G = 0.3;
 const S_PER_MIN = 60;
 const COLORS = ['--series-1', '--series-2', '--series-3'];
 // the six positions in order: how to hold the board, and the pose to show
@@ -54,11 +58,18 @@ const now = computed(() => {
   return a ? faceUp(a) : undefined;
 });
 
-// still: the gyro steady (whatever its offset) and |a| near 1 g
+// still: the gyro steady (whatever its offset) and |a| near 1 g; why not,
+// in waiting (shown under the bar): { moving dps } or { g }
+const waiting = ref(null);
 function steady(r, accel, gyro) {
   r.lo = r.lo ? r.lo.map((v, k) => Math.min(v, gyro[k])) : [...gyro];
   r.hi = r.hi ? r.hi.map((v, k) => Math.max(v, gyro[k])) : [...gyro];
-  return r.hi.every((h, k) => h - r.lo[k] <= STILL_RANGE_DPS) && Math.abs(Math.hypot(...accel) - 1) <= STILL_G;
+  const range = Math.max(...r.hi.map((h, k) => h - r.lo[k]));
+  const g = Math.hypot(...accel);
+  if (range > STILL_RANGE_DPS) { waiting.value = { moving: range }; return false; }
+  if (Math.abs(g - 1) > STILL_G) { waiting.value = { g }; return false; }
+  waiting.value = null;
+  return true;
 }
 
 const stop = imu.onReading((t, accel, gyro) => {
@@ -205,6 +216,8 @@ const td = 'px-2 py-1';
             <template v-else-if="now">
               <p class="text-emerald-700 dark:text-emerald-400">That's it. Hold still…</p>
               <div class="h-2 w-full max-w-xs overflow-hidden rounded bg-slate-200 dark:bg-slate-700"><div class="h-full bg-emerald-600" :style="{ width: `${hold * 100}%` }" /></div>
+              <p v-if="waiting?.moving" class="text-sm text-amber-700 dark:text-amber-400">Still moving: the gyro varied {{ waiting.moving.toFixed(1) }} °/s (under {{ STILL_RANGE_DPS }} counts as still). Rest it on the table.</p>
+              <p v-else-if="waiting?.g" class="text-sm text-amber-700 dark:text-amber-400">It reads {{ waiting.g.toFixed(2) }} g in all, not near 1 g: is something pressing on it?</p>
             </template>
           </template>
           <p v-else class="text-lg text-emerald-700 dark:text-emerald-400"><b>All six recorded.</b></p>
