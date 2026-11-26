@@ -219,16 +219,16 @@ const td = 'px-2 py-1';
             <!-- the status keeps one height whatever it says, so the button below stays put -->
             <div class="flex min-h-28 flex-col gap-3">
               <p v-if="imu.state !== 'running'" class="text-slate-500 dark:text-slate-400">Connect first.</p>
-            <p v-else-if="now === null" class="text-amber-700 dark:text-amber-400">Not lying square on a face: one side should point straight up.</p>
-            <p v-else-if="now && faceKey(now) !== target.key" class="text-amber-700 dark:text-amber-400">Now it's {{ HINT[faceKey(now)] }}: not the position asked for.</p>
-            <template v-else-if="now">
-              <p class="text-emerald-700 dark:text-emerald-400">That's it. Hold still…</p>
-              <div class="h-2 w-full max-w-xs overflow-hidden rounded bg-slate-200 dark:bg-slate-700"><div class="h-full bg-emerald-600" :style="{ width: `${hold * 100}%` }" /></div>
-              <p class="min-h-10 text-sm text-amber-700 dark:text-amber-400">
-                <template v-if="waitingShown?.moving">Still moving: the gyro varied {{ waitingShown.moving.toFixed(1) }} °/s (under {{ STILL_RANGE_DPS }} counts as still). Rest it on the table.</template>
-                <template v-else-if="waitingShown?.g">It reads {{ waitingShown.g.toFixed(2) }} g in all, not near 1 g: is something pressing on it?</template>
-              </p>
-            </template>
+              <p v-else-if="now === null" class="text-amber-700 dark:text-amber-400">Not lying square on a face: one side should point straight up.</p>
+              <p v-else-if="now && faceKey(now) !== target.key" class="text-amber-700 dark:text-amber-400">Now it's {{ HINT[faceKey(now)] }}: not the position asked for.</p>
+              <template v-else-if="now">
+                <p class="text-emerald-700 dark:text-emerald-400">That's it. Hold still…</p>
+                <div class="h-2 w-full max-w-xs overflow-hidden rounded bg-slate-200 dark:bg-slate-700"><div class="h-full bg-emerald-600" :style="{ width: `${hold * 100}%` }" /></div>
+                <p class="min-h-10 text-sm text-amber-700 dark:text-amber-400">
+                  <template v-if="waitingShown?.moving">Still moving: the gyro varied {{ waitingShown.moving.toFixed(1) }} °/s (under {{ STILL_RANGE_DPS }} counts as still). Rest it on the table.</template>
+                  <template v-else-if="waitingShown?.g">It reads {{ waitingShown.g.toFixed(2) }} g in all, not near 1 g: is something pressing on it?</template>
+                </p>
+              </template>
             </div>
           </template>
           <p v-else class="text-lg text-emerald-700 dark:text-emerald-400"><b>All six recorded.</b></p>
