@@ -1,6 +1,6 @@
 // A bridge that isn't there, to drive the live pages without hardware (the
 // ?perf meter and bench/ measure them so): ?fake (a calm sway), ?fake=kid
-// (shaken hard, as a child would) or ?fake=still (flat, not moving), never on i2c.ninja (lib/dongle.js). It
+// (shaken hard, as a child would) ?fake=still (flat, not moving) or ?fake=drop (dropped about 1 m every 3 s), never on i2c.ninja (lib/dongle.js). It
 // answers as atiic's bus does, with an MPU-6050 at 0x68 on it: WHO_AM_I,
 // the config writes kept (so the ranges the driver sets are the ones it
 // encodes with), and the 14 data bytes made from a motion: the gyro its
@@ -18,6 +18,9 @@ const MOTIONS = {
   calm: { roll: [[25, 0.15]], pitch: [[15, 0.11]], yaw: [[40, 0.07]], shake: 0 },
   kid: { roll: [[70, 2.1], [20, 5.3]], pitch: [[50, 1.7], [15, 4.1]], yaw: [[120, 1.3], [30, 3.7]], shake: 0.8 },
   still: { roll: [], pitch: [], yaw: [], shake: 0 }, // flat and still: for the calibration's tests
+  // flat, dropped every 3 s: 0.45 s of free fall (0 g, about 1 m), a 50 ms
+  // landing at 3 g: for the drop timer's tests
+  drop: { roll: [], pitch: [], yaw: [], shake: 0, drop: { every: 3, fall: 0.45, land: 0.05, peak: 3 } },
 };
 
 const wave = (terms, s, phase) => terms.reduce((v, [amp, hz], i) => v + amp * Math.sin(2 * Math.PI * hz * s + phase + i), 0);
@@ -61,7 +64,12 @@ export class FakeDongle {
     const roll = wave(m.roll, s, 0) * D2R, pitch = wave(m.pitch, s, 1) * D2R;
     const rates = [rateOf(m.roll, s, 0), -rateOf(m.pitch, s, 1), -rateOf(m.yaw, s, 2)]; // deg/s about x, y, z
     const jolt = () => (Math.random() - 0.5) * 2 * m.shake;
-    const accel = [-Math.sin(pitch) + jolt(), Math.sin(roll) * Math.cos(pitch) + jolt(), Math.cos(roll) * Math.cos(pitch) + jolt()];
+    let accel = [-Math.sin(pitch) + jolt(), Math.sin(roll) * Math.cos(pitch) + jolt(), Math.cos(roll) * Math.cos(pitch) + jolt()];
+    if (m.drop) {
+      const p = (s % m.drop.every) - (m.drop.every - m.drop.fall - m.drop.land); // its fall at the end of each period
+      if (p >= 0 && p < m.drop.fall) accel = [0, 0, 0];
+      else if (p >= m.drop.fall) accel = accel.map((a) => a * m.drop.peak);
+    }
     const aLsb = ACCEL_LSB_2G >> ((this.regs[REG_ACCEL_CONFIG] >> 3) & 3);
     const gLsb = GYRO_LSB_250 / (1 << ((this.regs[REG_GYRO_CONFIG] >> 3) & 3));
     const clamp = (v) => Math.max(-32768, Math.min(32767, Math.round(v)));

@@ -4,7 +4,7 @@
 // datasheet: a polysilicon proof mass on springs, a differential
 // capacitor), tilt from gravity; the devices that measure it; things to try
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
-import { reactive, computed, onBeforeUnmount } from 'vue';
+import { reactive, ref, computed, onBeforeUnmount } from 'vue';
 import LiveChart from '../../components/LiveChart.vue';
 import { makeSeries } from '../../lib/series.js';
 import SvgDrawing from '../../components/SvgDrawing.vue';
@@ -20,8 +20,52 @@ const WINDOW_MS = 10000;
 const SIZE_FLOOR_G = 1.5; // the chart reaches at least this: 1 g well inside
 const SIZE = [{ label: '|a|', color: '--chart-text' }];
 const size = makeSeries(1, WINDOW_MS);
-const stop = src.onReading((t, v) => size.push(t, [Math.hypot(...v)]));
+const stop = src.onReading((t, v) => {
+  const g = Math.hypot(...v);
+  size.push(t, [g]);
+  dropStep(t, g);
+});
 onBeforeUnmount(stop);
+
+// the drop timer: a fall is |a| below FALL_G; its start and end each where
+// |a| crosses FALL_G, between the two readings either side (interpolated), so
+// the time isn't only as fine as the readings; its height from that time,
+// h = ½ g t²; the landing's peak |a| in the LANDING_MS after it
+const G = 9.81; // m/s², a free fall's acceleration
+const FALL_G = 0.5; // |a| below this: falling (1 g at rest, ~0 g falling)
+const MIN_FALL_MS = 80; // shorter: a bump or a shake, not a drop (~3 cm)
+const MAX_FALL_MS = 3000; // longer: not a drop (set down on its side? held weightless?)
+const LANDING_MS = 300;
+const KEEP = 5;
+const drops = ref([]); // [{ s, cm, ± cm, peak g, readings, gapMs }], the newest first
+let prev = null, start = null, readings = 0, gapMax = 0, landing = null;
+const cross = (a, b) => a.t + ((FALL_G - a.g) / (b.g - a.g)) * (b.t - a.t); // when |a| passed FALL_G
+function dropStep(t, g) {
+  const now = { t, g };
+  if (landing) {
+    if (t <= landing.until) landing.drop.peak = Math.max(landing.drop.peak, g);
+    else landing = null;
+  }
+  if (prev) {
+    if (start === null && prev.g >= FALL_G && g < FALL_G) { start = cross(prev, now); readings = 1; gapMax = t - prev.t; }
+    else if (start !== null && g < FALL_G) { readings++; gapMax = Math.max(gapMax, t - prev.t); if (t - start > MAX_FALL_MS) start = null; }
+    else if (start !== null && g >= FALL_G) {
+      const ms = cross(prev, now) - start;
+      gapMax = Math.max(gapMax, t - prev.t);
+      if (ms >= MIN_FALL_MS) {
+        const s = ms / 1000;
+        // the time's uncertainty, about half a reading's gap at each end: dh/h = 2 dt/t
+        const cm = 50 * G * s * s;
+        const drop = { s, cm, pm: (cm * 2 * (gapMax / 2 / 1000)) / s, peak: g, readings, gapMs: gapMax, at: new Date() };
+        drops.value = [drop, ...drops.value].slice(0, KEEP);
+        landing = { until: t + LANDING_MS, drop };
+      }
+      start = null;
+    }
+  }
+  prev = now;
+}
+const lastDrop = computed(() => drops.value[0] ?? null);
 const sizeNow = computed(() => (src.latest ? Math.hypot(...src.latest) : null));
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -50,6 +94,43 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         The three axes together, √(x² + y² + z²): 1 g at rest however it's tilted, more when shaken, and toward 0 g
         while it falls. Drop it onto a cushion: the dip to 0 is the fall, the spike after it the landing. The dip's
         length gives the height, h = ½ g t²: 0.32 s is about 50 cm, 0.45 s about 1 m.
+      </p>
+    </CollapsibleCard>
+
+    <CollapsibleCard id="drop-timer" title="Drop timer" class="leading-relaxed">
+      <h2 class="mb-2 text-lg font-semibold">Drop timer</h2>
+      <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">
+        Connect, hold the board over a cushion and let go. The fall is timed from where |a| drops below {{ FALL_G }} g to
+        where it climbs back at the landing, and the height worked out from it: an object falls h = ½ g t² in a time t.
+      </p>
+      <div v-if="lastDrop" class="flex flex-wrap items-baseline gap-x-8 gap-y-2 font-mono tabular-nums">
+        <p class="text-4xl">{{ lastDrop.s.toFixed(3) }} <span class="text-lg">s</span></p>
+        <p class="text-4xl">≈ {{ lastDrop.cm.toFixed(0) }} <span class="text-lg">cm</span> <span class="text-base text-slate-500 dark:text-slate-400">± {{ lastDrop.pm.toFixed(0) }}</span></p>
+        <p class="text-2xl">landing {{ lastDrop.peak.toFixed(1) }} <span class="text-base">g</span></p>
+      </div>
+      <p v-else class="text-slate-500 dark:text-slate-400">No drop yet.</p>
+      <table v-if="drops.length > 1" class="mt-3 font-mono text-sm tabular-nums">
+        <thead>
+          <tr class="text-left text-slate-500 dark:text-slate-400">
+            <th class="py-1 pr-6 font-sans font-normal">earlier</th>
+            <th class="py-1 pr-6 text-right font-normal">time</th>
+            <th class="py-1 pr-6 text-right font-normal">height</th>
+            <th class="py-1 text-right font-normal">landing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(d, i) in drops.slice(1)" :key="i">
+            <td class="py-0.5 pr-6 font-sans text-slate-500 dark:text-slate-400">{{ d.at.toLocaleTimeString() }}</td>
+            <td class="py-0.5 pr-6 text-right">{{ d.s.toFixed(3) }} s</td>
+            <td class="py-0.5 pr-6 text-right">{{ d.cm.toFixed(0) }} ± {{ d.pm.toFixed(0) }} cm</td>
+            <td class="py-0.5 text-right">{{ d.peak.toFixed(1) }} g</td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-if="lastDrop" class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        {{ lastDrop.readings }} readings in the fall, up to {{ lastDrop.gapMs.toFixed(0) }} ms apart: the start and end are
+        found between readings, so the time is good to about half a gap at each end, hence the ±. A tumble on the way
+        reads a little above 0 g (the chip spins round the board's centre), and a soft cushion stretches the landing.
       </p>
     </CollapsibleCard>
 
