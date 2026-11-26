@@ -269,8 +269,11 @@ const td = 'px-2 py-1';
       </p>
       <pre class="overflow-x-auto rounded-lg bg-slate-100 p-3 font-mono text-sm dark:bg-slate-900">{{ values }}</pre>
       <div class="mt-3 flex flex-wrap items-center gap-2">
-        <button :class="primary" :disabled="!canSave" @click="save">Save for this session</button>
+        <button :class="primary" :disabled="!canSave" @click="save">Save for this sensor</button>
         <button :class="button" :disabled="!saved" @click="forget">Forget</button>
+        <span v-if="imu.bridge && imu.chipName" class="text-sm text-slate-500 dark:text-slate-400">
+          kept in this browser for the {{ imu.chipName }} at {{ hex(imu.address) }} on {{ imu.bridge.label }}<template v-if="!imu.bridge.id">: units of it can't be told apart</template>
+        </span>
       </div>
       <p v-if="saveFailed" class="mt-2 text-sm text-red-700 dark:text-red-400">This browser didn't let the page keep it (private window, or site data blocked).</p>
       <p v-else-if="saved" :class="['mt-2 text-sm text-emerald-700 dark:text-emerald-400', prose]">
