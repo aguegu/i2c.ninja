@@ -25,6 +25,9 @@ const props = defineProps({
   // least floor wide, centred on them), for values far from zero (a bus
   // voltage); else symmetric around 0, never below +/-floor (an IMU's axes)
   fit: { type: Boolean, default: false },
+  // fromZero: from 0 up to the data's top, never below floor: a size that's
+  // never negative (|a|), its 0 always on the chart
+  fromZero: { type: Boolean, default: false },
   digits: { type: Number, default: 2 },
 });
 
@@ -102,6 +105,11 @@ function draw() {
     step = niceStep(2 * half, 4);
     lo = Math.floor((mid - half) / step) * step;
     hi = Math.ceil((mid + half) / step) * step;
+  } else if (props.fromZero) {
+    const top = lo <= hi ? Math.max(props.floor, hi) : props.floor;
+    step = niceStep(top, 4);
+    hi = Math.ceil(top / step) * step;
+    lo = 0;
   } else {
     let top = props.floor;
     if (lo <= hi) top = Math.max(top, Math.abs(lo), Math.abs(hi));

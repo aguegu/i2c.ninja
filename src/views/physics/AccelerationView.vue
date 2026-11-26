@@ -4,7 +4,9 @@
 // datasheet: a polysilicon proof mass on springs, a differential
 // capacitor), tilt from gravity; the devices that measure it; things to try
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
-import { reactive } from 'vue';
+import { reactive, computed, onBeforeUnmount } from 'vue';
+import LiveChart from '../../components/LiveChart.vue';
+import { makeSeries } from '../../lib/series.js';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import AccelerometerViews from '../../components/AccelerometerViews.vue';
 import SourceBar from '../../components/SourceBar.vue';
@@ -12,6 +14,15 @@ import { ACCELEROMETERS } from '../../lib/sources.js';
 import { useSource } from '../../lib/useSource.js';
 
 const src = reactive(useSource(ACCELEROMETERS));
+// |a|, the acceleration's size, its own chart: 1 g at rest whatever the tilt,
+// past 1 g shaken, toward 0 g falling
+const WINDOW_MS = 10000;
+const SIZE_FLOOR_G = 1.5; // the chart reaches at least this: 1 g well inside
+const SIZE = [{ label: '|a|', color: '--chart-text' }];
+const size = makeSeries(1, WINDOW_MS);
+const stop = src.onReading((t, v) => size.push(t, [Math.hypot(...v)]));
+onBeforeUnmount(stop);
+const sizeNow = computed(() => (src.latest ? Math.hypot(...src.latest) : null));
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -32,6 +43,15 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </section>
 
     <AccelerometerViews :a="src.latest ? { x: src.latest[0], y: src.latest[1], z: src.latest[2] } : null" :source="src.source" />
+
+    <CollapsibleCard id="size-of-a" title="|a|: the size of the acceleration">
+      <LiveChart title="|a|" unit="g" :series="SIZE" :values="sizeNow === null ? [] : [sizeNow]" :source="size.source" :window-ms="WINDOW_MS" :floor="SIZE_FLOOR_G" :digits="3" from-zero />
+      <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+        The three axes together, √(x² + y² + z²): 1 g at rest however it's tilted, more when shaken, and toward 0 g
+        while it falls. Drop it onto a cushion: the dip to 0 is the fall, the spike after it the landing. The dip's
+        length gives the height, h = ½ g t²: 0.32 s is about 50 cm, 0.45 s about 1 m.
+      </p>
+    </CollapsibleCard>
 
 
     <CollapsibleCard id="a-mass-on-springs" title="A mass on springs" class="leading-relaxed">
