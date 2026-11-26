@@ -37,8 +37,8 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       </select>
     </label>
     <span v-if="!imu.calibrated" class="text-sm text-slate-500 dark:text-slate-400">raw readings: no calibration here</span>
-    <span v-else-if="imu.calibration && (!imu.chipName || imu.calibration.chip === imu.chipName)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="`Saved ${imu.calibration.savedAt} for the ${imu.calibration.chip}: taken off every reading here and on the physics and algorithm pages. The Calibration tab forgets it.`">
-      your calibration applied ({{ imu.calibration.chip }}, saved {{ savedTime(imu.calibration) }})
+    <span v-else-if="imu.calibration && (!imu.chipName || imu.calibration.chip === imu.chipName)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="`The ${imu.calibration.chip} at ${hex(imu.calibration.address)} on ${imu.calibration.bridge?.label}, saved ${savedTime(imu.calibration)}: taken off every reading here and on the physics and algorithm pages`">
+      your calibration applied (<RouterLink to="/my-sensors" class="underline">{{ imu.calibration.chip }} on {{ imu.calibration.bridge?.label }}</RouterLink>)
     </span>
     <span v-else-if="imu.state === 'running'" class="text-sm text-slate-500 dark:text-slate-400">not calibrated · <RouterLink to="/mpu6050#calibration" class="underline">calibrate</RouterLink></span>
     <span v-if="imu.off" class="w-full text-sm text-amber-700 dark:text-amber-400">

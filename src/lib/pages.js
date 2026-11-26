@@ -70,6 +70,11 @@ export const PAGES = [
     description: 'The CH347 or CH341 USB-to-I2C bridge set up: the mode switch or the jumpers, the browser and what Linux, Windows, macOS and Android need for WebUSB.',
   },
   {
+    path: '/my-sensors',
+    title: 'My sensors: the calibrations kept in this browser',
+    description: 'The IMUs you calibrated on i2c.ninja, each kept with its USB-to-I2C bridge in this browser: offsets and scales, to forget or redo.',
+  },
+  {
     path: '/bridges',
     title: 'USB-to-I2C bridges: the ones we tested (CH347F, CH347T, CH341T, CH341A)',
     description: 'The USB-to-I2C bridges we ran on our bench: WCH\'s CH347F EVT first, then the CH347T, CH341T and CH341A, each with its cheatsheet and how to recognise it.',

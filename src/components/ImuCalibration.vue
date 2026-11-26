@@ -7,12 +7,13 @@
 // page's calibration is switched off while here (raw readings), and its
 // saved one read again after a save or a forget.
 import CollapsibleCard from './CollapsibleCard.vue';
-import { reactive, ref, computed, onBeforeUnmount } from 'vue';
+import { reactive, ref, computed, watch, onBeforeUnmount } from 'vue';
 import Board3D from './Board3D.vue';
 import AxisCalLine, { exaggerationFor } from './AxisCalLine.vue';
 import { AXES, faceUp, faceKey, fitAccel, correct, tiltError } from '../lib/calibration.js';
 import { fromAxisAngle } from '../lib/quaternion.js';
-import { loadCalibration, saveCalibration, forgetCalibration } from '../lib/calibrationStore.js';
+import { calibrationFor, saveCalibration, forgetCalibration } from '../lib/calibrationStore.js';
+import { hex } from '../lib/dongle.js';
 
 const RECORD_MS = 1000; // a position averaged over this long, still
 const GYRO_RECORD_MS = 2000;
@@ -42,7 +43,10 @@ const imu = props.imu;
 const wasOn = imu.calibrationOn;
 imu.setCalibrationOn(false);
 onBeforeUnmount(() => imu.setCalibrationOn(wasOn));
-const saved = ref(loadCalibration()); // what's kept for this tab
+// what's kept for this sensor: its bridge, chip and address (lib/calibrationStore.js)
+const current = () => calibrationFor(imu.bridge, imu.chipName, imu.address);
+const saved = ref(current());
+watch(() => [imu.bridge, imu.chipName, imu.address], () => { saved.value = current(); });
 const saveFailed = ref(false);
 
 const gyroRuns = ref([]); // [{ at, temperature, offset [3] }]
@@ -142,15 +146,19 @@ const measured = computed(() => ({
 const values = computed(() => JSON.stringify(measured.value, null, 2));
 const canSave = computed(() => imu.chipName && (measured.value.gyroOffsetDps || measured.value.accelOffsetG));
 
+// what was measured now, over what was kept (a gyro run alone keeps the
+// accelerometer's earlier fit, and the other way round)
 function save() {
-  const v = Object.fromEntries(Object.entries(measured.value).filter(([, x]) => x !== null));
-  saveFailed.value = !saveCalibration(v);
-  saved.value = loadCalibration();
+  const keep = ['gyroOffsetDps', 'gyroOffsetAtC', 'accelOffsetG', 'accelScale'];
+  const before = saved.value ? Object.fromEntries(keep.filter((k) => saved.value[k] != null).map((k) => [k, saved.value[k]])) : {};
+  const now = Object.fromEntries(Object.entries(measured.value).filter(([k, x]) => x !== null && keep.includes(k)));
+  saveFailed.value = !saveCalibration(imu.bridge, imu.chipName, imu.address, { ...before, ...now });
+  saved.value = current();
   imu.reloadCalibration();
 }
 
 function forget() {
-  forgetCalibration();
+  if (saved.value) forgetCalibration(saved.value.key);
   saved.value = null;
   imu.reloadCalibration();
 }
@@ -266,9 +274,10 @@ const td = 'px-2 py-1';
       </div>
       <p v-if="saveFailed" class="mt-2 text-sm text-red-700 dark:text-red-400">This browser didn't let the page keep it (private window, or site data blocked).</p>
       <p v-else-if="saved" :class="['mt-2 text-sm text-emerald-700 dark:text-emerald-400', prose]">
-        Kept for this tab: the {{ saved.chip }}'s {{ savedParts }}. Every {{ saved.chip }} reading takes it off from now on:
-        this page's other tabs, and the physics and algorithm pages ("your calibration applied", by their controls).
-        Forget it to see raw readings again. It goes when the browser tab closes.
+        Kept in this browser for the {{ saved.chip }} at {{ hex(saved.address) }} on {{ saved.bridge?.label }}: its {{ savedParts }}.
+        Its readings take it off from now on, on this page's other tabs and the physics and algorithm pages ("your
+        calibration applied", by their controls), every time it's connected on that bridge. Forget it to see raw readings
+        again, or see every sensor kept on <RouterLink to="/my-sensors" class="underline">My sensors</RouterLink>.
       </p>
       <p :class="['mt-3', prose]">
         Not covered here: the axes not being exactly 90° apart (a full 3 × 3 correction instead of three scales), the

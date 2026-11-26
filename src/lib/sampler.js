@@ -7,8 +7,10 @@
 //        { type: 'start', chosen: { key: { ci, address } }, readMs, periods: { key: ms } }
 //        { type: 'stop' }
 //   out: { type: 'found', found: { key: [{ ci, address }] } }
+//        { type: 'bridge', bridge: { model, id, label } } (lib/bridge.js)
 //        { type: 'reading', t, v }  { type: 'error'|'failure', ... }  { type: 'stopped' }
 import * as SOURCES from './sources.js';
+import { bridgeOf } from './bridge.js';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -84,6 +86,7 @@ export function createSampler({ openBus, post }) {
         return;
       }
       try {
+        post({ type: 'bridge', bridge: await bridgeOf(bus) });
         post({ type: 'found', found: await scan() });
       } catch (e) {
         post({ type: 'failure', title: 'Scanning the bus failed', detail: '', name: e.name, message: e.message });

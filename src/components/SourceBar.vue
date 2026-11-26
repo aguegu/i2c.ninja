@@ -47,8 +47,8 @@ const note = (parts) => [
           <template v-else>it hasn't been calibrated.</template>
           <RouterLink to="/mpu6050#calibration" class="underline">{{ src.off.calibrated ? 'Calibrate again' : 'Calibrate it' }}</RouterLink>.
         </span>
-        <span v-if="src.calibration && Object.values(src.calibration).some(Boolean)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="'The MPU page\'s Calibration tab: its offsets and scales taken off every reading'">
-          your calibration applied ({{ Object.values(src.calibration).find(Boolean).chip }}, saved {{ savedTime(Object.values(src.calibration).find(Boolean)) }})
+        <span v-if="src.calibration && Object.values(src.calibration).some(Boolean)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="`Saved ${savedTime(Object.values(src.calibration).find(Boolean))} on the MPU page's Calibration tab: its offsets and scales taken off every reading`">
+          your calibration applied (<RouterLink to="/my-sensors" class="underline">{{ Object.values(src.calibration).find(Boolean).chip }} on {{ Object.values(src.calibration).find(Boolean).bridge?.label }}</RouterLink>)
         </span>
       </template>
     </template>

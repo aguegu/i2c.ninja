@@ -13,7 +13,8 @@ import { ref, onBeforeUnmount } from 'vue';
 import { nameSeries, tap } from './recorder.js';
 import { Mpu6050, Mpu6500 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
-import { loadCalibration, applyCalibration, offWatch } from './calibrationStore.js';
+import { calibrationFor, applyCalibration, offWatch } from './calibrationStore.js';
+import { bridgeOf } from './bridge.js';
 
 export const DRIVERS = [Mpu6050, Mpu6500];
 export const SCALES = { gyroscope: Mpu6050.gyroscopeScales, accelerometer: Mpu6050.accelerometerScales };
@@ -37,12 +38,13 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const address = ref(ADDRESSES[0]);
   const chipName = ref(null); // the chip found, by its WHO_AM_I
   const chip = ref(null); // its facts (atiic's Driver.chip): tempLsb, tempOffset, ...
-  const calibration = ref(calibrated ? loadCalibration() : null); // the Calibration tab's, if saved this session
+  const bridge = ref(null); // which bridge (lib/bridge.js)
+  const calibration = ref(null); // the sensor's saved one (this bridge, chip and address), when calibrated
   const calibrationOn = ref(true); // always on; off only while the Calibration tab measures (raw)
   const watch = offWatch();
   const off = ref(null); // held still and far from 1 g: { g, calibrated, chip }
   // the saved calibration is for the chip connected, and applied
-  const calibrationApplies = () => !!(calibration.value && calibrationOn.value && calibration.value.chip === chipName.value);
+  const calibrationApplies = () => !!(calibration.value && calibrationOn.value);
   const found = ref([]);
   const gyroscopeScale = ref('500');
   const accelerometerScale = ref('4');
@@ -139,6 +141,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     }
     chipName.value = Driver.chip.name;
     chip.value = Driver.chip;
+    calibration.value = calibrated ? calibrationFor(bridge.value, Driver.chip.name, addr) : null;
     return new Driver(bus, addr);
   }
 
@@ -147,6 +150,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     state.value = 'connecting';
     try {
       bus = await openDongle(SCL_HZ, via);
+      bridge.value = await bridgeOf(bus);
     } catch (e) {
       failure.value = { ...explain(e, platform), error: e.message };
       state.value = 'idle';
@@ -224,11 +228,11 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
 
   // the Calibration tab saved or forgot one: read it again (the other pages' controls show it)
   function reloadCalibration() {
-    if (calibrated) calibration.value = loadCalibration();
+    if (calibrated) calibration.value = calibrationFor(bridge.value, chipName.value, address.value);
   }
 
   return {
-    calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration, off,
+    calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration, off, bridge,
     state, failure, address, chipName, chip, found, gyroscopeScale, accelerometerScale, latest, rate,
     accelSource, gyroSource,
     connect, disconnect, configure, onReading,

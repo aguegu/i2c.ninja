@@ -63,8 +63,9 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   // for (nothing saved: readings unchanged): an accelerometer's offset and
   // scale, a gyroscope's offset (a page's own Zero then takes what's left)
   const CORRECT = { ACCELEROMETERS: correctAccel, GYROSCOPES: correctGyro };
+  const bridge = ref(null); // which bridge (lib/bridge.js), as the sampler says
   const calibration = computed(() => Object.fromEntries(keys.map((k) => {
-    const c = CORRECT[nameOf(kinds[k])] && pick(k) ? calibrationFor(pick(k).name) : null;
+    const c = CORRECT[nameOf(kinds[k])] && pick(k) ? calibrationFor(bridge.value, pick(k).name, pick(k).address) : null;
     return [k, c];
   })));
   const correct = (v) => {
@@ -107,6 +108,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
 
   function onMessage({ data }) {
     if (data.type === 'reading') onReadingPosted(data.t, data.v);
+    else if (data.type === 'bridge') bridge.value = data.bridge;
     else if (data.type === 'failure' && state.value === 'running') {
       failure.value = { title: data.title, detail: data.detail, error: `${data.name}: ${data.message}` };
       disconnect();
@@ -228,5 +230,5 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose, calibration, off };
+  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose, calibration, off, bridge };
 }

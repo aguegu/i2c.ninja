@@ -25,6 +25,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class FakeDongle {
   constructor(mode = 'calm') {
+    this.isFake = true; // lib/bridge.js: the fake bridge
     this.motion = MOTIONS[mode] ?? MOTIONS.calm;
     this.regs = new Uint8Array(128);
     this.regs[REG_WHO_AM_I] = WHO_AM_I;
