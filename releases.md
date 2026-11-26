@@ -1,5 +1,16 @@
 # Releases
 
+## 2.4.2
+
+- **A drop timer** on Acceleration and gravity (`/physics/acceleration`): a
+  fall is the stretch where |a| is below 0.5 g, its start and end
+  interpolated between the readings either side; its height h = ½ g t², with
+  a ± from the readings' largest gap; the landing's peak |a|; the last drop
+  large, the four before it in a table. Dips under 80 ms (bumps) and
+  stretches over 3 s are not drops.
+- **?fake=drop**: the fake bridge dropped 0.45 s (about 1 m) every 3 s,
+  landing at 3 g, for testing it.
+
 ## 2.4.1
 
 - **Acceleration and gravity** (`/physics/acceleration`): an **|a| chart**,
