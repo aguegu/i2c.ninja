@@ -17,6 +17,7 @@ import { MainSampler } from './mainSampler.js';
 import * as SOURCES from './sources.js';
 import { makeSeries } from './series.js';
 import { nameSeries } from './recorder.js';
+import { calibrationFor, correctAccel, correctGyro } from './calibrationStore.js';
 
 const SCL_HZ = 400000;
 export const READ_MS = 20; // 50 a second: smooth enough to see a shake (a chip's readMs if slower)
@@ -58,8 +59,23 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
   let chosenDevice = null; // the page's handle of the bridge, to notice its unplugging
   let bleDevice = null; // a Dart over Bluetooth, to notice its disconnect
 
+  // the MPU page's saved calibration, always applied to the chip it was saved
+  // for (nothing saved: readings unchanged): an accelerometer's offset and
+  // scale, a gyroscope's offset (a page's own Zero then takes what's left)
+  const CORRECT = { ACCELEROMETERS: correctAccel, GYROSCOPES: correctGyro };
+  const calibration = computed(() => Object.fromEntries(keys.map((k) => {
+    const c = CORRECT[nameOf(kinds[k])] && pick(k) ? calibrationFor(pick(k).name) : null;
+    return [k, c];
+  })));
+  const correct = (v) => {
+    const cal = calibration.value;
+    if (!keys.some((k) => cal[k])) return v;
+    return Object.fromEntries(keys.map((k) => [k, cal[k] && v[k] ? CORRECT[nameOf(kinds[k])](cal[k], v[k]) : v[k]]));
+  };
+
   // a reading posted by the worker: its time back on this page's clock
-  function onReadingPosted(t, v) {
+  function onReadingPosted(t, raw) {
+    const v = correct(raw);
     const t0 = t - performance.timeOrigin;
     publish.push(v);
     noteReading();
@@ -202,5 +218,5 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose };
+  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose, calibration };
 }

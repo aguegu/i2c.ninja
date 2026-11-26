@@ -6,6 +6,7 @@ import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
 import { canConnect, hex } from '../lib/dongle.js';
 import { ADDRESSES, SCALES } from '../lib/useImu.js';
+import { savedTime } from '../lib/calibrationStore.js';
 
 defineProps({ imu: { type: Object, required: true } });
 
@@ -36,10 +37,9 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       </select>
     </label>
     <span v-if="!imu.calibrated" class="text-sm text-slate-500 dark:text-slate-400">raw readings: no calibration here</span>
-    <label v-else-if="imu.calibration && (!imu.chipName || imu.calibration.chip === imu.chipName)" class="flex items-center gap-2 text-sm" :title="`saved ${imu.calibration.savedAt} for the ${imu.calibration.chip}`">
-      <input type="checkbox" class="size-4 accent-emerald-600" :checked="imu.calibrationOn" @change="imu.setCalibrationOn($event.target.checked)">
-      calibrated ({{ imu.calibration.chip }})
-    </label>
+    <span v-else-if="imu.calibration && (!imu.chipName || imu.calibration.chip === imu.chipName)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="`Saved ${imu.calibration.savedAt} for the ${imu.calibration.chip}: taken off every reading here and on the physics and algorithm pages. The Calibration tab forgets it.`">
+      your calibration applied ({{ imu.calibration.chip }}, saved {{ savedTime(imu.calibration) }})
+    </span>
     <span v-else-if="imu.state === 'running'" class="text-sm text-slate-500 dark:text-slate-400">not calibrated · <RouterLink to="/mpu6050#calibration" class="underline">calibrate</RouterLink></span>
     <span v-if="imu.state === 'running'" class=" font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
       {{ imu.chipName }} · {{ imu.latest ? `${imu.latest.temperature.toFixed(1)} °C · ` : '' }}{{ imu.rate.toFixed(0) }} readings/s

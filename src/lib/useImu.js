@@ -38,7 +38,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const chipName = ref(null); // the chip found, by its WHO_AM_I
   const chip = ref(null); // its facts (atiic's Driver.chip): tempLsb, tempOffset, ...
   const calibration = ref(calibrated ? loadCalibration() : null); // the Calibration tab's, if saved this session
-  const calibrationOn = ref(true); // the switch in the controls
+  const calibrationOn = ref(true); // always on; off only while the Calibration tab measures (raw)
   // the saved calibration is for the chip connected, and applied
   const calibrationApplies = () => !!(calibration.value && calibrationOn.value && calibration.value.chip === chipName.value);
   const found = ref([]);

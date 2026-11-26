@@ -266,8 +266,9 @@ const td = 'px-2 py-1';
       </div>
       <p v-if="saveFailed" class="mt-2 text-sm text-red-700 dark:text-red-400">This browser didn't let the page keep it (private window, or site data blocked).</p>
       <p v-else-if="saved" :class="['mt-2 text-sm text-emerald-700 dark:text-emerald-400', prose]">
-        Kept for this tab: the {{ saved.chip }}'s {{ savedParts }}. Steps 2 to 5 and the motion page take it off every
-        reading now (their controls say "calibrated", with a switch to compare). It goes when the tab closes.
+        Kept for this tab: the {{ saved.chip }}'s {{ savedParts }}. Every {{ saved.chip }} reading takes it off from now on:
+        this page's other tabs, and the physics and algorithm pages ("your calibration applied", by their controls).
+        Forget it to see raw readings again. It goes when the browser tab closes.
       </p>
       <p :class="['mt-3', prose]">
         Not covered here: the axes not being exactly 90° apart (a full 3 × 3 correction instead of three scales), the

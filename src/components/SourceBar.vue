@@ -7,6 +7,7 @@ import ConnectButton from './ConnectButton.vue';
 import StopButton from './StopButton.vue';
 import LiveSettings from './LiveSettings.vue';
 import { canConnect, hex } from '../lib/dongle.js';
+import { savedTime } from '../lib/calibrationStore.js';
 
 defineProps({ src: { type: Object, required: true } });
 const link = 'text-emerald-700 underline dark:text-emerald-400';
@@ -40,6 +41,9 @@ const note = (parts) => [
           </label>
           <span v-else-if="src.found[p.key].length === 1" class="font-mono text-sm text-slate-500 dark:text-slate-400"><template v-if="src.parts.length > 1">{{ p.noun }}: </template>{{ src.found[p.key][0].name }} at {{ hex(src.found[p.key][0].address) }}</span>
         </template>
+        <span v-if="src.calibration && Object.values(src.calibration).some(Boolean)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="'The MPU page\'s Calibration tab: its offsets and scales taken off every reading'">
+          your calibration applied ({{ Object.values(src.calibration).find(Boolean).chip }}, saved {{ savedTime(Object.values(src.calibration).find(Boolean)) }})
+        </span>
       </template>
     </template>
     <span v-else class="text-sm text-amber-700 dark:text-amber-400">This browser has no WebUSB and no Web Bluetooth: open the page in Chrome, Edge or another Chromium, or a Web Bluetooth browser like Bluefy for a Dart.</span>

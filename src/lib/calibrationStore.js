@@ -1,7 +1,8 @@
 // The IMU's calibration (the MPU page's Calibration tab), kept for this browser tab:
 // sessionStorage, so it lasts while the tab does. Stored per chip type
 // (WHO_AM_I's name): another board of the same type would take it too,
-// which the controls make plain ("calibrated", with a switch to turn it off).
+// which the controls make plain ("your calibration applied"; forgotten on the
+// Calibration tab). Always applied to its chip: nothing saved, readings pass as they are.
 const KEY = 'i2c.ninja/imu-calibration';
 
 // { chip, gyroOffsetDps?, gyroOffsetAtC?, accelOffsetG?, accelScale?, savedAt } or null
@@ -30,6 +31,18 @@ export function forgetCalibration() {
     // nothing kept anyway
   }
 }
+
+// the saved calibration for a chip (by name), or null (none saved, or saved
+// for another chip): readings then pass unchanged, as an offset of 0 and a
+// scale of 1 would leave them
+export function calibrationFor(chip) {
+  const c = loadCalibration();
+  return c && c.chip === chip ? c : null;
+}
+export const correctAccel = (cal, v) => (cal?.accelOffsetG && cal.accelScale ? v.map((a, k) => (a - cal.accelOffsetG[k]) / cal.accelScale[k]) : v);
+export const correctGyro = (cal, v) => (cal?.gyroOffsetDps ? v.map((g, k) => g - cal.gyroOffsetDps[k]) : v);
+// the time it was saved, as the page shows it
+export const savedTime = (cal) => (cal?.savedAt ? new Date(cal.savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
 
 // a reading's accel (g) and gyro (deg/s) with the calibration taken off,
 // each part only if it was measured
