@@ -41,6 +41,12 @@ const note = (parts) => [
           </label>
           <span v-else-if="src.found[p.key].length === 1" class="font-mono text-sm text-slate-500 dark:text-slate-400"><template v-if="src.parts.length > 1">{{ p.noun }}: </template>{{ src.found[p.key][0].name }} at {{ hex(src.found[p.key][0].address) }}</span>
         </template>
+        <span v-if="src.off" class="w-full text-sm text-amber-700 dark:text-amber-400">
+          Held still, the {{ src.off.chip }} reads {{ src.off.g.toFixed(2) }} g, not the 1 g gravity always is:
+          <template v-if="src.off.calibrated">the saved calibration doesn't fit it (another board, or a different temperature?).</template>
+          <template v-else>it hasn't been calibrated.</template>
+          <RouterLink to="/mpu6050#calibration" class="underline">{{ src.off.calibrated ? 'Calibrate again' : 'Calibrate it' }}</RouterLink>.
+        </span>
         <span v-if="src.calibration && Object.values(src.calibration).some(Boolean)" class="text-sm text-emerald-700 dark:text-emerald-400" :title="'The MPU page\'s Calibration tab: its offsets and scales taken off every reading'">
           your calibration applied ({{ Object.values(src.calibration).find(Boolean).chip }}, saved {{ savedTime(Object.values(src.calibration).find(Boolean)) }})
         </span>

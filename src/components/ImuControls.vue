@@ -41,6 +41,12 @@ const select = 'rounded-md border border-slate-300 bg-transparent px-2 py-1 dark
       your calibration applied ({{ imu.calibration.chip }}, saved {{ savedTime(imu.calibration) }})
     </span>
     <span v-else-if="imu.state === 'running'" class="text-sm text-slate-500 dark:text-slate-400">not calibrated · <RouterLink to="/mpu6050#calibration" class="underline">calibrate</RouterLink></span>
+    <span v-if="imu.off" class="w-full text-sm text-amber-700 dark:text-amber-400">
+      Held still, the {{ imu.off.chip }} reads {{ imu.off.g.toFixed(2) }} g, not the 1 g gravity always is:
+      <template v-if="imu.off.calibrated">the saved calibration doesn't fit it (another board, or a different temperature?).</template>
+      <template v-else>it hasn't been calibrated.</template>
+      <RouterLink to="/mpu6050#calibration" class="underline">{{ imu.off.calibrated ? 'Calibrate again' : 'Calibrate it' }}</RouterLink>.
+    </span>
     <span v-if="imu.state === 'running'" class=" font-mono text-sm tabular-nums text-slate-500 dark:text-slate-400">
       {{ imu.chipName }} · {{ imu.latest ? `${imu.latest.temperature.toFixed(1)} °C · ` : '' }}{{ imu.rate.toFixed(0) }} readings/s
     </span>

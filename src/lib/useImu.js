@@ -13,7 +13,7 @@ import { ref, onBeforeUnmount } from 'vue';
 import { nameSeries, tap } from './recorder.js';
 import { Mpu6050, Mpu6500 } from 'atiic';
 import { hasWebUsb, detectPlatform, openDongle, explain, hex } from './dongle.js';
-import { loadCalibration, applyCalibration } from './calibrationStore.js';
+import { loadCalibration, applyCalibration, offWatch } from './calibrationStore.js';
 
 export const DRIVERS = [Mpu6050, Mpu6500];
 export const SCALES = { gyroscope: Mpu6050.gyroscopeScales, accelerometer: Mpu6050.accelerometerScales };
@@ -39,6 +39,8 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   const chip = ref(null); // its facts (atiic's Driver.chip): tempLsb, tempOffset, ...
   const calibration = ref(calibrated ? loadCalibration() : null); // the Calibration tab's, if saved this session
   const calibrationOn = ref(true); // always on; off only while the Calibration tab measures (raw)
+  const watch = offWatch();
+  const off = ref(null); // held still and far from 1 g: { g, calibrated, chip }
   // the saved calibration is for the chip connected, and applied
   const calibrationApplies = () => !!(calibration.value && calibrationOn.value && calibration.value.chip === chipName.value);
   const found = ref([]);
@@ -75,6 +77,12 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
     let accel = counts.slice(0, 3).map((c) => c / mpu.accelerometerSensitivity);
     let gyro = counts.slice(4, 7).map((c) => c / mpu.gyroscopeSensitivity);
     if (calibrationApplies()) ({ accel, gyro } = applyCalibration(calibration.value, accel, gyro));
+    // far from 1 g at rest: a hint to (re)calibrate (not while the Calibration tab measures raw)
+    if (calibrationOn.value) {
+      watch.update(now, accel);
+      const o = watch.off();
+      off.value = o ? { g: o.g, calibrated: calibrationApplies(), chip: chipName.value } : null;
+    } else off.value = null;
     tap(accelSource, now, accel);
     tap(gyroSource, now, gyro);
     buf.t.push(now);
@@ -220,7 +228,7 @@ export function useImu({ windowMs = 10000, calibrated = true } = {}) {
   }
 
   return {
-    calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration,
+    calibrated, calibration, calibrationOn, setCalibrationOn, reloadCalibration, off,
     state, failure, address, chipName, chip, found, gyroscopeScale, accelerometerScale, latest, rate,
     accelSource, gyroSource,
     connect, disconnect, configure, onReading,

@@ -17,7 +17,7 @@ import { MainSampler } from './mainSampler.js';
 import * as SOURCES from './sources.js';
 import { makeSeries } from './series.js';
 import { nameSeries } from './recorder.js';
-import { calibrationFor, correctAccel, correctGyro } from './calibrationStore.js';
+import { calibrationFor, correctAccel, correctGyro, offWatch } from './calibrationStore.js';
 
 const SCL_HZ = 400000;
 export const READ_MS = 20; // 50 a second: smooth enough to see a shake (a chip's readMs if slower)
@@ -73,9 +73,19 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     return Object.fromEntries(keys.map((k) => [k, cal[k] && v[k] ? CORRECT[nameOf(kinds[k])](cal[k], v[k]) : v[k]]));
   };
 
+  // an accelerometer reading far from 1 g at rest: a hint to (re)calibrate
+  const accelKey = keys.find((k) => nameOf(kinds[k]) === 'ACCELEROMETERS');
+  const watch = offWatch();
+  const off = ref(null); // { g, calibrated } or null
+
   // a reading posted by the worker: its time back on this page's clock
   function onReadingPosted(t, raw) {
     const v = correct(raw);
+    if (accelKey && v[accelKey] && /^MPU-/.test(pick(accelKey)?.name ?? '')) {
+      watch.update(t, v[accelKey]);
+      const o = watch.off();
+      off.value = o ? { g: o.g, calibrated: Boolean(calibration.value[accelKey]), chip: pick(accelKey).name } : null;
+    }
     const t0 = t - performance.timeOrigin;
     publish.push(v);
     noteReading();
@@ -218,5 +228,5 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     disconnect();
   });
 
-  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose, calibration };
+  return { state, failure, parts, found, chosen, latest, rate, apart, sources, onReading, connect, disconnect, choose, calibration, off };
 }
