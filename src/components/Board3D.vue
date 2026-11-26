@@ -32,7 +32,7 @@ const ASKEW_DEG = 35; // the top turned this much off face-on: its edge shows, s
 // the pose shown: q, or q turned about the vertical so its top faces the camera
 const shown = computed(() => {
   if (!props.faceViewer) return props.q;
-  const n = rotate(shown.value, [0, 0, 1]);
+  const n = rotate(props.q, [0, 0, 1]);
   if (Math.hypot(n[0], n[1]) < SIDEWAYS) return props.q;
   return mul(fromAxisAngle([0, 0, 1], VIEW_AZ_DEG + ASKEW_DEG - Math.atan2(n[1], n[0]) * DEG), props.q);
 });
