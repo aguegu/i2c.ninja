@@ -1,5 +1,41 @@
 # Releases
 
+## 2.4.0
+
+A new minor: calibrations kept per sensor, across visits, and a page for them.
+
+- **My sensors** (`/my-sensors`): the IMUs you calibrated, each kept with the
+  USB-to-I2C bridge it's wired to, in this browser (localStorage, across
+  visits): the chip, its address and the bridge; when; the accelerometer's
+  offset and scale and the gyro's offset per axis; Calibrate again, Forget.
+  In the footer under Get started.
+- **Calibrations kept per sensor on its bridge**: keyed by the bridge (a
+  Dart's chip ID, over USB or Bluetooth; a CH347F's USB serial; any CH347T or
+  CH341, whose units look alike), the chip and its I2C address
+  (lib/bridge.js, lib/calibrationStore.js). Was one per chip type, for the
+  browser tab.
+- **Always applied**, no switch: on the MPU page and now the physics and
+  algorithm pages (Acceleration, Rotation, Attitude, 9-axis...), the
+  accelerometer's offset and scale and the gyro's offset taken off every
+  reading of the sensor they were saved for; nothing saved, readings pass as
+  they are. "your calibration applied (MPU-6500 on Dart-8346)" by the
+  controls, linked to My sensors.
+- **A hint to (re)calibrate**: an MPU held still reading more than 0.05 g from
+  1 g (gravity is always 1 g): "the saved calibration doesn't fit it" or "it
+  hasn't been calibrated", linked to the Calibration tab.
+- **The Calibration tab:**
+  - positions record on in-spec chips: |a| may be 0.3 g from 1 g while still
+    (was 0.15; the MPU-6500's datasheet allows 1 ± 0.154 g), and the tab says
+    why it waits (still moving, or |a| far from 1 g), on a status of fixed
+    height so nothing jumps;
+  - the axis lines scale to fit the module (10×, 5×, 2× or to scale);
+  - the board drawn on a level table, its arrow labelled +x and turned toward
+    the viewer;
+  - "Save for this sensor", saying where it's kept; before saving over a
+    kept one, kept, new and the change per value, and "Save over the kept
+    one".
+- **?fake=still**: the fake bridge flat and not moving, for testing.
+
 ## 2.3.13
 
 - **Search descriptions** name the new kinds: the home page (compass, air
