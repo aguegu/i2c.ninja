@@ -151,6 +151,15 @@ export const DEVICES = [
     bus: 'I2C 0x77 / 0x76',
   },
   {
+    to: '/bmp280',
+    name: 'BMP280',
+    maker: 'Bosch',
+    kind: 'Pressure',
+    group: 'Air',
+    measures: 'Air pressure and temperature: the weather, and the board lifted by a few tens of centimetres.',
+    bus: 'I2C 0x76 / 0x77',
+  },
+  {
     to: '/agr12',
     name: 'AGR12',
     maker: 'Aosong',

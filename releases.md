@@ -1,5 +1,16 @@
 # Releases
 
+## 2.4.3
+
+- **BMP280 page** (`/bmp280`, also `/gy-bmp280`): Bosch's barometer live,
+  air pressure and temperature with their charts, the datasheet's five
+  oversampling settings to pick (Table 4, with each one's steps, noise and
+  measurement time from Tables 4, 8 and 13), one measurement at a time four
+  times a second; how it's read, and its settings from Bosch's datasheet
+  (BST-BMP280-DS001, revision 1.26). The purple GY-BMP280 board's wiring
+  (`setup-bmp280.svg`, its labelled face traced from the user's photo; SDO
+  left free: 0x76). atiic #1.8.19 (its new `Bmp280`).
+
 ## 2.4.2
 
 - **A drop timer** on Acceleration and gravity (`/physics/acceleration`): a

@@ -41,6 +41,7 @@ const WHAT = {
   '/opt3001': 'OPT3001 ambient light sensor (lux)',
   '/ap3216c': 'AP3216C ambient light and proximity sensor',
   '/spl06': 'SPL06 barometric pressure sensor (barometer, altimeter)',
+  '/bmp280': 'BMP280 barometric pressure sensor (barometer, altimeter)',
   '/agr12': 'AGR12 gauge pressure sensor',
   '/ags2602': 'AGS2602 TVOC sensor',
   '/sgp40': 'SGP40 VOC sensor',

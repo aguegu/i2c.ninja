@@ -22,6 +22,7 @@ export const ALIASES = {
   '/tcs3472': '/tcs34725',
   '/vl6180': '/vl6180x',
   '/spl06-001': '/spl06',
+  '/gy-bmp280': '/bmp280',
   '/agn12': '/agr12',
   '/agp12': '/agr12',
 };
