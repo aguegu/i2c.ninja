@@ -19,7 +19,7 @@ const cap = (w) => w[0].toUpperCase() + w.slice(1);
 const note = (parts) => [
   { text: 'It looks for ' },
   ...parts.flatMap((p, j) => [
-    { text: `${j === 0 ? '' : ', and '}any ${p.noun} this site knows${j === 0 ? ' on the bridge\'s bus' : ''}: ` },
+    { text: `${j === 0 ? '' : p.optional ? ', and, if there\'s one, ' : ', and '}any ${p.noun} this site knows${j === 0 ? ' on the bridge\'s bus' : ''}: ` },
     ...p.chips.flatMap((c, i) => [{ text: sep(i, p.chips.length) }, { text: c.name, to: c.to }]),
   ]),
   { text: ` (each one's page shows its wiring), and reads ${parts.length > 1 ? 'them' : 'it'} ` },

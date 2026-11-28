@@ -10,19 +10,24 @@ import { makeSeries } from '../../lib/series.js';
 import SvgDrawing from '../../components/SvgDrawing.vue';
 import AccelerometerViews from '../../components/AccelerometerViews.vue';
 import SourceBar from '../../components/SourceBar.vue';
-import { ACCELEROMETERS } from '../../lib/sources.js';
-import { useSource } from '../../lib/useSource.js';
+import { ACCELEROMETERS, BAROMETERS } from '../../lib/sources.js';
+import { useSources } from '../../lib/useSources.js';
+import { heightAbove, pascalsPerMetre } from '../../lib/pressure.js';
 
-const src = reactive(useSource(ACCELEROMETERS));
+// the accelerometer, and a barometer if there's one on the bus (a 10-axis
+// board): the drop timer's second witness
+const all = useSources({ accel: ACCELEROMETERS, baro: BAROMETERS }, { optional: ['baro'] });
+const src = reactive({ ...all, latest: computed(() => all.latest.value?.accel ?? null), source: all.sources.accel });
 // |a|, the acceleration's size, its own chart: 1 g at rest whatever the tilt,
 // past 1 g shaken, toward 0 g falling
 const WINDOW_MS = 10000;
 const SIZE_FLOOR_G = 1.5; // the chart reaches at least this: 1 g well inside
 const SIZE = [{ label: '|a|', color: '--chart-text' }];
 const size = makeSeries(1, WINDOW_MS);
-const stop = src.onReading((t, v) => {
-  const g = Math.hypot(...v);
+const stop = all.onReading((t, v) => {
+  const g = Math.hypot(...v.accel);
   size.push(t, [g]);
+  if (v.baro) baroStep(t, v.baro);
   dropStep(t, g);
 });
 onBeforeUnmount(stop);
@@ -56,7 +61,8 @@ function dropStep(t, g) {
         const s = ms / 1000;
         // the time's uncertainty, about half a reading's gap at each end: dh/h = 2 dt/t
         const cm = 50 * G * s * s;
-        const drop = { s, cm, pm: (cm * 2 * (gapMax / 2 / 1000)) / s, peak: g, readings, gapMs: gapMax, at: new Date() };
+        const end = cross(prev, now);
+        const drop = { id: ++dropCount, s, cm, pm: (cm * 2 * (gapMax / 2 / 1000)) / s, peak: g, readings, gapMs: gapMax, at: new Date(), start, end, baro: barometer.value ? { pending: true } : null };
         drops.value = [drop, ...drops.value].slice(0, KEEP);
         landing = { until: t + LANDING_MS, drop };
       }
@@ -66,6 +72,40 @@ function dropStep(t, g) {
   prev = now;
 }
 const lastDrop = computed(() => drops.value[0] ?? null);
+
+// the barometer's witness: the air pressure held still before the fall
+// (BEFORE_MS before its start) against lying still after it (AFTER_MS after
+// the landing), the height between them by the hypsometric equation
+// (lib/pressure.js); its ± from the readings' scatter in each window
+// (standard errors), turned into metres by the air's weight per metre
+const BEFORE_MS = [700, 150]; // from, to: before the fall's start
+const AFTER_MS = [400, 1400]; // from, to: after the landing, the bounce over
+const BARO_KEEP_MS = 5000;
+const barometer = ref(false); // a barometer read on this connection
+const baro = []; // [{ t, p Pa, c C }], the last BARO_KEEP_MS
+let dropCount = 0;
+const stats = (xs) => {
+  const m = xs.reduce((a, b) => a + b, 0) / xs.length;
+  const sd = Math.sqrt(xs.reduce((a, b) => a + (b - m) ** 2, 0) / Math.max(1, xs.length - 1));
+  return { m, se: sd / Math.sqrt(xs.length) };
+};
+function baroStep(t, [p, c]) {
+  barometer.value = true;
+  baro.push({ t, p, c });
+  while (baro.length && baro[0].t < t - BARO_KEEP_MS) baro.shift();
+  const due = drops.value.find((d) => d.baro?.pending && t >= d.end + AFTER_MS[1]);
+  if (!due) return;
+  const inWin = (a, b) => baro.filter((x) => x.t >= a && x.t <= b);
+  const before = inWin(due.start - BEFORE_MS[0], due.start - BEFORE_MS[1]);
+  const after = inWin(due.end + AFTER_MS[0], due.end + AFTER_MS[1]);
+  let result = { missed: true };
+  if (before.length >= 2 && after.length >= 2) {
+    const b = stats(before.map((x) => x.p)), a = stats(after.map((x) => x.p));
+    const cAir = before.reduce((n, x) => n + x.c, 0) / before.length;
+    result = { cm: -100 * heightAbove(a.m, b.m, cAir), pm: (100 * Math.hypot(a.se, b.se)) / pascalsPerMetre(b.m, cAir), n: before.length + after.length };
+  }
+  drops.value = drops.value.map((d) => (d.id === due.id ? { ...d, baro: result } : d));
+}
 const sizeNow = computed(() => (src.latest ? Math.hypot(...src.latest) : null));
 
 const card = 'rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800';
@@ -107,6 +147,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <p class="text-4xl">{{ lastDrop.s.toFixed(3) }} <span class="text-lg">s</span></p>
         <p class="text-4xl">≈ {{ lastDrop.cm.toFixed(0) }} <span class="text-lg">cm</span> <span class="text-base text-slate-500 dark:text-slate-400">± {{ lastDrop.pm.toFixed(0) }}</span></p>
         <p class="text-2xl">landing {{ lastDrop.peak.toFixed(1) }} <span class="text-base">g</span></p>
+        <p v-if="lastDrop.baro" class="text-2xl">
+          <span class="font-sans text-base text-slate-500 dark:text-slate-400">the barometer:</span>
+          <template v-if="lastDrop.baro.pending"> <span class="font-sans text-base text-slate-500 dark:text-slate-400">lie it still a moment…</span></template>
+          <template v-else-if="lastDrop.baro.missed"> <span class="font-sans text-base text-slate-500 dark:text-slate-400">too few readings to tell</span></template>
+          <template v-else>≈ {{ lastDrop.baro.cm.toFixed(0) }} <span class="text-base">cm</span> <span class="text-base text-slate-500 dark:text-slate-400">± {{ lastDrop.baro.pm.toFixed(0) }}</span></template>
+        </p>
       </div>
       <p v-else class="text-slate-500 dark:text-slate-400">No drop yet.</p>
       <table v-if="drops.length > 1" class="mt-3 font-mono text-sm tabular-nums">
@@ -116,6 +162,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
             <th class="py-1 pr-6 text-right font-normal">time</th>
             <th class="py-1 pr-6 text-right font-normal">height</th>
             <th class="py-1 text-right font-normal">landing</th>
+            <th v-if="barometer" class="py-1 pl-6 text-right font-normal">the barometer</th>
           </tr>
         </thead>
         <tbody>
@@ -124,6 +171,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
             <td class="py-0.5 pr-6 text-right">{{ d.s.toFixed(3) }} s</td>
             <td class="py-0.5 pr-6 text-right">{{ d.cm.toFixed(0) }} ± {{ d.pm.toFixed(0) }} cm</td>
             <td class="py-0.5 text-right">{{ d.peak.toFixed(1) }} g</td>
+            <td v-if="barometer" class="py-0.5 pl-6 text-right">{{ d.baro && !d.baro.pending && !d.baro.missed ? `${d.baro.cm.toFixed(0)} ± ${d.baro.pm.toFixed(0)} cm` : '—' }}</td>
           </tr>
         </tbody>
       </table>
@@ -131,6 +179,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         {{ lastDrop.readings }} readings in the fall, up to {{ lastDrop.gapMs.toFixed(0) }} ms apart: the start and end are
         found between readings, so the time is good to about half a gap at each end, hence the ±. A tumble on the way
         reads a little above 0 g (the chip spins round the board's centre), and a soft cushion stretches the landing.
+      </p>
+      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        <b>A second witness.</b> With a barometer on the bus too (a 10-axis board has one, or wire one beside it: a <RouterLink to="/bmp280" :class="link">BMP280</RouterLink> or an <RouterLink to="/spl06" :class="link">SPL06</RouterLink>), the drop is measured a second way, knowing nothing of the fall's time: the air pressure while you held it, against the pressure once it lies still on the cushion, about 12 Pa more for every metre lower (<RouterLink to="/physics/pressure" :class="link">Air pressure and height</RouterLink>). Hold it still a moment before letting go, and leave it a second after: the two heights should agree within their ±.<template v-if="!barometer"> No barometer found on this connection.</template>
       </p>
     </CollapsibleCard>
 

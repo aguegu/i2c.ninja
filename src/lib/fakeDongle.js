@@ -1,6 +1,6 @@
 // A bridge that isn't there, to drive the live pages without hardware (the
 // ?perf meter and bench/ measure them so): ?fake (a calm sway), ?fake=kid
-// (shaken hard, as a child would) ?fake=still (flat, not moving), ?fake=drop (dropped about 1 m every 3 s) or ?fake=lift (lifted 1 m and back every 6 s), never on i2c.ninja (lib/dongle.js). It
+// (shaken hard, as a child would) ?fake=still (flat, not moving), ?fake=drop (dropped about 1 m every 5 s, a second still after each landing for the barometer) or ?fake=lift (lifted 1 m and back every 6 s), never on i2c.ninja (lib/dongle.js). It
 // answers as atiic's bus does, with an MPU-6050 at 0x68 and a BMP280 at 0x76
 // (lib/fakeBmp280.js: the pressure from the motion's height) on it: the MPU's WHO_AM_I,
 // the config writes kept (so the ranges the driver sets are the ones it
@@ -22,14 +22,31 @@ const MOTIONS = {
   calm: { roll: [[25, 0.15]], pitch: [[15, 0.11]], yaw: [[40, 0.07]], shake: 0 },
   kid: { roll: [[70, 2.1], [20, 5.3]], pitch: [[50, 1.7], [15, 4.1]], yaw: [[120, 1.3], [30, 3.7]], shake: 0.8 },
   still: { roll: [], pitch: [], yaw: [], shake: 0 }, // flat and still: for the calibration's tests
-  // flat, dropped every 3 s: 0.45 s of free fall (0 g, about 1 m), a 50 ms
-  // landing at 3 g: for the drop timer's tests
-  drop: { roll: [], pitch: [], yaw: [], shake: 0, drop: { every: 3, fall: 0.45, land: 0.05, peak: 3 } },
+  // flat, every 5 s: picked up over 1 s, held 1.5 s, 0.45 s of free fall (0
+  // g, ½ g t² about 1 m), a 50 ms landing at 3 g, then lying there 2 s (so a
+  // barometer sees the drop): for the drop timer's tests
+  drop: { roll: [], pitch: [], yaw: [], shake: 0, drop: { every: 5, pick: 1, hold: 1.5, fall: 0.45, land: 0.05, peak: 3 } },
   // flat, lifted 1 m over 1 s, held 2 s, lowered over 1 s, held 2 s, again:
   // the accelerometer its upward acceleration plus an offset of 0.02 g (as a
   // module not calibrated), for the height page's tests
   lift: { roll: [], pitch: [], yaw: [], shake: 0, lift: { every: 6, move: 1, hold: 2, height: 1, offset: 0.02 } },
 };
+
+// the drop's phase at s, and its height (m, 0 held up, the fall's ½ g t²
+// below once dropped) and upward acceleration (m/s^2) while picked up
+function dropAt(d, s) {
+  const u = s % d.every;
+  const low = -0.5 * G * d.fall ** 2;
+  if (u < d.pick) { // picked up from low, half a cosine
+    const x = Math.PI * u / d.pick;
+    return { phase: 'pick', h: low + 0.5 * -low * (1 - Math.cos(x)), a: 0.5 * -low * (Math.PI / d.pick) ** 2 * Math.cos(x) };
+  }
+  const f = u - d.pick - d.hold;
+  if (f < 0) return { phase: 'hold', h: 0, a: 0 };
+  if (f < d.fall) return { phase: 'fall', h: -0.5 * G * f ** 2, a: 0 };
+  if (f < d.fall + d.land) return { phase: 'land', h: low, a: 0 };
+  return { phase: 'low', h: low, a: 0 };
+}
 
 // the lift's height (m) and upward acceleration (m/s^2) at s: smooth moves
 // (half a cosine) up and down, held between
@@ -62,8 +79,10 @@ export class FakeDongle {
 
   // the motion's height now, m (0 but on the lift)
   height() {
-    const l = this.motion.lift;
-    return l ? liftAt(l, (performance.now() - this.t0) / 1000).h : 0;
+    const s = (performance.now() - this.t0) / 1000, m = this.motion;
+    if (m.lift) return liftAt(m.lift, s).h;
+    if (m.drop) return dropAt(m.drop, s).h;
+    return 0;
   }
 
   async close() {}
@@ -97,9 +116,10 @@ export class FakeDongle {
     const jolt = () => (Math.random() - 0.5) * 2 * m.shake;
     let accel = [-Math.sin(pitch) + jolt(), Math.sin(roll) * Math.cos(pitch) + jolt(), Math.cos(roll) * Math.cos(pitch) + jolt()];
     if (m.drop) {
-      const p = (s % m.drop.every) - (m.drop.every - m.drop.fall - m.drop.land); // its fall at the end of each period
-      if (p >= 0 && p < m.drop.fall) accel = [0, 0, 0];
-      else if (p >= m.drop.fall) accel = accel.map((a) => a * m.drop.peak);
+      const d = dropAt(m.drop, s);
+      if (d.phase === 'fall') accel = [0, 0, 0];
+      else if (d.phase === 'land') accel = accel.map((a) => a * m.drop.peak);
+      else accel[2] += d.a / G; // picked up: flat, the board's z is up
     }
     if (m.lift) accel[2] += liftAt(m.lift, s).a / G + m.lift.offset; // flat: the board's z is up
     const aLsb = ACCEL_LSB_2G >> ((this.regs[REG_ACCEL_CONFIG] >> 3) & 3);

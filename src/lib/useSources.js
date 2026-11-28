@@ -4,6 +4,8 @@
 // last reading repeated between its own), each as
 // [x, y, z] in its unit, the last windowMs kept for a chart each. kinds:
 // { key: ACCELEROMETERS, ... }. Several found for a quantity: choose(key, i).
+// optional: keys that may be missing (a page that reads them when there):
+// none found, the page runs without them, their readings absent.
 // Two quantities found on one module (lib/sources.js family) are taken
 // together first, their axes being the same. The bus is read in a worker
 // (lib/sampler.worker.js), off the main thread, so a busy frame doesn't
@@ -30,9 +32,9 @@ const nameOf = (kind) => Object.keys(SOURCES).find((n) => SOURCES[n] === kind);
 // the same board: one family, and for an MPU one address
 const together = (f, g) => f.chip.family && f.chip.family === g.chip.family && (!f.chip.sameAddress || f.address === g.address);
 
-export function useSources(kinds, { windowMs = 10000 } = {}) {
+export function useSources(kinds, { windowMs = 10000, optional = [] } = {}) {
   const keys = Object.keys(kinds);
-  const parts = keys.map((key) => ({ key, noun: kinds[key].noun, unit: kinds[key].unit, chips: kinds[key].chips }));
+  const parts = keys.map((key) => ({ key, noun: kinds[key].noun, unit: kinds[key].unit, chips: kinds[key].chips, optional: optional.includes(key) }));
   const platform = detectPlatform();
   const state = ref('idle'); // idle, connecting, running
   const failure = ref(null);
@@ -90,7 +92,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     const t0 = t - performance.timeOrigin;
     publish.push(v);
     noteReading();
-    for (const k of keys) series[k].push(t0, v[k]);
+    for (const k of keys) if (v[k]) series[k].push(t0, v[k]); // an optional one not found: absent
     for (const fn of listeners) fn(t0, v);
   }
 
@@ -120,10 +122,11 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     for (const k of keys) series[k].clear();
     publish.cancel();
     latest.value = null;
-    const periods = Object.fromEntries(keys.map((k) => [k, pick(k).chip.readMs ?? READ_MS]));
+    const active = keys.filter((k) => pick(k)); // an optional one not found: not read
+    const periods = Object.fromEntries(active.map((k) => [k, pick(k).chip.readMs ?? READ_MS]));
     const readMs = Math.min(...Object.values(periods));
     // by the worker's index (found is reactive: its chips are proxies, not the objects)
-    const chosenChips = Object.fromEntries(keys.map((k) => [k, { ci: pick(k).ci, address: pick(k).address }]));
+    const chosenChips = Object.fromEntries(active.map((k) => [k, { ci: pick(k).ci, address: pick(k).address }]));
     worker.postMessage({ type: 'start', chosen: chosenChips, readMs, periods });
   }
 
@@ -181,7 +184,7 @@ export function useSources(kinds, { windowMs = 10000 } = {}) {
     }
     const all = Object.fromEntries(keys.map((k) => [k, a.found[k].map(({ ci, address }) => ({ name: kinds[k].chips[ci].name, address, chip: kinds[k].chips[ci], ci }))]));
     found.value = all;
-    const missing = parts.filter((p) => !all[p.key].length);
+    const missing = parts.filter((p) => !all[p.key].length && !p.optional);
     if (missing.length) {
       const names = [...new Set(missing.flatMap((p) => p.chips.map((c) => c.name)))].join(', ');
       failure.value = { title: `No ${missing.map((p) => p.noun).join(' or ')} found`, detail: `None of ${names} answers on the bus: check the four wires and the module's power.`, error: '' };
