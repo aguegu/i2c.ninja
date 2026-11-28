@@ -24,12 +24,13 @@ export function useHeight(subscribe, { windowMs = 20000 } = {}) {
   const alone = new DeadReckoning();
   const tau = ref(DEFAULT_TAU_S);
   watch(tau, (t) => { filter.tau = t; });
-  const now = ref(null); // the newest: { aUp, hBaro, h, v, b, e, hAlone, vAlone, dt, p, p0, c }
+  const now = ref(null); // the newest: { aUp, hBaro, h, v, b, e, hAlone, vAlone, dt, p, p0, c, gains, elapsed s }
   const heightSeries = makeSeries(2, windowMs); // the barometer's, fused (m)
   const aloneSeries = makeSeries(1, windowMs); // the accelerometer alone (m): its own chart, it runs away
   const climbSeries = makeSeries(1, windowMs); // fused (m/s)
   const publish = perFrame((s) => { now.value = s; });
   let p0 = null; // Pa, the reference: height 0
+  let tStart = null; // ms, the first reading since the start
   let lastT = null;
 
   const off = subscribe((t, accel, gyro, baro) => {
@@ -40,11 +41,12 @@ export function useHeight(subscribe, { windowMs = 20000 } = {}) {
     const step = dt > 0 && dt <= MAX_STEP_S ? dt : 0;
     mahony.update(accel, gyro, step);
     if (p0 === null) p0 = p;
+    if (tStart === null) tStart = t;
     const aUp = mahony.q ? upward(mahony.q, accel) : 0;
     const hBaro = heightAbove(p, p0, c);
     const r = filter.update(aUp, hBaro, step);
     const a = alone.update(aUp, step);
-    publish.push({ aUp, hBaro, ...r, hAlone: a.h, vAlone: a.v, dt: step, p, p0, c, gains: filter.gains });
+    publish.push({ aUp, hBaro, ...r, hAlone: a.h, vAlone: a.v, dt: step, p, p0, c, gains: filter.gains, elapsed: (t - tStart) / 1000 });
     heightSeries.push(t, [hBaro, r.h]);
     aloneSeries.push(t, [a.h]);
     climbSeries.push(t, [r.v]);
@@ -55,6 +57,7 @@ export function useHeight(subscribe, { windowMs = 20000 } = {}) {
   function restart() {
     publish.cancel();
     p0 = null;
+    tStart = null;
     lastT = null;
     mahony.q = null;
     mahony.integral = [0, 0, 0];

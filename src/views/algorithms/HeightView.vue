@@ -116,6 +116,9 @@ const live = computed(() => {
       <p class="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
         The same upward acceleration added up twice from rest, no barometer: it runs away, faster each second (its own scale here, or it would flatten the chart above). A small offset in the accelerometer, a few hundredths of g, is already metres within seconds.
       </p>
+      <p v-if="n" class="mt-2 text-sm leading-relaxed">
+        <b>The runaway is the offset's.</b> The offset the filter has learned, b = {{ fmt(n.b, 3) }} m/s², added up twice for the {{ fmt(n.elapsed, 0) }} s since the start: ½ · b · t² = ½ × {{ fmt(n.b, 3) }} × {{ fmt(n.elapsed, 0) }}² = <b class="font-mono tabular-nums">{{ fmt(0.5 * n.b * n.elapsed ** 2, 1) }} m</b>. The accelerometer alone shows <b class="font-mono tabular-nums">{{ fmt(n.hAlone, 1) }} m</b>: left still since Start again, the two agree once b has settled (a few τ); a move in between adds its own share.
+      </p>
     </section>
     <section :class="card">
       <LiveChart title="Climb" unit="m/s" :series="CLIMB" :values="n ? [n.v] : []" :source="height.climbSource" :window-ms="WINDOW_MS" :floor="CLIMB_SPAN_MS" :digits="2" fit />

@@ -9,7 +9,9 @@
   offset learned; one time constant τ, 1 s to begin with, a slider), the
   accelerometer turned into the room's frame by Mahony's attitude first;
   tiles, the barometer against the fused height, the accelerometer alone
-  on its own chart (it runs away), the climb, the formula with live values.
+  on its own chart (it runs away; under it, live, ½ · b · t² from the offset
+  learned, beside what it shows: the user, "add the note"), the climb, the
+  formula with live values.
   `lib/height.js` with host tests: on a simulated 1 m lift with a BMP280's
   noise (13 cm) the fused height within 3 cm RMS, the offset learned.
 - **Barometers as a quantity** (`lib/sources.js`): the BMP280 in normal mode
