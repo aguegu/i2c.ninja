@@ -166,7 +166,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(d, i) in drops.slice(1)" :key="i">
+          <tr v-for="d in drops.slice(1)" :key="d.id">
             <td class="py-0.5 pr-6 font-sans text-slate-500 dark:text-slate-400">{{ d.at.toLocaleTimeString() }}</td>
             <td class="py-0.5 pr-6 text-right">{{ d.s.toFixed(3) }} s</td>
             <td class="py-0.5 pr-6 text-right">{{ d.cm.toFixed(0) }} ± {{ d.pm.toFixed(0) }} cm</td>
