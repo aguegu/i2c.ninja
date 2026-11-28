@@ -1,5 +1,25 @@
 # Releases
 
+## 2.4.6
+
+- **Height from pressure and acceleration** (`/algorithms/height`, a new
+  algorithm page; the user, on a 10-axis board: "is there any combined page
+  we can work out?"): a barometer and an accelerometer fused by a
+  third-order complementary filter (height, climb, and the accelerometer's
+  offset learned; one time constant τ, 1 s to begin with, a slider), the
+  accelerometer turned into the room's frame by Mahony's attitude first;
+  tiles, the barometer against the fused height, the accelerometer alone
+  on its own chart (it runs away), the climb, the formula with live values.
+  `lib/height.js` with host tests: on a simulated 1 m lift with a BMP280's
+  noise (13 cm) the fused height within 3 cm RMS, the offset learned.
+- **Barometers as a quantity** (`lib/sources.js`): the BMP280 in normal mode
+  at 8 times (a result every 20 ms), the SPL06 at its sports mode.
+- **?fake=lift**: the fake bridge lifted 1 m and back every 6 s, its
+  accelerometer with a 0.02 g offset, and a fake BMP280 at 0x76 whose raw
+  counts atiic's own compensation turns back into the lift's pressure.
+- atiic #1.8.22 (`Bmp280.compensate` on the class; its normal mode starting
+  at 8 times, which first timed out on the user's board).
+
 ## 2.4.5
 
 - **BMP280 measuring continuously** (the user: "then we could expose this
