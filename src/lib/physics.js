@@ -92,6 +92,7 @@ export const PHYSICS = [
     icon: 'M12 21a8 8 0 1 0 0-16a8 8 0 0 0 0 16zM12 13l3.5-3.5M12 13a1 1 0 1 0 0 .01M7.5 17h9',
     blurb: 'Air pressure as the weight of the air above, why it falls by the same fraction for each step up, height from pressure, and the weather moving it.',
     devices: [
+      { to: '/bmp280', label: 'BMP280', note: 'barometer' },
       { to: '/spl06', label: 'SPL06', note: 'barometer' },
     ],
     component: () => import('../views/physics/PressureView.vue'),

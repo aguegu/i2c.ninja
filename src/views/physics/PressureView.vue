@@ -3,23 +3,21 @@
 // how it thins with height (the hydrostatic balance, the gas law, the
 // hypsometric equation), height from pressure relative to a "zero here" and
 // in the standard atmosphere (lib/pressure.js); weather's highs and lows
-// moving the zero, the sensor's limits; from an SPL06 (lib/useSpl06.js), the
+// moving the zero, the sensor's limits; from any barometer on the bus (a
+// BMP280 or an SPL06: lib/sources.js BAROMETERS, lib/useSources.js), the
 // curve drawn with the reading on it, and things to try
 import CollapsibleCard from '../../components/CollapsibleCard.vue';
-import ConnectButton from '../../components/ConnectButton.vue';
-import StopButton from '../../components/StopButton.vue';
-import LiveSettings from '../../components/LiveSettings.vue';
+import SourceBar from '../../components/SourceBar.vue';
 import LiveChart from '../../components/LiveChart.vue';
 import TexMath from '../../components/TexMath.vue';
 import PressureCurve from '../../components/PressureCurve.vue';
 import { ref, reactive, computed } from 'vue';
-import { canConnect, hex } from '../../lib/dongle.js';
-import { useSpl06, MODES } from '../../lib/useSpl06.js';
+import { BAROMETERS } from '../../lib/sources.js';
+import { useSources } from '../../lib/useSources.js';
 import { makeSeries } from '../../lib/series.js';
 import { G, P0_PA, heightAbove, isaHeight, pascalsPerMetre } from '../../lib/pressure.js';
 
 const WINDOW_MS = 300000; // five minutes: up and down the stairs, a lift
-const FIRST_MODE = 'sports'; // its finest: 0.5 Pa, about 4 cm
 const HEIGHT = [{ label: 'height', color: '--series-1' }];
 const PRESSURE = [{ label: 'pressure', color: '--series-2' }];
 const HEIGHT_SPAN_M = 0.5;
@@ -36,14 +34,20 @@ const ISA = String.raw`h = \frac{T_0}{L}\left(1 - \left(\frac{p}{p_0}\right)^{\f
 // height from the zero: the hypsometric equation at the sensor's temperature
 const zero = ref(null); // Pa
 const heights = makeSeries(1, WINDOW_MS);
+const pressures = makeSeries(1, WINDOW_MS); // hPa
 const height = ref(null);
-function onReading(t, r) {
-  if (zero.value === null) zero.value = r.pressure;
-  height.value = heightAbove(r.pressure, zero.value, r.temperature);
+const src = reactive(useSources({ baro: BAROMETERS }, { windowMs: WINDOW_MS }));
+src.onReading((t, v) => {
+  const [pressure, temperature] = v.baro;
+  if (!(pressure > 0)) return;
+  if (zero.value === null) zero.value = pressure;
+  height.value = heightAbove(pressure, zero.value, temperature);
   heights.push(t, [height.value]);
-}
-const p = reactive(useSpl06({ windowMs: WINDOW_MS, mode: FIRST_MODE, onReading }));
-const r = computed(() => p.latest);
+  pressures.push(t, [pressure / 100]);
+});
+const r = computed(() => (src.latest?.baro ? { pressure: src.latest.baro[0], temperature: src.latest.baro[1] } : null));
+// the chip read, for the text: BMP280 or SPL06
+const chip = computed(() => src.found.baro[src.chosen.baro]?.name ?? null);
 function zeroHere() {
   if (!r.value) return;
   zero.value = r.value.pressure;
@@ -70,31 +74,11 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <RouterLink to="/physics" class="text-xs font-medium tracking-wide text-emerald-700 uppercase hover:underline dark:text-emerald-400">Physics</RouterLink>
       <h1 class="text-2xl font-bold">Air pressure and height</h1>
       <p class="mt-1 leading-relaxed text-slate-500 dark:text-slate-400">
-        We live at the bottom of an ocean of air, and its weight presses on everything. Climb, and there's less air above you: the pressure falls, by about 12 Pa for every metre near the ground. A good barometer feels that from a desk to above your head. Here from an <RouterLink to="/spl06" :class="link">SPL06</RouterLink>.
+        We live at the bottom of an ocean of air, and its weight presses on everything. Climb, and there's less air above you: the pressure falls, by about 12 Pa for every metre near the ground. A good barometer feels that from a desk to above your head. Here from a barometer on the bus: a <RouterLink to="/bmp280" :class="link">BMP280</RouterLink> or an <RouterLink to="/spl06" :class="link">SPL06</RouterLink>, alone or on a 10-axis board.
       </p>
     </div>
 
-    <p v-if="!canConnect" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
-      This browser has no WebUSB and no Web Bluetooth. Open this page in Chrome, Edge or another Chromium (a computer or Android), or a Web Bluetooth browser like Bluefy for a Dart.
-    </p>
-    <section v-else :class="[card, 'flex flex-wrap items-center gap-x-6 gap-y-3']">
-      <ConnectButton v-if="p.state !== 'running'" :busy="p.state === 'connecting'" @connect="p.connect">{{ p.state === 'connecting' ? 'Connecting…' : 'Connect' }}</ConnectButton>
-      <StopButton v-else @click="p.disconnect" />
-      <button type="button" class="rounded-lg border border-slate-300 px-3 py-1 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="!r" @click="zeroHere">Zero here</button>
-      <label :class="field">Mode
-        <select :value="p.mode" :class="select" @change="p.setMode($event.target.value)">
-          <option v-for="[m, label] in MODES" :key="m" :value="m">{{ label }}</option>
-        </select>
-      </label>
-      <span v-if="p.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">SPL06 at {{ hex(p.address) }}</span>
-      <span v-if="p.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${p.failed.count} of ${p.failed.of} readings didn't come through and were skipped; the last: ${p.failed.last}`">· {{ p.failed.count }} {{ p.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
-      <LiveSettings class="ml-auto" />
-    </section>
-    <div v-if="p.failure" class="rounded-lg border border-red-300 bg-red-50 p-3 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100">
-      <p class="font-semibold">{{ p.failure.title }}</p>
-      <p v-if="p.failure.detail" class="mt-1">{{ p.failure.detail }}</p>
-      <p v-if="p.failure.error" class="mt-2 font-mono text-xs opacity-75">{{ p.failure.error }}</p>
-    </div>
+    <SourceBar :src="src" />
 
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
       <section :class="card">
@@ -108,6 +92,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">Height from the zero <span class="text-xs">worked out</span></p>
         <p class="font-mono text-2xl tabular-nums">{{ fmt(height, 2) }} <span class="text-base">m</span></p>
+        <button type="button" class="mt-1 rounded-lg border border-slate-300 px-2 py-0.5 text-sm hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:hover:bg-slate-700" :disabled="!r" @click="zeroHere">Zero here</button>
       </section>
       <section :class="card">
         <p class="text-sm text-slate-500 dark:text-slate-400">A metre of air here <span class="text-xs">worked out</span></p>
@@ -119,7 +104,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
       <h2 class="mb-2 text-lg font-semibold">Height from the zero</h2>
       <div class="flex flex-col gap-4">
         <LiveChart title="Height from the zero" unit="m" :series="HEIGHT" :values="height === null ? [] : [height]" :source="heights.source" :window-ms="WINDOW_MS" :floor="HEIGHT_SPAN_M" :digits="2" fit />
-        <LiveChart title="Air pressure" unit="hPa" :series="PRESSURE" :values="r ? [r.pressure / 100] : []" :source="p.pressureSource" :window-ms="WINDOW_MS" :floor="PRESSURE_SPAN_HPA" :digits="2" fit />
+        <LiveChart title="Air pressure" unit="hPa" :series="PRESSURE" :values="r ? [r.pressure / 100] : []" :source="pressures.source" :window-ms="WINDOW_MS" :floor="PRESSURE_SPAN_HPA" :digits="2" fit />
       </div>
       <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
         The zero is the first reading; <b>Zero here</b> sets it again. The two charts are the same line upside down: up is less pressure.
@@ -178,7 +163,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <p class="text-sm">Your height above the sea: <b class="font-mono tabular-nums">{{ fmt(above, 0) }} m</b></p>
       </div>
       <p class="text-sm text-slate-500 dark:text-slate-400">
-        Within about 10 m when the weather service's station is near, and the SPL06's own absolute accuracy, ±1 hPa, is another 8 m.
+        Within about 10 m when the weather service's station is near, and the sensor's own absolute accuracy, ±1 hPa for the BMP280 and the SPL06 alike, is another 8 m (their datasheets).
       </p>
     </CollapsibleCard>
 
@@ -195,16 +180,16 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     <CollapsibleCard id="how-a-chip-measures-it" title="How a chip measures it" class="leading-relaxed">
       <h2 class="mb-2 text-lg font-semibold">How a chip measures it</h2>
       <p class="mb-2">
-        <b>A membrane.</b> The SPL06 has a tiny MEMS membrane, air on one side: the pressure bends it, and the bending changes a capacitance the chip measures (its datasheet). A temperature sensor sits in the same element, and the chip's factory calibration, nine numbers, turns both into pascals and degrees.
+        <b>A membrane.</b> A barometer chip has a tiny MEMS membrane, air on one side: the pressure bends it. The SPL06 measures the bending as a capacitance, the BMP280 as a resistance (piezo-resistive), their datasheets say. A temperature sensor sits in the same element, and the chip's factory calibration, nine numbers in the SPL06 and twelve in the BMP280, turns both into pascals and degrees.<template v-if="chip"> Yours is a{{ chip === 'SPL06' ? 'n' : '' }} {{ chip }}.</template>
       </p>
       <p class="mb-2">
-        <b>Noise and averaging.</b> Each reading jitters. Measuring many times and averaging (oversampling) calms it: in the weather mode 5 Pa, about 40 cm; in the indoor mode 1.2 Pa, 10 cm; in the sports mode 0.5 Pa, about 4 cm (its datasheet). The sports mode is the one for this page.
+        <b>Noise and averaging.</b> Each reading jitters. Measuring many times and averaging (oversampling) calms it: in the weather mode 5 Pa, about 40 cm; in the indoor mode 1.2 Pa, 10 cm; in the sports mode 0.5 Pa, about 4 cm (its datasheet), the one this page reads, four times a second. The BMP280 is read here as fast as it measures, about 50 times a second, at 8 times oversampling: 1.6 Pa, about 13 cm, each reading (Bosch's Table 8); the chart's line is many readings, and the eye averages them.
       </p>
       <p class="mb-2">
-        <b>Relative beats absolute.</b> Between two readings the SPL06 is good to ±6 Pa (half a metre) from 950 to 1050 hPa, but its absolute reading only to ±1 hPa (8 m): fine for height changes, not for height above the sea without a reference.
+        <b>Relative beats absolute.</b> Between two readings the SPL06 is good to ±6 Pa (half a metre, from 950 to 1050 hPa) and the BMP280 to ±12 Pa (a metre, its datasheet says from 700 to 900 hPa), but their absolute readings only to about ±1 hPa (8 m): fine for height changes, not for height above the sea without a reference.
       </p>
       <p>
-        <b>Warmth.</b> The calibration takes the chip's temperature into account, but not perfectly: its datasheet gives 0.2 Pa for each degree, 1.7 cm. A warm hand on it, or sunlight, moves the zero a few centimetres. Draughts and doors move the air's pressure itself, a little and quickly.
+        <b>Warmth.</b> The calibration takes the chip's temperature into account, but not perfectly: the SPL06's datasheet gives 0.2 Pa for each degree, 1.7 cm; the BMP280's 1.5 Pa, 12.6 cm. A warm hand on it, or sunlight, moves the zero a few centimetres. Draughts and doors move the air's pressure itself, a little and quickly.
       </p>
     </CollapsibleCard>
 
@@ -214,11 +199,11 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         <li><b>Desk to above your head.</b> Zero it on the desk, then lift the board up slowly, hold it there for a few seconds, and bring it back. About a metre: some 12 Pa. Does it come back to zero?</li>
         <li><b>The stairs.</b> On a laptop, carry the board up a flight of stairs and wait a few seconds at the top. A storey is about 3 m, 35 Pa. Measure the stairs' height with a tape and compare.</li>
         <li><b>A lift.</b> Ride a lift a few floors. The height chart draws the trip: speeding up, a steady climb, slowing down. How fast does the lift go, in metres a second?</li>
-        <li><b>A day of weather.</b> Set the weather mode and leave it on the desk, never moving. Over an hour or a day, the "height" drifts by metres: that's the weather, and today's sea-level pressure from a weather service shows the same change.</li>
+        <li><b>A day of weather.</b> Leave it on the desk, never moving. Over an hour or a day, the "height" drifts by metres: that's the weather, and today's sea-level pressure from a weather service shows the same change.</li>
       </ol>
     </CollapsibleCard>
     <p class="text-sm">
-      <b>The sensor:</b> the <RouterLink to="/spl06" :class="link">SPL06</RouterLink>, how it's read and its wiring.
+      <b>The sensors:</b> the <RouterLink to="/bmp280" :class="link">BMP280</RouterLink> and the <RouterLink to="/spl06" :class="link">SPL06</RouterLink>, how each is read and its wiring (the SPL06's page has its slower, quieter modes).
     </p>
   </main>
 </template>
