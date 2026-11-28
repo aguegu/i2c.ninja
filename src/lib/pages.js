@@ -172,6 +172,7 @@ const DESCRIBE = {
   '/physics/pressure': 'Air pressure as the weight of the air above, why it thins with height, height from pressure to a few centimetres, and the weather moving it. Live.',
   '/physics/colour': 'White light as many colours, the eye\'s three cones, mixing light, and a colour sensor doing what the eye does, with the screen as its light.',
   '/algorithms/attitude': '6-axis sensor fusion: an accelerometer and a gyro together, steady as gravity and quick as the gyro: the complementary and Mahony filters, live.',
+  '/algorithms/height': 'Height and climb from a barometer and an accelerometer fused: quick as the accelerometer, steady as the barometer, the offset learned. Live on a 10-axis board.',
 };
 for (const p of PAGES) if (DESCRIBE[p.path]) p.description = DESCRIBE[p.path];
 

@@ -30,6 +30,15 @@ export const ALGORITHMS = [
     combines: ['acceleration', 'rotation', 'magnetism'],
     component: () => import('../views/algorithms/NineAxisView.vue'),
   },
+  {
+    slug: 'height',
+    title: 'Height from pressure and acceleration',
+    short: 'Height',
+    icon: 'M12 20V5M8 9l4-4 4 4M5 20h14',
+    blurb: 'A barometer and an accelerometer together: a height quick as the accelerometer and steady as the barometer, and the climb in metres a second, as drones and variometers do.',
+    combines: ['pressure', 'acceleration', 'rotation'],
+    component: () => import('../views/algorithms/HeightView.vue'),
+  },
 ];
 
 export const ALGORITHM_LINKS = ALGORITHMS.filter((p) => p.component).map((p) => ({ to: `/algorithms/${p.slug}`, label: p.title, short: p.short }));

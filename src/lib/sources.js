@@ -6,7 +6,7 @@
 // at one address), so a page needing two quantities takes them from one board when
 // it can (lib/useSources.js). A page's Live card
 // scans for every chip of its quantity (lib/useSource.js).
-import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Qmc5883l, Bmx055Accel, Bmx055Gyro, Bmx055Mag } from 'atiic';
+import { Adxl345, Mpu6050, Mpu6500, Itg3200, Hmc5883l, Qmc5883l, Bmx055Accel, Bmx055Gyro, Bmx055Mag, Spl06, Bmp280 } from 'atiic';
 
 const idAt = async (bus, address, reg) => (await bus.writeRead(address, [reg], 1))[0];
 
@@ -162,6 +162,43 @@ export const MAGNETOMETERS = {
             return last;
           },
         };
+      },
+    },
+  ],
+};
+
+// barometers: [pressure Pa, temperature C, 0], each measuring by itself and
+// read at its pace (readMs): the BMP280 in its normal mode at 8 times
+// pressure oversampling (1.6 Pa RMS, about 13 cm; a result every 20 ms,
+// Bosch's Tables 8 and 14), the SPL06 at its sports use case (0.5 Pa, 4 a
+// second; atiic's measure() waits for the next result, a few ms at most when
+// asked at its pace)
+export const BAROMETERS = {
+  noun: 'barometer',
+  unit: 'Pa',
+  chips: [
+    {
+      name: 'BMP280',
+      to: '/bmp280',
+      addresses: Bmp280.addresses,
+      readMs: 20,
+      detect: (bus, a) => Bmp280.chip.identify(bus, a),
+      open: async (bus, a) => {
+        const d = new Bmp280(bus, a);
+        await d.init({ pressure: 8, temperature: 1, mode: 'normal', standbyMs: 0.5 });
+        return { read: async () => { const r = await d.measure(); return [r.pressure, r.temperature, 0]; } };
+      },
+    },
+    {
+      name: 'SPL06',
+      to: '/spl06',
+      addresses: Spl06.addresses,
+      readMs: 250,
+      detect: (bus, a) => Spl06.chip.identify(bus, a),
+      open: async (bus, a) => {
+        const d = new Spl06(bus, a);
+        await d.init({ mode: 'sports' });
+        return { read: async () => { const r = await d.measure(); return [r.pressure, r.temperature, 0]; } };
       },
     },
   ],
