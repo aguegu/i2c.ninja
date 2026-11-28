@@ -11,7 +11,7 @@ import LiveChart from '../components/LiveChart.vue';
 import SpecTable from '../components/SpecTable.vue';
 import { reactive, computed } from 'vue';
 import { canConnect, hex } from '../lib/dongle.js';
-import { useBmp280, SETTINGS } from '../lib/useBmp280.js';
+import { useBmp280, SETTINGS, MEASURING } from '../lib/useBmp280.js';
 
 const WINDOW_MS = 120000;
 const PRESSURE_SPAN_HPA = 0.1; // the chart's least span: 10 Pa, about a metre of height
@@ -23,7 +23,7 @@ const SPECS = [
   ['Range', '300 to 1100 hPa (from about 9 km up to 500 m below sea level), -40 to 85 °C', 'all of it'],
   ['Accuracy', 'absolute ±1 hPa (0 to 65 °C); relative ±0.12 hPa between 700 and 900 hPa (±1 m); temperature ±0.5 °C at 25 °C', 'as it comes'],
   ['Precision', 'steps of 2.62 Pa down to 0.16 Pa by oversampling (1 to 16 times); noise 3.3 down to 1.3 Pa RMS, 0.2 Pa with its filter', 'its five settings, picked above; no filter'],
-  ['Measuring', '5.5 to 37.5 ms a measurement (about 180 to 27 a second); one at a time (forced) or by itself at a set pace (normal)', 'one at a time, 4 a second'],
+  ['Measuring', '5.5 to 37.5 ms a measurement (about 180 to 27 a second); one at a time (forced) or by itself, a standby of 0.5 ms to 4 s between (normal: 166 to 26 a second at the shortest)', 'one at a time, 4 a second; or continuously, the shortest standby, picked above'],
   ['Address', '0x76 with SDO to GND, 0x77 with SDO to VDDIO', '0x76 or 0x77, whichever answers'],
   ['Interface', 'I2C up to 3.4 MHz, or SPI up to 10 MHz', 'I2C, 400 kHz'],
   ['Supply', '1.71 to 3.6 V', '3.3 V'],
@@ -66,7 +66,12 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
           <option v-for="[s, label] in SETTINGS" :key="s" :value="s">{{ label }}</option>
         </select>
       </label>
-      <span v-if="p.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(p.address) }}</span>
+      <label :class="field">Measuring
+        <select :value="p.measuring" :class="select" @change="p.setMeasuring($event.target.value)">
+          <option v-for="[m, label] in MEASURING" :key="m" :value="m">{{ label }}</option>
+        </select>
+      </label>
+      <span v-if="p.state === 'running'" class="font-mono text-sm text-slate-500 dark:text-slate-400">{{ hex(p.address) }} · {{ Math.round(1000 / p.periodMs) }} a second</span>
       <span v-if="p.failed.count" class="text-sm text-slate-400 dark:text-slate-500" :title="`${p.failed.count} of ${p.failed.of} readings didn't come through and were skipped; the last: ${p.failed.last}`">· {{ p.failed.count }} {{ p.failed.count === 1 ? 'reading' : 'readings' }} skipped</span>
       <LiveSettings class="ml-auto" />
     </section>
@@ -103,7 +108,7 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
         Inside is a silicon membrane (Bosch's porous-silicon process, APSM) that the air outside bends, and resistors in it that change with the strain (its datasheet: a piezo-resistive sensing element), with a temperature sensor beside it. atiic knows the chip by its ID (0x58 in register D0h), resets it and reads its 24 bytes of factory calibration: twelve numbers, three for temperature and nine for pressure.
       </p>
       <p class="mb-2">
-        Then it asks for one measurement at a time (the datasheet's forced mode) and waits until the chip says it's done, four times a second here. Oversampling is how many times the chip measures and averages for one result: each step takes longer (5.5 ms once, 37.5 ms at 16 times) and adds a bit, from 16 bits (2.62 Pa steps) to 20 bits (0.16 Pa). The noise falls more slowly than the steps shrink, from 3.3 to 1.3 Pa.
+        Then it asks for one measurement at a time (the datasheet's forced mode) and waits until the chip says it's done, four times a second here. Or, measuring continuously (its normal mode), the chip measures by itself, rests 0.5 ms and measures again, and the page reads each new result as it comes: up to 166 a second with the least oversampling, about 26 with the most (its datasheet's Table 14). Oversampling is how many times the chip measures and averages for one result: each step takes longer (5.5 ms once, 37.5 ms at 16 times) and adds a bit, from 16 bits (2.62 Pa steps) to 20 bits (0.16 Pa). The noise falls more slowly than the steps shrink, from 3.3 to 1.3 Pa.
       </p>
       <p>
         <b>From counts to pascals:</b> each result, 20 bits for pressure and for temperature, goes through Bosch's formula with those twelve numbers, in whole numbers only: the temperature first, then the pressure, corrected by that temperature.

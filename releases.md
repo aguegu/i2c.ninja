@@ -1,5 +1,14 @@
 # Releases
 
+## 2.4.5
+
+- **BMP280 measuring continuously** (the user: "then we could expose this
+  option on i2c.ninja"): a Measuring choice beside Oversampling, one at a
+  time (forced, 4 a second, as before) or continuously (its normal mode,
+  the shortest standby, 0.5 ms): the page reads each result at the chip's
+  own pace, up to 166 a second at ×1, about 26 at ×16 (its datasheet's Table
+  14); the rate shown while it runs. atiic #1.8.20 (`Bmp280`'s normal mode).
+
 ## 2.4.4
 
 - **BMP280 wiring, straight wires**: the module drawn turned round (its
