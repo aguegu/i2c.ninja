@@ -49,9 +49,9 @@ const link = 'text-emerald-700 underline dark:text-emerald-400';
     </div>
 
     <figure :class="card">
-      <SvgDrawing src="/setup-bmp280.svg" alt="A CH341T bridge wired to a purple BMP280 module: VCC (3.3 V) to VCC, GND to GND, SCL to SCL, SDA to SDA; CSB and SDO free" class="mx-auto w-full lg:w-3/5" />
+      <SvgDrawing src="/setup-bmp280.svg" alt="A CH341T bridge wired to a purple BMP280 module, turned round so four wires go straight across: SDA to SDA, SCL to SCL, GND to GND, VCC (3.3 V) to VCC; CSB and SDO free" class="mx-auto w-full lg:w-3/5" />
       <figcaption class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        The purple GY-BMP280 board: VCC, GND, SCL and SDA; CSB and SDO stay free (SDO left free: 0x76). <b>3.3 V only</b>: the board has no regulator and the chip takes 3.6 V at most. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
+        The purple GY-BMP280 board, turned round so its pins meet the bridge's in order: four wires straight across, SDA, SCL, GND and VCC; CSB and SDO stay free (SDO left free: 0x76). <b>3.3 V only</b>: the board has no regulator and the chip takes 3.6 V at most. New to the bridge? <RouterLink to="/get-started" :class="link">Get started</RouterLink>.
       </figcaption>
     </figure>
 

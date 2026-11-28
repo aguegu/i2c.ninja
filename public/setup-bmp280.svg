@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 893 450" width="893" height="450" font-family="Helvetica, Arial, sans-serif">
   <style>@media (prefers-color-scheme: dark) { .bg { fill-opacity: 0.85 } }</style>
-  <title>A CH341T dongle in I2C mode at 3.3V wired to a BMP280 module: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA; CSB and SDO free</title>
+  <title>A CH341T dongle in I2C mode at 3.3V wired to a BMP280 module: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA, four straight wires; CSB and SDO free</title>
   <defs>
     <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#e9ecef"/>
@@ -90,41 +90,43 @@
 
   <g transform="translate(33 0)">
   <!-- the BMP280 module (GY-BMP280, purple, six pins VCC GND SCL SDA CSB SDO
-       along one edge), its labelled face, traced from the user's photo
-       (2026-11-28) in pin pitches (24 units): the board about 4.6 by 5.9
-       pitches, the pins 0.5 pitch from its edge; two mounting holes 2.9
-       pitches in, beside pins 1-2 and 5-6; the "GY-BMP280" silkscreen
-       between them. Its other face carries the BMP280's metal-lidded
-       package, four 10k resistors (103) and two small parts, no regulator -->
-  <rect x="644.0" y="163.2" width="111.60000000000001" height="141.60000000000002" rx="3" fill="#8e1f6e" stroke="#5e1449" stroke-width="2"/>
-  <circle cx="726.8" cy="192.0" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
-  <circle cx="726.8" cy="284.4" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
-  <text transform="translate(728.0 238.0) rotate(90)" text-anchor="middle" font-size="8" fill="#f3e3ee" font-family="Menlo, Consolas, monospace">GY-BMP280</text>
+       along one edge), its labelled face traced from the user's photo
+       (2026-11-28) in pin pitches (24 units), turned round (180 degrees) so
+       its pins meet the CH341T's in their order: the board about 4.6 by 5.9
+       pitches, the pins 0.5 pitch from its edge; two mounting holes 2.95
+       pitches in, 0.77 and 4.58 pitches from VCC's pin; the "GY-BMP280"
+       silkscreen between them. Its other face carries the BMP280's
+       metal-lidded package, four 10k resistors (103) and two small parts, no
+       regulator -->
+  <rect x="644.0" y="139.2" width="111.60000000000001" height="141.60000000000002" rx="3" fill="#8e1f6e" stroke="#5e1449" stroke-width="2"/>
+  <circle cx="726.8" cy="251.52" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
+  <circle cx="726.8" cy="160.07999999999998" r="17" fill="#fff" stroke="#d9b44a" stroke-width="5"/>
+  <text transform="translate(728.0 205.68) rotate(-90)" text-anchor="middle" font-size="8" fill="#f3e3ee" font-family="Menlo, Consolas, monospace">GY-BMP280</text>
   <g fill="#d9b44a" stroke="#a88600">
-    <circle cx="656" cy="174" r="7"/><circle cx="656" cy="198" r="7"/><circle cx="656" cy="222" r="7"/><circle cx="656" cy="246" r="7"/><circle cx="656" cy="270" r="7"/><circle cx="656" cy="294" r="7"/>
+    <circle cx="656" cy="150" r="7"/><circle cx="656" cy="174" r="7"/><circle cx="656" cy="198" r="7"/><circle cx="656" cy="222" r="7"/><circle cx="656" cy="246" r="7"/><circle cx="656" cy="270" r="7"/>
   </g>
   <g fill="url(#pin)">
-    <rect x="593" y="172" width="64" height="4"/><rect x="593" y="196" width="64" height="4"/><rect x="593" y="220" width="64" height="4"/><rect x="593" y="244" width="64" height="4"/><rect x="593" y="268" width="64" height="4"/><rect x="593" y="292" width="64" height="4"/>
+    <rect x="593" y="148" width="64" height="4"/><rect x="593" y="172" width="64" height="4"/><rect x="593" y="196" width="64" height="4"/><rect x="593" y="220" width="64" height="4"/><rect x="593" y="244" width="64" height="4"/><rect x="593" y="268" width="64" height="4"/>
   </g>
   <g font-size="11" fill="#fff" font-family="Menlo, Consolas, monospace">
-    <text x="670" y="178">VCC</text><text x="670" y="202">GND</text><text x="670" y="226">SCL</text><text x="670" y="250">SDA</text><text x="670" y="274">CSB</text><text x="670" y="298">SDO</text>
+    <text x="670" y="154">SDO</text><text x="670" y="178">CSB</text><text x="670" y="202">SDA</text><text x="670" y="226">SCL</text><text x="670" y="250">GND</text><text x="670" y="274">VCC</text>
   </g>
-  <text x="699.2" y="330.8" text-anchor="middle" font-size="12" fill="#555">BMP280 module</text>
+  <text x="699.2" y="306.8" text-anchor="middle" font-size="12" fill="#555">BMP280 module</text>
 
-  <!-- wires, dupont ends on both pins: VCC to VCC, GND to GND, SCL to SCL, SDA to SDA -->
+  <!-- wires, dupont ends on both pins, straight across: SDA, SCL, GND, VCC -->
   <g stroke-linecap="round" fill="none">
-    <path d="M495 198 C 535 198, 535 246, 575 246" stroke="#0d4f8c" stroke-width="7"/><path d="M495 198 C 535 198, 535 246, 575 246" stroke="#1e88e5" stroke-width="5"/>
+    <path d="M495 198 H 575" stroke="#0d4f8c" stroke-width="7"/><path d="M495 198 H 575" stroke="#1e88e5" stroke-width="5"/>
     <path d="M495 222 H 575" stroke="#a88600" stroke-width="7"/><path d="M495 222 H 575" stroke="#f2c200" stroke-width="5"/>
-    <path d="M495 246 C 535 246, 535 198, 575 198" stroke="#000" stroke-width="7"/><path d="M495 246 C 535 246, 535 198, 575 198" stroke="#3a3a3a" stroke-width="5"/>
-    <path d="M495 270 C 548 270, 522 174, 575 174" stroke="#8e1c1c" stroke-width="7"/><path d="M495 270 C 548 270, 522 174, 575 174" stroke="#d32f2f" stroke-width="5"/>
+    <path d="M495 246 H 575" stroke="#000" stroke-width="7"/><path d="M495 246 H 575" stroke="#3a3a3a" stroke-width="5"/>
+    <path d="M495 270 H 575" stroke="#8e1c1c" stroke-width="7"/><path d="M495 270 H 575" stroke="#d32f2f" stroke-width="5"/>
   </g>
   <use href="#dupont" x="475" y="198"/><use href="#dupont" x="475" y="222"/><use href="#dupont" x="475" y="246"/><use href="#dupont" x="475" y="270"/>
-  <use href="#dupont" x="575" y="174"/><use href="#dupont" x="575" y="198"/><use href="#dupont" x="575" y="222"/><use href="#dupont" x="575" y="246"/>
+  <use href="#dupont" x="575" y="198"/><use href="#dupont" x="575" y="222"/><use href="#dupont" x="575" y="246"/><use href="#dupont" x="575" y="270"/>
 
   <!-- notes -->
   <g font-size="12" fill="#333">
-    <text x="20" y="414">Yellow jumper on I2C, green on 3V3 (never 5V: no regulator on this board), both before plugging in USB. Four wires:</text>
-    <text x="20" y="434">VCC to VCC, GND to GND, SCL to SCL, SDA to SDA (three cross). CSB and SDO stay free (SDO free: 0x76).</text>
+    <text x="20" y="414">Yellow jumper on I2C, green on 3V3 (never 5V: no regulator on this board), both before plugging in USB. Four wires,</text>
+    <text x="20" y="434">straight across (the module turned round): SDA to SDA, SCL to SCL, GND to GND, VCC to VCC. CSB and SDO stay free (SDO free: 0x76).</text>
   </g>
   </g>
 </svg>

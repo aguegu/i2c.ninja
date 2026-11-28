@@ -1,5 +1,13 @@
 # Releases
 
+## 2.4.4
+
+- **BMP280 wiring, straight wires**: the module drawn turned round (its
+  labelled face as in the photo, 180 degrees in its plane), so its SDA,
+  SCL, GND and VCC meet the CH341T's header in the same order: four
+  straight wires where three crossed (the user: "we could flip the sensor
+  instead of reverse all the wires").
+
 ## 2.4.3
 
 - **BMP280 page** (`/bmp280`, also `/gy-bmp280`): Bosch's barometer live,
